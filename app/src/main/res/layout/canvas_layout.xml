@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <rango.tool.androidtool.experiments.views.CanvasClipView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="#af8738"
+        android:scaleType="fitXY"
+        android:src="@drawable/solon" />
+
+    <rango.tool.androidtool.experiments.views.CanvasClipView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:background="#af8738"
+        android:scaleType="fitXY"
+        android:src="@drawable/solon"
+        app:op_type="5" />
+
+    <rango.tool.androidtool.view.FiveStarView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp" />
+</LinearLayout>

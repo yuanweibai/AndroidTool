@@ -2,20 +2,43 @@
 <manifest package="rango.tool.androidtool"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <application
+        android:name=".ToolApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".list.activity.RecyclerActivity"
+            android:launchMode="singleTask"></activity>
+
+        <activity
+            android:name=".list.activity.ListActivity"
+            android:launchMode="singleTask"></activity>
+
+        <activity
+            android:name=".imageview.ImageActivity"
+            android:launchMode="singleTask"></activity>
+
+        <activity
+            android:name=".experiments.TestActivity"
+            android:launchMode="singleTask"></activity>
+
+        <activity android:name=".experiments.activity.CanvasActivity"></activity>
+        <activity android:name=".experiments.activity.ShapeActivity"></activity>
     </application>
+
 
 </manifest>
