@@ -1,23 +1,19 @@
-package rango.tool.common.util;
+package rango.tool.common.utils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Created by baiyuanwei on 17/11/16.
- */
-
-public class ReflectionUtils {
+class ReflectionUtils {
     private static final Map<String, Class> CLASS_MAP = new ConcurrentHashMap<>();
 
-    public static Class<?> getClassForName(String className) {
-        Class<?> ret = CLASS_MAP.get(className);
+    static Class<?> getClassForName() {
+        Class<?> ret = CLASS_MAP.get("android.view.Display");
 
         if (ret == null) {
             try {
-                ret = Class.forName(className);
+                ret = Class.forName("android.view.Display");
 
-                CLASS_MAP.put(className, ret);
+                CLASS_MAP.put("android.view.Display", ret);
             } catch (Throwable e) {
                 e.printStackTrace();
             }

@@ -1,10 +1,9 @@
-package rango.tool.common.util;
+package rango.tool.common.utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Build;
 import android.text.Layout;
@@ -16,18 +15,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by baiyuanwei on 17/11/16.
- */
-
 public class ScreenUtils {
-    private static final String TAG = "ScreenUtils";
+    private static final String TAG = ScreenUtils.class.getSimpleName();
+
     private static final Map<Float, Integer> DP_TO_PX_CACHE = new HashMap<>(50);
     private static int SCREEN_WIDTH_PX_CACHE = -1;
     private static int SCREEN_HEIGHT_PX_CACHE = -1;
@@ -135,13 +132,6 @@ public class ScreenUtils {
         }
     }
 
-    public static float getTextDisplayWidth(String text, int textSize) {
-        Paint textPaint = new Paint();
-        textPaint.setTextSize(textSize);
-
-        return textPaint.measureText(text);
-    }
-
 //    /**
 //     * use {@link android.view.WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE } for auto brightness,
 //     * use {@link android.view.WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL } for full brightness,
@@ -163,34 +153,42 @@ public class ScreenUtils {
      * @param name
      * @return
      */
-    public static int getTextWidth(String name) {
-        return getTextWidth(name, 12);//default font size is 12sp
+    public static float getTextWidth(String name) {
+        return getTextWidth(name, 12f);//default font size is 12sp
     }
 
     /**
-     * get text font size
+     * 此方法有缺陷，当text中有汉子和字符混合使用时，计算的宽不准确；
      *
-     * @param name
+     * @param text
      * @param fontSize
      * @return
      */
-    public static int getTextWidth(String name, float fontSize) {
-//        Paint textPaint = new Paint();
-//        textPaint.setTextSize(ScreenUtils.dp2px(fontSize));
-//        Rect textSize = new Rect();
-//        textPaint.getTextBounds(name, 0, name.length(), textSize);
-//        int textWidth = textSize.width();
 
+    public static float getTextWidth(String text, float fontSize) {
         if (textPaint == null) {
             textPaint = new TextPaint();
         }
-
         textPaint.setTextSize(ScreenUtils.dp2px(fontSize));
 
-        int textWidth = (int) Layout.getDesiredWidth(name, textPaint);
-
+        float textWidth = Layout.getDesiredWidth(text, textPaint);
+        // 此方法也可以
+//        float textWidth = textPaint.measureText(text);
         return textWidth;
     }
+
+    /**
+     * 此方法可以弥补{@link #getTextWidth(String, float)}的缺陷
+     *
+     * @param text
+     * @param textPaint 可以公共{@link TextView#getPaint()}来获取
+     * @return
+     */
+    public static float getTextWidth(String text, TextPaint textPaint) {
+//        return Layout.getDesiredWidth(text,textPaint); //此方法也行
+        return textPaint.measureText(text);
+    }
+
 
     public static int getTextHeight(float fontSize) {
         final float fontScale = Resources.getSystem().getDisplayMetrics().scaledDensity;
@@ -268,7 +266,7 @@ public class ScreenUtils {
         @SuppressWarnings("rawtypes")
         Class c;
         try {
-            c = ReflectionUtils.getClassForName("android.view.Display");
+            c = ReflectionUtils.getClassForName();
             @SuppressWarnings("unchecked")
             Method method = c.getMethod("getRealMetrics", DisplayMetrics.class);
             method.invoke(display, dm);

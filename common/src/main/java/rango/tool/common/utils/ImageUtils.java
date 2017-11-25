@@ -1,14 +1,10 @@
-package rango.tool.common.util;
+package rango.tool.common.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-
-/**
- * Created by baiyuanwei on 17/11/22.
- */
 
 public class ImageUtils {
 

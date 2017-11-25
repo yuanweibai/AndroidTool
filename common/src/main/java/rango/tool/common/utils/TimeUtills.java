@@ -1,17 +1,16 @@
-package rango.tool.common.util;
+package rango.tool.common.utils;
+
+import android.annotation.SuppressLint;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by baiyuanwei on 17/11/20.
- */
-
 public class TimeUtills {
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     public static long strToMills(String dateStr) {
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         try {
             Date date = dateFormat.parse(dateStr);
@@ -23,6 +22,7 @@ public class TimeUtills {
     }
 
     public static String milllsToStr(long mills) {
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
         Date date = new Date();
         date.setTime(mills);
@@ -41,6 +41,7 @@ public class TimeUtills {
      */
     public static String getCurrentYMD() {
         long currentMills = System.currentTimeMillis();
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         date.setTime(currentMills);
