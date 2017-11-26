@@ -1,15 +1,18 @@
 package rango.tool.androidtool;
 
 import rango.tool.androidtool.base.BaseApplication;
-
-/**
- * Created by baiyuanwei on 17/11/15.
- */
+import rango.tool.common.utils.Worker;
 
 public class ToolApplication extends BaseApplication {
 
     @Override
     public void onCreate() {
         super.onCreate();
+    }
+
+    @Override
+    public void onTerminate() {
+        Worker.destroy();
+        super.onTerminate();
     }
 }
