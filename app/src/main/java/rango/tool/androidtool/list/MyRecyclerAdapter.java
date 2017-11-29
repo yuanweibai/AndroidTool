@@ -6,9 +6,6 @@ import rango.tool.androidtool.base.recyclerview.BaseItemData;
 import rango.tool.androidtool.base.recyclerview.BaseItemView;
 import rango.tool.androidtool.base.recyclerview.BaseRecyclerViewAdapter;
 
-/**
- * Created by baiyuanwei on 17/11/16.
- */
 
 public class MyRecyclerAdapter extends BaseRecyclerViewAdapter<BaseItemData, BaseItemView> {
 

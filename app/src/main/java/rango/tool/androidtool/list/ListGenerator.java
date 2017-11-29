@@ -7,10 +7,6 @@ import rango.tool.androidtool.base.recyclerview.BaseItemView;
 import rango.tool.androidtool.list.view.ListEmptyItemView;
 import rango.tool.androidtool.list.view.ListNormalIteView;
 
-/**
- * Created by baiyuanwei on 17/11/16.
- */
-
 public class ListGenerator {
 
     public BaseItemView createView(Context context, int itemType) {

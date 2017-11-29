@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * Created by baiyuanwei on 17/11/16.
  * recyclerView 的itemView离开屏幕后会调用view onDetachedFromWindow()方法，
  * 这就导致再次显示时比较慢，尤其是TextureView加载视频时，会有从无到有的一个过程；
  * 所有此SpecificRecyclerView就是为了解决此问题。

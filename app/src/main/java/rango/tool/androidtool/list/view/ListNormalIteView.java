@@ -7,10 +7,6 @@ import android.widget.TextView;
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.recyclerview.BaseItemView;
 
-/**
- * Created by baiyuanwei on 17/11/16.
- */
-
 public class ListNormalIteView extends BaseItemView {
 
     private static final String TAG = ListNormalIteView.class.getSimpleName();

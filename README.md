@@ -34,7 +34,8 @@
 > 1. `ListView` 的回收机制不会调用 `itemView` 的 `onDetachedFromWindow()` 方法，而 `RecyclerView` 的回收机制会调用此方法.
 #### `RecyclerView` 下拉刷新与加载更多？？？
 
-### 常用的自定义View
+### 常用的自定义 `View`
+
 #### `ShapeImageView`
 1. `ShapeImageView` 是对图片形状的处理，而且是**抗锯齿的**，包括圆角矩形（设置各个圆角）`RoundImageView`、圆形 `CircleImageView`、椭圆形 `OvalImageView`; 
 2. `ShapeImageView` 还支持加边框，边框的颜色、宽度可以自己设置。

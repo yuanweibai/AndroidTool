@@ -57,4 +57,12 @@
         android:text="图形"
         android:textAllCaps="false" />
 
+    <Button
+        android:id="@+id/locker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="锁屏"
+        android:textAllCaps="false" />
+
 </LinearLayout>

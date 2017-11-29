@@ -14,10 +14,6 @@ import rango.tool.androidtool.base.recyclerview.BaseItemData;
 import rango.tool.androidtool.base.recyclerview.BaseItemType;
 import rango.tool.androidtool.list.view.ListBannerView;
 
-/**
- * Created by baiyuanwei on 17/11/16.
- */
-
 public class MyListAdapter extends BaseAdapter {
 
 

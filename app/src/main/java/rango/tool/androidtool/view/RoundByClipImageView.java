@@ -10,8 +10,6 @@ import rango.tool.androidtool.R;
 import rango.tool.androidtool.view.util.RoundUiHelper;
 
 /**
- * Created by baiyuanwei on 17/11/17.
- * <p>
  * 缺点：不能抗锯齿，圆角过大，会导致圆角出现锯齿，小的话，没有关系
  */
 

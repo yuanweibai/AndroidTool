@@ -5,8 +5,6 @@ import android.graphics.Path;
 import android.graphics.RectF;
 
 /**
- * Created by baiyuanwei on 17/11/17.
- * <p>
  * 缺点：
  * 1、无法抗锯齿，圆角过大，导致圆角处出现锯齿，小的话，没有关系；
  * 2、canvas.clipPath(path,Region.op.REPLACE) is dangerous：
