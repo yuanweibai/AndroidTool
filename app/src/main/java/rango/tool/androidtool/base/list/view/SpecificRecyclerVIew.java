@@ -1,4 +1,4 @@
-package rango.tool.androidtool.base.recyclerview;
+package rango.tool.androidtool.base.list.view;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

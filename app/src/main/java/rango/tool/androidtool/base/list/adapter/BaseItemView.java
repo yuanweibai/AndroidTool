@@ -1,4 +1,4 @@
-package rango.tool.androidtool.base.recyclerview;
+package rango.tool.androidtool.base.list.adapter;
 
 import android.content.Context;
 import android.util.AttributeSet;

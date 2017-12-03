@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <rango.tool.androidtool.base.recyclerview.SpecificRecyclerVIew
+    <rango.tool.androidtool.base.list.view.SpecificRecyclerVIew
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></rango.tool.androidtool.base.recyclerview.SpecificRecyclerVIew>
+        android:layout_height="match_parent"></rango.tool.androidtool.base.list.view.SpecificRecyclerVIew>
 
     <rango.tool.androidtool.list.view.ListBannerView
         android:id="@+id/banner_layout"

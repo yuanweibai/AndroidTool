@@ -10,8 +10,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import rango.tool.androidtool.R;
-import rango.tool.androidtool.base.recyclerview.BaseItemData;
-import rango.tool.androidtool.base.recyclerview.BaseItemType;
+import rango.tool.androidtool.base.list.adapter.BaseItemData;
+import rango.tool.androidtool.base.list.adapter.BaseItemType;
 import rango.tool.androidtool.list.view.ListBannerView;
 
 public class MyListAdapter extends BaseAdapter {

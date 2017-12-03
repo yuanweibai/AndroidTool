@@ -2,9 +2,9 @@ package rango.tool.androidtool.list;
 
 import android.view.ViewGroup;
 
-import rango.tool.androidtool.base.recyclerview.BaseItemData;
-import rango.tool.androidtool.base.recyclerview.BaseItemView;
-import rango.tool.androidtool.base.recyclerview.BaseRecyclerViewAdapter;
+import rango.tool.androidtool.base.list.adapter.BaseItemData;
+import rango.tool.androidtool.base.list.adapter.BaseItemView;
+import rango.tool.androidtool.base.list.adapter.BaseRecyclerViewAdapter;
 
 
 public class MyRecyclerAdapter extends BaseRecyclerViewAdapter<BaseItemData, BaseItemView> {

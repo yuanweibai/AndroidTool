@@ -1,4 +1,4 @@
-package rango.tool.androidtool.base.recyclerview;
+package rango.tool.androidtool.base.list.adapter;
 
 public class BaseItemData<T> {
     private T mData;

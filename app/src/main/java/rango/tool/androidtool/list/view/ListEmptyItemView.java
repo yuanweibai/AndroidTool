@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import rango.tool.androidtool.R;
-import rango.tool.androidtool.base.recyclerview.BaseItemView;
+import rango.tool.androidtool.base.list.adapter.BaseItemView;
 
 /**
  * Created by baiyuanwei on 17/11/16.

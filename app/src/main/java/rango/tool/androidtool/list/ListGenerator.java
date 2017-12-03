@@ -2,8 +2,8 @@ package rango.tool.androidtool.list;
 
 import android.content.Context;
 
-import rango.tool.androidtool.base.recyclerview.BaseItemType;
-import rango.tool.androidtool.base.recyclerview.BaseItemView;
+import rango.tool.androidtool.base.list.adapter.BaseItemType;
+import rango.tool.androidtool.base.list.adapter.BaseItemView;
 import rango.tool.androidtool.list.view.ListEmptyItemView;
 import rango.tool.androidtool.list.view.ListNormalIteView;
 

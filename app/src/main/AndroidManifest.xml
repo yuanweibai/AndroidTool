@@ -40,6 +40,7 @@
 
         <activity android:name=".experiments.activity.CanvasActivity"></activity>
         <activity android:name=".experiments.activity.ShapeActivity"></activity>
+        <activity android:name=".experiments.activity.WindowActivity"></activity>
     </application>
 
 

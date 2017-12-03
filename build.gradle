@@ -30,7 +30,7 @@ task clean(type: Delete) {
 ext {
     compileSdk = 26
     targetSdk = 22
-    minSdk = 24
+    minSdk = 16
     support = "26.1.0"
     glide = "4.3.0"
 }

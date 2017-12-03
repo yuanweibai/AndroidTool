@@ -1,4 +1,4 @@
-package rango.tool.androidtool.base.recyclerview;
+package rango.tool.androidtool.base.list.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

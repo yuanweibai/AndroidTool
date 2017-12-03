@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.widget.TextView;
 
 import rango.tool.androidtool.R;
-import rango.tool.androidtool.base.recyclerview.BaseItemView;
+import rango.tool.androidtool.base.list.adapter.BaseItemView;
 
 public class ListNormalIteView extends BaseItemView {
 
