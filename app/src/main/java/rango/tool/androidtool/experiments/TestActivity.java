@@ -10,7 +10,10 @@ import android.view.View;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
+import rango.tool.androidtool.experiments.activity.AutoScrollActivity;
+import rango.tool.androidtool.experiments.activity.ButtonActivity;
 import rango.tool.androidtool.experiments.activity.CanvasActivity;
+import rango.tool.androidtool.experiments.activity.NavigationBarActivity;
 import rango.tool.androidtool.experiments.activity.ShapeActivity;
 import rango.tool.androidtool.experiments.activity.WindowActivity;
 import rango.tool.androidtool.locker.LockerManager;
@@ -61,6 +64,24 @@ public class TestActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 startActivity(WindowActivity.class);
+            }
+        });
+        findViewById(R.id.navigation_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(NavigationBarActivity.class);
+            }
+        });
+        findViewById(R.id.auto_scroll_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(AutoScrollActivity.class);
+            }
+        });
+        findViewById(R.id.button_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(ButtonActivity.class);
             }
         });
     }

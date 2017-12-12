@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <rango.tool.androidtool.view.AutoScrollLayout
+        android:id="@+id/auto_scroll_layout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"></rango.tool.androidtool.view.AutoScrollLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center_horizontal"
+        android:text="可自动滚动的ViewPager"
+        android:textColor="#000"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/play_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Play"
+        android:textAllCaps="false"
+        android:textColor="#000"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/stop_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Stop"
+        android:textAllCaps="false"
+        android:textColor="#000"
+        android:textSize="18sp" />
+</LinearLayout>

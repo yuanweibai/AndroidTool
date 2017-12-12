@@ -41,6 +41,12 @@
         <activity android:name=".experiments.activity.CanvasActivity"></activity>
         <activity android:name=".experiments.activity.ShapeActivity"></activity>
         <activity android:name=".experiments.activity.WindowActivity"></activity>
+        <activity
+            android:name=".experiments.activity.NavigationBarActivity"
+            android:theme="@style/NavigationBarStyle"></activity>
+
+        <activity android:name=".experiments.activity.AutoScrollActivity"></activity>
+        <activity android:name=".experiments.activity.ButtonActivity"></activity>
     </application>
 
 

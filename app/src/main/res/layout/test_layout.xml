@@ -5,20 +5,6 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/mills_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="current mills"
-        android:textAllCaps="false" />
-
-    <Button
-        android:id="@+id/time_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="current time"
-        android:textAllCaps="false" />
-
-    <Button
         android:id="@+id/canvas_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,6 +30,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="window 窗口"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/navigation_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="虚拟按键"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/auto_scroll_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="轮播"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/button_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="按钮"
         android:textAllCaps="false" />
 
 </LinearLayout>

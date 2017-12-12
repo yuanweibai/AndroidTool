@@ -22,4 +22,8 @@
         <attr name="border_size" format="dimension" />
         <attr name="border_color" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="AutoScrollCircleLayout">
+        <attr name="auto_play" format="boolean"></attr>
+    </declare-styleable>
 </resources>

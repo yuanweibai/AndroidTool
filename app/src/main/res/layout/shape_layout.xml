@@ -94,4 +94,13 @@
         android:layout_marginTop="10dp"
         app:radius="10dp" />
 
+    <TextView
+        android:id="@+id/temp_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="恍恍惚惚红红火火"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
 </LinearLayout>

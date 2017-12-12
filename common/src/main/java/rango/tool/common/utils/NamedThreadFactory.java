@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import java.util.concurrent.ThreadFactory;
 
 public class NamedThreadFactory implements ThreadFactory {
-    private String prefix = "nice-pool";
+    private String prefix = "tool-pool";
     private int counter = 0;
 
     NamedThreadFactory(String prefix) {

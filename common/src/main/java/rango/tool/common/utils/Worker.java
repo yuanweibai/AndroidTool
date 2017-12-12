@@ -60,13 +60,22 @@ public class Worker {
         return EXECUTOR;
     }
 
-    public static void postMain(Runnable r, int delay) {
-        handlerMain.postDelayed(r, delay);
+    public static void postMain(Runnable r, long delay) {
+        checkInit();
+        if (handlerMain != null) {
+            handlerMain.postDelayed(r, delay);
+        }
+    }
+
+    public static void removeMain(Runnable r) {
+        if (handlerMain != null) {
+            handlerMain.removeCallbacks(r);
+        }
     }
 
     private static void checkInit() {
         if (EXECUTOR == null || EXECUTOR.isTerminated()) {
-            EXECUTOR = Executors.newCachedThreadPool(new NamedThreadFactory("nice-worker"));
+            EXECUTOR = Executors.newCachedThreadPool(new NamedThreadFactory("tool-worker"));
             handlerMain = new Handler(Looper.getMainLooper());
             Log.d(TAG, "check init cores:" + NUMBER_OF_CORES);
         }
