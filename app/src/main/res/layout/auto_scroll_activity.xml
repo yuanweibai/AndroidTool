@@ -7,7 +7,7 @@
     <rango.tool.androidtool.view.AutoScrollLayout
         android:id="@+id/auto_scroll_layout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"></rango.tool.androidtool.view.AutoScrollLayout>
+        android:layout_height="80dp" />
 
     <TextView
         android:layout_width="match_parent"

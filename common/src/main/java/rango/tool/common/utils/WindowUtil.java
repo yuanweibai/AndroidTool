@@ -1,15 +1,15 @@
 package rango.tool.common.utils;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
-import android.graphics.PixelFormat;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.Window;
 import android.view.WindowManager;
 
 import java.lang.reflect.Method;
@@ -49,28 +49,6 @@ public class WindowUtil {
         return layoutParams;
     }
 
-    public static WindowManager.LayoutParams getLockScreenParams2() {
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ERROR;
-        layoutParams.systemUiVisibility |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-        layoutParams.systemUiVisibility |= View.SYSTEM_UI_FLAG_FULLSCREEN;
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
-
-        layoutParams.format = PixelFormat.TRANSPARENT;
-        layoutParams.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-        layoutParams.gravity = Gravity.TOP;
-        layoutParams.flags = WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
-                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-                | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-                | WindowManager.LayoutParams.FLAG_FULLSCREEN
-                | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
-
-        layoutParams.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
-        layoutParams.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        return layoutParams;
-    }
-
     public static int getNavigationBarHeight(Context context) {
         if (null == context) {
             return 0;
@@ -99,7 +77,7 @@ public class WindowUtil {
             return 0;
         }
         Resources localResources = context.getResources();
-        if (!hasNavBar(context)) {
+        if (!hasNavigationBar(context)) {
             return 0;
         }
         int i = localResources.getIdentifier("navigation_bar_height", "dimen", "android");
@@ -113,7 +91,7 @@ public class WindowUtil {
         return 0;
     }
 
-    public static boolean hasNavBar(Context paramContext) {
+    private static boolean hasNavigationBar(Context paramContext) {
         boolean bool = true;
         String sNavBarOverride;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -139,6 +117,58 @@ public class WindowUtil {
         }
 
         return false;
+    }
+
+    /**
+     * Sets up transparent navigation and status bars in LMP.
+     * This method is a no-op for other platform versions.
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static void immersiveStatusAndNavigationBar(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = activity.getWindow();
+            window.getAttributes().systemUiVisibility |= (View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View
+                    .SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        }
+    }
+
+    /**
+     * Sets up transparent status bars in LMP.
+     * This method is a no-op for other platform versions.
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static void immersiveStatusBar(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = activity.getWindow();
+            window.getAttributes().systemUiVisibility |= (View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public static void immersiveStatusAndNavigationBar(Window window) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            window.setNavigationBarColor(Color.TRANSPARENT);
+
+            int systemUiVisibility = window.getDecorView().getSystemUiVisibility();
+            systemUiVisibility |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+            systemUiVisibility |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            systemUiVisibility |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+            window.getDecorView().setSystemUiVisibility(systemUiVisibility);
+        } else {
+            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
     }
 
 }

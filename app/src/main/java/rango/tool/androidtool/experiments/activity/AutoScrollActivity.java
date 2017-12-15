@@ -13,7 +13,7 @@ import rango.tool.androidtool.view.AutoScrollCircleLayout;
 
 public class AutoScrollActivity extends BaseActivity {
 
-    private AutoScrollCircleLayout autoScrollLayout;
+    private AutoScrollCircleLayout<String> autoScrollLayout;
     private List<String> picList = new ArrayList<>();
 
     @Override

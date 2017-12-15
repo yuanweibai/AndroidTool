@@ -24,6 +24,14 @@
     </declare-styleable>
 
     <declare-styleable name="AutoScrollCircleLayout">
-        <attr name="auto_play" format="boolean"></attr>
+        <attr name="auto_play" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="InsetAttr">
+        <attr name="layout_insetWay" format="enum">
+            <enum name="none" value="0" />
+            <enum name="padding" value="1" />
+            <enum name="margin" value="2" />
+        </attr>
     </declare-styleable>
 </resources>
