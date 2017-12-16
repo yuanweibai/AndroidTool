@@ -2,8 +2,8 @@
 <manifest package="rango.tool.androidtool"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".ToolApplication"
@@ -24,29 +24,34 @@
         </activity>
         <activity
             android:name=".list.activity.RecyclerActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
 
         <activity
             android:name=".list.activity.ListActivity"
-            android:launchMode="singleTask"></activity>
-
-        <activity
-            android:name=".imageview.ImageActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
 
         <activity
             android:name=".experiments.TestActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
 
-        <activity android:name=".experiments.activity.CanvasActivity"></activity>
-        <activity android:name=".experiments.activity.ShapeActivity"></activity>
-        <activity android:name=".experiments.activity.WindowActivity"></activity>
+        <activity android:name=".experiments.activity.CanvasActivity" />
+        <activity android:name=".experiments.activity.ShapeActivity" />
+        <activity android:name=".experiments.activity.WindowActivity" />
         <activity
             android:name=".experiments.activity.NavigationBarActivity"
-            android:theme="@style/NavigationBarStyle"></activity>
+            android:theme="@style/NavigationBarStyle" />
 
-        <activity android:name=".experiments.activity.AutoScrollActivity"></activity>
-        <activity android:name=".experiments.activity.ButtonActivity"></activity>
+        <activity android:name=".experiments.activity.AutoScrollActivity" />
+        <activity android:name=".experiments.activity.ButtonActivity" />
+        <activity android:name=".transition.ImagePreviewActivity" />
+        <activity android:name=".transition.TransitionActivity" />
+        <activity android:name=".transition.ImageActivity" />
+        <activity
+            android:name=".transition.ImageListActivity"
+            android:theme="@style/Image" />
+        <activity
+            android:name=".transition.ImageDetailActivity"
+            android:theme="@style/Enter" />
     </application>
 
 

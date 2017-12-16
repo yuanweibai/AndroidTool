@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.compileSdk
+    buildToolsVersion rootProject.buildTools
     defaultConfig {
         applicationId "rango.tool.androidtool"
         minSdkVersion rootProject.minSdk
@@ -15,6 +16,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 

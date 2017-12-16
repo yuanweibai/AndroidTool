@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Image" parent="AppTheme">
+        <item name="android:windowExitTransition">@transition/exit</item>
+        <item name="android:windowBackground">@color/gray</item>
+    </style>
+
+    <style name="Enter" parent="AppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowEnterTransition">@transition/enter</item>
+    </style>
+</resources>

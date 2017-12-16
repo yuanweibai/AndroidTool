@@ -23,12 +23,12 @@ import rango.tool.androidtool.view.util.InsetsListener;
  * 通过{@link rango.tool.common.utils.WindowUtil#immersiveStatusAndNavigationBar(Activity)} 方法设置。
  * <p>
  * --- 19 <= API < 21
- * 通过在`Activity`的`Style`中添加如下两个属性：
+ * 通过在`ActivityUtil`的`Style`中添加如下两个属性：
  * <item name="android:windowTranslucentNavigation">true</item>
  * <item name="android:windowTranslucentStatus">true</item>
  * <p>
  * --- 备注
- * 1. 如果是一个`Activity`，则除上述方法外，还需要对其布局的根`View`设置：
+ * 1. 如果是一个`ActivityUtil`，则除上述方法外，还需要对其布局的根`View`设置：
  * {@link View#setSystemUiVisibility(int)}(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
  * 如果是一个`Dialog`，可以通过{@link rango.tool.common.utils.WindowUtil#immersiveStatusAndNavigationBar(Window)}方法设置;
  * <p>

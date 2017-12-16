@@ -137,7 +137,7 @@ public class ScreenUtils {
 //     * use {@link android.view.WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_FULL } for full brightness,
 //     * use {@link android.view.WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_OFF } for low brightness
 //     */
-//    public static void adjustScreenBrightness(Activity context, float brightness) {
+//    public static void adjustScreenBrightness(ActivityUtil context, float brightness) {
 //        try {
 //            WindowManager.LayoutParams lp = context.getWindow().getAttributes();
 //            lp.screenBrightness = brightness;

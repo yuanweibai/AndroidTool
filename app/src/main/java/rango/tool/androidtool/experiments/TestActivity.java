@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
@@ -41,49 +40,14 @@ public class TestActivity extends BaseActivity {
         registerReceiver(broadcastReceiver, intentFilter);
 
         setContentView(R.layout.test_layout);
-        findViewById(R.id.canvas_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(CanvasActivity.class);
-            }
-        });
-        findViewById(R.id.shape_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(ShapeActivity.class);
-            }
-        });
+        findViewById(R.id.canvas_btn).setOnClickListener(v -> startActivity(CanvasActivity.class));
+        findViewById(R.id.shape_btn).setOnClickListener(v -> startActivity(ShapeActivity.class));
 
-        findViewById(R.id.locker).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LockerManager.getInstance(TestActivity.this).lockScreen();
-            }
-        });
-        findViewById(R.id.window).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(WindowActivity.class);
-            }
-        });
-        findViewById(R.id.navigation_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(NavigationBarActivity.class);
-            }
-        });
-        findViewById(R.id.auto_scroll_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(AutoScrollActivity.class);
-            }
-        });
-        findViewById(R.id.button_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(ButtonActivity.class);
-            }
-        });
+        findViewById(R.id.locker).setOnClickListener(v -> LockerManager.getInstance(TestActivity.this).lockScreen());
+        findViewById(R.id.window).setOnClickListener(v -> startActivity(WindowActivity.class));
+        findViewById(R.id.navigation_btn).setOnClickListener(v -> startActivity(NavigationBarActivity.class));
+        findViewById(R.id.auto_scroll_btn).setOnClickListener(v -> startActivity(AutoScrollActivity.class));
+        findViewById(R.id.button_btn).setOnClickListener(v -> startActivity(ButtonActivity.class));
     }
 
     @Override
@@ -91,5 +55,4 @@ public class TestActivity extends BaseActivity {
         unregisterReceiver(broadcastReceiver);
         super.onDestroy();
     }
-
 }

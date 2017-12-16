@@ -53,4 +53,11 @@
         android:text="按钮"
         android:textAllCaps="false" />
 
+    <Button
+        android:id="@+id/image_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ImageView"
+        android:textAllCaps="false" />
+
 </LinearLayout>

@@ -33,4 +33,5 @@ ext {
     minSdk = 16
     support = "26.1.0"
     glide = "4.3.0"
+    buildTools = "26.0.2"
 }
