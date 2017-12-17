@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View android:id="@+id/navigation_bar_bg_v"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_gravity="bottom"
+    android:background="@android:color/black"
+    android:visibility="gone" />

@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.RelativeLayout;
 
 import rango.tool.androidtool.R;
+import rango.tool.androidtool.util.WindowUtil;
 import rango.tool.androidtool.view.util.InsetsListener;
 
 /**
@@ -20,7 +21,7 @@ import rango.tool.androidtool.view.util.InsetsListener;
  * <p>
  * (1) 沉浸式模式（背景延伸到状态栏及虚拟按键下）：
  * --- API >= 21
- * 通过{@link rango.tool.common.utils.WindowUtil#immersiveStatusAndNavigationBar(Activity)} 方法设置。
+ * 通过{@link WindowUtil#immersiveStatusAndNavigationBar(Activity)} 方法设置。
  * <p>
  * --- 19 <= API < 21
  * 通过在`ActivityUtil`的`Style`中添加如下两个属性：
@@ -30,7 +31,7 @@ import rango.tool.androidtool.view.util.InsetsListener;
  * --- 备注
  * 1. 如果是一个`ActivityUtil`，则除上述方法外，还需要对其布局的根`View`设置：
  * {@link View#setSystemUiVisibility(int)}(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
- * 如果是一个`Dialog`，可以通过{@link rango.tool.common.utils.WindowUtil#immersiveStatusAndNavigationBar(Window)}方法设置;
+ * 如果是一个`Dialog`，可以通过{@link WindowUtil#immersiveStatusAndNavigationBar(Window)}方法设置;
  * <p>
  * (2) 普通模式不需要做任何处理，系统提供什么样的虚拟按键就展示什么样的虚拟按键。
  * <p>
@@ -162,5 +163,4 @@ public class WindowInsetsLayout extends RelativeLayout
             PADDING
         }
     }
-
 }

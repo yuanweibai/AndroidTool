@@ -1,4 +1,4 @@
-package rango.tool.common.utils;
+package rango.tool.androidtool.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -9,15 +9,22 @@ import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 import java.lang.reflect.Method;
+
+import rango.tool.androidtool.R;
+import rango.tool.androidtool.view.WindowInsetsLayout;
+import rango.tool.common.utils.ReflectionHelper;
 
 public class WindowUtil {
 
     //Cache variables
-    private static int sNavigationBarHeight;
+    private static int NAVIGATION_BAR_HEIGHT = -1;
+    private static int STATUS_BAR_HEIGHT = -1;
 
     public static WindowManager.LayoutParams getLockScreenParams() {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
@@ -53,8 +60,8 @@ public class WindowUtil {
         if (null == context) {
             return 0;
         }
-        if (sNavigationBarHeight > 0) {
-            return sNavigationBarHeight;
+        if (NAVIGATION_BAR_HEIGHT > -1) {
+            return NAVIGATION_BAR_HEIGHT;
         }
         if (context instanceof Activity && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             Activity activityContext = (Activity) context;
@@ -64,12 +71,12 @@ public class WindowUtil {
             activityContext.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
             int realHeight = metrics.heightPixels;
             if (realHeight > usableHeight) {
-                sNavigationBarHeight = realHeight - usableHeight;
+                NAVIGATION_BAR_HEIGHT = realHeight - usableHeight;
             }
-            return sNavigationBarHeight;
+            return NAVIGATION_BAR_HEIGHT;
         }
-        sNavigationBarHeight = getNavigationBarHeightUnconcerned(context);
-        return sNavigationBarHeight;
+        NAVIGATION_BAR_HEIGHT = getNavigationBarHeightUnconcerned(context);
+        return NAVIGATION_BAR_HEIGHT;
     }
 
     private static int getNavigationBarHeightUnconcerned(Context context) {
@@ -168,6 +175,79 @@ public class WindowUtil {
             window.getDecorView().setSystemUiVisibility(systemUiVisibility);
         } else {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+    }
+
+    public static int getStatusBarHeight() {
+        if (STATUS_BAR_HEIGHT == -1) {
+            Resources resources = Resources.getSystem();
+
+            int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+            if (resourceId > 0) {
+                STATUS_BAR_HEIGHT = resources.getDimensionPixelSize(resourceId);
+            }
+        }
+        return STATUS_BAR_HEIGHT;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static void setStatusBarColor(Activity activity, int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = activity.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(color);
+        }
+    }
+
+    public static void hideStatusBar(Activity activity) {
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+
+    public static void showStatusBar(Activity activity) {
+        final Window window = activity.getWindow();
+        if ((window.getAttributes().flags & WindowManager.LayoutParams.FLAG_FULLSCREEN) ==
+                WindowManager.LayoutParams.FLAG_FULLSCREEN) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+    }
+
+    public static void setNavigationBarColor(Activity activity, int color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.getWindow().setNavigationBarColor(color);
+        } else {
+            setNavigationBarColorNative(activity, color);
+        }
+    }
+
+    /**
+     * 此方法是在API 21以下用的
+     * 就是通过把虚拟按键设置成透明的，然后在虚拟按键下添加一个View，再给此 View 设置颜色就可以了
+     *
+     * @param activity
+     * @param color
+     */
+    public static void setNavigationBarColorNative(Activity activity, int color) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            View navigationBarView = activity.findViewById(R.id.navigation_bar_bg_v);
+            if (null != navigationBarView) {
+                if (color == Color.TRANSPARENT) {
+                    navigationBarView.setVisibility(View.GONE);
+                } else {
+                    int navigationBarHeight = getNavigationBarHeight(activity);
+                    if (navigationBarHeight == 0) {
+                        navigationBarView.setVisibility(View.GONE);
+                    } else {
+                        WindowInsetsLayout.LayoutParams params = new WindowInsetsLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, navigationBarHeight);
+                        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                        params.mInsetWay = WindowInsetsLayout.LayoutParams.InsetWay.NONE;
+                        navigationBarView.setLayoutParams(params);
+                        navigationBarView.setBackgroundColor(color);
+                        navigationBarView.setVisibility(View.VISIBLE);
+
+                    }
+                }
+            }
         }
     }
 

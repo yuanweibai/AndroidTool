@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import rango.tool.androidtool.R;
-import rango.tool.common.utils.WindowUtil;
+import rango.tool.androidtool.util.WindowUtil;
 
 public class LockerManager {
 

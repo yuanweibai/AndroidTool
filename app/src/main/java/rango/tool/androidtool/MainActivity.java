@@ -8,6 +8,7 @@ import rango.tool.androidtool.experiments.TestActivity;
 import rango.tool.androidtool.list.activity.ListActivity;
 import rango.tool.androidtool.list.activity.RecyclerActivity;
 import rango.tool.androidtool.transition.TransitionActivity;
+import rango.tool.androidtool.util.WindowUtil;
 
 public class MainActivity extends BaseActivity {
 
@@ -15,6 +16,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        WindowUtil.hideStatusBar(this);
 
         findViewById(R.id.recycler_btn).setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, RecyclerActivity.class);
