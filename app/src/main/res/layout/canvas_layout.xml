@@ -26,4 +26,11 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="30dp" />
+
+    <rango.tool.androidtool.view.ArrowView
+        android:id="@+id/arrow"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        android:background="#f48309" />
 </LinearLayout>
