@@ -43,7 +43,9 @@
 
         <activity android:name=".experiments.activity.AutoScrollActivity" />
         <activity android:name=".experiments.activity.ButtonActivity" />
-        <activity android:name=".transition.ImagePreviewActivity" />
+        <activity
+            android:name=".transition.ImagePreviewActivity"
+            android:theme="@style/TransparentStyle" />
         <activity android:name=".transition.TransitionActivity" />
         <activity android:name=".transition.ImageActivity" />
         <activity

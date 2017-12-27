@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<rango.tool.androidtool.transition.ScaleChildLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/transparent">
 
     <ImageView
         android:id="@+id/image_view"
@@ -11,4 +13,4 @@
         android:src="@drawable/solon"
         android:transitionName="@string/preview_transition" />
 
-</RelativeLayout>
+</rango.tool.androidtool.transition.ScaleChildLayout>

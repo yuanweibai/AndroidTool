@@ -190,6 +190,26 @@ public class WindowUtil {
         return STATUS_BAR_HEIGHT;
     }
 
+    /**
+     * 当状态栏的背景色是白色的时候：
+     * 如果状态栏的文字、icon也是白色的，就得改变其文字、icon的颜色，且此功能只有在 sdk >= 23 才有此方法：decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+     * sdk < 23 只能改变其背景色了；
+     *
+     * @param activity
+     */
+    public static void setStatusIconColorForWhiteBg(Activity activity) {
+        int color;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            color = Color.WHITE;
+            View decor = activity.getWindow().getDecorView();
+            decor.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        } else {
+            color = Color.BLACK;
+        }
+        setStatusBarColor(activity, color);
+    }
+
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void setStatusBarColor(Activity activity, int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

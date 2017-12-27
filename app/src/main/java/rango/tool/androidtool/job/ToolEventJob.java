@@ -56,7 +56,6 @@ public class ToolEventJob extends Job {
         try {
             int jobId = new JobRequest.Builder(TAG)
                     .setPeriodic(periodicMills)
-                    .setUpdateCurrent(true)
                     .setTransientExtras(bundle)
                     .build()
                     .schedule();
@@ -72,7 +71,6 @@ public class ToolEventJob extends Job {
         try {
             new JobRequest.Builder(TAG)
                     .setExact(delay)
-                    .setUpdateCurrent(true)
                     .setTransientExtras(bundle)
                     .build()
                     .schedule();
