@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rango.tool.androidtool.scrollview.HoroscopeLayout android:id="@+id/root_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false">
+
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/solon" />
+    </RelativeLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/horoscope_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignBottom="@id/header_layout"
+        android:background="#66ffffff"
+        android:layoutDirection="ltr"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/red"
+        app:tabIndicatorHeight="1.5dp"
+        app:tabMaxWidth="0dp"
+        app:tabMinWidth="6dp"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="#000000"
+        app:tabTextAppearance="@style/TabLayoutTextAppearance"
+        app:tabTextColor="#d41414" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="1000dp"
+        android:layout_below="@id/horoscope_tabs" />
+</rango.tool.androidtool.scrollview.HoroscopeLayout>

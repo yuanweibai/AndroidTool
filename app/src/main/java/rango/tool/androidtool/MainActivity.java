@@ -7,6 +7,7 @@ import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.experiments.TestActivity;
 import rango.tool.androidtool.list.activity.ListActivity;
 import rango.tool.androidtool.list.activity.RecyclerActivity;
+import rango.tool.androidtool.scrollview.HoroscopeActivity;
 import rango.tool.androidtool.transition.TransitionActivity;
 import rango.tool.androidtool.util.WindowUtil;
 
@@ -28,9 +29,9 @@ public class MainActivity extends BaseActivity {
             startActivity(intent);
         });
         findViewById(R.id.transition_btn).setOnClickListener(v -> startActivity(TransitionActivity.class));
+        findViewById(R.id.horoscope_btn).setOnClickListener(v -> startActivity(HoroscopeActivity.class));
         findViewById(R.id.test_btn).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, TestActivity.class);
-            startActivity(intent);
+            startActivity(TestActivity.class);
         });
     }
 }

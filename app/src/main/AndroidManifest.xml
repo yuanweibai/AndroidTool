@@ -54,6 +54,8 @@
         <activity
             android:name=".transition.ImageDetailActivity"
             android:theme="@style/Enter" />
+        <activity android:name=".list.activity.GoodRecyclerActivity" />
+        <activity android:name=".scrollview.HoroscopeActivity" />
 
         <provider
             android:name=".provider.TestContentProvider"

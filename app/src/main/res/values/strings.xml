@@ -2,4 +2,7 @@
     <string name="app_name">AndroidTool</string>
     <string name="preview_transition">preview_transition</string>
     <string name="detail_transition">detail_transition</string>
+
+    <string name="today">今天</string>
+    <string name="tomorrow">明天</string>
 </resources>
