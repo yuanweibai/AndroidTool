@@ -17,6 +17,7 @@ public class TodayFragment extends BaseFragment {
 
     private MyRecyclerAdapter adapter;
     private RecyclerView mRecyclerView;
+    private LinearLayoutManager manager;
 
     @Override
     protected int getLayoutId() {
@@ -26,7 +27,7 @@ public class TodayFragment extends BaseFragment {
     @Override protected void initView(View view) {
         mRecyclerView = view.findViewById(R.id.recycler_view);
 
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
         adapter = new MyRecyclerAdapter();
         mRecyclerView.setAdapter(adapter);
@@ -34,6 +35,9 @@ public class TodayFragment extends BaseFragment {
         adapter.update(getTestData());
     }
 
+    public boolean isTop() {
+        return manager.findFirstCompletelyVisibleItemPosition() == 0;
+    }
 
     private List<BaseItemData> getTestData() {
         List<BaseItemData> dataList = new ArrayList<>();

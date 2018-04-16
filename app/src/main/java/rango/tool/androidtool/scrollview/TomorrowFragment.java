@@ -2,6 +2,7 @@ package rango.tool.androidtool.scrollview;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class TomorrowFragment extends BaseFragment {
 
     private MyRecyclerAdapter adapter;
     private RecyclerView mRecyclerView;
+    private LinearLayoutManager manager;
 
     @Override
     protected int getLayoutId() {
@@ -26,7 +28,7 @@ public class TomorrowFragment extends BaseFragment {
     @Override protected void initView(View view) {
         mRecyclerView = view.findViewById(R.id.recycler_view);
 
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
         adapter = new MyRecyclerAdapter();
         mRecyclerView.setAdapter(adapter);
@@ -34,10 +36,15 @@ public class TomorrowFragment extends BaseFragment {
         adapter.update(getTestData());
     }
 
+    public boolean isTop() {
+        int y = mRecyclerView.getScrollY();
+        Log.e("rango", "isTop() y = " + y);
+        return true;
+    }
 
     private List<BaseItemData> getTestData() {
         List<BaseItemData> dataList = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 30; i++) {
             dataList.add(new BaseItemData("tomorrow - " + i, BaseItemType.TYPE_LIST_NORMAL));
         }
         return dataList;

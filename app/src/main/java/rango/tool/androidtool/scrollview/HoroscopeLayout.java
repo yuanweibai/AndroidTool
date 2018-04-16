@@ -1,17 +1,20 @@
 package rango.tool.androidtool.scrollview;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.RelativeLayout;
 
 public class HoroscopeLayout extends RelativeLayout {
 
-    private final int DEFAULT_DISTANCE = 100;
-    private View mTopView;
+    public static final int DEFAULT_DISTANCE = 200;
     private int mTop;
     private int mTotalScrollY;
+
 
     public HoroscopeLayout(Context context) {
         this(context, null);
@@ -25,48 +28,48 @@ public class HoroscopeLayout extends RelativeLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setTopView(View view) {
-        mTopView = view;
+    public void setTopDistance(int top) {
+        mTop = top;
+    }
 
+    private boolean isTop() {
+        return true;
     }
 
     private float mDownX;
     private float mDownY;
+
+    private float mLastMoveX;
+    private float mLastMoveY;
 
     private float mMoveX;
     private float mMoveY;
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        mTop = mTopView.getTop();
-//        int top = mTopView.getTop();
-//        int scrollY = getScrollY();
-//        Log.e("HoroscopeLayout", "top = " + top + ", scrollY = " + scrollY);
-//        scrollBy(0, 1);
-//        int scrollTop = mTopView.getTop();
-//
-//        Log.e("HoroscopeLayout", "scrolled top = " + scrollTop + ", scrollY = " + getScrollY());
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mDownX = ev.getRawX();
                 mDownY = ev.getRawY();
+
+                mLastMoveX = mDownX;
+                mLastMoveY = mDownY;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                mMoveX = ev.getRawX();
+                mMoveY = ev.getRawY();
+                if ((Math.abs(mMoveY - mLastMoveY) / Math.abs(mMoveX - mLastMoveX)) > 2f && isTop() && ((mMoveY < mLastMoveY && mTotalScrollY >= 0 && (mTop - mTotalScrollY) > DEFAULT_DISTANCE) || (mMoveY > mLastMoveY && mTotalScrollY >= 0))) {
+                    mLastMoveX = mMoveX;
+                    mLastMoveY = mMoveY;
+                    return true;
+                }
                 break;
             default:
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_MOVE:
-                mMoveX = ev.getRawX();
-                mMoveY = ev.getRawY();
-                if ((Math.abs(mMoveY - mDownY) / Math.abs(mMoveX - mDownX)) > 2f && ((mMoveY < mDownY && (mTop - mTotalScrollY) > DEFAULT_DISTANCE) || (mMoveY > mDownY && mTotalScrollY >= 0))) {
-                    mDownX = mMoveX;
-                    mDownY = mMoveY;
-                    return true;
-                }
-
-
                 break;
         }
-        return false;
+        return super.onInterceptTouchEvent(ev);
     }
 
     @Override
@@ -75,32 +78,95 @@ public class HoroscopeLayout extends RelativeLayout {
             case MotionEvent.ACTION_DOWN:
                 mDownX = ev.getRawX();
                 mDownY = ev.getRawY();
+
+                mLastMoveX = mDownX;
+                mLastMoveY = mDownY;
                 break;
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_MOVE:
                 mMoveX = ev.getRawX();
                 mMoveY = ev.getRawY();
-//                if ((Math.abs(mMoveY - mDownY) / Math.abs(mMoveX - mDownX)) > 2f && (mTop - mTotalScrollY) > DEFAULT_DISTANCE) {
-                if ((Math.abs(mMoveY - mDownY) / Math.abs(mMoveX - mDownX)) > 2f && ((mMoveY < mDownY && (mTop - mTotalScrollY) > DEFAULT_DISTANCE) || (mMoveY > mDownY && mTotalScrollY >= 0))) {
-                    float y = mDownY - mMoveY;
+                if ((Math.abs(mMoveY - mLastMoveY) / Math.abs(mMoveX - mLastMoveX)) > 2f && isTop() && ((mMoveY < mLastMoveY && (mTop - mTotalScrollY) > DEFAULT_DISTANCE) || (mMoveY > mLastMoveY && mTotalScrollY > 0))) {
+                    float y = mLastMoveY - mMoveY;
                     float tempScrollY = mTotalScrollY + y;
                     if (tempScrollY > mTop - DEFAULT_DISTANCE) {
                         y = mTop - DEFAULT_DISTANCE - mTotalScrollY;
-                    }
-
-                    if (tempScrollY < 0) {
+                    } else if (tempScrollY < 0) {
                         y = 0 - mTotalScrollY;
                     }
                     scrollBy(0, (int) y);
                     mTotalScrollY += y;
-                    mDownY = mMoveY;
-                    mDownX = mMoveX;
+                    mLastMoveY = mMoveY;
+                    mLastMoveX = mMoveX;
                     return true;
                 }
                 break;
+            case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_UP:
+            default:
+                float upX = ev.getRawX();
+                float upY = ev.getRawY();
+                if ((Math.abs(upY - mDownY) / Math.abs(upX - mDownX)) > 2f && mTotalScrollY > 0 && mTotalScrollY < (mTop - DEFAULT_DISTANCE)) {
+                    boolean isDown;
+                    if (mTotalScrollY < (mTop - DEFAULT_DISTANCE) / 2f) {
+                        isDown = true;
+                    } else {
+                        isDown = false;
+                    }
+
+                    endAnim(isDown);
+                }
         }
 
-        return false;
+        return super.onTouchEvent(ev);
+    }
+
+    private float mLastValue = 0f;
+
+    private void endAnim(boolean isDown) {
+        ValueAnimator animator;
+        if (isDown) {
+            animator = ValueAnimator.ofFloat(mTotalScrollY, 0f);
+        } else {
+            animator = ValueAnimator.ofFloat(mTotalScrollY, mTop - DEFAULT_DISTANCE);
+        }
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = animation.getAnimatedFraction();
+//                float temp = value - mLastValue;
+//
+//                float y;
+//                if (isDown) {
+//                    y = -temp * mTotalScrollY;
+//                } else {
+//                    y = temp * mTotalScrollY;
+//                }
+                Log.e("rango", "endAnim() value = " + value + ", mTotalScrollY = " + mTotalScrollY);
+//                scrollBy(0, (int) y);
+//                mLastValue = value;
+            }
+        });
+
+
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override public void onAnimationCancel(Animator animation) {
+                if (isDown) {
+                    mTotalScrollY = 0;
+                } else {
+                    mTotalScrollY = mTop - DEFAULT_DISTANCE;
+                }
+            }
+
+            @Override public void onAnimationEnd(Animator animation) {
+                if (isDown) {
+                    mTotalScrollY = 0;
+                } else {
+                    mTotalScrollY = mTop - DEFAULT_DISTANCE;
+                }
+            }
+        });
+
+        animator.setDuration(1000);
+        animator.start();
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="rango.tool.androidtool">
+<manifest package="rango.tool.androidtool"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -25,22 +25,18 @@
         <activity
             android:name=".list.activity.RecyclerActivity"
             android:launchMode="singleTask" />
-
         <activity
             android:name=".list.activity.ListActivity"
             android:launchMode="singleTask" />
-
         <activity
             android:name=".experiments.TestActivity"
             android:launchMode="singleTask" />
-
         <activity android:name=".experiments.activity.CanvasActivity" />
         <activity android:name=".experiments.activity.ShapeActivity" />
         <activity android:name=".experiments.activity.WindowActivity" />
         <activity
             android:name=".experiments.activity.NavigationBarActivity"
             android:theme="@style/NavigationBarStyle" />
-
         <activity android:name=".experiments.activity.AutoScrollActivity" />
         <activity android:name=".experiments.activity.ButtonActivity" />
         <activity
@@ -55,12 +51,16 @@
             android:name=".transition.ImageDetailActivity"
             android:theme="@style/Enter" />
         <activity android:name=".list.activity.GoodRecyclerActivity" />
-        <activity android:name=".scrollview.HoroscopeActivity" />
+        <activity android:name=".scrollview.CoordinatorActivity" />
 
         <provider
             android:name=".provider.TestContentProvider"
             android:authorities="rango.tool.androidtool.test.provider" />
-    </application>
 
+        <activity
+            android:name=".ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/AppTheme"></activity>
+    </application>
 
 </manifest>
