@@ -61,6 +61,13 @@
         android:text="ImageView"
         android:textAllCaps="false" />
 
+    <Button
+        android:id="@+id/nested_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nested Scroll"
+        android:textAllCaps="false" />
+
     <rango.tool.androidtool.view.RoundImageView
         android:id="@+id/image_view"
         android:layout_width="100dp"
@@ -68,8 +75,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="18dp"
         android:background="@color/white"
-        android:src="@drawable/solon"
         android:elevation="4dp"
+        android:src="@drawable/solon"
         app:radius="10dp" />
 
 

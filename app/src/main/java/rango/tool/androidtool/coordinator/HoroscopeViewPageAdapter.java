@@ -1,4 +1,4 @@
-package rango.tool.androidtool.scrollview;
+package rango.tool.androidtool.coordinator;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;

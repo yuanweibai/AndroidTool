@@ -51,7 +51,9 @@
             android:name=".transition.ImageDetailActivity"
             android:theme="@style/Enter" />
         <activity android:name=".list.activity.GoodRecyclerActivity" />
-        <activity android:name=".scrollview.CoordinatorActivity" />
+        <activity
+            android:name=".coordinator.CoordinatorActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <provider
             android:name=".provider.TestContentProvider"
@@ -60,7 +62,8 @@
         <activity
             android:name=".ScrollingActivity"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".nestedscroll.NestedScrollActivity" />
     </application>
 
 </manifest>

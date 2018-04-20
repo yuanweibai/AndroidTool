@@ -1,7 +1,8 @@
-package rango.tool.androidtool.scrollview;
+package rango.tool.androidtool.coordinator;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import rango.tool.androidtool.base.list.adapter.BaseItemData;
 import rango.tool.androidtool.base.list.adapter.BaseItemType;
 import rango.tool.androidtool.list.MyRecyclerAdapter;
 
-public class TodayFragment extends BaseFragment {
+public class TomorrowFragment extends BaseFragment {
 
     private MyRecyclerAdapter adapter;
     private RecyclerView mRecyclerView;
@@ -36,15 +37,16 @@ public class TodayFragment extends BaseFragment {
     }
 
     public boolean isTop() {
-        return manager.findFirstCompletelyVisibleItemPosition() == 0;
+        int y = mRecyclerView.getScrollY();
+        Log.e("rango", "isTop() y = " + y);
+        return true;
     }
 
     private List<BaseItemData> getTestData() {
         List<BaseItemData> dataList = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            dataList.add(new BaseItemData("today - " + i, BaseItemType.TYPE_LIST_NORMAL));
+        for (int i = 0; i < 30; i++) {
+            dataList.add(new BaseItemData("tomorrow - " + i, BaseItemType.TYPE_LIST_NORMAL));
         }
         return dataList;
     }
-
 }

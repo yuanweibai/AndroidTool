@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <rango.tool.androidtool.nestedscroll.NestedScrollParentLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="#04d0e2">
+
+        <rango.tool.androidtool.nestedscroll.NestedScrollChildView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:background="#ed7c2c" />
+    </rango.tool.androidtool.nestedscroll.NestedScrollParentLayout>
+
+</RelativeLayout>

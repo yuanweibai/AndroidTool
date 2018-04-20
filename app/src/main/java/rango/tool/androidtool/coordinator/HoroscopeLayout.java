@@ -1,4 +1,4 @@
-package rango.tool.androidtool.scrollview;
+package rango.tool.androidtool.coordinator;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
