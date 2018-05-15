@@ -64,6 +64,7 @@
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme" />
         <activity android:name=".nestedscroll.NestedScrollActivity" />
+        <activity android:name=".experiments.activity.AnrActivity" />
     </application>
 
 </manifest>

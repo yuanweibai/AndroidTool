@@ -1,14 +1,15 @@
 package rango.tool.androidtool.nestedscroll;
 
 import android.content.Context;
-import android.support.v4.view.NestedScrollingParent;
+import android.support.annotation.NonNull;
+import android.support.v4.view.NestedScrollingParent2;
 import android.support.v4.view.NestedScrollingParentHelper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-public class NestedScrollParentLayout extends RelativeLayout implements NestedScrollingParent {
+public class NestedScrollParentLayout extends RelativeLayout implements NestedScrollingParent2 {
 
     private static final String TAG = NestedScrollParentLayout.class.getSimpleName();
 
@@ -28,30 +29,30 @@ public class NestedScrollParentLayout extends RelativeLayout implements NestedSc
     }
 
     @Override
-    public boolean onStartNestedScroll(View child, View target, int nestedScrollAxes) {
-        Log.e(TAG, String.format("onStartNestedScroll, child = %s, target = %s, nestedScrollAxes = %d", child, target, nestedScrollAxes));
+    public boolean onStartNestedScroll(@NonNull View child, @NonNull View target, int axes, int type) {
+        Log.e(TAG, String.format("onStartNestedScroll, child = %s, target = %s, nestedScrollAxes = %d", child, target, axes));
         return true;
     }
 
     @Override
-    public void onNestedScrollAccepted(View child, View target, int axes) {
+    public void onNestedScrollAccepted(@NonNull View child, @NonNull View target, int axes, int type) {
         Log.e(TAG, String.format("onNestedScrollAccepted, child = %s, target = %s,axes = %d", child, target, axes));
-        parentHelper.onNestedScrollAccepted(child, target, axes);
+        parentHelper.onNestedScrollAccepted(child, target, axes, type);
     }
 
     @Override
-    public void onStopNestedScroll(View child) {
+    public void onStopNestedScroll(@NonNull View target, int type) {
         Log.e(TAG, "onStopNestedScroll");
-        parentHelper.onStopNestedScroll(child);
+        parentHelper.onStopNestedScroll(target, type);
     }
 
     @Override
-    public void onNestedScroll(View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
+    public void onNestedScroll(@NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
         Log.e(TAG, String.format("onNestedScroll, target = %s,dxConsumed = %d,dyConsumed = %d,dxUnconsumed = %d,dyUnconsumed = %d", target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed));
     }
 
     @Override
-    public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
+    public void onNestedPreScroll(@NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
         final float shouldMoveY = getY() + dy;
         final View parent = (View) getParent();
         int consumedY;
@@ -62,7 +63,19 @@ public class NestedScrollParentLayout extends RelativeLayout implements NestedSc
         } else {
             consumedY = dy;
         }
+
+        final float shouldMoveX = getX() + dx;
+        int consumedX;
+        if (shouldMoveX <= 0) {
+            consumedX = -(int) getX();
+        } else if (shouldMoveX >= parent.getWidth() - getWidth()) {
+            consumedX = (int) (parent.getWidth() - getWidth() - getX());
+        } else {
+            consumedX = dx;
+        }
+        setX(getX() + consumedX);
         setY(getY() + consumedY);
+        consumed[0] = consumedX;
         consumed[1] = consumedY;
         Log.e(TAG, String.format("onNestedPreScroll, dx = %d,dy = %d,consumed = %s", dx, dy, consumed));
     }
@@ -73,12 +86,14 @@ public class NestedScrollParentLayout extends RelativeLayout implements NestedSc
         return true;
     }
 
-    @Override public boolean onNestedPreFling(View target, float velocityX, float velocityY) {
+    @Override
+    public boolean onNestedPreFling(View target, float velocityX, float velocityY) {
         Log.e(TAG, String.format("onNestedPreScroll, velocityX = %f,velocityY = %f", velocityX, velocityY));
         return true;
     }
 
-    @Override public int getNestedScrollAxes() {
+    @Override
+    public int getNestedScrollAxes() {
         Log.e(TAG, "getNestedScrollAces");
         return parentHelper.getNestedScrollAxes();
     }

@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
+import rango.tool.androidtool.experiments.activity.AnrActivity;
 import rango.tool.androidtool.experiments.activity.AutoScrollActivity;
 import rango.tool.androidtool.experiments.activity.ButtonActivity;
 import rango.tool.androidtool.experiments.activity.CanvasActivity;
@@ -50,6 +51,7 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.auto_scroll_btn).setOnClickListener(v -> startActivity(AutoScrollActivity.class));
         findViewById(R.id.button_btn).setOnClickListener(v -> startActivity(ButtonActivity.class));
         findViewById(R.id.nested_scroll).setOnClickListener(v -> startActivity(NestedScrollActivity.class));
+        findViewById(R.id.anr_btn).setOnClickListener(v -> startActivity(AnrActivity.class));
     }
 
     @Override
