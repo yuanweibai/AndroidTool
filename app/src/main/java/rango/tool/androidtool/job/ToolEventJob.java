@@ -1,5 +1,6 @@
 package rango.tool.androidtool.job;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.os.TraceCompat;
@@ -38,7 +39,13 @@ public class ToolEventJob extends Job {
         bundle.putInt(JOB_TYPE, UPDATE_TOOL_EVENT);
         bundle.putString(JOB_MSG, "periodic too job msg");
 
-        periodicJob(bundle, 60 * 1000);
+        long periodicMills;
+        if (Build.VERSION.SDK_INT >= 24) {
+            periodicMills = 15 * 60 * 1000;
+        } else {
+            periodicMills = 60 * 1000;
+        }
+        periodicJob(bundle, periodicMills);
     }
 
     private static void delayToolJob() {
@@ -46,8 +53,13 @@ public class ToolEventJob extends Job {
         Bundle bundle = new Bundle();
         bundle.putInt(JOB_TYPE, UPDATE_TOOL_2_EVENT);
         bundle.putString(JOB_MSG, "delay tool job msg");
-
-        delayJob(bundle, 10 * 60 * 1000);
+        long delayMills;
+        if (Build.VERSION.SDK_INT >= 24) {
+            delayMills = 15 * 60 * 1000;
+        } else {
+            delayMills = 10 * 60 * 1000;
+        }
+        delayJob(bundle, delayMills);
     }
 
     private static void periodicJob(Bundle bundle, long periodicMills) {
