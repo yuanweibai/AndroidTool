@@ -48,7 +48,7 @@ public class NestedScrollChildView extends View implements NestedScrollingChild2
                 if (downY == -1 || downX == -1) {
                     return false;
                 }
-                startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL, ViewCompat.TYPE_TOUCH);
+                startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL | ViewCompat.SCROLL_AXIS_HORIZONTAL, ViewCompat.TYPE_TOUCH);
                 break;
             case MotionEvent.ACTION_MOVE:
                 final float pointerY = getPointerY(event, pointerId);

@@ -46,6 +46,19 @@
         android:text="Add View"
         android:textAllCaps="false" />
 
+    <Button
+        android:id="@+id/offset_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OffsetTopAndBottom"
+        android:textAllCaps="false" />
+    <Button
+        android:id="@+id/touch_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Touch"
+        android:textAllCaps="false" />
+
     <LinearLayout
         android:id="@+id/container_view"
         android:layout_width="match_parent"

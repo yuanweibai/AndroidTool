@@ -2,15 +2,16 @@ package rango.tool.androidtool;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import rango.tool.androidtool.base.BaseActivity;
+import rango.tool.androidtool.coordinator.CoordinatorActivity;
 import rango.tool.androidtool.experiments.TestActivity;
 import rango.tool.androidtool.list.activity.ListActivity;
 import rango.tool.androidtool.list.activity.RecyclerActivity;
-import rango.tool.androidtool.coordinator.CoordinatorActivity;
+import rango.tool.androidtool.touch.TouchActivity;
+import rango.tool.androidtool.transition.OffsetActivity;
 import rango.tool.androidtool.transition.TransitionActivity;
 
 public class MainActivity extends BaseActivity {
@@ -40,11 +41,9 @@ public class MainActivity extends BaseActivity {
             startActivity(TestActivity.class);
         });
 
-        findViewById(R.id.add_view_btn).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                addTestView();
-            }
-        });
+        findViewById(R.id.add_view_btn).setOnClickListener(v -> addTestView());
+        findViewById(R.id.offset_btn).setOnClickListener(v -> startActivity(OffsetActivity.class));
+        findViewById(R.id.touch_btn).setOnClickListener(v -> startActivity(TouchActivity.class));
     }
 
     private void addTestView() {

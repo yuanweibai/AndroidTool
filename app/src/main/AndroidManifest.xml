@@ -65,6 +65,8 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".nestedscroll.NestedScrollActivity" />
         <activity android:name=".experiments.activity.AnrActivity" />
+        <activity android:name=".transition.OffsetActivity" />
+        <activity android:name=".touch.TouchActivity" />
     </application>
 
 </manifest>
