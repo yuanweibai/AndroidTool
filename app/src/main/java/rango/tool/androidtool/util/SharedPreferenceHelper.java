@@ -31,6 +31,10 @@ public class SharedPreferenceHelper {
         return instance;
     }
 
+    public boolean contains(String key) {
+        return sharedPreferences.contains(key);
+    }
+
     public void putString(String key, String value) {
         editor.putString(key, value);
         editor.commit();
@@ -43,5 +47,14 @@ public class SharedPreferenceHelper {
 
     public int getInt(String key, int defaultValue) {
         return sharedPreferences.getInt(key, defaultValue);
+    }
+
+    public void putLong(String key, long value) {
+        editor.putLong(key, value);
+        editor.commit();
+    }
+
+    public long getLong(String key, long defaultValue) {
+        return sharedPreferences.getLong(key, defaultValue);
     }
 }

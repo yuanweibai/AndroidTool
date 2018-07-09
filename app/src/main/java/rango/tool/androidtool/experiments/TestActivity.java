@@ -18,6 +18,7 @@ import rango.tool.androidtool.experiments.activity.ShapeActivity;
 import rango.tool.androidtool.experiments.activity.WindowActivity;
 import rango.tool.androidtool.locker.LockerManager;
 import rango.tool.androidtool.nestedscroll.NestedScrollActivity;
+import rango.tool.androidtool.workmanager.WorkManagerActivity;
 
 public class TestActivity extends BaseActivity {
 
@@ -52,6 +53,7 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.button_btn).setOnClickListener(v -> startActivity(ButtonActivity.class));
         findViewById(R.id.nested_scroll).setOnClickListener(v -> startActivity(NestedScrollActivity.class));
         findViewById(R.id.anr_btn).setOnClickListener(v -> startActivity(AnrActivity.class));
+        findViewById(R.id.work_manager).setOnClickListener(v -> startActivity(WorkManagerActivity.class));
     }
 
     @Override

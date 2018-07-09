@@ -1,90 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/canvas_btn"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="canvas"
-        android:textAllCaps="false" />
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/shape_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="图形"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/canvas_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="canvas"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/locker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="锁屏"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/shape_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="图形"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/window"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="window 窗口"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/locker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="锁屏"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/navigation_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="虚拟按键"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/window"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="window 窗口"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/auto_scroll_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="轮播"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/navigation_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="虚拟按键"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/button_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="按钮"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/auto_scroll_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="轮播"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/image_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ImageView"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/button_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="按钮"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/anr_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ANR"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/image_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ImageView"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/nested_scroll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nested Scroll"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/anr_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ANR"
+            android:textAllCaps="false" />
 
-    <rango.tool.androidtool.view.RoundImageView
-        android:id="@+id/image_view"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="18dp"
-        android:background="@color/white"
-        android:elevation="4dp"
-        android:src="@drawable/solon"
-        app:radius="10dp" />
+        <Button
+            android:id="@+id/nested_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nested Scroll"
+            android:textAllCaps="false" />
+
+        <rango.tool.androidtool.view.RoundImageView
+            android:id="@+id/image_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:background="@color/white"
+            android:elevation="4dp"
+            android:src="@drawable/solon"
+            app:radius="10dp" />
+
+        <Button
+            android:id="@+id/work_manager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Work Manager"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
 
 
-</LinearLayout>
+</ScrollView>

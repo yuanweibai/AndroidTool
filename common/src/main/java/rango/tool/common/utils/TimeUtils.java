@@ -6,7 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TimeUtills {
+public class TimeUtils {
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     public static long strToMills(String dateStr) {
@@ -46,6 +46,10 @@ public class TimeUtills {
         Date date = new Date();
         date.setTime(currentMills);
         return dateFormat.format(date);
+    }
+
+    public static String getCurrentTime() {
+        return milllsToStr(System.currentTimeMillis());
     }
 
 }

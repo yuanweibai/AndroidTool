@@ -9,6 +9,7 @@ import com.evernote.android.job.JobManager;
 import rango.tool.androidtool.base.BaseApplication;
 import rango.tool.androidtool.job.MainJobCreator;
 import rango.tool.androidtool.job.ToolEventJob;
+import rango.tool.androidtool.workmanager.ToolWorkManager;
 import rango.tool.common.utils.Worker;
 
 public class ToolApplication extends BaseApplication {
@@ -26,6 +27,7 @@ public class ToolApplication extends BaseApplication {
         }
 
         ToolEventJob.initJobs();
+        ToolWorkManager.init();
     }
 
     @Override

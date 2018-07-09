@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/work_manager_delay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Work Manager: Delay"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/work_manager_periodic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Work Manager: Periodic"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/write_log_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="write log"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/read_log_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="read log"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/clear_log_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="clear log"
+        android:textAllCaps="false" />
+
+    <TextView
+        android:id="@+id/log_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="18dp"
+        android:textColor="#000"
+        android:textSize="15sp" />
+</LinearLayout>
