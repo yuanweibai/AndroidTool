@@ -3,6 +3,7 @@ package rango.tool.androidtool.workmanager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,8 +27,13 @@ public class WorkManagerActivity extends BaseActivity {
             ToolWorkManager.getInstance().testPeriodic();
             Toast.makeText(WorkManagerActivity.this, "worker periodic successfully!!!", Toast.LENGTH_SHORT).show();
         });
+        findViewById(R.id.work_manager_periodic_no_first).setOnClickListener(v -> {
+            ToolWorkManager.getInstance().testPeriodicNoFirst();
+            Toast.makeText(WorkManagerActivity.this, "worker periodic no first successfully!!!", Toast.LENGTH_SHORT).show();
+        });
 
         logText = findViewById(R.id.log_text);
+        logText.setMovementMethod(ScrollingMovementMethod.getInstance());
         findViewById(R.id.read_log_btn).setOnClickListener(v -> {
             StringBuilder stringBuilder = ToolWorkManager.getInstance().readMsg();
             if (stringBuilder == null || TextUtils.isEmpty(stringBuilder.toString())) {

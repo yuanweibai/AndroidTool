@@ -3,10 +3,9 @@ package rango.tool.androidtool.workmanager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import androidx.work.Worker;
 import rango.tool.common.utils.TimeUtils;
 
-public class PeriodicWorker extends Worker {
+public class PeriodicWorker extends BaseWorker {
 
     private static final String TAG = PeriodicWorker.class.getSimpleName();
 
@@ -17,5 +16,10 @@ public class PeriodicWorker extends Worker {
         String msg = "run: type = work_periodic, current_time = " + TimeUtils.getCurrentTime() + ", do periodic work;\n";
         ToolWorkManager.getInstance().writeMsg(msg);
         return Result.SUCCESS;
+    }
+
+    @Override
+    public String getTag() {
+        return "PeriodicWorker";
     }
 }

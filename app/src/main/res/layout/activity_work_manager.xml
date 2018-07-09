@@ -19,6 +19,13 @@
         android:textAllCaps="false" />
 
     <Button
+        android:id="@+id/work_manager_periodic_no_first"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Work Manager: Periodic no first"
+        android:textAllCaps="false" />
+
+    <Button
         android:id="@+id/write_log_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,7 +50,9 @@
         android:id="@+id/log_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fadeScrollbars="false"
         android:padding="18dp"
+        android:scrollbars="vertical"
         android:textColor="#000"
         android:textSize="15sp" />
 </LinearLayout>
