@@ -7,6 +7,8 @@ import rango.tool.common.utils.TimeUtils;
 public class FirstNoWorkPeriodicWorker extends BaseFirstNoWorkPeriodicWorker {
     private static final String TAG = FirstNoWorkPeriodicWorker.class.getSimpleName();
 
+    public static final String WORKER_TAG = "first_no_work_periodic_worker";
+
     @Override
     public Result doPeriodicWork() {
         Log.e(TAG, "do periodic work, but first not do!!!");
@@ -20,8 +22,5 @@ public class FirstNoWorkPeriodicWorker extends BaseFirstNoWorkPeriodicWorker {
         return "first_no_work_periodic_worker";
     }
 
-    @Override
-    public String getTag() {
-        return "FirstNoWorkPeriodicWorker";
-    }
+
 }

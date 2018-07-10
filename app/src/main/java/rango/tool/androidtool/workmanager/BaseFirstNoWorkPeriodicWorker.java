@@ -3,9 +3,10 @@ package rango.tool.androidtool.workmanager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import androidx.work.Worker;
 import rango.tool.androidtool.util.SharedPreferenceHelper;
 
-public abstract class BaseFirstNoWorkPeriodicWorker extends BaseWorker {
+public abstract class BaseFirstNoWorkPeriodicWorker extends Worker {
 
     private static final String TAG = BaseFirstNoWorkPeriodicWorker.class.getSimpleName();
 

@@ -42,32 +42,37 @@ public class ToolWorkManager {
     }
 
     public void testDelay() {
-        String msg = "start: type = work_delay, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 10s;\n";
+        String msg = "start: type = work_delay, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 4h;\n";
         writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_DELAY,
                 OneTimeWorker.class,
-                10,
-                TimeUnit.SECONDS).build();
+                4,
+                TimeUnit.HOURS)
+                .build();
         workManager.enqueue(request);
     }
 
     public void testPeriodic() {
-        String msg = "start: type = work_periodic, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 15m;\n";
+        String msg = "start: type = work_periodic, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 2h;\n";
         writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_PERIODIC,
                 PeriodicWorker.class,
-                15,
-                TimeUnit.MINUTES).build();
+                2,
+                TimeUnit.HOURS)
+                .addTag(PeriodicWorker.WORKER_TAG)
+                .build();
         workManager.enqueue(request);
     }
 
     public void testPeriodicNoFirst() {
-        String msg = "start: type = work_periodic, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 15m, but first not do!!!\n";
+        String msg = "start: type = work_periodic, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 3h, but first not do!!!\n";
         writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_PERIODIC,
                 FirstNoWorkPeriodicWorker.class,
-                15,
-                TimeUnit.MINUTES).build();
+                3,
+                TimeUnit.HOURS)
+                .addTag(FirstNoWorkPeriodicWorker.WORKER_TAG)
+                .build();
         workManager.enqueue(request);
     }
 
