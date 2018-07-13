@@ -21,15 +21,37 @@ public class WorkManagerActivity extends BaseActivity {
 
         findViewById(R.id.work_manager_delay).setOnClickListener(v -> {
             ToolWorkManager.getInstance().testDelay();
-            Toast.makeText(WorkManagerActivity.this, "worker delay successfully!!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(WorkManagerActivity.this, "worker delay_1 successfully!!!", Toast.LENGTH_SHORT).show();
         });
+
+        findViewById(R.id.work_manager_delay_2).setOnClickListener(v -> {
+            ToolWorkManager.getInstance().testDelay2();
+            Toast.makeText(WorkManagerActivity.this, "worker delay_2 successfully!!!", Toast.LENGTH_SHORT).show();
+        });
+
+        findViewById(R.id.work_manager_delay_3).setOnClickListener(v -> {
+            ToolWorkManager.getInstance().testDelay3();
+            Toast.makeText(WorkManagerActivity.this, "worker delay_3 successfully!!!", Toast.LENGTH_SHORT).show();
+        });
+
+
         findViewById(R.id.work_manager_periodic).setOnClickListener(v -> {
             ToolWorkManager.getInstance().testPeriodic();
             Toast.makeText(WorkManagerActivity.this, "worker periodic successfully!!!", Toast.LENGTH_SHORT).show();
         });
         findViewById(R.id.work_manager_periodic_no_first).setOnClickListener(v -> {
-            ToolWorkManager.getInstance().testPeriodicNoFirst();
-            Toast.makeText(WorkManagerActivity.this, "worker periodic no first successfully!!!", Toast.LENGTH_SHORT).show();
+            ToolWorkManager.getInstance().testPeriodic2();
+            Toast.makeText(WorkManagerActivity.this, "worker periodic 2 successfully!!!", Toast.LENGTH_SHORT).show();
+        });
+
+        findViewById(R.id.work_manager_periodic_3).setOnClickListener(v -> {
+            ToolWorkManager.getInstance().testPeriodic3();
+            Toast.makeText(WorkManagerActivity.this, "worker periodic 3 successfully!!!", Toast.LENGTH_SHORT).show();
+        });
+
+        findViewById(R.id.cancel_all_work_btn).setOnClickListener(v -> {
+            ToolWorkManager.getInstance().cancelAllWork();
+            Toast.makeText(WorkManagerActivity.this, "cancel all work successfully!!!", Toast.LENGTH_SHORT).show();
         });
 
         logText = findViewById(R.id.log_text);

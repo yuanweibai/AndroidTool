@@ -42,7 +42,7 @@ public class ToolWorkManager {
     }
 
     public void testDelay() {
-        String msg = "start: type = work_delay, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 4h;\n";
+        String msg = "start: type = work_delay_1, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 4h;\n";
         writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_DELAY,
                 OneTimeWorker.class,
@@ -52,8 +52,30 @@ public class ToolWorkManager {
         workManager.enqueue(request);
     }
 
+    public void testDelay2() {
+        String msg = "start: type = work_delay_2, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 5h;\n";
+        writeMsg(msg);
+        WorkRequest request = new Builder(Builder.WorkType.WORK_DELAY,
+                OneTimeWorker2.class,
+                5,
+                TimeUnit.HOURS)
+                .build();
+        workManager.enqueue(request);
+    }
+
+    public void testDelay3() {
+        String msg = "start: type = work_delay_3, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 26h;\n";
+        writeMsg(msg);
+        WorkRequest request = new Builder(Builder.WorkType.WORK_DELAY,
+                OneTimeWorker3.class,
+                26,
+                TimeUnit.HOURS)
+                .build();
+        workManager.enqueue(request);
+    }
+
     public void testPeriodic() {
-        String msg = "start: type = work_periodic, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 2h;\n";
+        String msg = "start: type = work_periodic_1, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 2h;\n";
         writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_PERIODIC,
                 PeriodicWorker.class,
@@ -64,20 +86,36 @@ public class ToolWorkManager {
         workManager.enqueue(request);
     }
 
-    public void testPeriodicNoFirst() {
-        String msg = "start: type = work_periodic, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 3h, but first not do!!!\n";
+    public void testPeriodic2() {
+        String msg = "start: type = work_periodic_2, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 5h!!!\n";
         writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_PERIODIC,
-                FirstNoWorkPeriodicWorker.class,
-                3,
+                PeriodicWorker2.class,
+                5,
                 TimeUnit.HOURS)
-                .addTag(FirstNoWorkPeriodicWorker.WORKER_TAG)
+                .addTag(PeriodicWorker2.WORKER_TAG)
+                .build();
+        workManager.enqueue(request);
+    }
+
+    public void testPeriodic3() {
+        String msg = "start: type = work_periodic_3, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 18h!!!\n";
+        writeMsg(msg);
+        WorkRequest request = new Builder(Builder.WorkType.WORK_PERIODIC,
+                PeriodicWorker3.class,
+                18,
+                TimeUnit.HOURS)
+                .addTag(PeriodicWorker3.WORKER_TAG)
                 .build();
         workManager.enqueue(request);
     }
 
     public void cancelWorkByTag(String tag) {
         workManager.cancelAllWorkByTag(tag);
+    }
+
+    public void cancelAllWork() {
+        workManager.cancelAllWork();
     }
 
     public void writeMsg(String msg) {
@@ -119,7 +157,7 @@ public class ToolWorkManager {
 
         public WorkRequest build() {
             if (currentType == WorkType.WORK_PERIODIC) {
-                PeriodicWorkRequest.Builder periodicBuilder = new PeriodicWorkRequest.Builder(workerClass, duration, timeUnit);
+                PeriodicWorkRequest.Builder periodicBuilder = new PeriodicWorkRequest.Builder(workerClass, duration, timeUnit, 5, TimeUnit.MINUTES);
                 if (!TextUtils.isEmpty(tag)) {
                     periodicBuilder.addTag(tag);
                 }

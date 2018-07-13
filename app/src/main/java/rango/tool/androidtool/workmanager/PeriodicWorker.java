@@ -16,7 +16,7 @@ public class PeriodicWorker extends Worker {
     @Override
     public Result doWork() {
         Log.e(TAG, "do periodic work!!!");
-        String msg = "run: type = work_periodic, current_time = " + TimeUtils.getCurrentTime() + ", do periodic work;\n";
+        String msg = "run: type = work_periodic_1, current_time = " + TimeUtils.getCurrentTime() + ", do periodic work;\n";
         ToolWorkManager.getInstance().writeMsg(msg);
         return Result.SUCCESS;
     }

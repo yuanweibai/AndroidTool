@@ -4,26 +4,65 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/work_manager_delay"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Work Manager: Delay"
-        android:textAllCaps="false" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/work_manager_periodic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Work Manager: Periodic"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/work_manager_delay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Delay-1"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/work_manager_periodic_no_first"
+        <Button
+            android:id="@+id/work_manager_delay_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Delay-2"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/work_manager_delay_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Delay-3"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Work Manager: Periodic no first"
-        android:textAllCaps="false" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/work_manager_periodic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Periodic-1"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/work_manager_periodic_no_first"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Periodic-2"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/work_manager_periodic_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Periodic-3"
+            android:textAllCaps="false" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/write_log_btn"
@@ -44,6 +83,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="clear log"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/cancel_all_work_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="cancel all work"
         android:textAllCaps="false" />
 
     <TextView
