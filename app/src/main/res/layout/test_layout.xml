@@ -97,6 +97,12 @@
             android:text="Work Manager"
             android:textAllCaps="false" />
 
+        <Button
+            android:id="@+id/job_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Job Schedule"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 

@@ -10,7 +10,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/work_manager_delay"
+            android:id="@+id/delay"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -18,7 +18,7 @@
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/work_manager_delay_2"
+            android:id="@+id/delay_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -26,7 +26,7 @@
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/work_manager_delay_3"
+            android:id="@+id/delay_3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -40,7 +40,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/work_manager_periodic"
+            android:id="@+id/periodic"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -48,7 +48,7 @@
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/work_manager_periodic_no_first"
+            android:id="@+id/periodic_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -56,7 +56,7 @@
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/work_manager_periodic_3"
+            android:id="@+id/periodic_3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -65,17 +65,17 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/write_log_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="write log"
-        android:textAllCaps="false" />
-
-    <Button
         android:id="@+id/read_log_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="read log"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/write_log_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="write log"
         android:textAllCaps="false" />
 
     <Button

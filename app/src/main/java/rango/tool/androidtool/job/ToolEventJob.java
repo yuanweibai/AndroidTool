@@ -1,6 +1,5 @@
 package rango.tool.androidtool.job;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.os.TraceCompat;
@@ -11,6 +10,7 @@ import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 
 import rango.tool.androidtool.util.SharedPreferenceHelper;
+import rango.tool.common.utils.TimeUtils;
 
 public class ToolEventJob extends Job {
 
@@ -33,32 +33,47 @@ public class ToolEventJob extends Job {
         delayToolJob();
     }
 
-    private static void periodicToolJob() {
+    public static void periodicToolJob() {
         Log.d(TAG, "------periodicToolJob------");
+        String msg = "start: periodic_1, duration = 1h,time = " + TimeUtils.getCurrentTime();
+        MainJobCreator.writeMsg(msg);
         Bundle bundle = new Bundle();
         bundle.putInt(JOB_TYPE, UPDATE_TOOL_EVENT);
         bundle.putString(JOB_MSG, "periodic too job msg");
-
-        long periodicMills;
-        if (Build.VERSION.SDK_INT >= 24) {
-            periodicMills = 15 * 60 * 1000;
-        } else {
-            periodicMills = 60 * 1000;
-        }
+        long periodicMills = 60 * 60 * 1000;
         periodicJob(bundle, periodicMills);
     }
 
-    private static void delayToolJob() {
+    public static void periodicToolJob2() {
+        Log.d(TAG, "------periodicToolJob------");
+        String msg = "start: periodic_2, duration = 3h, time = " + TimeUtils.getCurrentTime();
+        MainJobCreator.writeMsg(msg);
+        Bundle bundle = new Bundle();
+        bundle.putInt(JOB_TYPE, UPDATE_TOOL_3_EVENT);
+        bundle.putString(JOB_MSG, "periodic_2 too job msg");
+        long periodicMills = 3 * 60 * 60 * 1000;
+        periodicJob(bundle, periodicMills);
+    }
+
+    public static void delayToolJob() {
         Log.d(TAG, "------delayToolJob------");
+        String msg = "start: delay_1, duration = 1h,time = " + TimeUtils.getCurrentTime();
+        MainJobCreator.writeMsg(msg);
         Bundle bundle = new Bundle();
         bundle.putInt(JOB_TYPE, UPDATE_TOOL_2_EVENT);
         bundle.putString(JOB_MSG, "delay tool job msg");
-        long delayMills;
-        if (Build.VERSION.SDK_INT >= 24) {
-            delayMills = 15 * 60 * 1000;
-        } else {
-            delayMills = 10 * 60 * 1000;
-        }
+        long delayMills = 60 * 60 * 1000;
+        delayJob(bundle, delayMills);
+    }
+
+    public static void delayToolJob2() {
+        Log.d(TAG, "------delayToolJob------");
+        String msg = "start: delay_2, duration = 2h,time = " + TimeUtils.getCurrentTime();
+        MainJobCreator.writeMsg(msg);
+        Bundle bundle = new Bundle();
+        bundle.putInt(JOB_TYPE, UPDATE_TOOL_4_EVENT);
+        bundle.putString(JOB_MSG, "delay_2 tool job msg");
+        long delayMills = 2 * 60 * 60 * 1000;
         delayJob(bundle, delayMills);
     }
 
@@ -67,7 +82,7 @@ public class ToolEventJob extends Job {
         TraceCompat.beginSection(TAG + "#periodicJob");
         try {
             int jobId = new JobRequest.Builder(TAG)
-                    .setPeriodic(periodicMills)
+                    .setPeriodic(periodicMills, 5 * 60 * 1000)
                     .setTransientExtras(bundle)
                     .build()
                     .schedule();
@@ -120,6 +135,12 @@ public class ToolEventJob extends Job {
             case UPDATE_TOOL_2_EVENT:
                 updateTool2Event(bundle);
                 break;
+            case UPDATE_TOOL_3_EVENT:
+                updateTool3Event(bundle);
+                break;
+            case UPDATE_TOOL_4_EVENT:
+                updateTool4Event(bundle);
+                break;
             default:
                 break;
         }
@@ -128,10 +149,26 @@ public class ToolEventJob extends Job {
 
     private void updateToolEvent(Bundle bundle) {
         Log.d(TAG, "------updateToolEvent: bundle = " + bundle.toString());
+        String msg = "run: periodic_1, time = " + TimeUtils.getCurrentTime();
+        MainJobCreator.writeMsg(msg);
     }
 
     private void updateTool2Event(Bundle bundle) {
         Log.d(TAG, "------updateTool2Event: bundle = " + bundle.toString());
+        String msg = "run: delay_1, time = " + TimeUtils.getCurrentTime();
+        MainJobCreator.writeMsg(msg);
+    }
+
+    private void updateTool3Event(Bundle bundle) {
+        Log.d(TAG, "------updateTool2Event: bundle = " + bundle.toString());
+        String msg = "run: periodic_2, time = " + TimeUtils.getCurrentTime();
+        MainJobCreator.writeMsg(msg);
+    }
+
+    private void updateTool4Event(Bundle bundle) {
+        Log.d(TAG, "------updateTool2Event: bundle = " + bundle.toString());
+        String msg = "run: delay_2, time = " + TimeUtils.getCurrentTime();
+        MainJobCreator.writeMsg(msg);
     }
 
 }
