@@ -53,33 +53,33 @@ public class ToolWorkManager {
     }
 
     public void testDelay2() {
-        String msg = "start: type = work_delay_2, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 2h;\n";
+        String msg = "start: type = work_delay_2, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 8h;\n";
         writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_DELAY,
                 OneTimeWorker2.class,
-                2,
+                8,
                 TimeUnit.HOURS)
                 .build();
         workManager.enqueue(request);
     }
 
     public void testDelay3() {
-        String msg = "start: type = work_delay_3, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 3h;\n";
+        String msg = "start: type = work_delay_3, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 1day;\n";
         writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_DELAY,
                 OneTimeWorker3.class,
-                3,
-                TimeUnit.HOURS)
+                1,
+                TimeUnit.DAYS)
                 .build();
         workManager.enqueue(request);
     }
 
     public void testPeriodic() {
-        String msg = "start: type = work_periodic_1, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 1h;\n";
+        String msg = "start: type = work_periodic_1, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 2h;\n";
         writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_PERIODIC,
                 PeriodicWorker.class,
-                1,
+                2,
                 TimeUnit.HOURS)
                 .addTag(PeriodicWorker.WORKER_TAG)
                 .build();
@@ -87,24 +87,24 @@ public class ToolWorkManager {
     }
 
     public void testPeriodic2() {
-        String msg = "start: type = work_periodic_2, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 90m!!!\n";
+        String msg = "start: type = work_periodic_2, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 12h!!!\n";
         writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_PERIODIC,
                 PeriodicWorker2.class,
-                90,
-                TimeUnit.MINUTES)
+                12,
+                TimeUnit.HOURS)
                 .addTag(PeriodicWorker2.WORKER_TAG)
                 .build();
         workManager.enqueue(request);
     }
 
     public void testPeriodic3() {
-        String msg = "start: type = work_periodic_3, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 2h!!!\n";
+        String msg = "start: type = work_periodic_3, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 1day!!!\n";
         writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_PERIODIC,
                 PeriodicWorker3.class,
-                2,
-                TimeUnit.HOURS)
+                1,
+                TimeUnit.DAYS)
                 .addTag(PeriodicWorker3.WORKER_TAG)
                 .build();
         workManager.enqueue(request);

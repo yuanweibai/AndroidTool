@@ -6,11 +6,14 @@
     <rango.tool.androidtool.base.list.view.SpecificRecyclerVIew
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></rango.tool.androidtool.base.list.view.SpecificRecyclerVIew>
+        android:layout_height="match_parent"
+        android:background="#a6a6a6" />
 
     <rango.tool.androidtool.list.view.ListBannerView
         android:id="@+id/banner_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></rango.tool.androidtool.list.view.ListBannerView>
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        />
 
 </FrameLayout>

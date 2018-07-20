@@ -3,6 +3,7 @@ package rango.tool.androidtool.job;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ public class JobActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job);
         textView = findViewById(R.id.log_text);
+        textView.setMovementMethod(ScrollingMovementMethod.getInstance());
         findViewById(R.id.delay).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 ToolEventJob.delayToolJob();
