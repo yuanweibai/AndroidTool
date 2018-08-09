@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="#f9ba0d"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -29,6 +30,17 @@
             android:layout_height="wrap_content"
             android:text="锁屏"
             android:textAllCaps="false" />
+
+        <rango.tool.androidtool.text.ClickEffectTextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="89"
+            android:textColor="#000"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/window"
@@ -89,6 +101,8 @@
             android:elevation="4dp"
             android:src="@drawable/solon"
             app:radius="10dp" />
+
+
 
         <Button
             android:id="@+id/work_manager"

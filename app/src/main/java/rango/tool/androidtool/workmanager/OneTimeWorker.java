@@ -12,7 +12,7 @@ public class OneTimeWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        Log.e(TAG, "do one time work!!!");
+        Log.e(TAG, "do one time work_delay_1 work!!! ");
         String msg = "run: type = work_delay_1, current_time = " + TimeUtils.getCurrentTime() + ", do delay work;\n";
         ToolWorkManager.getInstance().writeMsg(msg);
         return Result.SUCCESS;

@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import java.util.concurrent.TimeUnit;
 
 import androidx.work.Configuration;
+import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
@@ -42,23 +43,23 @@ public class ToolWorkManager {
     }
 
     public void testDelay() {
-        String msg = "start: type = work_delay_1, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 1h;\n";
+        String msg = "start: type = work_delay_1, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 10s;\n";
         writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_DELAY,
                 OneTimeWorker.class,
-                1,
-                TimeUnit.HOURS)
+                10,
+                TimeUnit.SECONDS)
                 .build();
         workManager.enqueue(request);
     }
 
     public void testDelay2() {
-        String msg = "start: type = work_delay_2, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 8h;\n";
+        String msg = "start: type = work_delay_2, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 14s;\n";
         writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_DELAY,
-                OneTimeWorker2.class,
-                8,
-                TimeUnit.HOURS)
+                OneTimeWorker.class,
+                14,
+                TimeUnit.SECONDS)
                 .build();
         workManager.enqueue(request);
     }
@@ -137,6 +138,7 @@ public class ToolWorkManager {
         private @NonNull Class<? extends Worker> workerClass;
         private WorkType currentType;
         private String tag;
+        private Data data;
 
         public enum WorkType {
             WORK_DELAY,
@@ -155,11 +157,19 @@ public class ToolWorkManager {
             return this;
         }
 
+        public Builder setInputData(Data data) {
+            this.data = data;
+            return this;
+        }
+
         public WorkRequest build() {
             if (currentType == WorkType.WORK_PERIODIC) {
                 PeriodicWorkRequest.Builder periodicBuilder = new PeriodicWorkRequest.Builder(workerClass, duration, timeUnit, 6, TimeUnit.MINUTES);
                 if (!TextUtils.isEmpty(tag)) {
                     periodicBuilder.addTag(tag);
+                }
+                if (data != null) {
+                    periodicBuilder.setInputData(data);
                 }
                 return periodicBuilder.build();
             } else {
@@ -167,6 +177,9 @@ public class ToolWorkManager {
                 oneTimeBuilder.setInitialDelay(duration, timeUnit);
                 if (!TextUtils.isEmpty(tag)) {
                     oneTimeBuilder.addTag(tag);
+                }
+                if (data != null) {
+                    oneTimeBuilder.setInputData(data);
                 }
                 return oneTimeBuilder.build();
             }
