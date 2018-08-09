@@ -1,4 +1,4 @@
-package rango.tool.androidtool.text;
+package rango.tool.androidtool.clickeffect;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

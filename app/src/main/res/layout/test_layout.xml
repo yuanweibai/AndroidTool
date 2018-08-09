@@ -31,7 +31,7 @@
             android:text="锁屏"
             android:textAllCaps="false" />
 
-        <rango.tool.androidtool.text.ClickEffectTextView
+        <rango.tool.androidtool.clickeffect.ClickEffectTextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="24dp"
