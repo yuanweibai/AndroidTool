@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
+import rango.tool.androidtool.clickeffect.RippleRelativeLayout;
 import rango.tool.androidtool.experiments.activity.AnrActivity;
 import rango.tool.androidtool.experiments.activity.AutoScrollActivity;
 import rango.tool.androidtool.experiments.activity.ButtonActivity;
@@ -56,6 +57,13 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.anr_btn).setOnClickListener(v -> startActivity(AnrActivity.class));
         findViewById(R.id.work_manager).setOnClickListener(v -> startActivity(WorkManagerActivity.class));
         findViewById(R.id.job_btn).setOnClickListener(v -> startActivity(JobActivity.class));
+
+        RippleRelativeLayout layout = findViewById(R.id.click_effect_layout);
+        findViewById(R.id.ripple_text).setOnClickListener(v -> {
+
+        });
+
+
     }
 
     @Override

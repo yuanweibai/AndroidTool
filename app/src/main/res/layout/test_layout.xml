@@ -2,8 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="#f9ba0d"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#f9ba0d">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,6 +24,20 @@
             android:text="图形"
             android:textAllCaps="false" />
 
+        <TextView
+            android:id="@+id/ripple_text"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/ripple_drawable"
+            android:gravity="center"
+            android:text="32"
+            android:textColor="#000"
+            android:textSize="16sp" />
+
         <Button
             android:id="@+id/locker"
             android:layout_width="match_parent"
@@ -31,7 +45,7 @@
             android:text="锁屏"
             android:textAllCaps="false" />
 
-        <rango.tool.androidtool.clickeffect.ClickEffectTextView
+        <rango.tool.androidtool.clickeffect.RippleTextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="24dp"
@@ -47,6 +61,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="window 窗口"
+            android:textAllCaps="false" />
+
+        <rango.tool.androidtool.clickeffect.RippleRelativeLayout
+            android:id="@+id/click_effect_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/white_round_12_drawable">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="90"
+                android:textColor="#000"
+                android:textSize="16sp" />
+        </rango.tool.androidtool.clickeffect.RippleRelativeLayout>
+
+        <Button
+            android:id="@+id/click_effect_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="start click effect"
             android:textAllCaps="false" />
 
         <Button
@@ -101,7 +140,6 @@
             android:elevation="4dp"
             android:src="@drawable/solon"
             app:radius="10dp" />
-
 
 
         <Button

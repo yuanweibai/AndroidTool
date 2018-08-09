@@ -10,4 +10,7 @@
     <color name="main_pressed">#2E70E0</color>
     <color name="transparent">#00000000</color>
     <color name="gray">#e9e6e6</color>
+
+    <color name="click_effect_red">#CA4F4F</color>
+    <color name="click_effect_red_2">#EA6363</color>
 </resources>

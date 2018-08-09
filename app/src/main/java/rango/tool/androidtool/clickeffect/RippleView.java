@@ -6,56 +6,62 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.util.Pair;
-import android.view.MotionEvent;
+import android.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import rango.tool.androidtool.R;
 import rango.tool.common.utils.ScreenUtils;
 
-public class ClickEffectTextView extends AppCompatTextView {
+public class RippleView extends View {
 
     private final int MIN_WIDTH = ScreenUtils.dp2px(30);
+    private final int EXTRA_DISTANCE = 700;
+    private final int[] INIT_COLORS;
+    private final int[] END_COLORS;
+
     private Paint paint;
     private int radius;
     private int[] colorArray;
-    private final int EXTRA_DISTANCE = 700;
-    private final int[] INIT_COLORS = new int[]{Color.WHITE, Color.RED, Color.RED, Color.WHITE};
-    private final int[] END_COLORS = new int[]{Color.RED, Color.RED};
     private boolean isStartUpAnim = false;
-    private boolean isDownAnimEnd = false;
+    private boolean isAlreadyActionUp = true;
     private int alpha = 255;
 
     private float startX = -1;
     private float endX = -1;
     private ValueAnimator upAnimator;
     private ValueAnimator downAnimator;
-    private List<ValueAnimator> downAnimatorList = new ArrayList<>(2);
-    private List<Pair<Float, Float>> rectList = new ArrayList<>(2);
-    private List<Integer> alphaList = new ArrayList<>(2);
 
-    public ClickEffectTextView(Context context) {
+    public RippleView(Context context) {
         this(context, null);
     }
 
-    public ClickEffectTextView(Context context, AttributeSet attrs) {
+    public RippleView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ClickEffectTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RippleView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        int redColor = context.getResources().getColor(R.color.click_effect_red);
+        int red2Color = context.getResources().getColor(R.color.click_effect_red_2);
+        INIT_COLORS = new int[]{red2Color, redColor, red2Color};
+        END_COLORS = new int[]{redColor, redColor};
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
         radius = ScreenUtils.dp2px(12);
         colorArray = INIT_COLORS;
-        setClickable(true);
+    }
+
+    public void cancelAnim() {
+        if (downAnimator != null && downAnimator.isRunning()) {
+            downAnimator.cancel();
+        }
+        if (upAnimator != null && upAnimator.isRunning()) {
+            upAnimator.cancel();
+        }
     }
 
     @Override
@@ -63,69 +69,38 @@ public class ClickEffectTextView extends AppCompatTextView {
     protected void onDraw(Canvas canvas) {
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
+        float x1 = startX;
+        float x2 = endX;
+        if (x1 < 0) {
+            x1 = 0;
+        }
+        if (x2 > width) {
+            x2 = width;
+        }
         if (isStartUpAnim) {
-            paint.setAlpha(255);
-            paint.setColor(Color.WHITE);
-            paint.setShader(null);
-            RectF rectF = new RectF(0, 0, width, height);
-            canvas.drawRoundRect(rectF, radius, radius, paint);
-
             paint.setAlpha(alpha);
             LinearGradient linearGradient = new LinearGradient(startX, 0, endX, 0, colorArray, null, Shader.TileMode.CLAMP);
             paint.setShader(linearGradient);
-            RectF rf = new RectF(0, 0, width, height);
+            RectF rf = new RectF(x1, 0, x2, height);
             canvas.drawRoundRect(rf, radius, radius, paint);
-
-        } else {
-            paint.setColor(Color.WHITE);
-            if (startX != -1 && endX != -1) {
-                LinearGradient linearGradient = new LinearGradient(startX, 0, endX, 0, colorArray, null, Shader.TileMode.CLAMP);
-                paint.setShader(linearGradient);
-            } else {
-                paint.setShader(null);
+        } else if (startX != -1 && endX != -1) {
+            paint.setAlpha(255);
+            LinearGradient linearGradient = new LinearGradient(startX, 0, endX, 0, colorArray, null, Shader.TileMode.CLAMP);
+            paint.setShader(linearGradient);
+            RectF rectF = new RectF(x1, 0, x2, height);
+            int r = 0;
+            if (x1 < radius / 2 || x2 > (width - radius / 2)) {
+                r = radius;
             }
-            RectF rectF = new RectF(0, 0, width, height);
-            canvas.drawRoundRect(rectF, radius, radius, paint);
+            canvas.drawRoundRect(rectF, r, r, paint);
         }
         super.onDraw(canvas);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        final int pointerId = event.getPointerId(0);
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                float downX = getPointerX(event, pointerId);
-                if (downX != -1) {
-                    startDownAnim(downX, getMeasuredWidth());
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                startUpAnim();
-                break;
-        }
-        return super.onTouchEvent(event);
-    }
 
-    private float getPointerX(MotionEvent event, int pointerId) {
-        int index = event.findPointerIndex(pointerId);
-        if (index < 0) {
-            return -1;
-        }
-        return event.getX(index);
-    }
-
-    private float getPointerY(MotionEvent event, int pointerId) {
-        int index = event.findPointerIndex(pointerId);
-        if (index < 0) {
-            return -1;
-        }
-        return event.getY(index);
-    }
-
-    private void startDownAnim(float downX, int width) {
+    public void startDownAnim(float downX, int width) {
         isStartUpAnim = false;
-
+        isAlreadyActionUp = false;
         if (downAnimator != null && downAnimator.isRunning()) {
             downAnimator.cancel();
         }
@@ -140,12 +115,9 @@ public class ClickEffectTextView extends AppCompatTextView {
         });
 
         downAnimator.addListener(new AnimatorListenerAdapter() {
-
             private boolean isCancel = false;
-
             @Override
             public void onAnimationStart(Animator animation) {
-                isDownAnimEnd = false;
                 colorArray = INIT_COLORS;
                 drawBg(downX, downX, width);
             }
@@ -158,9 +130,11 @@ public class ClickEffectTextView extends AppCompatTextView {
             @Override
             public void onAnimationEnd(Animator animation) {
                 if (!isCancel) {
-                    isDownAnimEnd = true;
                     colorArray = END_COLORS;
                     invalidate();
+                    if (isAlreadyActionUp) {
+                        upAnim();
+                    }
                 }
             }
         });
@@ -176,11 +150,8 @@ public class ClickEffectTextView extends AppCompatTextView {
         invalidate();
     }
 
-    private void startUpAnim() {
+    private void upAnim() {
         isStartUpAnim = true;
-        if (downAnimator != null && downAnimator.isRunning()) {
-            downAnimator.cancel();
-        }
         if (upAnimator != null && upAnimator.isRunning()) {
             upAnimator.cancel();
         }
@@ -191,7 +162,8 @@ public class ClickEffectTextView extends AppCompatTextView {
         });
 
         upAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override public void onAnimationEnd(Animator animation) {
+            @Override
+            public void onAnimationEnd(Animator animation) {
                 alpha = 0;
                 invalidate();
             }
@@ -199,5 +171,14 @@ public class ClickEffectTextView extends AppCompatTextView {
 
         upAnimator.setDuration(200);
         upAnimator.start();
+    }
+
+    public void startUpAnim() {
+        isAlreadyActionUp = true;
+        if (downAnimator != null && downAnimator.isRunning()) {
+            return;
+        } else {
+            upAnim();
+        }
     }
 }
