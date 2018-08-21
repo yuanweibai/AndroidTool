@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#4ba600"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -33,4 +34,13 @@
         android:layout_height="40dp"
         android:layout_margin="20dp"
         android:background="#f48309" />
+
+    <rango.tool.androidtool.view.CountDownTextView
+        android:id="@+id/count_down_text"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:text="10"
+        android:textColor="@color/blue"
+        android:textSize="18sp" />
 </LinearLayout>
