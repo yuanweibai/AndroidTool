@@ -155,6 +155,20 @@
             android:layout_height="wrap_content"
             android:text="Job Schedule"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/launch_mode_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Launch Mode"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/memory_leak_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Memory Leak"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 

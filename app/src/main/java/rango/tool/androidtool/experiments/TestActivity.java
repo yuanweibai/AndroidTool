@@ -18,7 +18,9 @@ import rango.tool.androidtool.experiments.activity.NavigationBarActivity;
 import rango.tool.androidtool.experiments.activity.ShapeActivity;
 import rango.tool.androidtool.experiments.activity.WindowActivity;
 import rango.tool.androidtool.job.JobActivity;
+import rango.tool.androidtool.launchmodel.LaunchMode1Activity;
 import rango.tool.androidtool.locker.LockerManager;
+import rango.tool.androidtool.memoryleak.MemoryLeakActivity;
 import rango.tool.androidtool.nestedscroll.NestedScrollActivity;
 import rango.tool.androidtool.workmanager.WorkManagerActivity;
 
@@ -63,7 +65,8 @@ public class TestActivity extends BaseActivity {
 
         });
 
-
+        findViewById(R.id.launch_mode_btn).setOnClickListener(v -> startActivity(LaunchMode1Activity.class));
+        findViewById(R.id.memory_leak_btn).setOnClickListener(v -> startActivity(MemoryLeakActivity.class));
     }
 
     @Override

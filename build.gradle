@@ -29,12 +29,12 @@ task clean(type: Delete) {
 }
 
 ext {
-    compileSdk = 26
+    compileSdk = 28
     targetSdk = 22
     minSdk = 16
-    support = "26.1.0"
+    support = '27.1.1'
     glide = "4.3.0"
-    buildTools = "26.0.2"
+    buildTools = "28.0.1"
     android_job = "1.2.0"
     kotlin = "1.2.10"
     workManager = "1.0.0-alpha04"

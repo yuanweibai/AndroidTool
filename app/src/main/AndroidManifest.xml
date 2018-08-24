@@ -71,6 +71,18 @@
         <activity android:name=".touch.TouchActivity" />
         <activity android:name=".workmanager.WorkManagerActivity" />
         <activity android:name=".job.JobActivity" />
+        <activity android:name=".launchmodel.LaunchMode1Activity"
+            android:launchMode="singleTask"
+            />
+        <activity
+            android:name=".launchmodel.LaunchMode2Activity"
+     />
+        <activity
+            android:name=".launchmodel.LaunchMode3Activity"
+            android:taskAffinity="com.xxx" />
+        <activity android:name=".memoryleak.MemoryLeakActivity" />
+        <activity android:name=".memoryleak.HandlerMemoryLeakActivity" />
+        <activity android:name=".memoryleak.StaticMemoryLeakActivity" />
     </application>
 
 </manifest>
