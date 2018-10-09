@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="#f1972a"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
@@ -102,5 +103,17 @@
         android:textColor="#000"
         android:textSize="18sp"
         android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/wallpaper_image_view"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/wallpaper_image_view_2"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

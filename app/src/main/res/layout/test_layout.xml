@@ -169,6 +169,20 @@
             android:layout_height="wrap_content"
             android:text="Memory Leak"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/potholer_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="挖洞"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/sticker_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="贴纸"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 

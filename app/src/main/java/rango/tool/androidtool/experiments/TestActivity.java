@@ -15,7 +15,9 @@ import rango.tool.androidtool.experiments.activity.AutoScrollActivity;
 import rango.tool.androidtool.experiments.activity.ButtonActivity;
 import rango.tool.androidtool.experiments.activity.CanvasActivity;
 import rango.tool.androidtool.experiments.activity.NavigationBarActivity;
+import rango.tool.androidtool.experiments.activity.PotholerActivity;
 import rango.tool.androidtool.experiments.activity.ShapeActivity;
+import rango.tool.androidtool.experiments.activity.StickerActivity;
 import rango.tool.androidtool.experiments.activity.WindowActivity;
 import rango.tool.androidtool.job.JobActivity;
 import rango.tool.androidtool.launchmodel.LaunchMode1Activity;
@@ -59,6 +61,8 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.anr_btn).setOnClickListener(v -> startActivity(AnrActivity.class));
         findViewById(R.id.work_manager).setOnClickListener(v -> startActivity(WorkManagerActivity.class));
         findViewById(R.id.job_btn).setOnClickListener(v -> startActivity(JobActivity.class));
+        findViewById(R.id.potholer_btn).setOnClickListener(v -> startActivity(PotholerActivity.class));
+        findViewById(R.id.sticker_btn).setOnClickListener(v -> startActivity(StickerActivity.class));
 
         RippleRelativeLayout layout = findViewById(R.id.click_effect_layout);
         findViewById(R.id.ripple_text).setOnClickListener(v -> {

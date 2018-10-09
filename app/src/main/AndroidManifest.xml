@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="rango.tool.androidtool"
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    package="rango.tool.androidtool"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,7 +15,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:hardwareAccelerated="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask">
@@ -83,6 +86,8 @@
         <activity android:name=".memoryleak.MemoryLeakActivity" />
         <activity android:name=".memoryleak.HandlerMemoryLeakActivity" />
         <activity android:name=".memoryleak.StaticMemoryLeakActivity" />
+        <activity android:name=".experiments.activity.PotholerActivity" />
+        <activity android:name=".experiments.activity.StickerActivity" />
     </application>
 
 </manifest>
