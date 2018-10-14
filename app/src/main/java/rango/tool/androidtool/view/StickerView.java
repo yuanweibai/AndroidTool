@@ -1,12 +1,9 @@
 package rango.tool.androidtool.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -24,7 +21,6 @@ public class StickerView extends RelativeLayout {
         initView();
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private void initView() {
         stickerImageView = findViewById(R.id.image_view);
         scaleRotationView = findViewById(R.id.scale_rotation_btn);
@@ -93,7 +89,6 @@ public class StickerView extends RelativeLayout {
                         float moveY = event.getRawY();
                         scaleImage(moveX, moveY);
                         rotationSticker(moveX, moveY);
-                        translation(moveX, moveY);
 
                         downX = moveX;
                         downY = moveY;
@@ -108,30 +103,49 @@ public class StickerView extends RelativeLayout {
             }
 
             private void scaleImage(float moveX, float moveY) {
-                float scale = stickerImageView.getScaleX() * (getDistance(moveX, moveY) / getDistance(downX, downY));
+                float oldScale = stickerImageView.getScaleX();
+
+                float deltaScale = (getDistance(moveX, moveY) / getDistance(downX, downY));
+                float scale = oldScale * deltaScale;
                 stickerImageView.setScaleY(scale);
                 stickerImageView.setScaleX(scale);
+
+                float tx = (stickerImageView.getWidth() * (scale - oldScale)) / 2f;
+                float ty = (stickerImageView.getHeight() * (scale - oldScale)) / 2f;
+                translateEditBtn(tx, ty);
             }
 
             private void rotationSticker(float moveX, float moveY) {
-                stickerImageView.setRotation(stickerImageView.getRotation() + getRotateDegree(moveX, moveY));
+                float rotation = stickerImageView.getRotation() + getRotateDegree(moveX, moveY);
+                float deltaRotation = rotation - stickerImageView.getRotation();
+                stickerImageView.setRotation(rotation);
+
+                float halfWidth = stickerImageView.getWidth() * stickerImageView.getScaleX() / 2f;
+                float halfHeight = stickerImageView.getHeight() * stickerImageView.getScaleY() / 2f;
+
+                closeBtn.setPivotX(halfWidth + closeBtn.getWidth() / 2f);
+                closeBtn.setPivotY(halfHeight + closeBtn.getHeight() / 2f);
+
+                scaleRotationView.setPivotX(-(halfWidth - scaleRotationView.getWidth() / 2f));
+                scaleRotationView.setPivotY(-(halfHeight - scaleRotationView.getHeight() / 2f));
+
+                scaleRotationView.setRotation(scaleRotationView.getRotation() + deltaRotation);
+                closeBtn.setRotation(closeBtn.getRotation() + deltaRotation);
             }
 
-            private void translation(float moveX, float moveY) {
-                scaleRotationView.setTranslationX(scaleRotationView.getTranslationX() + moveX - downX);
-                scaleRotationView.setTranslationY(scaleRotationView.getTranslationY() + moveY - downY);
+            private void translateEditBtn(float tx, float ty) {
+                scaleRotationView.setTranslationX(scaleRotationView.getTranslationX() + tx);
+                scaleRotationView.setTranslationY(scaleRotationView.getTranslationY() + ty);
 
-                closeBtn.setTranslationX(closeBtn.getTranslationX() + (downX - moveX));
-                closeBtn.setTranslationY(closeBtn.getTranslationY() + (downY - moveY));
+                closeBtn.setTranslationX(closeBtn.getTranslationX() - tx);
+                closeBtn.setTranslationY(closeBtn.getTranslationY() - ty);
             }
 
             private float getRotateDegree(float moveX, float moveY) {
                 double lastRad = Math.atan2(downY - centerY, downX - centerX);
                 double currentRad = Math.atan2(moveY - centerY, moveX - centerX);
                 double rad = currentRad - lastRad;
-                float result = (float) Math.toDegrees(rad);
-                Log.e("rotate degree", "result = " + result);
-                return result;
+                return (float) Math.toDegrees(rad);
             }
 
             private float getDistance(float x, float y) {
@@ -139,12 +153,6 @@ public class StickerView extends RelativeLayout {
                 float tempY = Math.abs(y - centerY);
                 return (float) Math.sqrt(tempX * tempX + tempY * tempY);
             }
-
-            private boolean isInvalid(float moveX, float moveY) {
-                int touchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-                return Math.abs(moveX - downX) <= touchSlop && Math.abs(moveY - downY) <= touchSlop;
-            }
         });
-
     }
 }

@@ -6,33 +6,40 @@
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/image_border_shape"
-        android:padding="15dp"
-        android:src="@drawable/solon" />
+        android:layout_width="141dp"
+        android:layout_height="141dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="132dp"
+        android:src="@drawable/solon"
+        android:padding="12dp"
+        android:background="@drawable/image_border_shape" />
 
     <ImageView
         android:id="@+id/close_btn"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignLeft="@id/image_view"
         android:layout_alignStart="@id/image_view"
         android:layout_alignTop="@id/image_view"
-        android:background="#ff0101"
-        android:translationX="-15dp"
-        android:translationY="-15dp" />
+        android:layout_marginLeft="-12dp"
+        android:layout_marginStart="-12dp"
+        android:layout_marginTop="-12dp"
+        android:background="@drawable/sticker_view_close_circle_ripple"
+        android:scaleType="centerInside"
+        android:src="@drawable/sticker_close_icon" />
 
     <ImageView
         android:id="@+id/scale_rotation_btn"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignBottom="@id/image_view"
         android:layout_alignEnd="@id/image_view"
         android:layout_alignRight="@id/image_view"
-        android:background="#ff8400"
-        android:translationX="15dp"
-        android:translationY="15dp" />
+        android:layout_marginBottom="-12dp"
+        android:layout_marginEnd="-12dp"
+        android:layout_marginRight="-12dp"
+        android:background="@drawable/sticker_view_close_circle_ripple"
+        android:scaleType="centerInside"
+        android:src="@drawable/sticker_scale_rotation_icon" />
 
 </RelativeLayout>
