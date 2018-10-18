@@ -67,11 +67,16 @@ public class StickerView extends RelativeLayout {
 
         scaleRotationView.setOnTouchListener(new OnTouchListener() {
 
+            private final float MIN_SCALE = 80f / 141f;
             private float downX;
             private float downY;
 
             private float centerX = 0f;
             private float centerY = 0f;
+
+            private float lastScale = -1f;
+
+            private float minD = 0f;
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -81,6 +86,9 @@ public class StickerView extends RelativeLayout {
                         initViewCenterXY();
                         downX = event.getRawX();
                         downY = event.getRawY();
+                        float w = MIN_SCALE * stickerImageView.getWidth();
+                        float h = MIN_SCALE * stickerImageView.getHeight();
+                        minD = (float) (Math.sqrt(w * w + h * h) / 2f);
                         break;
                     case MotionEvent.ACTION_MOVE:
                     case MotionEvent.ACTION_UP:
@@ -103,10 +111,19 @@ public class StickerView extends RelativeLayout {
             }
 
             private void scaleImage(float moveX, float moveY) {
-                float oldScale = stickerImageView.getScaleX();
 
+                float moveDistance = getDistance(downX, downY);
+                if (moveDistance < minD) {
+                    return;
+                }
+                float oldScale = stickerImageView.getScaleX();
                 float deltaScale = (getDistance(moveX, moveY) / getDistance(downX, downY));
                 float scale = oldScale * deltaScale;
+
+                if (scale < MIN_SCALE) {
+                    return;
+                }
+
                 stickerImageView.setScaleY(scale);
                 stickerImageView.setScaleX(scale);
 

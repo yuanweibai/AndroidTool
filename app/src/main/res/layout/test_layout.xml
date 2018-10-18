@@ -141,7 +141,6 @@
             android:src="@drawable/solon"
             app:radius="10dp" />
 
-
         <Button
             android:id="@+id/work_manager"
             android:layout_width="match_parent"
