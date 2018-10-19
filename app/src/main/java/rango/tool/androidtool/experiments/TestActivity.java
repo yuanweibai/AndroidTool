@@ -29,6 +29,7 @@ import rango.tool.androidtool.workmanager.WorkManagerActivity;
 
 public class TestActivity extends BaseActivity {
 
+    private View view;
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -63,7 +64,9 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.work_manager).setOnClickListener(v -> startActivity(WorkManagerActivity.class));
         findViewById(R.id.job_btn).setOnClickListener(v -> startActivity(JobActivity.class));
         findViewById(R.id.potholer_btn).setOnClickListener(v -> startActivity(PotholerActivity.class));
-        findViewById(R.id.sticker_btn).setOnClickListener(v -> startActivity(StickerActivity.class));
+        findViewById(R.id.sticker_btn).setOnClickListener(v -> {
+            startActivity(StickerActivity.class);
+        });
 
         RippleRelativeLayout layout = findViewById(R.id.click_effect_layout);
         findViewById(R.id.ripple_text).setOnClickListener(v -> {
