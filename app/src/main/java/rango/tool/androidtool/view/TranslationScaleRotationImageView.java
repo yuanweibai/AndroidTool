@@ -47,17 +47,15 @@ public class TranslationScaleRotationImageView extends RelativeLayout {
                 int downIndex = event.findPointerIndex(0);
                 downX = event.getX(downIndex);
                 downY = event.getY(downIndex);
-                imageView.setRotation(50);
                 break;
             case MotionEvent.ACTION_MOVE:
                 int moveIndex = event.findPointerIndex(0);
                 if (moveIndex != -1) {
                     float moveX = event.getX(moveIndex);
                     float moveY = event.getY(moveIndex);
-                    couldTranslate(moveX, moveY);
-                    float deltaX = moveX - downX;
-                    float deltaY = moveY - downY;
-                    translation(deltaX, deltaY);
+                    if (couldTranslate(moveX, moveY)) {
+                        translation(moveX, moveY);
+                    }
                     downX = moveX;
                     downY = moveY;
                 }
@@ -72,7 +70,6 @@ public class TranslationScaleRotationImageView extends RelativeLayout {
     }
 
     private boolean couldTranslate(float moveX, float moveY) {
-
         float degree = imageView.getRotation();
         float[] center = getImageViewCenterPoint();
         float de = (float) Math.atan((moveY - center[1]) / moveX - center[0]);
@@ -92,11 +89,7 @@ public class TranslationScaleRotationImageView extends RelativeLayout {
         float right = center[0] + halfWidth;
         float bottom = center[1] + halfHeight;
 
-        if (x > left && x < right && y > top && y < bottom) {
-            return true;
-        } else {
-            return false;
-        }
+        return x > left && x < right && y > top && y < bottom;
     }
 
     private float[] getImageViewCenterPoint() {
@@ -106,9 +99,9 @@ public class TranslationScaleRotationImageView extends RelativeLayout {
         return result;
     }
 
-    private void translation(float tx, float ty) {
-        imageView.setTranslationX(imageView.getTranslationX() + tx);
-        imageView.setTranslationY(imageView.getTranslationY() + ty);
+    private void translation(float moveX, float moveY) {
+        imageView.setTranslationX(imageView.getTranslationX() + (moveX - downX));
+        imageView.setTranslationY(imageView.getTranslationY() + (moveY - downY));
     }
 
     private void scale(float sx, float sy) {
