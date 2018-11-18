@@ -106,14 +106,16 @@
 
     <ImageView
         android:id="@+id/wallpaper_image_view"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_gravity="center_horizontal"
-        android:layout_height="wrap_content" />
+        android:layout_height="100dp"
+        android:background="#fff"
+        />
 
     <ImageView
         android:id="@+id/wallpaper_image_view_2"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_gravity="center_horizontal"
-        android:layout_height="wrap_content" />
+        android:layout_height="100dp" />
 
 </LinearLayout>

@@ -1,15 +1,17 @@
 package rango.tool.androidtool.experiments.activity;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+
+import rango.tool.androidtool.GlideApp;
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
-import rango.tool.androidtool.util.BitmapUtils;
 
 public class ShapeActivity extends BaseActivity {
     private static final String picUrl = "http://cdn.appcloudbox.net/launcherapps/apps/launcher/themes/themes_hot_themebanner/chalk.png";
@@ -25,30 +27,53 @@ public class ShapeActivity extends BaseActivity {
         imageView = findViewById(R.id.image_view);
         tempText = findViewById(R.id.temp_text);
         wallpaperImageView = findViewById(R.id.wallpaper_image_view);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.lucky_toy_uncollected);
-        Bitmap result = BitmapUtils.addWhiteCircleBorderToBitmap(bitmap, 20);
-        wallpaperImageView.setImageBitmap(result);
-        imageView.setImageBitmap(bitmap);
+//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.lucky_toy_uncollected);
+//        Bitmap result = BitmapUtils.addWhiteCircleBorderToBitmap(bitmap, 20);
+//        wallpaperImageView.setImageBitmap(result);
+//        imageView.setImageBitmap(bitmap);
+
+//            InputStream in = null;
+//            in = getResources().getAssets().open("anim_drar.webp");
+//            final FrameSequenceDrawable drawable = new FrameSequenceDrawable(in);
+//            drawable.setLoopCount(1);
+//            drawable.setLoopBehavior(FrameSequenceDrawable.LOOP_FINITE);
+//            drawable.setOnFinishedListener(new FrameSequenceDrawable.OnFinishedListener() {
+//                @Override
+//                public void onFinished(FrameSequenceDrawable frameSequenceDrawable) {
+//
+//                }
+//            });
+
+        RequestOptions options =
+                new RequestOptions()
+                        .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).diskCacheStrategy(DiskCacheStrategy.NONE);
+        GlideApp.with(this)
+                .load("file:///android_asset/anim.webp")
+                .into(wallpaperImageView);
+//        Glide.with(this)
+//                .load("file:///android_asset/sticker1.webp")
+//                .apply(options).transition(new DrawableTransitionOptions().crossFade(200))
+//                .into(imageView2);
+
+//        GlideApp.with(this)
+//                .load(getResources().getDrawable(R.drawable.lucky_toy_uncollected))
+//                .into(wallpaperImageView);
+
+//            wallpaperImageView.setImageResource(R.drawable.lucky_toy_uncollected);
+
 
         toyImageView = findViewById(R.id.wallpaper_image_view_2);
-        Bitmap bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.game_promotion_top_part_man);
-        Bitmap result2 = BitmapUtils.addWhiteCircleBorderToBitmap(bitmap2, 20);
-        toyImageView.setImageBitmap(result2);
+//        toyImageView
+//        Bitmap bitmap2 = BitmapFactory.decodeResource(getResources(), R.drawable.game_promotion_top_part_man);
+//        Bitmap result2 = BitmapUtils.addWhiteCircleBorderToBitmap(bitmap2, 20);
+//        toyImageView.setImageBitmap(result2);
 
-//        GlideApp.with(ShapeActivity.this)
-//                .load(picUrl)
-//                .placeholder(R.drawable.load_image_default)
-//                .error(R.drawable.load_image_error)
-//                .into(new ImageViewTarget<Drawable>(imageView) {
-//                    @Override
-//                    protected void setResource(@Nullable Drawable resource) {
-//                        Log.e("rango", "Glide#into()#setResource()");
-//                        this.view.setImageDrawable(resource);
-//                        tempText.setVisibility(View.VISIBLE);
-//                    }
-//
-//
-//                });
+        String url = "http://omsproductionimg.yangkeduo./images/label/610/GS4X5Ojt5TlVPuAtNGqr2hywByGs2FHN.jpg@120w_1l_50Q.webp";
+        GlideApp.with(ShapeActivity.this)
+                .load(url)
+                .placeholder(R.drawable.lucky_toy_uncollected)
+                .error(R.drawable.lucky_toy_uncollected)
+                .into(toyImageView);
 
     }
 }

@@ -32,7 +32,6 @@
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/ripple_drawable"
             android:gravity="center"
             android:text="32"
             android:textColor="#000"

@@ -82,4 +82,9 @@ public class TestActivity extends BaseActivity {
         unregisterReceiver(broadcastReceiver);
         super.onDestroy();
     }
+
+    private void stickerClick() {
+        view.setVisibility(View.VISIBLE);
+
+    }
 }
