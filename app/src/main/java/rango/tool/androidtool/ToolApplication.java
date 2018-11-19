@@ -1,12 +1,20 @@
 package rango.tool.androidtool;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.ResourceDecoder;
 import com.evernote.android.job.JobManager;
+
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 
 import rango.tool.androidtool.base.BaseApplication;
 import rango.tool.androidtool.job.MainJobCreator;
+import rango.tool.androidtool.webp.libwebp.WebpBytebufferDecoder;
+import rango.tool.androidtool.webp.libwebp.WebpResourceDecoder;
 import rango.tool.androidtool.workmanager.ToolWorkManager;
 import rango.tool.common.utils.Worker;
 
@@ -25,6 +33,13 @@ public class ToolApplication extends BaseApplication {
         }
 
         ToolWorkManager.init();
+
+        ResourceDecoder decoder = new WebpResourceDecoder(this);
+        ResourceDecoder byteDecoder = new WebpBytebufferDecoder(this);
+        // use prepend() avoid intercept by default decoder
+        Glide.get(this).getRegistry()
+                .prepend(InputStream.class, Drawable.class, decoder)
+                .prepend(ByteBuffer.class, Drawable.class, byteDecoder);
     }
 
     @Override

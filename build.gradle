@@ -33,7 +33,6 @@ ext {
     targetSdk = 22
     minSdk = 16
     support = '27.1.1'
-    glide = "4.8.0"
     buildTools = "28.0.1"
     android_job = "1.2.0"
     kotlin = "1.2.10"
