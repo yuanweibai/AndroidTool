@@ -11,8 +11,6 @@ do
 		fullname=$(basename $file)
 		filename=$(echo $fullname | cut -d . -f1)
 		echo $filename
-		./bin/cwebp -q 75 $file -o $fileFolderPath/webp/$filename.webp
+		./bin/gif2webp -q 75 -lossy -m 6 $file -o $fileFolderPath/webp/$filename.webp
 	fi
 done
-
-echo "Cwebp images successfully!!!"

@@ -2,8 +2,6 @@ package rango.tool.androidtool.touch;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.widget.RelativeLayout;
 
 public class TouchLayout extends RelativeLayout {
@@ -22,23 +20,23 @@ public class TouchLayout extends RelativeLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                Log.e(TAG, "ACTION_DOWN");
-                break;
-            case MotionEvent.ACTION_MOVE:
-                Log.e(TAG, "ACTION_MOVE");
-                break;
-            case MotionEvent.ACTION_UP:
-                Log.e(TAG, "ACTION_UP");
-                break;
-            default:
-                Log.e(TAG, "DEFAULT");
-                break;
-        }
-
-        return true;
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                Log.e(TAG, "ACTION_DOWN");
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                Log.e(TAG, "ACTION_MOVE");
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                Log.e(TAG, "ACTION_UP");
+//                break;
+//            default:
+//                Log.e(TAG, "DEFAULT");
+//                break;
+//        }
+//
+//        return true;
+//    }
 }

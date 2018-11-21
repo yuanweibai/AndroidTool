@@ -3,6 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <rango.tool.androidtool.touch.TestTouchLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFC107" />
+
     <rango.tool.androidtool.touch.TouchLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -11,8 +17,10 @@
         <rango.tool.androidtool.touch.MyImageView
             android:id="@+id/image_view"
             android:layout_width="100dp"
+            android:clickable="true"
             android:layout_height="100dp"
-            android:background="#e48282" />
+            android:background="#e48282"
+            android:focusable="true" />
     </rango.tool.androidtool.touch.TouchLayout>
 
 

@@ -13,13 +13,13 @@ do
 		filename=$(echo $fullname | cut -d . -f1)
 		echo $filename
 		if [[ ${file##*.} != "webp" ]]; then
-			cwebp -q 75 $file -o $fileFolderPath/webp/$filename.webp
-			anim=$anim"-frame "$fileFolderPath/webp/$filename.webp" +45+0+0+0-b "
+			./bin/cwebp -q 75 $file -o $fileFolderPath/webp/$filename.webp
+			anim=$anim"-frame "$fileFolderPath/webp/$filename.webp" +40+0+0+0-b "
 		else 
-			anim=$anim"-frame "$file" +45+0+0+0-b "
+			anim=$anim"-frame "$file" +40+0+0+0-b "
 		fi
 	fi
 done
 mkdir $fileFolderPath/webp/anim
 echo "---------webpmux command: " $anim
-webpmux $anim -loop 0 -o $fileFolderPath/webp/anim/anim.webp
+./bin/webpmux $anim -loop 0 -o $fileFolderPath/webp/anim/anim.webp
