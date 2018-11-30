@@ -1,7 +1,12 @@
 package rango.tool.androidtool.experiments.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,11 +49,28 @@ public class ShapeActivity extends BaseActivity {
 //                }
 //            });
 
+        findViewById(R.id.anim_btn).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                wallpaperImageView.setTranslationX(40);
+                Log.e("rnago", "translationX = " + wallpaperImageView.getTranslationX());
+                ObjectAnimator animator = ObjectAnimator.ofFloat(wallpaperImageView, "translationX", 50);
+                animator.addListener(new AnimatorListenerAdapter() {
+                    @Override public void onAnimationEnd(Animator animation) {
+                        Log.e("rnago", "end-translationX = " + wallpaperImageView.getTranslationX());
+                    }
+                });
+                animator.setDuration(300);
+                animator.start();
+
+
+            }
+        });
+
         RequestOptions options =
                 new RequestOptions()
                         .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(this)
-                .load("file:///android_asset/anim.webp")
+                .load("file:///android_asset/small.webp")
                 .into(wallpaperImageView);
 //        Glide.with(this)
 //                .load("file:///android_asset/sticker1.webp")

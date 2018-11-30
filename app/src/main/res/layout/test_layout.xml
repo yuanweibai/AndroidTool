@@ -181,6 +181,13 @@
             android:layout_height="wrap_content"
             android:text="贴纸"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/stack_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="栈溢出"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 

@@ -18,6 +18,7 @@ import rango.tool.androidtool.experiments.activity.CanvasActivity;
 import rango.tool.androidtool.experiments.activity.NavigationBarActivity;
 import rango.tool.androidtool.experiments.activity.PotholerActivity;
 import rango.tool.androidtool.experiments.activity.ShapeActivity;
+import rango.tool.androidtool.experiments.activity.StackActivity;
 import rango.tool.androidtool.experiments.activity.StickerActivity;
 import rango.tool.androidtool.experiments.activity.WindowActivity;
 import rango.tool.androidtool.job.JobActivity;
@@ -64,6 +65,7 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.work_manager).setOnClickListener(v -> startActivity(WorkManagerActivity.class));
         findViewById(R.id.job_btn).setOnClickListener(v -> startActivity(JobActivity.class));
         findViewById(R.id.potholer_btn).setOnClickListener(v -> startActivity(PotholerActivity.class));
+        findViewById(R.id.stack_btn).setOnClickListener(v -> startActivity(StackActivity.class));
         findViewById(R.id.sticker_btn).setOnClickListener(v -> {
             startActivity(StickerActivity.class);
         });
