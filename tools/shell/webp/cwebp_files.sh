@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 echo "Please enter file folder path"
 read fileFolderPath
-mkdir $fileFolderPath/webp/
+mkdir $fileFolderPath/0_webp/
 for file in $fileFolderPath/*
 do
 	if [[ -d $file ]]; then
@@ -11,7 +11,7 @@ do
 		fullname=$(basename $file)
 		filename=$(echo $fullname | cut -d . -f1)
 		echo $filename
-		./bin/cwebp -q 75 $file -o $fileFolderPath/webp/$filename.webp
+		./bin/cwebp -q 75 $file -o $fileFolderPath/0_webp/$filename.webp
 	fi
 done
 

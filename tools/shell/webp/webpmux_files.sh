@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 echo "Please enter file folder path"
 read fileFolderPath
-mkdir $fileFolderPath/webp
+mkdir $fileFolderPath/0_webp
 anim=""
 for file in $fileFolderPath/*
 do
@@ -13,13 +13,13 @@ do
 		filename=$(echo $fullname | cut -d . -f1)
 		echo $filename
 		if [[ ${file##*.} != "webp" ]]; then
-			./bin/cwebp -q 75 $file -o $fileFolderPath/webp/$filename.webp
-			anim=$anim"-frame "$fileFolderPath/webp/$filename.webp" +40+0+0+0-b "
+			./bin/cwebp -q 75 $file -o $fileFolderPath/0_webp/$filename.webp
+			anim=$anim"-frame "$fileFolderPath/0_webp/$filename.webp" +40+0+0+0-b "
 		else 
 			anim=$anim"-frame "$file" +40+0+0+0-b "
 		fi
 	fi
 done
-mkdir $fileFolderPath/webp/anim
+mkdir $fileFolderPath/0_webp/0_anim_webp
 echo "---------webpmux command: " $anim
-./bin/webpmux $anim -loop 0 -o $fileFolderPath/webp/anim/anim.webp
+./bin/webpmux $anim -loop 0 -o $fileFolderPath/0_webp/0_anim_webp/anim.webp

@@ -89,6 +89,7 @@
         <activity android:name=".experiments.activity.PotholerActivity" />
         <activity android:name=".experiments.activity.StickerActivity" />
         <activity android:name=".experiments.activity.StackActivity" />
+        <activity android:name=".experiments.activity.ProgressBarActivity" />
     </application>
 
 </manifest>

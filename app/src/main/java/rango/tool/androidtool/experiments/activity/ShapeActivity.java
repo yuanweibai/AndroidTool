@@ -61,8 +61,6 @@ public class ShapeActivity extends BaseActivity {
                 });
                 animator.setDuration(300);
                 animator.start();
-
-
             }
         });
 
@@ -70,7 +68,7 @@ public class ShapeActivity extends BaseActivity {
                 new RequestOptions()
                         .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(this)
-                .load("file:///android_asset/small.webp")
+                .load("file:///android_asset/anim.webp")
                 .into(wallpaperImageView);
 //        Glide.with(this)
 //                .load("file:///android_asset/sticker1.webp")
