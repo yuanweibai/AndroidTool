@@ -23,6 +23,7 @@ import rango.tool.androidtool.experiments.activity.StackActivity;
 import rango.tool.androidtool.experiments.activity.StickerActivity;
 import rango.tool.androidtool.experiments.activity.WindowActivity;
 import rango.tool.androidtool.job.JobActivity;
+import rango.tool.androidtool.keyboard.KeyboardActivity;
 import rango.tool.androidtool.launchmodel.LaunchMode1Activity;
 import rango.tool.androidtool.locker.LockerManager;
 import rango.tool.androidtool.memoryleak.MemoryLeakActivity;
@@ -79,6 +80,8 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.launch_mode_btn).setOnClickListener(v -> startActivity(LaunchMode1Activity.class));
         findViewById(R.id.memory_leak_btn).setOnClickListener(v -> startActivity(MemoryLeakActivity.class));
         findViewById(R.id.progress_btn).setOnClickListener(v -> startActivity(ProgressBarActivity.class));
+
+        findViewById(R.id.keyboard_btn).setOnClickListener(v -> startActivity(KeyboardActivity.class));
     }
 
     @Override

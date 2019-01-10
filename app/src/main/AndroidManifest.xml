@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:tools="http://schemas.android.com/tools"
-    package="rango.tool.androidtool"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest package="rango.tool.androidtool"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -11,11 +11,11 @@
     <application
         android:name=".ToolApplication"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
@@ -74,12 +74,10 @@
         <activity android:name=".touch.TouchActivity" />
         <activity android:name=".workmanager.WorkManagerActivity" />
         <activity android:name=".job.JobActivity" />
-        <activity android:name=".launchmodel.LaunchMode1Activity"
-            android:launchMode="singleTask"
-            />
         <activity
-            android:name=".launchmodel.LaunchMode2Activity"
-     />
+            android:name=".launchmodel.LaunchMode1Activity"
+            android:launchMode="singleTask" />
+        <activity android:name=".launchmodel.LaunchMode2Activity" />
         <activity
             android:name=".launchmodel.LaunchMode3Activity"
             android:taskAffinity="com.xxx" />
@@ -90,6 +88,10 @@
         <activity android:name=".experiments.activity.StickerActivity" />
         <activity android:name=".experiments.activity.StackActivity" />
         <activity android:name=".experiments.activity.ProgressBarActivity" />
+        <activity
+            android:name=".keyboard.KeyboardActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
     </application>
 
 </manifest>
