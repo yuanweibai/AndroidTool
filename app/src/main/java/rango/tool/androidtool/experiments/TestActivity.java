@@ -11,13 +11,16 @@ import android.view.View;
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.clickeffect.RippleRelativeLayout;
+import rango.tool.androidtool.dialog.ToolDialog;
 import rango.tool.androidtool.experiments.activity.AnrActivity;
 import rango.tool.androidtool.experiments.activity.AutoScrollActivity;
+import rango.tool.androidtool.experiments.activity.BroadcastActivity;
 import rango.tool.androidtool.experiments.activity.ButtonActivity;
 import rango.tool.androidtool.experiments.activity.CanvasActivity;
 import rango.tool.androidtool.experiments.activity.NavigationBarActivity;
 import rango.tool.androidtool.experiments.activity.PotholerActivity;
 import rango.tool.androidtool.experiments.activity.ProgressBarActivity;
+import rango.tool.androidtool.experiments.activity.ServiceActivity;
 import rango.tool.androidtool.experiments.activity.ShapeActivity;
 import rango.tool.androidtool.experiments.activity.StackActivity;
 import rango.tool.androidtool.experiments.activity.StickerActivity;
@@ -82,6 +85,10 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.progress_btn).setOnClickListener(v -> startActivity(ProgressBarActivity.class));
 
         findViewById(R.id.keyboard_btn).setOnClickListener(v -> startActivity(KeyboardActivity.class));
+
+        findViewById(R.id.service_btn).setOnClickListener(v -> startActivity(ServiceActivity.class));
+        findViewById(R.id.broadcast_btn).setOnClickListener(v -> startActivity(BroadcastActivity.class));
+        findViewById(R.id.dialog_btn).setOnClickListener(v -> showDialogFragment(ToolDialog.newInstance()));
     }
 
     @Override
@@ -90,8 +97,8 @@ public class TestActivity extends BaseActivity {
         super.onDestroy();
     }
 
-    private void stickerClick() {
-        view.setVisibility(View.VISIBLE);
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

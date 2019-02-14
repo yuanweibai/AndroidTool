@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/start_service_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="启动服务"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/stop_service_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="停止服务"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/bind_service_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="绑定服务"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/unbind_service_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="解绑服务"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/bind_intent_service_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="绑定自动销毁的服务"
+        android:textAllCaps="false" />
+
+
+    <Button
+        android:id="@+id/delay_start_service_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="延迟启动服务"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/background_thread_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="后台线程"
+        android:textAllCaps="false" />
+
+</LinearLayout>

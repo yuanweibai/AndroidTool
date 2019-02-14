@@ -202,6 +202,27 @@
             android:layout_height="wrap_content"
             android:text="键盘"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/service_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="服务"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/broadcast_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="广播"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/dialog_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="dialog"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 

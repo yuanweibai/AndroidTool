@@ -43,11 +43,11 @@ public class ToolWorkManager {
     }
 
     public void testDelay() {
-        String msg = "start: type = work_delay_1, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 10s;\n";
-        writeMsg(msg);
+        String msg = "start: type = work_delay_1, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 120s;\n";
+//        writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_DELAY,
                 OneTimeWorker.class,
-                10,
+                120,
                 TimeUnit.SECONDS)
                 .build();
         workManager.enqueue(request);

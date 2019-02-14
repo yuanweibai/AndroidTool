@@ -1,6 +1,7 @@
 package rango.tool.common.utils;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -116,7 +117,8 @@ public class FileUtils {
             fileWriter.write(content);
             return true;
         } catch (IOException e) {
-            throw new RuntimeException("IOException occurred. ", e);
+            Log.e("ee", e.getMessage());
+            return false;
         } finally {
             try {
                 if (fileWriter != null) {

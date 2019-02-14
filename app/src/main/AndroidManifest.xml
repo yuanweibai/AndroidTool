@@ -8,6 +8,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+
+    <permission
+        android:name="android.tool.permission.TEST_BROADCAST_RECEIVER"
+        android:protectionLevel="signature" />
+
     <application
         android:name=".ToolApplication"
         android:allowBackup="true"
@@ -92,6 +97,20 @@
             android:name=".keyboard.KeyboardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity android:name=".experiments.activity.ServiceActivity" />
+        <activity android:name=".experiments.activity.BroadcastActivity" />
+        <activity android:name=".fresco.FrescoActivity" />
+
+        <service android:name=".service.TestService" />
+        <service android:name=".service.MyService" />
+
+        <receiver
+            android:name=".receiver.TestBroadcastReceiver"
+            android:permission="android.tool.permission.TEST_BROADCAST_RECEIVER">
+            <intent-filter>
+                <action android:name="com.example.normal.receiver" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

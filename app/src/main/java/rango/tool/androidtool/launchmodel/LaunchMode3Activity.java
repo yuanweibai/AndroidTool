@@ -37,4 +37,29 @@ public class LaunchMode3Activity extends BaseActivity {
         super.onRestart();
         Log.e("rango3","onRestart()");
     }
+
+    @Override protected void onPause() {
+        super.onPause();
+        Log.e("rango3","onPause()");
+    }
+
+    @Override protected void onStop() {
+        super.onStop();
+        Log.e("rango3","onStop()");
+    }
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        Log.e("rango3","onDestroy()");
+    }
+
+    @Override public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        Log.e("rango3","onAttachedToWindow()");
+    }
+
+    @Override public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        Log.e("rango3","onDetachedFromWindow()");
+    }
 }

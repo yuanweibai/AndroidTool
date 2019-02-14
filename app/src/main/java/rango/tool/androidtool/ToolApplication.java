@@ -7,6 +7,7 @@ import android.util.Log;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.ResourceDecoder;
 import com.evernote.android.job.JobManager;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -32,6 +33,7 @@ public class ToolApplication extends BaseApplication {
 //            JobConfig.setAllowSmallerIntervalsForMarshmallow(true);
         }
 
+        Fresco.initialize(this);
         ToolWorkManager.init();
 
         ResourceDecoder decoder = new WebpResourceDecoder(this);
