@@ -24,6 +24,7 @@ import rango.tool.androidtool.experiments.activity.ServiceActivity;
 import rango.tool.androidtool.experiments.activity.ShapeActivity;
 import rango.tool.androidtool.experiments.activity.StackActivity;
 import rango.tool.androidtool.experiments.activity.StickerActivity;
+import rango.tool.androidtool.experiments.activity.WaterMarkActivity;
 import rango.tool.androidtool.experiments.activity.WindowActivity;
 import rango.tool.androidtool.job.JobActivity;
 import rango.tool.androidtool.keyboard.KeyboardActivity;
@@ -89,6 +90,7 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.service_btn).setOnClickListener(v -> startActivity(ServiceActivity.class));
         findViewById(R.id.broadcast_btn).setOnClickListener(v -> startActivity(BroadcastActivity.class));
         findViewById(R.id.dialog_btn).setOnClickListener(v -> showDialogFragment(ToolDialog.newInstance()));
+        findViewById(R.id.water_mark_btn).setOnClickListener(v -> startActivity(WaterMarkActivity.class));
     }
 
     @Override

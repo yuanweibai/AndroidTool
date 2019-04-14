@@ -3,17 +3,16 @@ package rango.tool.androidtool.workmanager;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.concurrent.TimeUnit;
 
-import androidx.work.Configuration;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
 import androidx.work.Worker;
-import rango.tool.androidtool.ToolApplication;
 import rango.tool.common.utils.FileUtils;
 import rango.tool.common.utils.TimeUtils;
 
@@ -38,13 +37,9 @@ public class ToolWorkManager {
         return instance;
     }
 
-    public static void init() {
-        WorkManager.initialize(ToolApplication.getContext(), new Configuration.Builder().build());
-    }
-
     public void testDelay() {
         String msg = "start: type = work_delay_1, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 120s;\n";
-//        writeMsg(msg);
+        writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_DELAY,
                 OneTimeWorker.class,
                 120,
@@ -57,7 +52,7 @@ public class ToolWorkManager {
         String msg = "start: type = work_delay_2, start_time = " + TimeUtils.getCurrentTime() + ", delay_time = 14s;\n";
         writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_DELAY,
-                OneTimeWorker.class,
+                OneTimeWorker2.class,
                 14,
                 TimeUnit.SECONDS)
                 .build();
@@ -76,12 +71,13 @@ public class ToolWorkManager {
     }
 
     public void testPeriodic() {
-        String msg = "start: type = work_periodic_1, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 2h;\n";
+        String msg = "start: type = work_periodic_1, start_time = " + TimeUtils.getCurrentTime() + ", periodic_time = 15m;\n";
+        Log.d(PeriodicWorker.TAG,msg);
         writeMsg(msg);
         WorkRequest request = new Builder(Builder.WorkType.WORK_PERIODIC,
                 PeriodicWorker.class,
-                2,
-                TimeUnit.HOURS)
+                15,
+                TimeUnit.MINUTES)
                 .addTag(PeriodicWorker.WORKER_TAG)
                 .build();
         workManager.enqueue(request);

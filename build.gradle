@@ -36,5 +36,5 @@ ext {
     buildTools = "28.0.1"
     android_job = "1.2.0"
     kotlin = "1.2.10"
-    workManager = "1.0.0-alpha04"
+    workManager = "1.0.0"
 }

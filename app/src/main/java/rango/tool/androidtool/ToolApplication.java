@@ -16,7 +16,6 @@ import rango.tool.androidtool.base.BaseApplication;
 import rango.tool.androidtool.job.MainJobCreator;
 import rango.tool.androidtool.webp.libwebp.WebpBytebufferDecoder;
 import rango.tool.androidtool.webp.libwebp.WebpResourceDecoder;
-import rango.tool.androidtool.workmanager.ToolWorkManager;
 import rango.tool.common.utils.Worker;
 
 public class ToolApplication extends BaseApplication {
@@ -34,7 +33,6 @@ public class ToolApplication extends BaseApplication {
         }
 
         Fresco.initialize(this);
-        ToolWorkManager.init();
 
         ResourceDecoder decoder = new WebpResourceDecoder(this);
         ResourceDecoder byteDecoder = new WebpBytebufferDecoder(this);
