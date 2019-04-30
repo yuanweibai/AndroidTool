@@ -230,6 +230,13 @@
             android:layout_height="wrap_content"
             android:text="加水印"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/scroll_recycler_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="嵌套滚动recyclerView"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 

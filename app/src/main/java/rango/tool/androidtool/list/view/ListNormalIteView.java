@@ -3,6 +3,7 @@ package rango.tool.androidtool.list.view;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.list.adapter.BaseItemView;
@@ -23,6 +24,11 @@ public class ListNormalIteView extends BaseItemView {
 
     private void initView() {
         textView = findViewById(R.id.text);
+
+        findViewById(R.id.image_view).setOnLongClickListener(v -> {
+            Toast.makeText(getContext(), "fjakjdfkla", Toast.LENGTH_LONG).show();
+            return true;
+        });
     }
 
     @Override

@@ -101,6 +101,7 @@
         <activity android:name=".experiments.activity.BroadcastActivity" />
         <activity android:name=".fresco.FrescoActivity" />
         <activity android:name=".experiments.activity.WaterMarkActivity" />
+        <activity android:name=".experiments.activity.NestedScrollRecyclerViewActivity" />
 
         <service android:name=".service.TestService" />
         <service android:name=".service.MyService" />

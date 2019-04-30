@@ -18,6 +18,7 @@ import rango.tool.androidtool.experiments.activity.BroadcastActivity;
 import rango.tool.androidtool.experiments.activity.ButtonActivity;
 import rango.tool.androidtool.experiments.activity.CanvasActivity;
 import rango.tool.androidtool.experiments.activity.NavigationBarActivity;
+import rango.tool.androidtool.experiments.activity.NestedScrollRecyclerViewActivity;
 import rango.tool.androidtool.experiments.activity.PotholerActivity;
 import rango.tool.androidtool.experiments.activity.ProgressBarActivity;
 import rango.tool.androidtool.experiments.activity.ServiceActivity;
@@ -91,6 +92,7 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.broadcast_btn).setOnClickListener(v -> startActivity(BroadcastActivity.class));
         findViewById(R.id.dialog_btn).setOnClickListener(v -> showDialogFragment(ToolDialog.newInstance()));
         findViewById(R.id.water_mark_btn).setOnClickListener(v -> startActivity(WaterMarkActivity.class));
+        findViewById(R.id.scroll_recycler_btn).setOnClickListener(v -> startActivity(NestedScrollRecyclerViewActivity.class));
     }
 
     @Override
