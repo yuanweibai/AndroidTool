@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout android:id="@+id/container_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+
+    android:background="@drawable/wallpaper">
 
     <rango.tool.androidtool.view.WaveButton
         android:id="@+id/wave_btn"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_margin="12dp"
+        android:layout_margin="52dp"
         android:background="@color/blue"
         android:gravity="center"
         android:text="水波"
@@ -19,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_margin="50dp"
         android:text="start"
         android:textAllCaps="false" />
 
@@ -27,10 +31,10 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="100dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="#000"
+        android:layout_marginBottom="140dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:background="#FF9800"
         android:gravity="center"
         android:text="hhhhh"
         android:textColor="#fff"
@@ -42,5 +46,109 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:background="@drawable/circle_drawable"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/boost_text_view"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="240dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginRight="60dp"
+        android:background="#FF5722"
+        android:gravity="center"
+        android:text="boost"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="350dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginRight="60dp"
+        android:background="#8BC34A"
+        android:gravity="center"
+        android:text="hhhhh"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="240dp"
+        android:layout_marginEnd="160dp"
+        android:layout_marginRight="160dp"
+        android:background="#FFEB3B"
+        android:gravity="center"
+        android:text="aaaa"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="350dp"
+        android:layout_marginEnd="160dp"
+        android:layout_marginRight="60dp"
+        android:background="#3F51B5"
+        android:gravity="center"
+        android:text="bbbb"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="350dp"
+        android:layout_marginEnd="260dp"
+        android:layout_marginRight="260dp"
+        android:background="#673AB7"
+        android:gravity="center"
+        android:text="gggg"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="240dp"
+        android:layout_marginEnd="260dp"
+        android:layout_marginRight="260dp"
+        android:background="#F44336"
+        android:gravity="center"
+        android:text="nnnnn"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/boost_effect_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/boost_wave_spread_effect_icon"
         android:visibility="gone" />
 </RelativeLayout>

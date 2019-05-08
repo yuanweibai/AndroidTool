@@ -55,12 +55,12 @@ public class WaveButton extends AppCompatButton {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(context.getResources().getColor(R.color.main_pressed));
-        post(new Runnable() {
-            @Override
-            public void run() {
-                startWave();
-            }
-        });
+//        post(new Runnable() {
+//            @Override
+//            public void run() {
+//                startWave();
+//            }
+//        });
     }
 
     private int calculateAlpha(float value) {
