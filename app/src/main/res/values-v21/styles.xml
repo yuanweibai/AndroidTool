@@ -11,4 +11,9 @@
         <!--<item name="android:windowAllowEnterTransitionOverlap">true</item>-->
         <item name="android:windowEnterTransition">@transition/enter</item>
     </style>
+
+    <style name="CircleLoadingStyle" parent="android:Widget.Material.Light.ProgressBar.Inverse">
+        <item name="android:indeterminateTint">#2196F3</item>
+        <item name="android:indeterminateTintMode">src_atop</item>
+    </style>
 </resources>

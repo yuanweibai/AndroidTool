@@ -22,4 +22,20 @@
         android:progressDrawable="@drawable/circle_progress_bar_drawable"
         tools:progress="80" />
 
+    <ProgressBar
+        android:id="@+id/system_progress_bar"
+        style="@style/CircleLoadingStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ProgressBar
+        style="@style/CircleLoadingStyle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ProgressBar
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Inverse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>
