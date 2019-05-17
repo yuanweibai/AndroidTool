@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
 
 
     <permission
@@ -102,6 +103,7 @@
         <activity android:name=".fresco.FrescoActivity" />
         <activity android:name=".experiments.activity.WaterMarkActivity" />
         <activity android:name=".experiments.activity.NestedScrollRecyclerViewActivity" />
+        <activity android:name=".experiments.activity.AidlActivity" />
 
         <service android:name=".service.TestService" />
         <service android:name=".service.MyService" />
@@ -113,6 +115,22 @@
                 <action android:name="com.example.normal.receiver" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name=".wallpaper.LiveWallpaperService"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/my_wallpaper" />
+        </service>
+
+        <service
+            android:name=".aidi.AidlService"
+            android:process=":aidl" />
     </application>
 
 </manifest>

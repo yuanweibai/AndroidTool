@@ -12,6 +12,7 @@ import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.clickeffect.RippleRelativeLayout;
 import rango.tool.androidtool.dialog.ToolDialog;
+import rango.tool.androidtool.experiments.activity.AidlActivity;
 import rango.tool.androidtool.experiments.activity.AnrActivity;
 import rango.tool.androidtool.experiments.activity.AutoScrollActivity;
 import rango.tool.androidtool.experiments.activity.BroadcastActivity;
@@ -52,7 +53,6 @@ public class TestActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
@@ -93,6 +93,7 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.dialog_btn).setOnClickListener(v -> showDialogFragment(ToolDialog.newInstance()));
         findViewById(R.id.water_mark_btn).setOnClickListener(v -> startActivity(WaterMarkActivity.class));
         findViewById(R.id.scroll_recycler_btn).setOnClickListener(v -> startActivity(NestedScrollRecyclerViewActivity.class));
+        findViewById(R.id.aidl_btn).setOnClickListener(v -> startActivity(AidlActivity.class));
     }
 
     @Override

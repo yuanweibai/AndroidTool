@@ -237,6 +237,13 @@
             android:layout_height="wrap_content"
             android:text="嵌套滚动recyclerView"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/aidl_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="aidl test"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 
