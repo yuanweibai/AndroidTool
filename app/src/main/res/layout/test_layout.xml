@@ -244,6 +244,20 @@
             android:layout_height="wrap_content"
             android:text="aidl test"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/ripple_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ripple effect"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/exception_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ripple effect"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 

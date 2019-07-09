@@ -18,10 +18,12 @@ import rango.tool.androidtool.experiments.activity.AutoScrollActivity;
 import rango.tool.androidtool.experiments.activity.BroadcastActivity;
 import rango.tool.androidtool.experiments.activity.ButtonActivity;
 import rango.tool.androidtool.experiments.activity.CanvasActivity;
+import rango.tool.androidtool.experiments.activity.ExceptionActivity;
 import rango.tool.androidtool.experiments.activity.NavigationBarActivity;
 import rango.tool.androidtool.experiments.activity.NestedScrollRecyclerViewActivity;
 import rango.tool.androidtool.experiments.activity.PotholerActivity;
 import rango.tool.androidtool.experiments.activity.ProgressBarActivity;
+import rango.tool.androidtool.experiments.activity.RippleActivity;
 import rango.tool.androidtool.experiments.activity.ServiceActivity;
 import rango.tool.androidtool.experiments.activity.ShapeActivity;
 import rango.tool.androidtool.experiments.activity.StackActivity;
@@ -94,6 +96,8 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.water_mark_btn).setOnClickListener(v -> startActivity(WaterMarkActivity.class));
         findViewById(R.id.scroll_recycler_btn).setOnClickListener(v -> startActivity(NestedScrollRecyclerViewActivity.class));
         findViewById(R.id.aidl_btn).setOnClickListener(v -> startActivity(AidlActivity.class));
+        findViewById(R.id.ripple_btn).setOnClickListener(v -> startActivity(RippleActivity.class));
+        findViewById(R.id.exception_btn).setOnClickListener(v -> startActivity(ExceptionActivity.class));
     }
 
     @Override

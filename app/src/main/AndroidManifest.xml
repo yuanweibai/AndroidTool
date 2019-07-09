@@ -104,13 +104,15 @@
         <activity android:name=".experiments.activity.WaterMarkActivity" />
         <activity android:name=".experiments.activity.NestedScrollRecyclerViewActivity" />
         <activity android:name=".experiments.activity.AidlActivity" />
+        <activity android:name=".experiments.activity.RippleActivity" />
+        <activity android:name=".experiments.activity.ExceptionActivity" />
 
         <service android:name=".service.TestService" />
         <service android:name=".service.MyService" />
 
         <receiver
             android:name=".receiver.TestBroadcastReceiver"
-            android:permission="android.tool.permission.TEST_BROADCAST_RECEIVER">
+         >
             <intent-filter>
                 <action android:name="com.example.normal.receiver" />
             </intent-filter>

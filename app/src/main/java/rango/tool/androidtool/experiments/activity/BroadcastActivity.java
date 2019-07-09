@@ -17,17 +17,18 @@ public class BroadcastActivity extends BaseActivity {
         setContentView(R.layout.activity_broadcast_layout);
 
         findViewById(R.id.send_broadcast_btn).setOnClickListener(v -> {
-//            Intent intent = new Intent(ACTION);
-//            sendBroadcast(intent, "android.tool.permission.TEST_BROADCAST_RECEIVER");
-            Intent intent = new Intent();
-            intent.setAction("android.intent.action.MAIN");
+            Intent intent = new Intent(ACTION);
+            intent.putExtra("keeeeeeee", 90);
+            sendBroadcast(intent);
+//            Intent intent = new Intent();
+//            intent.setAction("android.intent.action.MAIN");
 //            intent.addCategory("android.intent.category.HOME");
 //            intent.addCategory("android.intent.category.DEFAULT");
 //            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            intent.addFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
 //            intent.addFlags(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
 //            intent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-            startActivity(intent);
+//            startActivity(intent);
         });
     }
 }
