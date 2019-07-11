@@ -258,6 +258,13 @@
             android:layout_height="wrap_content"
             android:text="ripple effect"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/battery_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="电池"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 

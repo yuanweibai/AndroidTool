@@ -106,6 +106,8 @@
         <activity android:name=".experiments.activity.AidlActivity" />
         <activity android:name=".experiments.activity.RippleActivity" />
         <activity android:name=".experiments.activity.ExceptionActivity" />
+        <activity android:name=".experiments.activity.BatteryActivity" />
+        <activity android:name=".experiments.activity.ChargingShowActivity" />
 
         <service android:name=".service.TestService" />
         <service android:name=".service.MyService" />
