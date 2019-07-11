@@ -39,7 +39,7 @@ public class ToolApplication extends BaseApplication {
 
         TraceCompat.beginSection("Rango#test");
         try {
-            Thread.sleep(5000);
+//            Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
