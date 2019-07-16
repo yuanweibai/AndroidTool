@@ -19,6 +19,7 @@ import rango.tool.androidtool.experiments.activity.BatteryActivity;
 import rango.tool.androidtool.experiments.activity.BroadcastActivity;
 import rango.tool.androidtool.experiments.activity.ButtonActivity;
 import rango.tool.androidtool.experiments.activity.CanvasActivity;
+import rango.tool.androidtool.experiments.activity.DialogActivity;
 import rango.tool.androidtool.experiments.activity.ExceptionActivity;
 import rango.tool.androidtool.experiments.activity.NavigationBarActivity;
 import rango.tool.androidtool.experiments.activity.NestedScrollRecyclerViewActivity;
@@ -100,6 +101,7 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.ripple_btn).setOnClickListener(v -> startActivity(RippleActivity.class));
         findViewById(R.id.exception_btn).setOnClickListener(v -> startActivity(ExceptionActivity.class));
         findViewById(R.id.battery_btn).setOnClickListener(v -> startActivity(BatteryActivity.class));
+        findViewById(R.id.dialog_btn_2).setOnClickListener(v -> startActivity(DialogActivity.class));
     }
 
     @Override
