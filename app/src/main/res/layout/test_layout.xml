@@ -272,6 +272,27 @@
             android:layout_height="wrap_content"
             android:text="Dialog弹窗"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/view_draw_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="view 绘制"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/send_broadcast_to_other_process_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="发送广播到其他进程"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/provider_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="provider test"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 

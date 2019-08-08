@@ -90,11 +90,10 @@
         <activity android:name=".job.JobActivity" />
         <activity
             android:name=".launchmodel.LaunchMode1Activity"
-            android:launchMode="singleTask" />
+            android:launchMode="standard" />
         <activity android:name=".launchmodel.LaunchMode2Activity" />
-        <activity
-            android:name=".launchmodel.LaunchMode3Activity"
-            android:taskAffinity="com.xxx" />
+        <activity android:name=".launchmodel.LaunchMode3Activity" />
+
         <activity android:name=".memoryleak.MemoryLeakActivity" />
         <activity android:name=".memoryleak.HandlerMemoryLeakActivity" />
         <activity android:name=".memoryleak.StaticMemoryLeakActivity" />
@@ -117,6 +116,8 @@
         <activity android:name=".experiments.activity.BatteryActivity" />
         <activity android:name=".experiments.activity.ChargingShowActivity" />
         <activity android:name=".experiments.activity.DialogActivity" />
+        <activity android:name=".experiments.activity.ViewDrawActivity" />
+        <activity android:name=".experiments.activity.ProviderTestActivity" />
 
         <service android:name=".service.TestService" />
         <service android:name=".service.MyService" />
@@ -124,6 +125,14 @@
         <receiver android:name=".receiver.TestBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.example.normal.receiver" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".receiver.OtherProcessReceiver"
+            android:process=":other">
+            <intent-filter>
+                <action android:name="com.example.normal.other.process.receiver" />
             </intent-filter>
         </receiver>
 
@@ -142,6 +151,11 @@
         <service
             android:name=".aidi.AidlService"
             android:process=":aidl" />
+
+        <provider
+            android:name=".provider.OtherProcessProvider"
+            android:authorities="rango.tool.androidtool.provider.OtherProcessProvider"
+            android:process=":other" />
     </application>
 
 </manifest>

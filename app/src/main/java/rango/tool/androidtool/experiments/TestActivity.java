@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import rango.tool.androidtool.R;
@@ -25,11 +27,13 @@ import rango.tool.androidtool.experiments.activity.NavigationBarActivity;
 import rango.tool.androidtool.experiments.activity.NestedScrollRecyclerViewActivity;
 import rango.tool.androidtool.experiments.activity.PotholerActivity;
 import rango.tool.androidtool.experiments.activity.ProgressBarActivity;
+import rango.tool.androidtool.experiments.activity.ProviderTestActivity;
 import rango.tool.androidtool.experiments.activity.RippleActivity;
 import rango.tool.androidtool.experiments.activity.ServiceActivity;
 import rango.tool.androidtool.experiments.activity.ShapeActivity;
 import rango.tool.androidtool.experiments.activity.StackActivity;
 import rango.tool.androidtool.experiments.activity.StickerActivity;
+import rango.tool.androidtool.experiments.activity.ViewDrawActivity;
 import rango.tool.androidtool.experiments.activity.WaterMarkActivity;
 import rango.tool.androidtool.experiments.activity.WindowActivity;
 import rango.tool.androidtool.job.JobActivity;
@@ -62,6 +66,8 @@ public class TestActivity extends BaseActivity {
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         registerReceiver(broadcastReceiver, intentFilter);
 
+        Log.e("rango", "main process: " + android.os.Process.myPid());
+
         setContentView(R.layout.test_layout);
         findViewById(R.id.canvas_btn).setOnClickListener(v -> startActivity(CanvasActivity.class));
         findViewById(R.id.shape_btn).setOnClickListener(v -> startActivity(ShapeActivity.class));
@@ -86,7 +92,9 @@ public class TestActivity extends BaseActivity {
 
         });
 
-        findViewById(R.id.launch_mode_btn).setOnClickListener(v -> startActivity(LaunchMode1Activity.class));
+        findViewById(R.id.launch_mode_btn).setOnClickListener(v -> {
+            LaunchMode1Activity.start(TestActivity.this, "TestActivity");
+        });
         findViewById(R.id.memory_leak_btn).setOnClickListener(v -> startActivity(MemoryLeakActivity.class));
         findViewById(R.id.progress_btn).setOnClickListener(v -> startActivity(ProgressBarActivity.class));
 
@@ -102,6 +110,33 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.exception_btn).setOnClickListener(v -> startActivity(ExceptionActivity.class));
         findViewById(R.id.battery_btn).setOnClickListener(v -> startActivity(BatteryActivity.class));
         findViewById(R.id.dialog_btn_2).setOnClickListener(v -> startActivity(DialogActivity.class));
+        findViewById(R.id.provider_btn).setOnClickListener(v -> startActivity(ProviderTestActivity.class));
+        view = findViewById(R.id.view_draw_btn);
+        view.setOnClickListener(v -> startActivity(ViewDrawActivity.class));
+
+        findViewById(R.id.send_broadcast_to_other_process_btn).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Intent intent = new Intent("com.example.normal.other.process.receiver");
+                intent.putExtra("rango_value", 89);
+                sendBroadcast(intent);
+            }
+        });
+
+    }
+
+    Handler handler = new Handler();
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        handler.post(() -> {
+            int height = view.getHeight();
+            int width = view.getWidth();
+
+            Log.e("rango", "handler: height = " + height + ", width = " + width);
+        });
+
     }
 
     @Override

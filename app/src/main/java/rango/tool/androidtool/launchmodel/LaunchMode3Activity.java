@@ -17,7 +17,6 @@ public class LaunchMode3Activity extends BaseActivity {
 
         findViewById(R.id.btn_1).setOnClickListener(v -> startActivity(LaunchMode1Activity.class));
 
-        finish();
     }
 
     @Override protected void onNewIntent(Intent intent) {
@@ -33,6 +32,8 @@ public class LaunchMode3Activity extends BaseActivity {
     @Override protected void onResume() {
         super.onResume();
         Log.e("rango3", "onResume()");
+
+
     }
 
     @Override protected void onRestart() {
