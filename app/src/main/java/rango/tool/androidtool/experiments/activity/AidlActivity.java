@@ -11,7 +11,7 @@ import android.view.View;
 
 import rango.tool.androidtool.IMyAidl;
 import rango.tool.androidtool.R;
-import rango.tool.androidtool.aidi.AidlService;
+import rango.tool.androidtool.ipc.aidi.AidlService;
 import rango.tool.androidtool.base.BaseActivity;
 
 public class AidlActivity extends BaseActivity {

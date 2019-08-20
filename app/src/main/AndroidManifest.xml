@@ -149,7 +149,7 @@
         </service>
 
         <service
-            android:name=".aidi.AidlService"
+            android:name=".ipc.aidi.AidlService"
             android:process=":aidl" />
 
         <provider

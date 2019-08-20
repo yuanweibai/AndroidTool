@@ -1,4 +1,4 @@
-package rango.tool.androidtool.aidi;
+package rango.tool.androidtool.ipc.aidi;
 
 import android.app.Service;
 import android.content.Intent;
