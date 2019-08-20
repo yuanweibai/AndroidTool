@@ -45,9 +45,9 @@ public class AutoScrollActivity extends BaseActivity {
     }
 
     private void setPicData() {
-        picList.add("http://cdn.appcloudbox.net/launcherapps/apps/launcher/themes/themes_carousel/S7_IMG.png");
-        picList.add("http://cdn.appcloudbox.net/launcherapps/apps/launcher/themes/themes_carousel/merrychristmas.png");
-        picList.add("http://cdn.appcloudbox.net/launcherapps/apps/launcher/themes/themes_carousel/emoji.png");
-        picList.add("http://cdn.appcloudbox.net/launcherapps/apps/launcher/themes/themes_carousel/butterfly.png");
+        picList.add("https://img-my.csdn.net/uploads/201407/26/1406383166_3407.jpg");
+        picList.add("https://img-my.csdn.net/uploads/201407/26/1406383166_2224.jpg");
+        picList.add("https://img-my.csdn.net/uploads/201407/26/1406383166_7301.jpg");
+        picList.add("https://img-my.csdn.net/uploads/201407/26/1406383165_7197.jpg");
     }
 }

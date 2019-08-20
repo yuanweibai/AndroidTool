@@ -1,7 +1,6 @@
 package rango.tool.androidtool.view.util;
 
 import android.content.Context;
-import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
 public class BannerScroller extends Scroller {
@@ -10,14 +9,6 @@ public class BannerScroller extends Scroller {
 
     public BannerScroller(Context context) {
         super(context);
-    }
-
-    public BannerScroller(Context context, Interpolator interpolator) {
-        super(context, interpolator);
-    }
-
-    public BannerScroller(Context context, Interpolator interpolator, boolean flywheel) {
-        super(context, interpolator, flywheel);
     }
 
     @Override
