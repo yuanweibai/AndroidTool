@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
 
 
     <permission
@@ -156,6 +157,12 @@
             android:name=".provider.OtherProcessProvider"
             android:authorities="rango.tool.androidtool.provider.OtherProcessProvider"
             android:process=":other" />
+
+        <receiver android:name=".receiver.OutingReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
