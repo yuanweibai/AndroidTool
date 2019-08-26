@@ -8,6 +8,7 @@ import android.view.View;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
+import rango.tool.androidtool.service.MyIntentService;
 import rango.tool.androidtool.service.MyService;
 import rango.tool.androidtool.service.TestService;
 import rango.tool.androidtool.workmanager.ToolWorkManager;
@@ -61,6 +62,14 @@ public class ServiceActivity extends BaseActivity {
                     }
                 }
             });
+        });
+
+        findViewById(R.id.start_intent_service_btn).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                Intent intent = new Intent(ServiceActivity.this, MyIntentService.class);
+                intent.putExtra(MyIntentService.INTENT_KEY_WHAT, MyIntentService.WHAT_MESSAGE);
+                startService(intent);
+            }
         });
     }
 }
