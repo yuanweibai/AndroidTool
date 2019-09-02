@@ -92,7 +92,14 @@
         <activity
             android:name=".launchmodel.LaunchMode1Activity"
             android:launchMode="standard" />
-        <activity android:name=".launchmodel.LaunchMode2Activity" />
+        <activity
+            android:name=".launchmodel.LaunchMode2Activity"
+            android:theme="@style/BlockingerWelcomeTheme">
+            <intent-filter>
+                <action android:name="com.acbs.libcasualgames.solitaire" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".launchmodel.LaunchMode3Activity" />
 
         <activity android:name=".memoryleak.MemoryLeakActivity" />
@@ -119,6 +126,9 @@
         <activity android:name=".experiments.activity.DialogActivity" />
         <activity android:name=".experiments.activity.ViewDrawActivity" />
         <activity android:name=".experiments.activity.ProviderTestActivity" />
+        <activity android:name=".experiments.activity.GifImageActivity" />
+        <activity android:name=".experiments.activity.ThreadActivity" />
+        <activity android:name=".experiments.activity.NotificationActivity" />
 
         <service android:name=".service.TestService" />
         <service android:name=".service.MyService" />
@@ -165,6 +175,14 @@
         </receiver>
 
         <service android:name=".service.MyIntentService" />
+
+        <service
+            android:name=".notification.ToolNotificationListenerService"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

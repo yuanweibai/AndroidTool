@@ -1,19 +1,28 @@
 package rango.tool.common.utils;
 
-import android.support.annotation.NonNull;
-
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class NamedThreadFactory implements ThreadFactory {
-    private String prefix = "tool-pool";
-    private int counter = 0;
+    private ThreadFactory defaultFactory;
+    private AtomicInteger count = new AtomicInteger(0);
+    private String baseName;
 
-    NamedThreadFactory(String prefix) {
-        this.prefix = prefix;
+    public NamedThreadFactory(String baseName) {
+        defaultFactory = Executors.defaultThreadFactory();
+        this.baseName = baseName;
+
     }
 
     @Override
-    public Thread newThread(@NonNull Runnable runnable) {
-        return new Thread(runnable, prefix + "-" + counter++);
+    public Thread newThread(Runnable r) {
+        Thread result = defaultFactory.newThread(r);
+        result.setName(baseName + "-" + count.getAndIncrement());
+        return result;
+    }
+
+    public int getCreatedThreadCount() {
+        return count.get();
     }
 }

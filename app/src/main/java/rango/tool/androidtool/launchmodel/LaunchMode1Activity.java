@@ -26,7 +26,7 @@ public class LaunchMode1Activity extends BaseActivity {
         setContentView(R.layout.activity_launch_mode_1_layout);
 
         findViewById(R.id.btn_1).setOnClickListener(v -> {
-            startActivity(LaunchMode1Activity.class);
+            startActivity(LaunchMode2Activity.class);
         });
     }
 

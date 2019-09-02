@@ -293,6 +293,27 @@
             android:layout_height="wrap_content"
             android:text="provider test"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/gif_image_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gif_Image"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/thread_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="线程"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/notification_listen_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="通知消息"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 

@@ -13,6 +13,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Random;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
+import rango.tool.androidtool.util.GamePackageHelper;
 import rango.tool.androidtool.view.CircleEffectTextView;
 import rango.tool.androidtool.view.WaveButton;
 
@@ -42,6 +44,8 @@ public class ButtonActivity extends BaseActivity {
 
     private List<ObjectAnimator> animatorList = new ArrayList<>();
 
+    private static String sGamePackages = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +66,15 @@ public class ButtonActivity extends BaseActivity {
         boostBtn.setOnClickListener(v -> startBoostEffectAnim());
 
         random = new Random();
+
+        findViewById(R.id.ripple_transparent_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sGamePackages = GamePackageHelper.initGamePackages();
+                boolean result = sGamePackages.contains("com.dragonest.autochess.google");
+                Toast.makeText(ButtonActivity.this, "isGame = " + result, Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 

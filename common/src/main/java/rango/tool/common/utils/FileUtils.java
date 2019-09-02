@@ -1,5 +1,6 @@
 package rango.tool.common.utils;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -13,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -608,6 +611,54 @@ public class FileUtils {
 
         File file = new File(path);
         return (file.exists() && file.isFile() ? file.length() : -1);
+    }
+
+    public static File getCacheDirectory(Context context, String subDirectory) {
+        String cacheDirPath;
+        File externalCache = null;
+        try {
+            externalCache = context.getExternalCacheDir();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (externalCache != null) {
+            cacheDirPath = externalCache.getAbsolutePath() + File.separator + subDirectory + File.separator;
+        } else {
+            cacheDirPath = context.getCacheDir().getAbsolutePath() + File.separator + subDirectory + File.separator;
+        }
+        File cacheDir = new File(cacheDirPath);
+        if (!cacheDir.exists()) {
+            if (cacheDir.mkdirs()) {
+                Log.d("Utils.Cache", "Created cache directory: " + cacheDir.getAbsolutePath());
+            } else {
+                Log.e("Utils.Cache", "Failed to create cache directory: " + cacheDir.getAbsolutePath());
+            }
+        }
+        return cacheDir;
+    }
+
+    public static String md5(final String s) {
+        final String MD5 = "MD5";
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance(MD5);
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest) {
+                String h = Integer.toHexString(0xFF & aMessageDigest);
+                while (h.length() < 2)
+                    h = "0" + h;
+                hexString.append(h);
+            }
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }
 

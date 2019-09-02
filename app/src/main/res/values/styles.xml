@@ -33,4 +33,9 @@
 
 
     <style name="CircleLoadingStyle2" parent="android:Widget.DeviceDefault.Light.ProgressBar.Inverse"></style>
+
+    <style name="BlockingerWelcomeTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

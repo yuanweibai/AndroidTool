@@ -23,8 +23,10 @@ import rango.tool.androidtool.experiments.activity.ButtonActivity;
 import rango.tool.androidtool.experiments.activity.CanvasActivity;
 import rango.tool.androidtool.experiments.activity.DialogActivity;
 import rango.tool.androidtool.experiments.activity.ExceptionActivity;
+import rango.tool.androidtool.experiments.activity.GifImageActivity;
 import rango.tool.androidtool.experiments.activity.NavigationBarActivity;
 import rango.tool.androidtool.experiments.activity.NestedScrollRecyclerViewActivity;
+import rango.tool.androidtool.experiments.activity.NotificationActivity;
 import rango.tool.androidtool.experiments.activity.PotholerActivity;
 import rango.tool.androidtool.experiments.activity.ProgressBarActivity;
 import rango.tool.androidtool.experiments.activity.ProviderTestActivity;
@@ -33,6 +35,7 @@ import rango.tool.androidtool.experiments.activity.ServiceActivity;
 import rango.tool.androidtool.experiments.activity.ShapeActivity;
 import rango.tool.androidtool.experiments.activity.StackActivity;
 import rango.tool.androidtool.experiments.activity.StickerActivity;
+import rango.tool.androidtool.experiments.activity.ThreadActivity;
 import rango.tool.androidtool.experiments.activity.ViewDrawActivity;
 import rango.tool.androidtool.experiments.activity.WaterMarkActivity;
 import rango.tool.androidtool.experiments.activity.WindowActivity;
@@ -83,6 +86,7 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.job_btn).setOnClickListener(v -> startActivity(JobActivity.class));
         findViewById(R.id.potholer_btn).setOnClickListener(v -> startActivity(PotholerActivity.class));
         findViewById(R.id.stack_btn).setOnClickListener(v -> startActivity(StackActivity.class));
+        findViewById(R.id.notification_listen_btn).setOnClickListener(v -> startActivity(NotificationActivity.class));
         findViewById(R.id.sticker_btn).setOnClickListener(v -> {
             startActivity(StickerActivity.class);
         });
@@ -111,6 +115,8 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.battery_btn).setOnClickListener(v -> startActivity(BatteryActivity.class));
         findViewById(R.id.dialog_btn_2).setOnClickListener(v -> startActivity(DialogActivity.class));
         findViewById(R.id.provider_btn).setOnClickListener(v -> startActivity(ProviderTestActivity.class));
+        findViewById(R.id.gif_image_btn).setOnClickListener(v -> startActivity(GifImageActivity.class));
+        findViewById(R.id.thread_btn).setOnClickListener(v -> startActivity(ThreadActivity.class));
         view = findViewById(R.id.view_draw_btn);
         view.setOnClickListener(v -> startActivity(ViewDrawActivity.class));
 
