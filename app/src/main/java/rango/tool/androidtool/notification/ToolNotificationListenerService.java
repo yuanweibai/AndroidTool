@@ -15,6 +15,8 @@ import android.util.Log;
 
 import java.util.Set;
 
+import rango.tool.common.utils.Worker;
+
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class ToolNotificationListenerService extends NotificationListenerService {
 
@@ -55,6 +57,28 @@ public class ToolNotificationListenerService extends NotificationListenerService
     public void onNotificationPosted(StatusBarNotification sbn) {
         NotificationInfoBean infoBean = NotificationInfoBean.valueOf(sbn);
         Log.e(TAG, "onNotificationPosted:" + infoBean.title);
+
+        Worker.postWorker(new Runnable() {
+            @Override public void run() {
+                try {
+
+                    Thread.sleep(8000);
+
+                    Worker.postMain(new Runnable() {
+                        @Override public void run() {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                cancelNotification(infoBean.key);
+                            } else {
+                                cancelNotification(infoBean.packageId, infoBean.tag, infoBean.notificationId);
+                            }
+                        }
+                    });
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override

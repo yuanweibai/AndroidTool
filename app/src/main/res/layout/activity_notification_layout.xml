@@ -22,4 +22,14 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/start_listen_btn" />
 
+    <Button
+        android:id="@+id/clear_notification_btn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="40dp"
+        android:text="清除通知栏消息"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rebind_listener_btn" />
+
+
 </android.support.constraint.ConstraintLayout>
