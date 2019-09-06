@@ -136,6 +136,7 @@
         <receiver android:name=".receiver.TestBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.example.normal.receiver" />
+                <action android:name="com.honeycomb.launcher.ad.preload_interstitial_ad" />
             </intent-filter>
         </receiver>
 
