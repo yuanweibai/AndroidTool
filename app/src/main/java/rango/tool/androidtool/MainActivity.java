@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
 import rango.tool.androidtool.experiments.TestActivity;
+import rango.tool.androidtool.game.GameMainActivity;
 import rango.tool.androidtool.list.activity.ListActivity;
 import rango.tool.androidtool.list.activity.RecyclerActivity;
 import rango.tool.androidtool.touch.TouchActivity;
@@ -44,6 +45,7 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.add_view_btn).setOnClickListener(v -> addTestView());
         findViewById(R.id.offset_btn).setOnClickListener(v -> startActivity(OffsetActivity.class));
         findViewById(R.id.touch_btn).setOnClickListener(v -> startActivity(TouchActivity.class));
+        findViewById(R.id.game_btn).setOnClickListener(v -> startActivity(GameMainActivity.class));
     }
 
     private void addTestView() {

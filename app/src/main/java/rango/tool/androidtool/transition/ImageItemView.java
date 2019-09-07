@@ -11,7 +11,7 @@ import android.widget.TextView;
 import rango.tool.androidtool.GlideApp;
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.list.adapter.BaseItemView;
-import rango.tool.common.utils.ActivityUtil;
+import rango.tool.common.utils.ActivityUtils;
 import rango.tool.common.utils.ScreenUtils;
 
 public class ImageItemView extends BaseItemView {
@@ -54,7 +54,7 @@ public class ImageItemView extends BaseItemView {
                 .into(imageView);
 
         imageView.setOnClickListener(v -> {
-            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(ActivityUtil.contextToActivity(getContext()), v,
+            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(ActivityUtils.contextToActivity(getContext()), v,
                     getContext().getResources().getString(R.string.detail_transition));
             Intent intent = new Intent(getContext(), ImageDetailActivity.class);
             intent.putExtra(KEY_IMAGE_URL, imageUrl);

@@ -129,6 +129,8 @@
         <activity android:name=".experiments.activity.GifImageActivity" />
         <activity android:name=".experiments.activity.ThreadActivity" />
         <activity android:name=".experiments.activity.NotificationActivity" />
+        <activity android:name=".game.GameMainActivity" />
+        <activity android:name=".game.hero.GameHeroActivity" />
 
         <service android:name=".service.TestService" />
         <service android:name=".service.MyService" />
