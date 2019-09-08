@@ -41,6 +41,7 @@ public class GameHeroView extends View {
     private static final float PERSON_EYE_RIGHT_MARGIN = ScreenUtils.dp2px(3);
     private static final float PERSON_EYE_TOP_MARGIN = ScreenUtils.dp2px(4);
     private static final float PERSON_EYE_SIZE = ScreenUtils.dp2px(3);
+    private static final float PERSON_SCALE_OFFSET = ScreenUtils.dp2px(0.8f);
 
 
     private static final float BRIDGE_WIDTH = ScreenUtils.dp2px(3);
@@ -109,6 +110,7 @@ public class GameHeroView extends View {
     private float thirdPillarLeft;
     private float thirdPillarRight;
 
+    private float lastBridgeLength = 0;
     private float currentBridgeLength = 0;
     private float bridgeMaxLength;
     private int currentBridgeRotateAngle = 0;
@@ -125,7 +127,7 @@ public class GameHeroView extends View {
 
     private final float firstPillarLeftMinDistance;
 
-    private boolean isLeft = false;
+    private boolean isFlag = false;
 
     private ValueAnimator bridgeRotateAnimator;
     private ValueAnimator walkAnimator;
@@ -347,12 +349,27 @@ public class GameHeroView extends View {
         float r = l + PERSON_BODY_WIDTH;
         float b = t + PERSON_BODY_HEIGHT;
 
+        if (currentStatus == STATUS_BRIDGE_GROWING) {
+
+            if (currentBridgeLength - lastBridgeLength > 90) {
+                lastBridgeLength = currentBridgeLength;
+                isFlag = !isFlag;
+            }
+
+            if (!isFlag) {
+                l -= PERSON_SCALE_OFFSET;
+                r += PERSON_SCALE_OFFSET;
+                t += PERSON_SCALE_OFFSET;
+            }
+        }
+
         float radius = PERSON_EYE_SIZE / 2f;
         float cx = r - PERSON_EYE_RIGHT_MARGIN - radius;
         float cy = t + PERSON_EYE_TOP_MARGIN + radius;
 
         paint.setStrokeWidth(ScreenUtils.dp2px(2));
         paint.setStyle(Paint.Style.STROKE);
+
         canvas.drawRect(l, t, r, b, paint);
 
         paint.setStyle(Paint.Style.FILL);
@@ -367,12 +384,12 @@ public class GameHeroView extends View {
 
         if (currentStatus == STATUS_PERSON_WALKING && currentWalkDistance - lastWalkDistance > 10) {
             lastWalkDistance = currentWalkDistance;
-            if (isLeft) {
-                isLeft = false;
+            if (isFlag) {
+                isFlag = false;
                 stopX1 = startX1 + PERSON_LEG_WALK_OFFSET;
                 stopX2 = startX2 - PERSON_LEG_WALK_OFFSET;
             } else {
-                isLeft = true;
+                isFlag = true;
                 stopX1 = startX1 - PERSON_LEG_WALK_OFFSET;
                 stopX2 = startX2 + PERSON_LEG_WALK_OFFSET;
             }
@@ -433,6 +450,8 @@ public class GameHeroView extends View {
         currentStatus = STATUS_BRIDGE_GROWING;
         currentBridgeLength = 0;
         currentBridgeRotateAngle = 0;
+        isFlag = false;
+        lastBridgeLength = 0;
         invalidate();
     }
 
@@ -478,6 +497,7 @@ public class GameHeroView extends View {
 
     private void startWalk() {
         currentStatus = STATUS_PERSON_WALKING;
+        isFlag = false;
         lastWalkDistance = 0;
         if (walkAnimator != null) {
             walkAnimator.cancel();
