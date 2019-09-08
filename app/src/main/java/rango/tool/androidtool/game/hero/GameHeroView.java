@@ -35,11 +35,15 @@ public class GameHeroView extends View {
     private static final float PERSON_BODY_WIDTH = ScreenUtils.dp2px(12);
     private static final float PERSON_BACKUP_DISTANCE = ScreenUtils.dp2px(8);
     private static final float PERSON_LEG_HEIGHT = ScreenUtils.dp2px(5);
+    private static final float PERSON_LEG_WIDTH = ScreenUtils.dp2px(2);
+    private static final float PERSON_LEG_OFFSET = ScreenUtils.dp2px(2);
+    private static final float PERSON_LEG_WALK_OFFSET = ScreenUtils.dp2px(3);
     private static final float PERSON_EYE_RIGHT_MARGIN = ScreenUtils.dp2px(3);
     private static final float PERSON_EYE_TOP_MARGIN = ScreenUtils.dp2px(4);
     private static final float PERSON_EYE_SIZE = ScreenUtils.dp2px(3);
 
-    private static final float BRIDGE_WIDTH = ScreenUtils.dp2px(4);
+
+    private static final float BRIDGE_WIDTH = ScreenUtils.dp2px(2);
     private static final float BRIDGE_BACKUP_DISTANCE = ScreenUtils.dp2px(2);
     private static final float BRIDGE_GROWN_SPEED = ScreenUtils.dp2px(4);
     private static final long BRIDGE_ROTATE_DURATION = 300;
@@ -50,7 +54,7 @@ public class GameHeroView extends View {
     /**
      * px per second
      */
-    private static final float WALK_SPEED = ScreenUtils.dp2px(260);
+    private static final float WALK_SPEED = ScreenUtils.dp2px(150);
 
     /**
      * px per second
@@ -109,6 +113,7 @@ public class GameHeroView extends View {
     private float bridgeMaxLength;
     private int currentBridgeRotateAngle = 0;
 
+    private float lastWalkDistance;
     private float currentWalkDistance = 0;
 
     private float progressToNextLevel = 0f;
@@ -119,6 +124,8 @@ public class GameHeroView extends View {
     private float futurePillarMoveMaxDistance;
 
     private final float firstPillarLeftMinDistance;
+
+    private boolean isLeft = false;
 
     private ValueAnimator bridgeRotateAnimator;
     private ValueAnimator walkAnimator;
@@ -350,6 +357,30 @@ public class GameHeroView extends View {
 
         paint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(cx, cy, radius, paint);
+
+        float startX1 = l + PERSON_LEG_OFFSET;
+        float stopY = b + PERSON_LEG_HEIGHT;
+        float stopX1 = startX1;
+
+        float startX2 = r - PERSON_LEG_OFFSET;
+        float stopX2 = startX2;
+
+        if (currentStatus == STATUS_PERSON_WALKING && currentWalkDistance - lastWalkDistance > 10) {
+            lastWalkDistance = currentWalkDistance;
+            if (isLeft) {
+                isLeft = false;
+                stopX1 = startX1 + PERSON_LEG_WALK_OFFSET;
+                stopX2 = startX2 - PERSON_LEG_WALK_OFFSET;
+            } else {
+                isLeft = true;
+                stopX1 = startX1 - PERSON_LEG_WALK_OFFSET;
+                stopX2 = startX2 + PERSON_LEG_WALK_OFFSET;
+            }
+        }
+
+        paint.setStrokeWidth(PERSON_LEG_WIDTH);
+        canvas.drawLine(startX1, b, stopX1, stopY, paint);
+        canvas.drawLine(startX2, b, stopX2, stopY, paint);
     }
 
     private void drawBridge(Canvas canvas) {
@@ -447,7 +478,7 @@ public class GameHeroView extends View {
 
     private void startWalk() {
         currentStatus = STATUS_PERSON_WALKING;
-
+        lastWalkDistance = 0;
         if (walkAnimator != null) {
             walkAnimator.cancel();
             walkAnimator = null;
