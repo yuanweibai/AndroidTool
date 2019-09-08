@@ -43,7 +43,7 @@ public class GameHeroView extends View {
     private static final float PERSON_EYE_SIZE = ScreenUtils.dp2px(3);
 
 
-    private static final float BRIDGE_WIDTH = ScreenUtils.dp2px(2);
+    private static final float BRIDGE_WIDTH = ScreenUtils.dp2px(3);
     private static final float BRIDGE_BACKUP_DISTANCE = ScreenUtils.dp2px(2);
     private static final float BRIDGE_GROWN_SPEED = ScreenUtils.dp2px(4);
     private static final long BRIDGE_ROTATE_DURATION = 300;
