@@ -68,12 +68,13 @@ public class GameHeroView extends View {
     private static final int STATUS_IDLE = 1;
     private static final int STATUS_BRIDGE_GROWING = 2;
     private static final int STATUS_BRIDGE_ROTATING = 3;
+    private static final int STATUS_PERSON_KICK = 7;
     private static final int STATUS_PERSON_WALKING = 4;
     private static final int STATUS_SHOW_NEXT_LEVEL = 5;
     private static final int STATUS_FAILURE = 6;
 
     @IntDef({STATUS_INIT, STATUS_IDLE, STATUS_BRIDGE_GROWING,
-            STATUS_BRIDGE_ROTATING, STATUS_PERSON_WALKING,
+            STATUS_BRIDGE_ROTATING, STATUS_PERSON_KICK, STATUS_PERSON_WALKING,
             STATUS_SHOW_NEXT_LEVEL, STATUS_FAILURE})
     private @interface StatusDef {
     }
@@ -193,7 +194,7 @@ public class GameHeroView extends View {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                startRotateBridge();
+                kickBridge();
                 break;
         }
         return true;
@@ -255,6 +256,7 @@ public class GameHeroView extends View {
         } else if (currentStatus == STATUS_IDLE
                 || currentStatus == STATUS_BRIDGE_GROWING
                 || currentStatus == STATUS_BRIDGE_ROTATING
+                || currentStatus == STATUS_PERSON_KICK
                 || currentStatus == STATUS_PERSON_WALKING
                 || currentStatus == STATUS_FAILURE) {
 
@@ -376,11 +378,12 @@ public class GameHeroView extends View {
         canvas.drawCircle(cx, cy, radius, paint);
 
         float startX1 = l + PERSON_LEG_OFFSET;
-        float stopY = b + PERSON_LEG_HEIGHT;
+        float stopY1 = b + PERSON_LEG_HEIGHT;
         float stopX1 = startX1;
 
         float startX2 = r - PERSON_LEG_OFFSET;
         float stopX2 = startX2;
+        float stopY2 = b + PERSON_LEG_HEIGHT;
 
         if (currentStatus == STATUS_PERSON_WALKING && currentWalkDistance - lastWalkDistance > 10) {
             lastWalkDistance = currentWalkDistance;
@@ -393,11 +396,14 @@ public class GameHeroView extends View {
                 stopX1 = startX1 - PERSON_LEG_WALK_OFFSET;
                 stopX2 = startX2 + PERSON_LEG_WALK_OFFSET;
             }
+        } else if (currentStatus == STATUS_PERSON_KICK) {
+            stopX2 = startX2 + (PERSON_BACKUP_DISTANCE - BRIDGE_BACKUP_DISTANCE);
+            stopY2 = stopY2 - 4;
         }
 
         paint.setStrokeWidth(PERSON_LEG_WIDTH);
-        canvas.drawLine(startX1, b, stopX1, stopY, paint);
-        canvas.drawLine(startX2, b, stopX2, stopY, paint);
+        canvas.drawLine(startX1, b, stopX1, stopY1, paint);
+        canvas.drawLine(startX2, b, stopX2, stopY2, paint);
     }
 
     private void drawBridge(Canvas canvas) {
@@ -443,6 +449,12 @@ public class GameHeroView extends View {
                 startX = 0;
             }
             canvas.drawLine(startX, startY, stopX, startY, paint);
+        } else if (currentStatus == STATUS_PERSON_KICK) {
+            float stopY = startY - currentBridgeLength;
+            if (stopY < 0) {
+                stopY = 0;
+            }
+            canvas.drawLine(startX, startY, startX, stopY, paint);
         }
     }
 
@@ -461,9 +473,19 @@ public class GameHeroView extends View {
         }
     }
 
+    private void kickBridge() {
+        currentStatus = STATUS_PERSON_KICK;
+        invalidate();
+
+        postDelayed(new Runnable() {
+            @Override public void run() {
+                startRotateBridge();
+            }
+        }, 100);
+    }
+
     private void startRotateBridge() {
         currentStatus = STATUS_BRIDGE_ROTATING;
-
         if (bridgeRotateAnimator == null) {
             bridgeRotateAnimator = ValueAnimator.ofInt(0, 90);
             bridgeRotateAnimator.setInterpolator(new AccelerateInterpolator());
