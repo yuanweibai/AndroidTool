@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -25,9 +26,9 @@ public class GameHeroView extends View {
 
     private static final float PILLAR_HEIGHT_RATIO = 1 / 3f;
     private static final float PILLAR_WIDTH_MAX_RATIO = 1 / 4f;
-    private static final float PILLAR_WIDTH_MIN_RATIO = 1 / 7f;
+    private static final float PILLAR_WIDTH_MIN_RATIO = 1 / 9f;
     private static final float INTERSTICE_MAX_RATIO = 1 / 3f;
-    private static final float INTERSTICE_MIN_RATIO = 1 / 6f;
+    private static final float INTERSTICE_MIN_RATIO = 1 / 9f;
 
     private static final float FIRST_PILLAR_LEFT_RATIO = 1 / 5f;
 
@@ -46,7 +47,7 @@ public class GameHeroView extends View {
 
     private static final float BRIDGE_WIDTH = ScreenUtils.dp2px(3);
     private static final float BRIDGE_BACKUP_DISTANCE = ScreenUtils.dp2px(2);
-    private static final float BRIDGE_GROWN_SPEED = ScreenUtils.dp2px(4);
+    private static final float BRIDGE_GROWN_SPEED = ScreenUtils.dp2px(5);
     private static final long BRIDGE_ROTATE_DURATION = 300;
 
     private static final float PILLAR_CENTER_RECT_WIDTH = ScreenUtils.dp2px(4);
@@ -60,7 +61,7 @@ public class GameHeroView extends View {
     /**
      * px per second
      */
-    private static final float GO_TO_NEXT_LEVEL_SPEED = ScreenUtils.dp2px(300);
+    private static final float GO_TO_NEXT_LEVEL_SPEED = ScreenUtils.dp2px(400);
 
     private static final long FALL_DURATION = 300;
 
@@ -82,14 +83,23 @@ public class GameHeroView extends View {
     private @StatusDef int currentStatus;
 
     private Bitmap bgBitmap;
+    private Bitmap contentBitmap;
+
     private int screenWidth;
     private int screenHeight;
     private int bitmapWidth;
     private int bitmapHeight;
 
+    private int contentBitmapWidth;
+    private int contentBitmapHeight;
+
+    private float currentContentTranslationX = 0;
+
     private Matrix bgMatrix;
     private float xScale;
     private float yScale;
+
+    private float contentXScale;
 
     private Paint paint;
 
@@ -116,8 +126,9 @@ public class GameHeroView extends View {
     private float bridgeMaxLength;
     private int currentBridgeRotateAngle = 0;
 
-    private float lastWalkDistance;
+    private float lastWalkDistanceForLeg;
     private float currentWalkDistance = 0;
+    private float lastWalkDistance = 0;
 
     private float progressToNextLevel = 0f;
 
@@ -169,13 +180,20 @@ public class GameHeroView extends View {
         intersticeMinDistance = screenWidth * INTERSTICE_MIN_RATIO;
 
         bgBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper);
+        contentBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cloud);
+
         bitmapWidth = bgBitmap.getWidth();
         bitmapHeight = bgBitmap.getHeight();
 
+        contentBitmapWidth = contentBitmap.getWidth();
+        contentBitmapHeight = contentBitmap.getHeight();
+
         xScale = screenWidth / (float) bitmapWidth;
         yScale = screenHeight / (float) bitmapHeight;
+
+        contentXScale = screenWidth / (float) contentBitmapWidth;
+
         bgMatrix = new Matrix();
-        bgMatrix.setScale(xScale, yScale);
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(Color.BLACK);
@@ -211,13 +229,37 @@ public class GameHeroView extends View {
 
         drawBridge(canvas);
 
+        drawWind(canvas);
+
         if (currentStatus == STATUS_INIT) {
             currentStatus = STATUS_IDLE;
         }
     }
 
     private void drawBg(Canvas canvas) {
+
+        bgMatrix.reset();
+        bgMatrix.setScale(xScale, yScale);
         canvas.drawBitmap(bgBitmap, bgMatrix, paint);
+
+
+        if (currentStatus == STATUS_PERSON_WALKING) {
+            currentContentTranslationX += (currentWalkDistance - lastWalkDistance) / 6;
+            if (currentContentTranslationX >= screenWidth) {
+                currentContentTranslationX -= screenWidth;
+            }
+
+        }
+        float dy = (screenHeight - contentBitmapHeight * contentXScale);
+        bgMatrix.reset();
+        bgMatrix.setScale(contentXScale, contentXScale);
+        bgMatrix.postTranslate(-currentContentTranslationX, dy);
+        canvas.drawBitmap(contentBitmap, bgMatrix, paint);
+
+        bgMatrix.reset();
+        bgMatrix.setScale(contentXScale, contentXScale);
+        bgMatrix.postTranslate(screenWidth - currentContentTranslationX, dy);
+        canvas.drawBitmap(contentBitmap, bgMatrix, paint);
     }
 
     private void drawPillar(Canvas canvas) {
@@ -385,8 +427,8 @@ public class GameHeroView extends View {
         float stopX2 = startX2;
         float stopY2 = b + PERSON_LEG_HEIGHT;
 
-        if (currentStatus == STATUS_PERSON_WALKING && currentWalkDistance - lastWalkDistance > 10) {
-            lastWalkDistance = currentWalkDistance;
+        if (currentStatus == STATUS_PERSON_WALKING && currentWalkDistance - lastWalkDistanceForLeg > 10) {
+            lastWalkDistanceForLeg = currentWalkDistance;
             if (isFlag) {
                 isFlag = false;
                 stopX1 = startX1 + PERSON_LEG_WALK_OFFSET;
@@ -481,7 +523,7 @@ public class GameHeroView extends View {
             @Override public void run() {
                 startRotateBridge();
             }
-        }, 100);
+        }, 200);
     }
 
     private void startRotateBridge() {
@@ -520,7 +562,7 @@ public class GameHeroView extends View {
     private void startWalk() {
         currentStatus = STATUS_PERSON_WALKING;
         isFlag = false;
-        lastWalkDistance = 0;
+        lastWalkDistanceForLeg = 0;
         if (walkAnimator != null) {
             walkAnimator.cancel();
             walkAnimator = null;
@@ -542,27 +584,28 @@ public class GameHeroView extends View {
         long duration = (long) (walkDistance / WALK_SPEED * 1000);
         walkAnimator.setDuration(duration);
         walkAnimator.addUpdateListener(animation -> {
+            lastWalkDistance = currentWalkDistance;
             currentWalkDistance = (float) animation.getAnimatedValue();
             invalidate();
         });
         walkAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationCancel(Animator animation) {
-                post(new Runnable() {
+                postDelayed(new Runnable() {
                     @Override public void run() {
                         walkResult(isPass);
                     }
-                });
+                }, 100);
 
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                post(new Runnable() {
+                postDelayed(new Runnable() {
                     @Override public void run() {
                         walkResult(isPass);
                     }
-                });
+                }, 100);
             }
         });
         walkAnimator.start();
@@ -702,6 +745,16 @@ public class GameHeroView extends View {
         if (statusListener != null) {
             statusListener.onFailure();
         }
+    }
+
+    private void drawWind(Canvas canvas) {
+        float cx = screenWidth / 2f;
+        float cy = screenHeight / 2f;
+
+        Path path = new Path();
+        path.moveTo(cx, cy);
+
+
     }
 
     public interface OnStatusListener {
