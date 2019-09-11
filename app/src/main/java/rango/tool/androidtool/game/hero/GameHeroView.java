@@ -248,8 +248,15 @@ public class GameHeroView extends View {
             while (i < 2) {
 
                 float r = l + getPillarWidth();
-                if (r > SCREEN_WIDTH) {
-                    l -= (r - SCREEN_WIDTH);
+
+                if (i == 0) {
+                    if (r > SCREEN_WIDTH / 2f) {
+                        r = SCREEN_WIDTH / 2f;
+                    }
+                } else {
+                    if (r > SCREEN_WIDTH) {
+                        r = SCREEN_WIDTH;
+                    }
                 }
 
                 if (i == 0) {
@@ -270,6 +277,9 @@ public class GameHeroView extends View {
                 canvas.drawRect(cL, cT, cR, cB, paint);
 
                 l = r + getIntersticeDistance();
+                if (l >= (SCREEN_WIDTH - 2 * PERFECT_RECT_WIDTH)) {
+                    l = SCREEN_WIDTH - 2 * PERFECT_RECT_WIDTH;
+                }
                 i++;
             }
         } else if (currentStatus == STATUS_IDLE
@@ -575,11 +585,21 @@ public class GameHeroView extends View {
 
         boolean isPass;
         float walkDistance;
-        float correctMaxDistance = secondPillarRight - firstPillarRight + BRIDGE_BACKUP_DISTANCE;
-        float correctMinDistance = secondPillarLeft - firstPillarRight + BRIDGE_BACKUP_DISTANCE;
+        float extraDis = BRIDGE_BACKUP_DISTANCE + BRIDGE_WIDTH / 2f;
+        float correctMaxDistance = secondPillarRight - firstPillarRight + extraDis;
+        float correctMinDistance = secondPillarLeft - firstPillarRight + extraDis;
         if (currentBridgeLength <= correctMaxDistance && currentBridgeLength >= correctMinDistance) {
             isPass = true;
-            walkDistance = correctMaxDistance - BRIDGE_BACKUP_DISTANCE;
+            walkDistance = correctMaxDistance - extraDis;
+            float secondPillarWidth = secondPillarRight - secondPillarLeft;
+            float perfectMaxDistance = (secondPillarRight - secondPillarWidth / 2f + PERFECT_RECT_WIDTH / 2f) - firstPillarRight + extraDis;
+            float perfectMinDistance = (secondPillarRight - secondPillarWidth / 2f - PERFECT_RECT_WIDTH / 2f) - firstPillarRight + extraDis;
+            if (currentBridgeLength <= perfectMaxDistance && currentBridgeLength >= perfectMinDistance) {
+                currentScore++;
+                if (statusListener != null) {
+                    statusListener.onPerfect(currentScore);
+                }
+            }
         } else {
             isPass = false;
             walkDistance = currentBridgeLength + (PERSON_BACKUP_DISTANCE - BRIDGE_BACKUP_DISTANCE) + PERSON_BODY_WIDTH;
@@ -760,5 +780,7 @@ public class GameHeroView extends View {
         void onSuccess(int currentScore);
 
         void onFailure();
+
+        void onPerfect(int currentScore);
     }
 }

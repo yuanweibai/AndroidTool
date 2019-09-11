@@ -40,6 +40,11 @@ public class GameHeroActivity extends BaseActivity {
             public void onFailure() {
                 failureLayout.setVisibility(View.VISIBLE);
             }
+
+            @Override
+            public void onPerfect(int currentScore) {
+                scoreText.setText(String.valueOf(currentScore));
+            }
         });
 
         findViewById(R.id.retry_btn).setOnClickListener(v -> {

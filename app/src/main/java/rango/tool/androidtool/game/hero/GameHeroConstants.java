@@ -7,7 +7,7 @@ class GameHeroConstants {
     /**
      * The ratio of the width of the PerfectRect to the width of the screen
      */
-    static final float PERFECT_RECT_WIDTH_RATIO = 1 / 50f;
+    static final float PERFECT_RECT_WIDTH_RATIO = 1 / 25f;
 
     /**
      * The ratio of the height of the PerfectRect to the width of the PerfectRect
