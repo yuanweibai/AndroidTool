@@ -250,8 +250,11 @@ public class GameHeroView extends View {
                 float r = l + getPillarWidth();
 
                 if (i == 0) {
+                    float minR = SCREEN_WIDTH * GameHeroConstants.FIRST_PILLAR_LEFT_MIN_RATIO;
                     if (r > SCREEN_WIDTH / 2f) {
                         r = SCREEN_WIDTH / 2f;
+                    } else if (r < minR) {
+                        r = minR;
                     }
                 } else {
                     if (r > SCREEN_WIDTH) {

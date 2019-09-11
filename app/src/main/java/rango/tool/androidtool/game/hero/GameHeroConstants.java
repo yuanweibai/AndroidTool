@@ -7,7 +7,7 @@ class GameHeroConstants {
     /**
      * The ratio of the width of the PerfectRect to the width of the screen
      */
-    static final float PERFECT_RECT_WIDTH_RATIO = 1 / 25f;
+    static final float PERFECT_RECT_WIDTH_RATIO = 1 / 60f;
 
     /**
      * The ratio of the height of the PerfectRect to the width of the PerfectRect
@@ -29,20 +29,20 @@ class GameHeroConstants {
      * The multiple of the width of pillar than the width of PrefectRect int every hierarchy
      */
     static final int[][] PILLAR_WIDTH_MULTIPLE = new int[][]{
-            {8, 10, 12},
-            {4, 8, 10},
-            {3, 5, 8},
-            {2, 4, 6, 10}
+            {3, 6, 8, 10},
+            {3, 6, 8, 10},
+            {3, 6, 8, 10},
+            {3, 6, 8, 10}
     };
 
     /**
      * The multiple of the width of interstice than the width of PrefectRect int every hierarchy
      */
     static final int[][] INTERSTICE_WIDTH_MULTIPLE = new int[][]{
-            {10, 15, 20},
-            {5, 10, 15, 20, 24},
-            {3, 6, 8, 20, 30, 35},
-            {2, 4, 8, 15, 24, 30, 40}
+            {3, 4, 8, 15, 24, 30, 40},
+            {3, 4, 8, 15, 24, 30, 40},
+            {3, 4, 8, 15, 24, 30, 40},
+            {3, 4, 8, 15, 24, 30, 40}
     };
 
     /**
