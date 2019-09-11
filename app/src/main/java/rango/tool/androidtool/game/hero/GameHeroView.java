@@ -10,7 +10,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -23,14 +22,6 @@ import rango.tool.androidtool.R;
 import rango.tool.common.utils.ScreenUtils;
 
 public class GameHeroView extends View {
-
-    private static final float PILLAR_HEIGHT_RATIO = 1 / 3f;
-    private static final float PILLAR_WIDTH_MAX_RATIO = 1 / 4f;
-    private static final float PILLAR_WIDTH_MIN_RATIO = 1 / 9f;
-    private static final float INTERSTICE_MAX_RATIO = 1 / 3f;
-    private static final float INTERSTICE_MIN_RATIO = 1 / 9f;
-
-    private static final float FIRST_PILLAR_LEFT_RATIO = 1 / 5f;
 
     private static final float PERSON_BODY_HEIGHT = ScreenUtils.dp2px(16);
     private static final float PERSON_BODY_WIDTH = ScreenUtils.dp2px(12);
@@ -47,23 +38,9 @@ public class GameHeroView extends View {
 
     private static final float BRIDGE_WIDTH = ScreenUtils.dp2px(3);
     private static final float BRIDGE_BACKUP_DISTANCE = ScreenUtils.dp2px(2);
-    private static final float BRIDGE_GROWN_SPEED = ScreenUtils.dp2px(5);
-    private static final long BRIDGE_ROTATE_DURATION = 300;
 
-    private static final float PILLAR_CENTER_RECT_WIDTH = ScreenUtils.dp2px(4);
-    private static final float PILLAR_CENTER_RECT_HEIGHT = ScreenUtils.dp2px(3);
-
-    /**
-     * px per second
-     */
-    private static final float WALK_SPEED = ScreenUtils.dp2px(150);
-
-    /**
-     * px per second
-     */
-    private static final float GO_TO_NEXT_LEVEL_SPEED = ScreenUtils.dp2px(400);
-
-    private static final long FALL_DURATION = 300;
+    private static float PERFECT_RECT_WIDTH;
+    private static float PERFECT_RECT_HEIGHT;
 
     private static final int STATUS_INIT = 0;
     private static final int STATUS_IDLE = 1;
@@ -73,6 +50,15 @@ public class GameHeroView extends View {
     private static final int STATUS_PERSON_WALKING = 4;
     private static final int STATUS_SHOW_NEXT_LEVEL = 5;
     private static final int STATUS_FAILURE = 6;
+
+    private int SCREEN_WIDTH;
+    private int SCREEN_HEIGHT;
+
+    private float FIRST_PILLAR_LEFT_MIN_DISTANCE;
+
+    private float PILLAR_TOP;
+    private float PILLAR_BOTTOM;
+    private float PILLAR_HEIGHT;
 
     @IntDef({STATUS_INIT, STATUS_IDLE, STATUS_BRIDGE_GROWING,
             STATUS_BRIDGE_ROTATING, STATUS_PERSON_KICK, STATUS_PERSON_WALKING,
@@ -85,12 +71,6 @@ public class GameHeroView extends View {
     private Bitmap bgBitmap;
     private Bitmap contentBitmap;
 
-    private int screenWidth;
-    private int screenHeight;
-    private int bitmapWidth;
-    private int bitmapHeight;
-
-    private int contentBitmapWidth;
     private int contentBitmapHeight;
 
     private float currentContentTranslationX = 0;
@@ -103,15 +83,6 @@ public class GameHeroView extends View {
 
     private Paint paint;
 
-    private float pillarTop;
-    private float pillarBottom;
-    private float pillarMaxWidth;
-    private float pillarMinWidth;
-    private float pillarHeight;
-
-    private float intersticeMaxDistance;
-    private float intersticeMinDistance;
-
     private float firstPillarLeft;
     private float firstPillarRight;
 
@@ -123,7 +94,7 @@ public class GameHeroView extends View {
 
     private float lastBridgeLength = 0;
     private float currentBridgeLength = 0;
-    private float bridgeMaxLength;
+    private float BRIDGE_MAX_LENGTH;
     private int currentBridgeRotateAngle = 0;
 
     private float lastWalkDistanceForLeg;
@@ -137,7 +108,7 @@ public class GameHeroView extends View {
     private float currentPillarsMoveMaxDistance;
     private float futurePillarMoveMaxDistance;
 
-    private final float firstPillarLeftMinDistance;
+    private int currentScore = 0;
 
     private boolean isFlag = false;
 
@@ -153,8 +124,13 @@ public class GameHeroView extends View {
     }
 
     public void retry() {
-        currentStatus = STATUS_INIT;
+        reset();
         invalidate();
+    }
+
+    private void reset() {
+        currentStatus = STATUS_INIT;
+        currentScore = 0;
     }
 
     public GameHeroView(Context context) {
@@ -164,40 +140,42 @@ public class GameHeroView extends View {
     public GameHeroView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
-        screenWidth = ScreenUtils.getScreenWidthPx();
-        screenHeight = ScreenUtils.getScreenHeightPx();
-        pillarHeight = screenHeight * PILLAR_HEIGHT_RATIO;
-        pillarMaxWidth = screenWidth * PILLAR_WIDTH_MAX_RATIO;
-        pillarMinWidth = screenWidth * PILLAR_WIDTH_MIN_RATIO;
-        pillarTop = screenHeight - pillarHeight;
-        pillarBottom = screenHeight;
-
-        firstPillarLeftMinDistance = screenWidth * FIRST_PILLAR_LEFT_RATIO;
-
-        bridgeMaxLength = screenHeight - pillarHeight;
-
-        intersticeMaxDistance = screenWidth * INTERSTICE_MAX_RATIO;
-        intersticeMinDistance = screenWidth * INTERSTICE_MIN_RATIO;
+        initFinalSize();
 
         bgBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.wallpaper);
         contentBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.cloud);
 
-        bitmapWidth = bgBitmap.getWidth();
-        bitmapHeight = bgBitmap.getHeight();
+        int bitmapWidth = bgBitmap.getWidth();
+        int bitmapHeight = bgBitmap.getHeight();
 
-        contentBitmapWidth = contentBitmap.getWidth();
+        int contentBitmapWidth = contentBitmap.getWidth();
         contentBitmapHeight = contentBitmap.getHeight();
 
-        xScale = screenWidth / (float) bitmapWidth;
-        yScale = screenHeight / (float) bitmapHeight;
+        xScale = SCREEN_WIDTH / (float) bitmapWidth;
+        yScale = SCREEN_HEIGHT / (float) bitmapHeight;
 
-        contentXScale = screenWidth / (float) contentBitmapWidth;
+        contentXScale = SCREEN_WIDTH / (float) contentBitmapWidth;
 
         bgMatrix = new Matrix();
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(Color.BLACK);
         currentStatus = STATUS_INIT;
+    }
+
+    private void initFinalSize() {
+        SCREEN_WIDTH = ScreenUtils.getScreenWidthPx();
+        SCREEN_HEIGHT = ScreenUtils.getScreenHeightPx();
+        PERFECT_RECT_WIDTH = GameHeroConstants.PERFECT_RECT_WIDTH_RATIO * SCREEN_WIDTH;
+        PERFECT_RECT_HEIGHT = PERFECT_RECT_WIDTH * GameHeroConstants.PERFECT_RECT_HEIGHT_WIDTH_RATIO;
+
+        PILLAR_HEIGHT = SCREEN_HEIGHT * GameHeroConstants.PILLAR_HEIGHT_RATIO;
+        PILLAR_TOP = SCREEN_HEIGHT - PILLAR_HEIGHT;
+        PILLAR_BOTTOM = SCREEN_HEIGHT;
+
+        FIRST_PILLAR_LEFT_MIN_DISTANCE = SCREEN_WIDTH * GameHeroConstants.FIRST_PILLAR_LEFT_MIN_RATIO;
+
+        BRIDGE_MAX_LENGTH = SCREEN_HEIGHT - PILLAR_HEIGHT;
     }
 
     @Override
@@ -229,8 +207,6 @@ public class GameHeroView extends View {
 
         drawBridge(canvas);
 
-        drawWind(canvas);
-
         if (currentStatus == STATUS_INIT) {
             currentStatus = STATUS_IDLE;
         }
@@ -244,13 +220,13 @@ public class GameHeroView extends View {
 
 
         if (currentStatus == STATUS_PERSON_WALKING) {
-            currentContentTranslationX += (currentWalkDistance - lastWalkDistance) / 6;
-            if (currentContentTranslationX >= screenWidth) {
-                currentContentTranslationX -= screenWidth;
+            currentContentTranslationX += (currentWalkDistance - lastWalkDistance) / 5;
+            if (currentContentTranslationX >= SCREEN_WIDTH) {
+                currentContentTranslationX -= SCREEN_WIDTH;
             }
 
         }
-        float dy = (screenHeight - contentBitmapHeight * contentXScale);
+        float dy = (SCREEN_HEIGHT - contentBitmapHeight * contentXScale);
         bgMatrix.reset();
         bgMatrix.setScale(contentXScale, contentXScale);
         bgMatrix.postTranslate(-currentContentTranslationX, dy);
@@ -258,7 +234,7 @@ public class GameHeroView extends View {
 
         bgMatrix.reset();
         bgMatrix.setScale(contentXScale, contentXScale);
-        bgMatrix.postTranslate(screenWidth - currentContentTranslationX, dy);
+        bgMatrix.postTranslate(SCREEN_WIDTH - currentContentTranslationX, dy);
         canvas.drawBitmap(contentBitmap, bgMatrix, paint);
     }
 
@@ -271,8 +247,8 @@ public class GameHeroView extends View {
             while (i < 2) {
 
                 float r = l + getPillarWidth();
-                if (r > screenWidth) {
-                    l -= (r - screenWidth);
+                if (r > SCREEN_WIDTH) {
+                    l -= (r - SCREEN_WIDTH);
                 }
 
                 if (i == 0) {
@@ -283,12 +259,12 @@ public class GameHeroView extends View {
                     secondPillarRight = r;
                 }
                 paint.setColor(Color.BLACK);
-                canvas.drawRect(l, pillarTop, r, pillarBottom, paint);
+                canvas.drawRect(l, PILLAR_TOP, r, PILLAR_BOTTOM, paint);
 
-                float cL = l + (r - l - PILLAR_CENTER_RECT_WIDTH) / 2f;
-                float cT = pillarTop;
-                float cR = cL + PILLAR_CENTER_RECT_WIDTH;
-                float cB = cT + PILLAR_CENTER_RECT_HEIGHT;
+                float cL = l + (r - l - PERFECT_RECT_WIDTH) / 2f;
+                float cT = PILLAR_TOP;
+                float cR = cL + PERFECT_RECT_WIDTH;
+                float cB = cT + PERFECT_RECT_HEIGHT;
                 paint.setColor(Color.RED);
                 canvas.drawRect(cL, cT, cR, cB, paint);
 
@@ -303,20 +279,20 @@ public class GameHeroView extends View {
                 || currentStatus == STATUS_FAILURE) {
 
             paint.setColor(Color.BLACK);
-            canvas.drawRect(firstPillarLeft, pillarTop, firstPillarRight, pillarBottom, paint);
-            canvas.drawRect(secondPillarLeft, pillarTop, secondPillarRight, pillarBottom, paint);
+            canvas.drawRect(firstPillarLeft, PILLAR_TOP, firstPillarRight, PILLAR_BOTTOM, paint);
+            canvas.drawRect(secondPillarLeft, PILLAR_TOP, secondPillarRight, PILLAR_BOTTOM, paint);
 
             paint.setColor(Color.RED);
-            float cL = firstPillarLeft + (firstPillarRight - firstPillarLeft - PILLAR_CENTER_RECT_WIDTH) / 2f;
-            float cT = pillarTop;
-            float cR = cL + PILLAR_CENTER_RECT_WIDTH;
-            float cB = cT + PILLAR_CENTER_RECT_HEIGHT;
+            float cL = firstPillarLeft + (firstPillarRight - firstPillarLeft - PERFECT_RECT_WIDTH) / 2f;
+            float cT = PILLAR_TOP;
+            float cR = cL + PERFECT_RECT_WIDTH;
+            float cB = cT + PERFECT_RECT_HEIGHT;
             canvas.drawRect(cL, cT, cR, cB, paint);
 
-            float ncL = secondPillarLeft + (secondPillarRight - secondPillarLeft - PILLAR_CENTER_RECT_WIDTH) / 2f;
-            float ncT = pillarTop;
-            float ncR = ncL + PILLAR_CENTER_RECT_WIDTH;
-            float ncB = ncT + PILLAR_CENTER_RECT_HEIGHT;
+            float ncL = secondPillarLeft + (secondPillarRight - secondPillarLeft - PERFECT_RECT_WIDTH) / 2f;
+            float ncT = PILLAR_TOP;
+            float ncR = ncL + PERFECT_RECT_WIDTH;
+            float ncB = ncT + PERFECT_RECT_HEIGHT;
             canvas.drawRect(ncL, ncT, ncR, ncB, paint);
 
         } else if (currentStatus == STATUS_SHOW_NEXT_LEVEL) {
@@ -330,27 +306,27 @@ public class GameHeroView extends View {
                     cL = 0;
                 }
                 paint.setColor(Color.BLACK);
-                canvas.drawRect(cL, pillarTop, cR, pillarBottom, paint);
+                canvas.drawRect(cL, PILLAR_TOP, cR, PILLAR_BOTTOM, paint);
 
-                float ccR = cR - (cPillarW - PILLAR_CENTER_RECT_WIDTH) / 2f;
+                float ccR = cR - (cPillarW - PERFECT_RECT_WIDTH) / 2f;
                 if (ccR > 0) {
-                    float ccL = ccR - PILLAR_CENTER_RECT_WIDTH;
+                    float ccL = ccR - PERFECT_RECT_WIDTH;
                     if (ccL < 0) {
                         ccL = 0;
                     }
                     paint.setColor(Color.RED);
-                    canvas.drawRect(ccL, pillarTop, ccR, pillarTop + PILLAR_CENTER_RECT_HEIGHT, paint);
+                    canvas.drawRect(ccL, PILLAR_TOP, ccR, PILLAR_TOP + PERFECT_RECT_HEIGHT, paint);
                 }
             }
 
             float nL = secondPillarLeft - currentPillarsMoveDistance;
             float nR = secondPillarRight - currentPillarsMoveDistance;
-            drawCompletePillar(nL, pillarTop, nR, pillarBottom, canvas);
+            drawCompletePillar(nL, PILLAR_TOP, nR, PILLAR_BOTTOM, canvas);
 
             float nextLevelPillarMoveDistance = getNextLevelPillarMoveDistance();
             float nnL = thirdPillarLeft - nextLevelPillarMoveDistance;
             float nnR = thirdPillarRight - nextLevelPillarMoveDistance;
-            drawCompletePillar(nnL, pillarTop, nnR, pillarBottom, canvas);
+            drawCompletePillar(nnL, PILLAR_TOP, nnR, PILLAR_BOTTOM, canvas);
         }
 
     }
@@ -359,19 +335,47 @@ public class GameHeroView extends View {
         paint.setColor(Color.BLACK);
         canvas.drawRect(l, t, r, b, paint);
 
-        float cL = l + (r - l - PILLAR_CENTER_RECT_WIDTH) / 2f;
-        float cR = cL + PILLAR_CENTER_RECT_WIDTH;
-        float cB = t + PILLAR_CENTER_RECT_HEIGHT;
+        float cL = l + (r - l - PERFECT_RECT_WIDTH) / 2f;
+        float cR = cL + PERFECT_RECT_WIDTH;
+        float cB = t + PERFECT_RECT_HEIGHT;
         paint.setColor(Color.RED);
         canvas.drawRect(cL, t, cR, cB, paint);
     }
 
     private float getPillarWidth() {
-        return (float) (Math.random() * (pillarMaxWidth - pillarMinWidth) + pillarMinWidth);
+        int hierarchy = getCurrentHierarchy();
+        int[] pillars = GameHeroConstants.PILLAR_WIDTH_MULTIPLE[hierarchy];
+        int multiple;
+        if (pillars.length == 1) {
+            multiple = pillars[0];
+        } else {
+            int index = (int) (Math.random() * pillars.length);
+            multiple = pillars[index];
+        }
+        return multiple * PERFECT_RECT_WIDTH;
     }
 
     private float getIntersticeDistance() {
-        return (float) (Math.random() * (intersticeMaxDistance - intersticeMinDistance) + intersticeMinDistance);
+        int hierarchy = getCurrentHierarchy();
+        int[] pillars = GameHeroConstants.INTERSTICE_WIDTH_MULTIPLE[hierarchy];
+        int multiple;
+        if (pillars.length == 1) {
+            multiple = pillars[0];
+        } else {
+            int index = (int) (Math.random() * pillars.length);
+            multiple = pillars[index];
+        }
+        return multiple * PERFECT_RECT_WIDTH;
+    }
+
+    private int getCurrentHierarchy() {
+        for (int i = 0; i < GameHeroConstants.GAME_HIERARCHY.length; i++) {
+            int score = GameHeroConstants.GAME_HIERARCHY[i];
+            if (currentScore <= score) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     private void drawPerson(Canvas canvas) {
@@ -386,7 +390,7 @@ public class GameHeroView extends View {
             l = l + currentWalkDistance - getCurrentPillarsMoveDistance();
         }
 
-        float t = pillarTop - PERSON_LEG_HEIGHT - PERSON_BODY_HEIGHT;
+        float t = PILLAR_TOP - PERSON_LEG_HEIGHT - PERSON_BODY_HEIGHT;
         if (currentStatus == STATUS_FAILURE) {
             t += currentFallDistance;
         }
@@ -456,11 +460,11 @@ public class GameHeroView extends View {
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(BRIDGE_WIDTH);
         float startX = firstPillarRight - BRIDGE_BACKUP_DISTANCE - BRIDGE_WIDTH / 2f;
-        float startY = pillarTop;
+        float startY = PILLAR_TOP;
         if (currentStatus == STATUS_BRIDGE_GROWING) {
-            currentBridgeLength += BRIDGE_GROWN_SPEED;
-            if (currentBridgeLength > bridgeMaxLength) {
-                currentBridgeLength = bridgeMaxLength;
+            currentBridgeLength += GameHeroConstants.BRIDGE_GROWING_SPEED;
+            if (currentBridgeLength > BRIDGE_MAX_LENGTH) {
+                currentBridgeLength = BRIDGE_MAX_LENGTH;
             }
             float stopY = startY - currentBridgeLength;
             if (stopY < 0) {
@@ -472,16 +476,16 @@ public class GameHeroView extends View {
             double p = Math.PI / 180 * currentBridgeRotateAngle;
 
             float stopX = (float) (startX + currentBridgeLength * Math.sin(p));
-            if (stopX > screenWidth) {
-                stopX = screenWidth;
+            if (stopX > SCREEN_WIDTH) {
+                stopX = SCREEN_WIDTH;
             }
             float stopY = (float) (startY - currentBridgeLength * Math.cos(p));
             canvas.drawLine(startX, startY, stopX, stopY, paint);
         } else if (currentStatus == STATUS_PERSON_WALKING
                 || currentStatus == STATUS_FAILURE) {
             float stopX = startX + currentBridgeLength;
-            if (stopX > screenWidth) {
-                stopX = screenWidth;
+            if (stopX > SCREEN_WIDTH) {
+                stopX = SCREEN_WIDTH;
             }
             canvas.drawLine(startX, startY, stopX, startY, paint);
         } else if (currentStatus == STATUS_SHOW_NEXT_LEVEL) {
@@ -554,7 +558,7 @@ public class GameHeroView extends View {
 
                 }
             });
-            bridgeRotateAnimator.setDuration(BRIDGE_ROTATE_DURATION);
+            bridgeRotateAnimator.setDuration(GameHeroConstants.BRIDGE_ROTATE_DURATION);
         }
         bridgeRotateAnimator.start();
     }
@@ -581,7 +585,7 @@ public class GameHeroView extends View {
         }
         walkAnimator = ValueAnimator.ofFloat(0, walkDistance);
         walkAnimator.setInterpolator(new LinearInterpolator());
-        long duration = (long) (walkDistance / WALK_SPEED * 1000);
+        long duration = (long) (walkDistance / GameHeroConstants.WALK_SPEED * 1000);
         walkAnimator.setDuration(duration);
         walkAnimator.addUpdateListener(animation -> {
             lastWalkDistance = currentWalkDistance;
@@ -624,19 +628,19 @@ public class GameHeroView extends View {
         thirdPillarRight = thirdPillarLeft + getPillarWidth();
 
         currentPillarsMoveMaxDistance = secondPillarLeft;
-        float maxD = secondPillarRight - firstPillarLeftMinDistance;
+        float maxD = secondPillarRight - FIRST_PILLAR_LEFT_MIN_DISTANCE;
         if (currentPillarsMoveMaxDistance > maxD) {
             currentPillarsMoveMaxDistance = maxD;
         }
 
-        if (thirdPillarRight - currentPillarsMoveMaxDistance > screenWidth) {
-            float d = thirdPillarRight - currentPillarsMoveMaxDistance - screenWidth;
+        if (thirdPillarRight - currentPillarsMoveMaxDistance > SCREEN_WIDTH) {
+            float d = thirdPillarRight - currentPillarsMoveMaxDistance - SCREEN_WIDTH;
             thirdPillarLeft -= d;
             thirdPillarRight -= d;
         }
 
-        if (thirdPillarLeft < screenWidth) {
-            float dis = screenWidth - thirdPillarLeft;
+        if (thirdPillarLeft < SCREEN_WIDTH) {
+            float dis = SCREEN_WIDTH - thirdPillarLeft;
             futurePillarMoveMaxDistance = currentPillarsMoveMaxDistance + dis;
             thirdPillarLeft += dis;
             thirdPillarRight += dis;
@@ -682,7 +686,7 @@ public class GameHeroView extends View {
             }
         });
 
-        long duration = (long) (currentPillarsMoveMaxDistance / GO_TO_NEXT_LEVEL_SPEED * 1000);
+        long duration = (long) (currentPillarsMoveMaxDistance / GameHeroConstants.GO_TO_NEXT_LEVEL_SPEED * 1000);
         levelAnimator.setDuration(duration);
         levelAnimator.setInterpolator(new LinearInterpolator());
 
@@ -698,6 +702,10 @@ public class GameHeroView extends View {
     }
 
     private void showNextLevelComplete() {
+        currentScore++;
+        if (statusListener != null) {
+            statusListener.onSuccess(currentScore);
+        }
         currentStatus = STATUS_IDLE;
         firstPillarLeft = secondPillarLeft - currentPillarsMoveMaxDistance;
         firstPillarRight = secondPillarRight - currentPillarsMoveMaxDistance;
@@ -710,7 +718,7 @@ public class GameHeroView extends View {
         currentStatus = STATUS_FAILURE;
         currentFallDistance = 0f;
         if (fallAnimator == null) {
-            fallAnimator = ValueAnimator.ofFloat(0, pillarHeight + PERSON_BODY_HEIGHT + PERSON_LEG_HEIGHT);
+            fallAnimator = ValueAnimator.ofFloat(0, PILLAR_HEIGHT + PERSON_BODY_HEIGHT + PERSON_LEG_HEIGHT);
             fallAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
@@ -718,7 +726,7 @@ public class GameHeroView extends View {
                     invalidate();
                 }
             });
-            fallAnimator.setDuration(FALL_DURATION);
+            fallAnimator.setDuration(GameHeroConstants.FALL_DURATION);
             fallAnimator.setInterpolator(new AccelerateInterpolator());
             fallAnimator.addListener(new AnimatorListenerAdapter() {
                 @Override public void onAnimationCancel(Animator animation) {
@@ -747,32 +755,9 @@ public class GameHeroView extends View {
         }
     }
 
-    private void drawWind(Canvas canvas) {
-        float cx = screenWidth / 2f;
-        float cy = screenHeight / 2f;
-
-        Path path = new Path();
-        path.moveTo(cx, cy);
-
-
-    }
-
     public interface OnStatusListener {
+        void onSuccess(int currentScore);
+
         void onFailure();
     }
-
-    private class Pillar {
-        private float left;
-        private float top;
-        private float right;
-        private float bottom;
-    }
-
-    private class Bridge {
-        private float startX;
-        private float startY;
-        private float stopX;
-        private float stopY;
-    }
-
 }
