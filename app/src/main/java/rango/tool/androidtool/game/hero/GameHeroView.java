@@ -131,6 +131,7 @@ public class GameHeroView extends View {
     private void reset() {
         currentStatus = STATUS_INIT;
         currentScore = 0;
+        currentContentTranslationX = 0;
     }
 
     public GameHeroView(Context context) {
