@@ -13,11 +13,12 @@ import rango.tool.common.utils.ActivityUtils;
 public class GameHeroActivity extends BaseActivity {
 
     private GameHeroView gameHeroView;
-
+    private ConstraintLayout startLayout;
     private ConstraintLayout failureLayout;
     private TextView scoreText;
 
-    @Override public void onAttachedToWindow() {
+    @Override
+    public void onAttachedToWindow() {
         super.onAttachedToWindow();
         ActivityUtils.setupTransparentStatusBarsForLmp(this);
     }
@@ -27,6 +28,7 @@ public class GameHeroActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_hero);
 
+        startLayout = findViewById(R.id.start_layout);
         scoreText = findViewById(R.id.score_text);
         gameHeroView = findViewById(R.id.game_hero_view);
         failureLayout = findViewById(R.id.failure_layout);
@@ -51,6 +53,11 @@ public class GameHeroActivity extends BaseActivity {
             failureLayout.setVisibility(View.GONE);
             gameHeroView.retry();
             scoreText.setText("0");
+        });
+
+        findViewById(R.id.start_btn).setOnClickListener(v -> {
+            startLayout.setVisibility(View.GONE);
+            gameHeroView.start();
         });
 
     }

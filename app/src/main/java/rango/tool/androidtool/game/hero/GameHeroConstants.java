@@ -20,30 +20,38 @@ class GameHeroConstants {
      * The game score is divided into several stages, such as: [0,10]、(10,20]、(20,30]、30+
      */
     static final int[] GAME_HIERARCHY = new int[]{
-            3,
-            10,
-            15
+            30,
     };
 
     /**
      * The multiple of the width of pillar than the width of PrefectRect int every hierarchy
      */
     static final int[][] PILLAR_WIDTH_MULTIPLE = new int[][]{
-            {3, 6, 8, 10},
-            {3, 6, 8, 10},
-            {3, 6, 8, 10},
-            {3, 6, 8, 10}
+            {6, 8, 10},
+            {6, 8, 10},
+            {6, 8, 10},
+            {6, 8, 10}
     };
 
     /**
      * The multiple of the width of interstice than the width of PrefectRect int every hierarchy
      */
     static final int[][] INTERSTICE_WIDTH_MULTIPLE = new int[][]{
-            {3, 4, 8, 15, 24, 30, 40},
+            {3, 4, 8, 15, 24,},
             {3, 4, 8, 15, 24, 30, 40},
             {3, 4, 8, 15, 24, 30, 40},
             {3, 4, 8, 15, 24, 30, 40}
     };
+
+    /**
+     * The ratio of the height of the init pillar
+     */
+    static final float PILLAR_INIT_HEIGHT_RATIO = 1 / 5f;
+
+    /**
+     * The multiple of the width of init pillar
+     */
+    static final float PILLAR_INIT_WIDTH_MULTIPLE = 10;
 
     /**
      * The ratio of the height of the pillar to the height of screen
@@ -79,5 +87,10 @@ class GameHeroConstants {
      * The duration of fall anim
      */
     static final long FALL_DURATION = 300;
+
+    /**
+     * The duration of start anim
+     */
+    static final long START_DURATION = 300;
 
 }

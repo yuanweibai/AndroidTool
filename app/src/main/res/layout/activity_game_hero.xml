@@ -10,6 +10,26 @@
         android:layout_height="match_parent" />
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/start_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#bb000000"
+        android:clickable="true"
+        android:focusable="true">
+
+        <Button
+            android:id="@+id/start_btn"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Start"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/failure_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
