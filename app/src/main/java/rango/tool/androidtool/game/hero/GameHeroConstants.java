@@ -14,6 +14,15 @@ class GameHeroConstants {
      */
     static final float PERFECT_RECT_HEIGHT_WIDTH_RATIO = 3 / 4f;
 
+    /**
+     * The score passed one level.
+     */
+    static final float GAME_SCORE_EVERY_LEVEL = 1;
+
+    /**
+     * The score passed perfectly
+     */
+    static final float GAME_SCORE_PERFECTLY = 3;
 
     /**
      * The hierarchy of game

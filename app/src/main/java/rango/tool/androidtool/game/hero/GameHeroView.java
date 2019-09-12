@@ -134,6 +134,7 @@ public class GameHeroView extends View {
     }
 
     public void start() {
+        currentScore = 0;
         lastStartMoveRatio = 0f;
         currentStartMoveRatio = 0f;
         personXMaxDistance = SCREEN_WIDTH / 2f - (getInitPillarWidth() - PERSON_BACKUP_DISTANCE - PERSON_BODY_WIDTH / 2f);
@@ -205,6 +206,7 @@ public class GameHeroView extends View {
         secondPillarCoord.b = PILLAR_BOTTOM;
 
         currentContentTranslationX = 0;
+        currentScore = 0;
         currentStatus = STATUS_IDLE;
         invalidate();
     }
@@ -238,6 +240,20 @@ public class GameHeroView extends View {
         paint.setColor(Color.BLACK);
 
         initStatus();
+    }
+
+    private void increaseScoreWhenPassedOneLevel() {
+        currentScore += GameHeroConstants.GAME_SCORE_EVERY_LEVEL;
+        if (statusListener != null) {
+            statusListener.onSuccess(currentScore);
+        }
+    }
+
+    private void increaseScoreWhenPassedPerfectly() {
+        currentScore += GameHeroConstants.GAME_SCORE_PERFECTLY;
+        if (statusListener != null) {
+            statusListener.onPerfect(currentScore);
+        }
     }
 
     private void initStatus() {
@@ -646,10 +662,7 @@ public class GameHeroView extends View {
             float perfectMaxDistance = (secondPillarCoord.r - secondPillarWidth / 2f + PERFECT_RECT_WIDTH / 2f) - firstPillarCoord.r + extraDis;
             float perfectMinDistance = (secondPillarCoord.r - secondPillarWidth / 2f - PERFECT_RECT_WIDTH / 2f) - firstPillarCoord.r + extraDis;
             if (currentBridgeLength <= perfectMaxDistance && currentBridgeLength >= perfectMinDistance) {
-                currentScore++;
-                if (statusListener != null) {
-                    statusListener.onPerfect(currentScore);
-                }
+                increaseScoreWhenPassedPerfectly();
             }
         } else {
             isPass = false;
@@ -763,10 +776,7 @@ public class GameHeroView extends View {
     }
 
     private void showNextLevelComplete() {
-        currentScore++;
-        if (statusListener != null) {
-            statusListener.onSuccess(currentScore);
-        }
+        increaseScoreWhenPassedOneLevel();
         Coordinate temp = firstPillarCoord;
         firstPillarCoord = secondPillarCoord;
         secondPillarCoord = thirdPillarCoord;
