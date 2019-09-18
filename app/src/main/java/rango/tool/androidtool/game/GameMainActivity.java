@@ -2,6 +2,7 @@ package rango.tool.androidtool.game;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import rango.tool.androidtool.R;
@@ -18,6 +19,15 @@ public class GameMainActivity extends BaseActivity {
         findViewById(R.id.hero_game_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("rango", "dddddd---------ddddddd");
+                int i = 0;
+                if (i == 0) {
+                    throw new IllegalStateException("hhhhhhhhhhhh");
+                } else {
+
+                }
+                Log.e("rango", "eeeeeeee---------eeeeeeeee");
+
                 startActivity(GameHeroActivity.class);
             }
         });

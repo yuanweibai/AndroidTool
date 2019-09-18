@@ -121,6 +121,8 @@ public class GameHeroView extends View {
 
     private boolean isFlag = false;
 
+    private boolean isUp = true;
+
     private ValueAnimator bridgeRotateAnimator;
     private ValueAnimator walkAnimator;
     private ValueAnimator levelAnimator;
@@ -282,9 +284,17 @@ public class GameHeroView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (currentStatus == STATUS_PERSON_WALKING
-                || currentStatus == STATUS_SHOW_NEXT_LEVEL) {
+        if (currentStatus == STATUS_SHOW_NEXT_LEVEL
+                || currentStatus == STATUS_FAILURE
+                || currentStatus == STATUS_BRIDGE_ROTATING
+                || currentStatus == STATUS_PERSON_KICK
+                || currentStatus == STATUS_INIT
+                || currentStatus == STATUS_START) {
             return super.onTouchEvent(event);
+        }
+
+        if (currentStatus == STATUS_PERSON_WALKING) {
+            return onWalkingTouchEvent(event);
         }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -294,6 +304,13 @@ public class GameHeroView extends View {
             case MotionEvent.ACTION_CANCEL:
                 kickBridge();
                 break;
+        }
+        return true;
+    }
+
+    private boolean onWalkingTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            isUp = !isUp;
         }
         return true;
     }
@@ -606,7 +623,7 @@ public class GameHeroView extends View {
             @Override public void run() {
                 startRotateBridge();
             }
-        }, 200);
+        }, 150);
     }
 
     private void startRotateBridge() {
