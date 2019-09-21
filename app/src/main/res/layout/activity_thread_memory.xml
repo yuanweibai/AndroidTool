@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/start_thread_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="开启一个Thread"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/start_HandlerThread_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="开启一个HandlerThread"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/start_thread_btn" />
+
+    <Button
+        android:id="@+id/result_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="计算内存"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/start_HandlerThread_btn" />
+
+    <TextView
+        android:id="@+id/content_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="24dp"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/result_btn" />
+</android.support.constraint.ConstraintLayout>

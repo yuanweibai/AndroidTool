@@ -131,6 +131,7 @@
         <activity android:name=".experiments.activity.NotificationActivity" />
         <activity android:name=".game.GameMainActivity" />
         <activity android:name=".game.hero.GameHeroActivity" />
+        <activity android:name=".thread.ThreadMemoryActivity" />
 
         <service android:name=".service.TestService" />
         <service android:name=".service.MyService" />

@@ -22,4 +22,13 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/start_btn" />
 
+    <Button
+        android:id="@+id/test_thread_memory_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="测试一个线程占用的内存"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/stop_btn" />
+
 </android.support.constraint.ConstraintLayout>

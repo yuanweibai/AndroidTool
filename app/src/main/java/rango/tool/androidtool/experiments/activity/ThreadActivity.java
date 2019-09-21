@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
+import rango.tool.androidtool.thread.ThreadMemoryActivity;
 import rango.tool.common.utils.NamedThreadFactory;
 
 public class ThreadActivity extends BaseActivity {
@@ -33,6 +34,7 @@ public class ThreadActivity extends BaseActivity {
         findViewById(R.id.start_btn).setOnClickListener(v -> startThread());
 
         findViewById(R.id.stop_btn).setOnClickListener(v -> stopThread());
+        findViewById(R.id.test_thread_memory_btn).setOnClickListener(v -> startActivity(ThreadMemoryActivity.class));
 
 
     }
