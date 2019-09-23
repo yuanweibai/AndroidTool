@@ -314,6 +314,12 @@
             android:layout_height="wrap_content"
             android:text="通知消息"
             android:textAllCaps="false" />
+        <Button
+            android:id="@+id/keep_alive_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Keep Alive"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 

@@ -132,6 +132,7 @@
         <activity android:name=".game.GameMainActivity" />
         <activity android:name=".game.hero.GameHeroActivity" />
         <activity android:name=".thread.ThreadMemoryActivity" />
+        <activity android:name=".alive.AliveActivity" />
 
         <service android:name=".service.TestService" />
         <service android:name=".service.MyService" />
@@ -187,6 +188,15 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+        <service
+            android:name=".alive.process.AliveService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":alive" />
+        <service
+            android:name=".alive.process.LocalService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

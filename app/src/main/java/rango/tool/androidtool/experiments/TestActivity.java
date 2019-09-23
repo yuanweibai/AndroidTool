@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 
 import rango.tool.androidtool.R;
+import rango.tool.androidtool.alive.AliveActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.clickeffect.RippleRelativeLayout;
 import rango.tool.androidtool.dialog.ToolDialog;
@@ -127,6 +128,7 @@ public class TestActivity extends BaseActivity {
                 sendBroadcast(intent);
             }
         });
+        findViewById(R.id.keep_alive_btn).setOnClickListener(v -> startActivity(AliveActivity.class));
 
     }
 
