@@ -36,20 +36,20 @@ class GameHeroConstants {
      * The multiple of the width of pillar than the width of PrefectRect int every hierarchy
      */
     static final int[][] PILLAR_WIDTH_MULTIPLE = new int[][]{
-            {6, 8, 10},
-            {6, 8, 10},
-            {6, 8, 10},
-            {6, 8, 10}
+            {8, 10, 14, 18},
+            {8, 10, 14, 18},
+            {8, 10, 14, 18},
+            {8, 10, 14, 18}
     };
 
     /**
      * The multiple of the width of interstice than the width of PrefectRect int every hierarchy
      */
     static final int[][] INTERSTICE_WIDTH_MULTIPLE = new int[][]{
-            {3, 4, 8, 15, 24,},
-            {3, 4, 8, 15, 24, 30, 40},
-            {3, 4, 8, 15, 24, 30, 40},
-            {3, 4, 8, 15, 24, 30, 40}
+            {4, 8, 15, 24,},
+            {4, 8, 15, 24, 30, 40},
+            {4, 8, 15, 24, 30, 40},
+            {4, 8, 15, 24, 30, 40}
     };
 
     /**
@@ -103,13 +103,13 @@ class GameHeroConstants {
     static final long START_DURATION = 300;
 
     /**
-     * The height of user jump
+     * The height of person jump
      */
-    static final int USER_JUMP_HEIGHT = ScreenUtils.dp2px(44);
+    static final int PERSON_JUMP_HEIGHT = ScreenUtils.dp2px(44);
 
     /**
-     * The distance of user jump
+     * The distance of person jump
      */
-    static final int USER_JUMP_DISTANCE = ScreenUtils.dp2px(60);
+    static final int PERSON_JUMP_DISTANCE = ScreenUtils.dp2px(60);
 
 }

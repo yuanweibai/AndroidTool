@@ -125,6 +125,10 @@ public class GameHeroView extends View {
 
     private boolean isJumping = false;
     private float startJumpX = INVALID_VALUE;
+    private boolean isStopWalking = false;
+    private boolean isPassLevel = false;
+    private boolean isJumpEnd = false;
+    private float bridgeLengthAfterJump = INVALID_VALUE;
 
     private ValueAnimator bridgeRotateAnimator;
     private ValueAnimator walkAnimator;
@@ -478,23 +482,107 @@ public class GameHeroView extends View {
             personBodyCoord.r = personBodyCoord.l + PERSON_BODY_WIDTH;
             personBodyCoord.b = personBodyCoord.t + PERSON_BODY_HEIGHT;
         } else if (currentStatus == STATUS_PERSON_WALKING) {
-            personBodyCoord.l = firstPillarCoord.r - PERSON_BACKUP_DISTANCE - PERSON_BODY_WIDTH + currentWalkDistance;
-            personBodyCoord.t = PILLAR_TOP - PERSON_LEG_HEIGHT - PERSON_BODY_HEIGHT;
-            if (isJumping) {
-                float currentPersonX = personBodyCoord.l + PERSON_BODY_WIDTH / 2f;
-                if (startJumpX == INVALID_VALUE) {
-                    startJumpX = currentPersonX;
-                }
-                float x = currentPersonX - startJumpX;
-                float y = getJumpHeight(x);
-                if (y >= 0) {
-                    personBodyCoord.t -= y;
+            if (!isStopWalking) {
+                personBodyCoord.l = firstPillarCoord.r - PERSON_BACKUP_DISTANCE - PERSON_BODY_WIDTH + currentWalkDistance;
+                float initTop = PILLAR_TOP - PERSON_LEG_HEIGHT - PERSON_BODY_HEIGHT;
+                personBodyCoord.t = initTop;
+
+                if (isJumping) {
+                    float currentPersonX = personBodyCoord.l + PERSON_BODY_WIDTH / 2f;
+                    if (startJumpX == INVALID_VALUE) {
+                        startJumpX = currentPersonX;
+                    }
+                    float x = currentPersonX - startJumpX;
+                    float y = getJumpHeight(x);
+                    if (y >= 0) {
+                        personBodyCoord.t -= y;
+                    } else {
+                        isJumping = false;
+                        isJumpEnd = true;
+                    }
+
+                    float maxX = secondPillarCoord.r;
+                    float minX = secondPillarCoord.l;
+
+                    float finalX = startJumpX + GameHeroConstants.PERSON_JUMP_DISTANCE + PERSON_BODY_WIDTH / 2f;
+                    if (finalX <= maxX && finalX >= minX) {
+                        float r = personBodyCoord.l + PERSON_BODY_WIDTH;
+                        float maxR = secondPillarCoord.r - PERSON_BACKUP_DISTANCE;
+                        if (r >= maxR) {
+                            isStopWalking = true;
+                            isPassLevel = true;
+                            personBodyCoord.l = personBodyCoord.l - (r - maxR);
+                            personBodyCoord.t = initTop;
+                            if (walkAnimator != null) {
+                                walkAnimator.cancel();
+                            }
+                        }
+                    } else {
+                        float r = personBodyCoord.l + PERSON_BODY_WIDTH;
+                        float maxR = firstPillarCoord.r - BRIDGE_BACKUP_DISTANCE - BRIDGE_WIDTH / 2f + currentBridgeLength + PERSON_BODY_WIDTH;
+                        if (finalX > maxR) {
+                            maxR = finalX;
+                        }
+                        if (r >= maxR) {
+                            isStopWalking = true;
+                            isPassLevel = false;
+                            personBodyCoord.l = personBodyCoord.l - (r - maxR);
+                            if (walkAnimator != null) {
+                                walkAnimator.cancel();
+                            }
+                        }
+                    }
                 } else {
-                    isJumping = false;
+                    float extraDis = BRIDGE_BACKUP_DISTANCE + BRIDGE_WIDTH / 2f;
+                    float correctMaxDistance = secondPillarCoord.r - firstPillarCoord.r + extraDis;
+                    float correctMinDistance = secondPillarCoord.l - firstPillarCoord.r + extraDis;
+
+                    float currentPersonX = personBodyCoord.r;
+                    if (bridgeLengthAfterJump == INVALID_VALUE) {
+                        bridgeLengthAfterJump = currentBridgeLength;
+                    }
+
+                    float initBridgeX = firstPillarCoord.r - BRIDGE_BACKUP_DISTANCE - BRIDGE_WIDTH / 2f;
+                    float bridgeX = initBridgeX + currentBridgeLength;
+                    if (isJumpEnd) {
+                        isJumpEnd = false;
+                        if (currentPersonX > bridgeX && bridgeX < secondPillarCoord.l) {
+                            if (currentPersonX >= secondPillarCoord.l && currentPersonX <= secondPillarCoord.r) {
+                                bridgeLengthAfterJump = correctMinDistance + (correctMaxDistance - correctMinDistance) / 2f;
+                            } else {
+                                bridgeLengthAfterJump = currentPersonX - initBridgeX;
+                            }
+                        }
+                    }
+
+                    if (bridgeLengthAfterJump <= correctMaxDistance && bridgeLengthAfterJump >= correctMinDistance) {
+                        float r = personBodyCoord.l + PERSON_BODY_WIDTH;
+                        float maxR = secondPillarCoord.r - PERSON_BACKUP_DISTANCE;
+                        if (r >= maxR) {
+                            isStopWalking = true;
+                            isPassLevel = true;
+                            personBodyCoord.l = personBodyCoord.l - (r - maxR);
+                            if (walkAnimator != null) {
+                                walkAnimator.cancel();
+                            }
+                        }
+                    } else {
+                        float r = personBodyCoord.l + PERSON_BODY_WIDTH;
+                        float maxR = firstPillarCoord.r - BRIDGE_BACKUP_DISTANCE - BRIDGE_WIDTH / 2f + bridgeLengthAfterJump + PERSON_BODY_WIDTH;
+                        if (r >= maxR) {
+                            isStopWalking = true;
+                            isPassLevel = false;
+                            personBodyCoord.l = personBodyCoord.l - (r - maxR);
+                            if (walkAnimator != null) {
+                                walkAnimator.cancel();
+                            }
+                        }
+                    }
                 }
+                personBodyCoord.r = personBodyCoord.l + PERSON_BODY_WIDTH;
+                personBodyCoord.b = personBodyCoord.t + PERSON_BODY_HEIGHT;
             }
-            personBodyCoord.r = personBodyCoord.l + PERSON_BODY_WIDTH;
-            personBodyCoord.b = personBodyCoord.t + PERSON_BODY_HEIGHT;
+
         } else if (currentStatus == STATUS_FAILURE) {
             float diff = currentFallDistance - lastFallDistance;
             personBodyCoord.t += diff;
@@ -547,7 +635,7 @@ public class GameHeroView extends View {
         float stopX2 = startX2;
         float stopY2 = personBodyCoord.b + PERSON_LEG_HEIGHT;
 
-        if (!isJumping && currentStatus == STATUS_PERSON_WALKING && currentWalkDistance - lastWalkDistanceForLeg > 10) {
+        if (!isJumping && currentStatus == STATUS_PERSON_WALKING && !isStopWalking && currentWalkDistance - lastWalkDistanceForLeg > 10) {
             lastWalkDistanceForLeg = currentWalkDistance;
             if (isFlag) {
                 isFlag = false;
@@ -656,15 +744,7 @@ public class GameHeroView extends View {
             });
             bridgeRotateAnimator.addListener(new AnimatorListenerAdapter() {
                 @Override
-                public void onAnimationCancel(Animator animation) {
-                    post(new Runnable() {
-                        @Override public void run() {
-                            startWalk();
-                        }
-                    });
-                }
-
-                @Override public void onAnimationEnd(Animator animation) {
+                public void onAnimationEnd(Animator animation) {
                     post(new Runnable() {
                         @Override public void run() {
                             startWalk();
@@ -679,31 +759,28 @@ public class GameHeroView extends View {
     }
 
     private void startWalk() {
+        isStopWalking = false;
         isFlag = false;
+        bridgeLengthAfterJump = INVALID_VALUE;
         lastWalkDistanceForLeg = 0;
         if (walkAnimator != null) {
             walkAnimator.cancel();
             walkAnimator = null;
         }
 
-        boolean isPass;
-        float walkDistance;
         float extraDis = BRIDGE_BACKUP_DISTANCE + BRIDGE_WIDTH / 2f;
         float correctMaxDistance = secondPillarCoord.r - firstPillarCoord.r + extraDis;
         float correctMinDistance = secondPillarCoord.l - firstPillarCoord.r + extraDis;
         if (currentBridgeLength <= correctMaxDistance && currentBridgeLength >= correctMinDistance) {
-            isPass = true;
-            walkDistance = correctMaxDistance - extraDis;
             float secondPillarWidth = secondPillarCoord.r - secondPillarCoord.l;
             float perfectMaxDistance = (secondPillarCoord.r - secondPillarWidth / 2f + PERFECT_RECT_WIDTH / 2f) - firstPillarCoord.r + extraDis;
             float perfectMinDistance = (secondPillarCoord.r - secondPillarWidth / 2f - PERFECT_RECT_WIDTH / 2f) - firstPillarCoord.r + extraDis;
             if (currentBridgeLength <= perfectMaxDistance && currentBridgeLength >= perfectMinDistance) {
                 increaseScoreWhenPassedPerfectly();
             }
-        } else {
-            isPass = false;
-            walkDistance = currentBridgeLength + (PERSON_BACKUP_DISTANCE - BRIDGE_BACKUP_DISTANCE) + PERSON_BODY_WIDTH;
         }
+
+        float walkDistance = SCREEN_WIDTH - firstPillarCoord.r;
         walkAnimator = ValueAnimator.ofFloat(0, walkDistance);
         walkAnimator.setInterpolator(new LinearInterpolator());
         long duration = (long) (walkDistance / GameHeroConstants.WALK_SPEED * 1000);
@@ -715,34 +792,23 @@ public class GameHeroView extends View {
         });
         walkAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
-            public void onAnimationCancel(Animator animation) {
-                postDelayed(new Runnable() {
-                    @Override public void run() {
-                        walkResult(isPass);
-                    }
-                }, 100);
-
-            }
-
-            @Override
             public void onAnimationEnd(Animator animation) {
-                postDelayed(new Runnable() {
-                    @Override public void run() {
-                        walkResult(isPass);
-                    }
-                }, 100);
+                walkResult();
             }
         });
         currentStatus = STATUS_PERSON_WALKING;
         walkAnimator.start();
     }
 
-    private void walkResult(boolean isPass) {
-        if (isPass) {
-            startDrawNextLevel();
-        } else {
-            startFall();
-        }
+    private void walkResult() {
+        postDelayed(() -> {
+            if (isPassLevel) {
+                startDrawNextLevel();
+            } else {
+                startFall();
+            }
+        }, 100);
+
     }
 
     private void startDrawNextLevel() {
@@ -779,16 +845,6 @@ public class GameHeroView extends View {
             });
 
             levelAnimator.addListener(new AnimatorListenerAdapter() {
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                    post(new Runnable() {
-                        @Override public void run() {
-                            showNextLevelComplete();
-                        }
-                    });
-                }
-
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     post(new Runnable() {
@@ -838,15 +894,8 @@ public class GameHeroView extends View {
             fallAnimator.setDuration(GameHeroConstants.FALL_DURATION);
             fallAnimator.setInterpolator(new AccelerateInterpolator());
             fallAnimator.addListener(new AnimatorListenerAdapter() {
-                @Override public void onAnimationCancel(Animator animation) {
-                    post(new Runnable() {
-                        @Override public void run() {
-                            onFallEnd();
-                        }
-                    });
-                }
-
-                @Override public void onAnimationEnd(Animator animation) {
+                @Override
+                public void onAnimationEnd(Animator animation) {
                     post(new Runnable() {
                         @Override public void run() {
                             onFallEnd();
@@ -869,8 +918,8 @@ public class GameHeroView extends View {
     }
 
     private float getJumpHeight(float x) {
-        float h = GameHeroConstants.USER_JUMP_HEIGHT;
-        float d = GameHeroConstants.USER_JUMP_DISTANCE;
+        float h = GameHeroConstants.PERSON_JUMP_HEIGHT;
+        float d = GameHeroConstants.PERSON_JUMP_DISTANCE;
 
         return (-4 * h / (d * d)) * x * x + (4 * h / d) * x;
     }
