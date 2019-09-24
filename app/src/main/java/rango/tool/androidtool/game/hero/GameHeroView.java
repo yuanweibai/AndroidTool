@@ -52,6 +52,8 @@ public class GameHeroView extends View {
     private static final int STATUS_SHOW_NEXT_LEVEL = 7;
     private static final int STATUS_FAILURE = 8;
 
+    private static final float INVALID_VALUE = -1f;
+
     private int SCREEN_WIDTH;
     private int SCREEN_HEIGHT;
 
@@ -121,7 +123,8 @@ public class GameHeroView extends View {
 
     private boolean isFlag = false;
 
-    private boolean isUp = true;
+    private boolean isJumping = false;
+    private float startJumpX = INVALID_VALUE;
 
     private ValueAnimator bridgeRotateAnimator;
     private ValueAnimator walkAnimator;
@@ -310,7 +313,10 @@ public class GameHeroView extends View {
 
     private boolean onWalkingTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            isUp = !isUp;
+            if (!isJumping) {
+                isJumping = true;
+                startJumpX = INVALID_VALUE;
+            }
         }
         return true;
     }
@@ -474,6 +480,19 @@ public class GameHeroView extends View {
         } else if (currentStatus == STATUS_PERSON_WALKING) {
             personBodyCoord.l = firstPillarCoord.r - PERSON_BACKUP_DISTANCE - PERSON_BODY_WIDTH + currentWalkDistance;
             personBodyCoord.t = PILLAR_TOP - PERSON_LEG_HEIGHT - PERSON_BODY_HEIGHT;
+            if (isJumping) {
+                float currentPersonX = personBodyCoord.l + PERSON_BODY_WIDTH / 2f;
+                if (startJumpX == INVALID_VALUE) {
+                    startJumpX = currentPersonX;
+                }
+                float x = currentPersonX - startJumpX;
+                float y = getJumpHeight(x);
+                if (y >= 0) {
+                    personBodyCoord.t -= y;
+                } else {
+                    isJumping = false;
+                }
+            }
             personBodyCoord.r = personBodyCoord.l + PERSON_BODY_WIDTH;
             personBodyCoord.b = personBodyCoord.t + PERSON_BODY_HEIGHT;
         } else if (currentStatus == STATUS_FAILURE) {
@@ -528,7 +547,7 @@ public class GameHeroView extends View {
         float stopX2 = startX2;
         float stopY2 = personBodyCoord.b + PERSON_LEG_HEIGHT;
 
-        if (currentStatus == STATUS_PERSON_WALKING && currentWalkDistance - lastWalkDistanceForLeg > 10) {
+        if (!isJumping && currentStatus == STATUS_PERSON_WALKING && currentWalkDistance - lastWalkDistanceForLeg > 10) {
             lastWalkDistanceForLeg = currentWalkDistance;
             if (isFlag) {
                 isFlag = false;
@@ -847,6 +866,13 @@ public class GameHeroView extends View {
         if (statusListener != null) {
             statusListener.onFailure();
         }
+    }
+
+    private float getJumpHeight(float x) {
+        float h = GameHeroConstants.USER_JUMP_HEIGHT;
+        float d = GameHeroConstants.USER_JUMP_DISTANCE;
+
+        return (-4 * h / (d * d)) * x * x + (4 * h / d) * x;
     }
 
     private float getInitPillarWidth() {

@@ -102,4 +102,14 @@ class GameHeroConstants {
      */
     static final long START_DURATION = 300;
 
+    /**
+     * The height of user jump
+     */
+    static final int USER_JUMP_HEIGHT = ScreenUtils.dp2px(44);
+
+    /**
+     * The distance of user jump
+     */
+    static final int USER_JUMP_DISTANCE = ScreenUtils.dp2px(60);
+
 }
