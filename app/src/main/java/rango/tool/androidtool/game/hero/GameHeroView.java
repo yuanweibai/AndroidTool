@@ -870,11 +870,5 @@ public class GameHeroView extends View {
         private float t;
         private float r;
         private float b;
-
-        private boolean isEnable = false;
-
-        private boolean isEnable() {
-            return isEnable;
-        }
     }
 }

@@ -42,15 +42,8 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".experiments.TestActivity"
-            android:icon="@mipmap/ic_launcher_round"
-            android:label="@string/app_test_name"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:launchMode="singleTask" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".experiments.activity.CanvasActivity" />
         <activity android:name=".experiments.activity.ShapeActivity" />
         <activity android:name=".experiments.activity.WindowActivity" />
@@ -197,6 +190,7 @@
             android:name=".alive.process.LocalService"
             android:enabled="true"
             android:exported="true" />
+        <service android:name=".alive.DownloadService" />
     </application>
 
 </manifest>

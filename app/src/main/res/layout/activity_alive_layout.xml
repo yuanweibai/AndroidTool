@@ -5,9 +5,18 @@
     android:layout_height="match_parent">
 
     <Button
+        android:id="@+id/task_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:text="开启下载任务"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/double_process_alive_btn"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginTop="100dp"
         android:text="启动双进程保活"
         app:layout_constraintTop_toTopOf="parent" />
 

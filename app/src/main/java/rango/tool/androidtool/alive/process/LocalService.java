@@ -12,6 +12,8 @@ import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import rango.tool.androidtool.KeepAliveConnection;
+import rango.tool.androidtool.alive.AliveManager;
+import rango.tool.androidtool.alive.DownloadService;
 
 public class LocalService extends Service {
 
@@ -27,6 +29,9 @@ public class LocalService extends Service {
             aliveBinder = KeepAliveConnection.Stub.asInterface(service);
             try {
                 Toast.makeText(LocalService.this, "Local: " + aliveBinder.getServiceName(), Toast.LENGTH_LONG).show();
+                if (!AliveManager.getInstance().isDownloadServiceAlive()) {
+                    startService(new Intent(LocalService.this, DownloadService.class));
+                }
             } catch (RemoteException ignored) {
             }
         }

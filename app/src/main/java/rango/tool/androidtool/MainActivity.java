@@ -20,7 +20,7 @@ public class MainActivity extends BaseActivity {
 
     private LinearLayout containerView;
 
-    private static final boolean IS_TEST = false;
+    private static final boolean IS_TEST = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

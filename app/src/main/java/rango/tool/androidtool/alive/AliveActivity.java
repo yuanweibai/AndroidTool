@@ -17,6 +17,13 @@ public class AliveActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alive_layout);
 
+        findViewById(R.id.task_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startService(new Intent(AliveActivity.this, DownloadService.class));
+            }
+        });
+
         findViewById(R.id.double_process_alive_btn).setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 startService(new Intent(AliveActivity.this, LocalService.class));
