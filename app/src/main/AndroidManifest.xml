@@ -126,6 +126,12 @@
         <activity android:name=".game.hero.GameHeroActivity" />
         <activity android:name=".thread.ThreadMemoryActivity" />
         <activity android:name=".alive.AliveActivity" />
+        <activity
+            android:name=".alive.onepixel.OnePixelActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|navigation|keyboard"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/OnePixelActivityStyle" />
 
         <service android:name=".service.TestService" />
         <service android:name=".service.MyService" />

@@ -9,7 +9,7 @@ import android.content.Context;
 
 public class BaseApplication extends Application {
 
-    private static Context context;
+    static Context context;
 
     public static Context getContext() {
         return context;
