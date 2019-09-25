@@ -28,7 +28,8 @@ public class LocalService extends Service {
         public void onServiceConnected(ComponentName name, IBinder service) {
             aliveBinder = KeepAliveConnection.Stub.asInterface(service);
             try {
-                Toast.makeText(LocalService.this, "Local: " + aliveBinder.getServiceName(), Toast.LENGTH_LONG).show();
+                Toast.makeText(LocalService.this, "Local: " + aliveBinder.getServiceName() + ", isAlive = " + AliveManager.getInstance().isDownloadServiceAlive(), Toast.LENGTH_LONG).show();
+
                 if (!AliveManager.getInstance().isDownloadServiceAlive()) {
                     startService(new Intent(LocalService.this, DownloadService.class));
                 }

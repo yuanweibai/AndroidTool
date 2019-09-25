@@ -16,8 +16,8 @@ public class DownloadService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.e(TAG, "onCreate()");
         isCreated = false;
-        AliveManager.getInstance().setDownloadServiceAlive(true);
     }
 
     @Nullable
@@ -28,7 +28,9 @@ public class DownloadService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.e(TAG, "onStartCommand()");
         if (!isCreated) {
+            AliveManager.getInstance().setDownloadServiceAlive(true);
             isCreated = true;
             isCancel = false;
             new Thread(new Runnable() {
@@ -51,6 +53,7 @@ public class DownloadService extends Service {
 
     @Override
     public void onDestroy() {
+        Log.e(TAG, "onDestroy()");
         super.onDestroy();
         isCancel = true;
         AliveManager.getInstance().setDownloadServiceAlive(false);
