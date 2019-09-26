@@ -62,7 +62,6 @@ public class OnePixelActivity extends BaseActivity {
     @Override protected void onRestart() {
         super.onRestart();
         Log.e(TAG, "onRestart()");
-
     }
 
     @Override protected void onPause() {

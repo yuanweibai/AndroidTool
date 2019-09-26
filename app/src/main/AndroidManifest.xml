@@ -197,6 +197,8 @@
             android:enabled="true"
             android:exported="true" />
         <service android:name=".alive.DownloadService" />
+        <service
+            android:name=".alive.music.MusicService" />
     </application>
 
 </manifest>

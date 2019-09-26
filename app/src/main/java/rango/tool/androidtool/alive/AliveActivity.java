@@ -41,6 +41,12 @@ public class AliveActivity extends BaseActivity {
                 AliveManager.getInstance().setStartOnePixelAlive();
             }
         });
+
+        findViewById(R.id.music_btn).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                AliveManager.getInstance().startMusicService();
+            }
+        });
     }
 
     @Override protected void onResume() {
