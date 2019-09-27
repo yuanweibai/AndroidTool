@@ -38,5 +38,14 @@
         android:textAllCaps="false"
         app:layout_constraintTop_toBottomOf="@id/one_pixel_btn" />
 
+    <Button
+        android:id="@+id/front_service_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:text="前台Service"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/music_btn" />
+
 
 </android.support.constraint.ConstraintLayout>

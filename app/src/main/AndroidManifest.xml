@@ -197,8 +197,12 @@
             android:enabled="true"
             android:exported="true" />
         <service android:name=".alive.DownloadService" />
+        <service android:name=".alive.music.MusicService" />
+        <service android:name=".alive.frontdeskservice.CancelNotificationService" />
         <service
-            android:name=".alive.music.MusicService" />
+            android:name=".alive.frontdeskservice.FrontDeskService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

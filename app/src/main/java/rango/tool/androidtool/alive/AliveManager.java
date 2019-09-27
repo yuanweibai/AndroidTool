@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import java.lang.ref.WeakReference;
 
 import rango.tool.androidtool.ToolApplication;
+import rango.tool.androidtool.alive.frontdeskservice.FrontDeskService;
 import rango.tool.androidtool.alive.music.MusicService;
 import rango.tool.androidtool.alive.onepixel.OnePixelActivity;
 
@@ -59,6 +60,10 @@ public class AliveManager {
 
     public void startMusicService() {
         ToolApplication.getContext().startService(new Intent(ToolApplication.getContext(), MusicService.class));
+    }
+
+    public void startFrontDeskService() {
+        ToolApplication.getContext().startService(new Intent(ToolApplication.getContext(), FrontDeskService.class));
     }
 
     private void startOnePixelActivity() {

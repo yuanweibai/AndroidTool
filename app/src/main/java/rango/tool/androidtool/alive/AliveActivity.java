@@ -47,6 +47,12 @@ public class AliveActivity extends BaseActivity {
                 AliveManager.getInstance().startMusicService();
             }
         });
+
+        findViewById(R.id.front_service_btn).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                AliveManager.getInstance().startFrontDeskService();
+            }
+        });
     }
 
     @Override protected void onResume() {
