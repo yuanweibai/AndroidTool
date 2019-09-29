@@ -10,6 +10,9 @@ import android.util.Log;
 
 import rango.tool.androidtool.R;
 
+/**
+ * 7.0 以下的手机可以通过此方案取消前台 service 的可见通知
+ */
 public class CancelNotificationService extends Service {
 
     private static final String TAG = "CancelNotification";
@@ -30,8 +33,12 @@ public class CancelNotificationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e(TAG, "onStartCommand()");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            stopSelf();
+            return START_NOT_STICKY;
+        }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             Notification.Builder builder = new Notification.Builder(this);
             builder.setSmallIcon(R.mipmap.ic_launcher);
             builder.setContentTitle("FrontDeskService");
@@ -39,6 +46,18 @@ public class CancelNotificationService extends Service {
 
             // 覆盖 NOTIFICATION_ID 的通知
             startForeground(FrontDeskService.NOTIFICATION_ID, builder.build());
+
+            new Thread(new Runnable() {
+                @Override public void run() {
+
+                    // 取消CancelNotificationService的通知
+                    stopForeground(true);
+
+                    stopSelf();
+                }
+            }).start();
+        } else {
+            startForeground(FrontDeskService.NOTIFICATION_ID, new Notification());
 
             new Thread(new Runnable() {
                 @Override public void run() {

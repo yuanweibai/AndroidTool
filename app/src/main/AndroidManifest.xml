@@ -133,7 +133,11 @@
             android:launchMode="singleInstance"
             android:theme="@style/OnePixelActivityStyle" />
 
-        <service android:name=".service.TestService" />
+        <service
+            android:name=".service.TestService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":other" />
         <service android:name=".service.MyService" />
 
         <receiver android:name=".receiver.TestBroadcastReceiver">

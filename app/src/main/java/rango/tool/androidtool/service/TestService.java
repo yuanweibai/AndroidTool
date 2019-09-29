@@ -87,8 +87,14 @@ public class TestService extends Service {
     }
 
     @Override
+    public void onRebind(Intent intent) {
+        super.onRebind(intent);
+        Log.e(TAG, "onRebind()");
+    }
+
+    @Override
     public boolean onUnbind(Intent intent) {
         Log.e(TAG, "onUnBind()," + ",ThreadId = " + Thread.currentThread().getId());
-        return super.onUnbind(intent);
+        return false;
     }
 }

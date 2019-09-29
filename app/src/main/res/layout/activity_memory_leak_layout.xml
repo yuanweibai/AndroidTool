@@ -18,4 +18,12 @@
         android:layout_marginTop="34dp"
         android:text="static memory leak" />
 
+    <Button
+        android:id="@+id/oom_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:text="Make OOM"
+        android:textAllCaps="false" />
+
 </LinearLayout>

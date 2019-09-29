@@ -28,7 +28,15 @@ public class FrontDeskService extends Service {
         Log.e(TAG, "onCreate()");
         super.onCreate();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = "com.rango.androidtool.frontDeskNotification";
+            Notification notification = new Notification.Builder(this, channelId)
+                    .setSmallIcon(R.drawable.test_3)
+                    .setContentTitle("Rango")
+                    .setContentText("Running....")
+                    .build();
+            startForeground(NOTIFICATION_ID, notification);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             Notification.Builder builder = new Notification.Builder(this);
             builder.setSmallIcon(R.mipmap.ic_launcher);
             builder.setContentTitle("FrontDeskService");

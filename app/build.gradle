@@ -45,6 +45,8 @@ dependencies {
     implementation 'com.facebook.fresco:webpsupport:1.11.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
+
+    implementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
 }
 repositories {
     mavenCentral()

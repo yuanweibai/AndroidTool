@@ -1,12 +1,18 @@
 package rango.tool.androidtool.experiments.activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
+import com.squareup.leakcanary.RefWatcher;
+
 import rango.tool.androidtool.R;
+import rango.tool.androidtool.ToolApplication;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.service.MyIntentService;
 import rango.tool.androidtool.service.MyService;
@@ -16,8 +22,24 @@ import rango.tool.common.utils.Worker;
 
 public class ServiceActivity extends BaseActivity {
 
+    private static final String TAG = "ServiceActivity";
+
+    private static class MyServiceConnection implements ServiceConnection {
+
+        @Override public void onServiceConnected(ComponentName name, IBinder service) {
+
+        }
+
+        @Override public void onServiceDisconnected(ComponentName name) {
+
+        }
+    }
+
+    private static ServiceConnection serviceConnection = new MyServiceConnection();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.e(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_service_layout);
@@ -71,5 +93,37 @@ public class ServiceActivity extends BaseActivity {
                 startService(intent);
             }
         });
+    }
+
+    @Override protected void onStart() {
+        super.onStart();
+        Log.e(TAG, "onStart()");
+    }
+
+    @Override protected void onRestart() {
+        super.onRestart();
+        Log.e(TAG, "onRestart()");
+    }
+
+    @Override protected void onResume() {
+        super.onResume();
+        Log.e(TAG, "onResume()");
+    }
+
+    @Override protected void onPause() {
+        super.onPause();
+        Log.e(TAG, "onPause()");
+    }
+
+    @Override protected void onStop() {
+        super.onStop();
+        Log.e(TAG, "onStop()");
+    }
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        RefWatcher watcher = ToolApplication.getRefWatcher();
+        watcher.watch(this);
+        Log.e(TAG, "onDestroy()");
     }
 }
