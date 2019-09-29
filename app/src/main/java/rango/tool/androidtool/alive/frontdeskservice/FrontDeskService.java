@@ -1,6 +1,7 @@
 package rango.tool.androidtool.alive.frontdeskservice;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
@@ -30,6 +31,12 @@ public class FrontDeskService extends Service {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelId = "com.rango.androidtool.frontDeskNotification";
+            NotificationChannel channel = new NotificationChannel(channelId, "rango", NotificationManager.IMPORTANCE_LOW);
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            if (manager != null) {
+                manager.createNotificationChannel(channel);
+            }
+
             Notification notification = new Notification.Builder(this, channelId)
                     .setSmallIcon(R.drawable.test_3)
                     .setContentTitle("Rango")
