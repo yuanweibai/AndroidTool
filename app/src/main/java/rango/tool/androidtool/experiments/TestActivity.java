@@ -46,6 +46,7 @@ import rango.tool.androidtool.launchmodel.LaunchMode1Activity;
 import rango.tool.androidtool.locker.LockerManager;
 import rango.tool.androidtool.memoryleak.MemoryLeakActivity;
 import rango.tool.androidtool.nestedscroll.NestedScrollActivity;
+import rango.tool.androidtool.wallpaper.WallpaperActivity;
 import rango.tool.androidtool.workmanager.WorkManagerActivity;
 
 public class TestActivity extends BaseActivity {
@@ -118,6 +119,7 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.provider_btn).setOnClickListener(v -> startActivity(ProviderTestActivity.class));
         findViewById(R.id.gif_image_btn).setOnClickListener(v -> startActivity(GifImageActivity.class));
         findViewById(R.id.thread_btn).setOnClickListener(v -> startActivity(ThreadActivity.class));
+        findViewById(R.id.set_wallpaper_btn).setOnClickListener(v -> startActivity(WallpaperActivity.class));
         view = findViewById(R.id.view_draw_btn);
         view.setOnClickListener(v -> startActivity(ViewDrawActivity.class));
 

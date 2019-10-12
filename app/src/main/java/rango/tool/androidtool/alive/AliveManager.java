@@ -13,6 +13,7 @@ import rango.tool.androidtool.ToolApplication;
 import rango.tool.androidtool.alive.frontdeskservice.FrontDeskService;
 import rango.tool.androidtool.alive.music.MusicService;
 import rango.tool.androidtool.alive.onepixel.OnePixelActivity;
+import rango.tool.common.utils.Worker;
 
 public class AliveManager {
 
@@ -63,7 +64,11 @@ public class AliveManager {
     }
 
     public void startFrontDeskService() {
-        ToolApplication.getContext().startService(new Intent(ToolApplication.getContext(), FrontDeskService.class));
+        Worker.postMain(new Runnable() {
+            @Override public void run() {
+                ToolApplication.getContext().startService(new Intent(ToolApplication.getContext(), FrontDeskService.class));
+            }
+        }, 60 * 1000);
     }
 
     private void startOnePixelActivity() {
