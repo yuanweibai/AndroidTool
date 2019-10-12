@@ -9,7 +9,7 @@ import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
 import rango.tool.androidtool.experiments.TestActivity;
 import rango.tool.androidtool.game.GameMainActivity;
-import rango.tool.androidtool.game.hero.GameHeroActivity;
+import rango.tool.androidtool.http.activity.HttpActivity;
 import rango.tool.androidtool.list.activity.ListActivity;
 import rango.tool.androidtool.list.activity.RecyclerActivity;
 import rango.tool.androidtool.touch.TouchActivity;
@@ -20,13 +20,13 @@ public class MainActivity extends BaseActivity {
 
     private LinearLayout containerView;
 
-    private static final boolean IS_TEST = false;
+    private static final boolean IS_TEST = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(GameHeroActivity.class);
+            startActivity(HttpActivity.class);
             finish();
             return;
         }

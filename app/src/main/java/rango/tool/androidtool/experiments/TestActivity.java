@@ -40,6 +40,7 @@ import rango.tool.androidtool.experiments.activity.ThreadActivity;
 import rango.tool.androidtool.experiments.activity.ViewDrawActivity;
 import rango.tool.androidtool.experiments.activity.WaterMarkActivity;
 import rango.tool.androidtool.experiments.activity.WindowActivity;
+import rango.tool.androidtool.http.activity.HttpActivity;
 import rango.tool.androidtool.job.JobActivity;
 import rango.tool.androidtool.keyboard.KeyboardActivity;
 import rango.tool.androidtool.launchmodel.LaunchMode1Activity;
@@ -131,6 +132,7 @@ public class TestActivity extends BaseActivity {
             }
         });
         findViewById(R.id.keep_alive_btn).setOnClickListener(v -> startActivity(AliveActivity.class));
+        findViewById(R.id.http_btn).setOnClickListener(v -> startActivity(HttpActivity.class));
 
     }
 

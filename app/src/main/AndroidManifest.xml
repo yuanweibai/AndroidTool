@@ -140,6 +140,7 @@
         <activity
             android:name=".wallpaper.WallpaperActivity"
             android:process=":wallpaper" />
+        <activity android:name=".http.activity.HttpActivity" />
 
         <service
             android:name=".service.TestService"
