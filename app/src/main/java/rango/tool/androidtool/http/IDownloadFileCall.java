@@ -2,7 +2,7 @@ package rango.tool.androidtool.http;
 
 import android.support.annotation.FloatRange;
 
-public interface IDownloadFileCall {
+public interface IDownloadFileCall extends CancelableCall {
 
     void enqueue(DownloadFileCallback callback);
 

@@ -1,5 +1,7 @@
 package rango.tool.androidtool.http;
 
+import android.util.Log;
+
 import java.io.File;
 
 import okhttp3.ResponseBody;
@@ -11,6 +13,8 @@ public class DownloadFileCall implements IDownloadFileCall {
 
     private final float DEFAULT_INCREASE = 0.01f;
     private final retrofit2.Call<ResponseBody> delegate;
+
+    public static long startMills;
 
     public DownloadFileCall(retrofit2.Call<ResponseBody> delegate) {
         this.delegate = delegate;
@@ -30,6 +34,10 @@ public class DownloadFileCall implements IDownloadFileCall {
         delegate.enqueue(new retrofit2.Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                long mills = System.currentTimeMillis() - startMills;
+                Log.e("rango", "response_mills= " + mills);
+
                 if (response.isSuccessful()) {
                     ResponseBody body = response.body();
                     if (body == null) {
@@ -50,7 +58,10 @@ public class DownloadFileCall implements IDownloadFileCall {
                         }
                     };
 
+                    long cMills = System.currentTimeMillis();
                     File file = callback.convert(responseBody);
+                    long m = System.currentTimeMillis() - cMills;
+                    Log.e("rango", "convert_file mills = " + m);
 
                     if (file != null && file.exists() && file.length() > 0) {
                         success(file);
@@ -68,6 +79,7 @@ public class DownloadFileCall implements IDownloadFileCall {
             }
 
             private void failure() {
+
                 Worker.postMain(callback::onFailure);
             }
 
@@ -79,5 +91,10 @@ public class DownloadFileCall implements IDownloadFileCall {
                 Worker.postMain(() -> callback.onSuccess(file));
             }
         });
+    }
+
+    @Override
+    public void cancel() {
+        delegate.cancel();
     }
 }

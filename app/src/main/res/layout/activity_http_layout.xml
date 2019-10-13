@@ -30,10 +30,25 @@
 
     <Button
         android:id="@+id/download_file_btn"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="下载文件"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/progress_value_text"
         app:layout_constraintTop_toBottomOf="@id/login_btn" />
+
+    <TextView
+        android:id="@+id/progress_value_text"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:background="#050505"
+        android:gravity="center"
+        android:text="%0"
+        android:textColor="#fff"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/download_file_btn"
+        app:layout_constraintLeft_toRightOf="@id/download_file_btn"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/download_file_btn" />
 
 </android.support.constraint.ConstraintLayout>

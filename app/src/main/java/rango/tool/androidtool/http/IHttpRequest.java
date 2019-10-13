@@ -30,6 +30,7 @@ public interface IHttpRequest {
     Call<LoginInfoBean> login(@Field("username") String username, @Field("password") String password);
 
     @Streaming
+    @Headers("LogLevel:BASIC")
     @GET
     DownloadFileCall downloadFile(@Url String url);
 

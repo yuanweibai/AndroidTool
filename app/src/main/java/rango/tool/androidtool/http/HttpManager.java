@@ -76,9 +76,10 @@ public final class HttpManager {
                 .enqueue(callback);
     }
 
-    public void downloadFile(String url, DownloadFileCallback callback) {
-        DEFAULT.create(IHttpRequest.class)
-                .downloadFile(url)
-                .enqueue(callback);
+    public CancelableCall downloadFile(String url, DownloadFileCallback callback) {
+        DownloadFileCall call = DEFAULT.create(IHttpRequest.class)
+                .downloadFile(url);
+        call.enqueue(callback);
+        return call;
     }
 }

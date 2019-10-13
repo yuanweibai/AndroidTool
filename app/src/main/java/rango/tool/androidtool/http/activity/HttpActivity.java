@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -14,6 +15,8 @@ import okhttp3.ResponseBody;
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.ToolApplication;
 import rango.tool.androidtool.base.BaseActivity;
+import rango.tool.androidtool.http.CancelableCall;
+import rango.tool.androidtool.http.DownloadFileCall;
 import rango.tool.androidtool.http.DownloadFileCallback;
 import rango.tool.androidtool.http.HttpManager;
 import rango.tool.androidtool.http.HttpUtils;
@@ -27,6 +30,8 @@ import retrofit2.Response;
 public class HttpActivity extends BaseActivity {
 
     private Button downloadBtn;
+    private TextView progressValueText;
+    private CancelableCall downloadApkCall;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,13 +96,20 @@ public class HttpActivity extends BaseActivity {
             }
         });
 
+        progressValueText = findViewById(R.id.progress_value_text);
         downloadBtn = findViewById(R.id.download_file_btn);
         downloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                downloadBtn.setText("%0");
+                downloadBtn.setText("取消下载");
                 String url = "http://shouji.360tpcdn.com/181115/4dc46bd86bef036da927bc59680f514f/com.ss.android.ugc.aweme_330.apk";
 
-                HttpManager.getInstance().downloadFile(url, new DownloadFileCallback() {
+                if (cancelDownloadCall()) {
+                    return;
+                }
+
+                DownloadFileCall.startMills = System.currentTimeMillis();
+                progressValueText.setText("%0");
+                downloadApkCall = HttpManager.getInstance().downloadFile(url, new DownloadFileCallback() {
                     @Override
                     public void onSuccess(File file) {
                         Toast.makeText(ToolApplication.getContext(), "Success", Toast.LENGTH_LONG).show();
@@ -116,16 +128,26 @@ public class HttpActivity extends BaseActivity {
                         float process = current / (float) length;
                         String processStr = "%" + (int) (process * 100);
                         Log.e("rango", "length = " + length + ", currnet = " + current + ", process = " + processStr + ",isDone = " + isDone);
-                        downloadBtn.setText(processStr);
+                        progressValueText.setText(processStr);
                     }
 
                     @Override
                     public void onFailure() {
                         Toast.makeText(ToolApplication.getContext(), "Failure", Toast.LENGTH_LONG).show();
                         downloadBtn.setText("下载文件");
+                        progressValueText.setText("%0");
                     }
                 });
             }
         });
+    }
+
+    private boolean cancelDownloadCall() {
+        if (downloadApkCall != null) {
+            downloadApkCall.cancel();
+            downloadApkCall = null;
+            return true;
+        }
+        return false;
     }
 }
