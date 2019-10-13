@@ -15,6 +15,10 @@ import com.evernote.android.job.JobManager;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
+import com.xsj.crasheye.Crasheye;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,6 +46,13 @@ public class ToolApplication extends BaseApplication {
         Log.e(TAG, "onCreate()");
 
         TraceCompat.beginSection("Rango");
+
+        Crasheye.init(this, "4b2829a0");
+
+        UMConfigure.init(this, "5da1c4084ca357ebdd000c38", "hhhhh", UMConfigure.DEVICE_TYPE_PHONE, null);
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+
+        CrashReport.initCrashReport(this, "586293be04", true);
 
         JobManager.create(this).addJobCreator(new MainJobCreator());
         if (BuildConfig.DEBUG && Build.VERSION.SDK_INT < 24) {

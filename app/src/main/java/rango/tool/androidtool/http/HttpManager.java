@@ -6,13 +6,22 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
+import okhttp3.internal.Util;
 import okhttp3.logging.HttpLoggingInterceptor;
 import rango.tool.androidtool.BuildConfig;
 import rango.tool.androidtool.http.bean.LoginInfoBean;
 import rango.tool.androidtool.http.bean.TranslationBean;
 import rango.tool.androidtool.http.bean.TranslationGetBean;
+import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -75,5 +84,73 @@ public final class HttpManager {
                 .enqueue(callback);
     }
 
+    public void downloadFile(String url, String filePath, DownloadCallback callback) {
+        DEFAULT.create(IHttpRequest.class)
+                .downloadFile(url)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            if (writeBodyToFile(response.body(), filePath)) {
+                                if (callback != null) {
+                                    callback.onSuccess();
+                                }
+                            } else {
+                                failure();
+                            }
+                        } else {
+                            failure();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        failure();
+                    }
+
+                    private void failure() {
+                        if (callback != null) {
+                            callback.onFailure();
+                        }
+                    }
+                });
+    }
+
+    private boolean writeBodyToFile(ResponseBody value, String path) {
+        File file = new File(path);
+        if (file.exists() && !file.delete()) {
+            return false;
+        }
+
+        File tmp = new File(file.getPath() + ".tmp");
+
+        if (tmp.exists() && !tmp.delete()) {
+            return false;
+        }
+
+        if (value == null) {
+            return false;
+        }
+
+        InputStream is = value.byteStream();
+        FileOutputStream fos = null;
+        try {
+            if (!tmp.createNewFile()) {
+                return false;
+            }
+
+            fos = new FileOutputStream(tmp);
+            byte[] buffer = new byte[8096];
+            int c;
+            while ((c = is.read(buffer)) != -1) {
+                fos.write(buffer, 0, c);
+            }
+            return tmp.renameTo(file);
+        } catch (IOException e) {
+            return false;
+        } finally {
+            Util.closeQuietly(fos);
+        }
+    }
 
 }

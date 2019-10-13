@@ -5,8 +5,12 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.File;
+
 import rango.tool.androidtool.R;
+import rango.tool.androidtool.ToolApplication;
 import rango.tool.androidtool.base.BaseActivity;
+import rango.tool.androidtool.http.DownloadCallback;
 import rango.tool.androidtool.http.HttpManager;
 import rango.tool.androidtool.http.bean.LoginInfoBean;
 import rango.tool.androidtool.http.bean.TranslationBean;
@@ -69,6 +73,30 @@ public class HttpActivity extends BaseActivity {
                     @Override
                     public void onFailure(Call<LoginInfoBean> call, Throwable t) {
                         Toast.makeText(HttpActivity.this, "failure", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+
+        findViewById(R.id.download_file_btn).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                final String filePath = new File(ToolApplication.getContext().getExternalCacheDir(), "test_douyin.apk").getPath();
+                String url = "http://shouji.360tpcdn.com/181115/4dc46bd86bef036da927bc59680f514f/com.ss.android.ugc.aweme_330.apk";
+
+                HttpManager.getInstance().downloadFile(url, filePath, new DownloadCallback() {
+                    @Override
+                    public void onSuccess() {
+                        File file = new File(filePath);
+                        if (file.exists() && file.length() > 0) {
+                            Toast.makeText(ToolApplication.getContext(), "Success", Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(ToolApplication.getContext(), "Failure", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Toast.makeText(ToolApplication.getContext(), "Failure", Toast.LENGTH_LONG).show();
                     }
                 });
             }

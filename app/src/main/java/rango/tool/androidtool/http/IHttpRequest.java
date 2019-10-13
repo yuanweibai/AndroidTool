@@ -1,5 +1,6 @@
 package rango.tool.androidtool.http;
 
+import okhttp3.ResponseBody;
 import rango.tool.androidtool.http.bean.LoginInfoBean;
 import rango.tool.androidtool.http.bean.TranslationBean;
 import rango.tool.androidtool.http.bean.TranslationGetBean;
@@ -9,6 +10,8 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 public interface IHttpRequest {
 
@@ -27,4 +30,9 @@ public interface IHttpRequest {
     @POST("user/login")
     Call<LoginInfoBean> login(@Field("username") String username, @Field("password") String password);
 
+    @Streaming
+    @GET
+    Call<ResponseBody> downloadFile(@Url String url);
+
 }
+
