@@ -1,6 +1,5 @@
 package rango.tool.androidtool.http;
 
-import okhttp3.ResponseBody;
 import rango.tool.androidtool.http.bean.LoginInfoBean;
 import rango.tool.androidtool.http.bean.TranslationBean;
 import rango.tool.androidtool.http.bean.TranslationGetBean;
@@ -32,7 +31,7 @@ public interface IHttpRequest {
 
     @Streaming
     @GET
-    Call<ResponseBody> downloadFile(@Url String url);
+    DownloadFileCall downloadFile(@Url String url);
 
 }
 
