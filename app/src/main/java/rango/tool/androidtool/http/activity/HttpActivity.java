@@ -10,16 +10,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.ToolApplication;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.http.CancelableCall;
-import rango.tool.androidtool.http.DownloadFileCall;
-import rango.tool.androidtool.http.DownloadFileCallback;
+import rango.tool.androidtool.http.download.DownloadFileCall;
+import rango.tool.androidtool.http.download.DownloadFileCallback;
 import rango.tool.androidtool.http.HttpManager;
 import rango.tool.androidtool.http.HttpUtils;
+import rango.tool.androidtool.http.upload.UploadFileCallback;
 import rango.tool.androidtool.http.bean.LoginInfoBean;
 import rango.tool.androidtool.http.bean.TranslationBean;
 import rango.tool.androidtool.http.bean.TranslationGetBean;
@@ -138,6 +141,165 @@ public class HttpActivity extends BaseActivity {
                         progressValueText.setText("%0");
                     }
                 });
+            }
+        });
+
+        findViewById(R.id.upload_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadSingleFile();
+            }
+        });
+
+        findViewById(R.id.upload_description_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadFileAndDescription();
+            }
+        });
+
+        findViewById(R.id.upload_more_file_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadMoreFile();
+            }
+        });
+
+        findViewById(R.id.upload_file_width_progress_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadFileWidthProgress();
+            }
+        });
+
+        findViewById(R.id.upload_more_files_with_progress_btn).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                uploadMoreFilesWithProgress();
+            }
+        });
+    }
+
+    private void uploadMoreFilesWithProgress(){
+        List<String> filePathList= new ArrayList<>();
+
+        HttpManager.getInstance().uploadMoreFilesWithProgress(filePathList, "ihandy", "man", new UploadFileCallback() {
+            @Override
+            public void onSuccess() {
+                Log.e("rango", "uploadMoreFilesWithProgress: successful!!!");
+            }
+
+            @Override
+            public void onUpload(long length, long current, boolean isDone) {
+                Log.e("rango", "uploadMoreFilesWithProgress: uploading..." + (current / (float) length));
+
+            }
+
+            @Override
+            public void onFailure(String errorMsg) {
+                Log.e("rango", "uploadMoreFilesWithProgress: failure, " + errorMsg);
+            }
+        });
+    }
+
+    private void uploadSingleFile() {
+        String filePath = "";
+        HttpManager.getInstance().uploadSingleFile(filePath, new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(HttpActivity.this, "Success", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(HttpActivity.this, "Failure: " + response.message(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(HttpActivity.this, "Failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void uploadFileAndDescription() {
+        String filePath = "";
+        HttpManager.getInstance().uploadFileAndDescription("ihandy", "man", "1993-2-9", filePath, new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(HttpActivity.this, "Success", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(HttpActivity.this, "Failure: " + response.message(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(HttpActivity.this, "Failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+    private void uploadMoreFile() {
+        List<String> filePathList = new ArrayList<>();
+        filePathList.add("");
+        filePathList.add("");
+        filePathList.add("");
+        filePathList.add("");
+
+        HttpManager.getInstance().uploadMoreFile(filePathList, "ihandy", "man", new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(HttpActivity.this, "Success", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(HttpActivity.this, "Failure: " + response.message(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(HttpActivity.this, "Failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        /**
+         * uploadMoreFileByPart() 方法也是可以上传多个文件的
+         */
+//        HttpManager.getInstance().uploadMoreFileByPart(filePathList,"ihandy", "man", new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                if (response.isSuccessful()) {
+//                    Toast.makeText(HttpActivity.this, "Success", Toast.LENGTH_LONG).show();
+//                } else {
+//                    Toast.makeText(HttpActivity.this, "Failure: " + response.message(), Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                Toast.makeText(HttpActivity.this, "Failure: " + t.getMessage(), Toast.LENGTH_LONG).show();
+//            }
+//        });
+    }
+
+    private void uploadFileWidthProgress() {
+        String filePath = "";
+
+        HttpManager.getInstance().uploadFileWithProgress(filePath, "iHandy", "man", new UploadFileCallback() {
+            @Override
+            public void onSuccess() {
+                Log.e("rango", "uploadFileWidthProgress: successful!!!");
+            }
+
+            @Override
+            public void onUpload(long length, long current, boolean isDone) {
+                Log.e("rango", "uploadFileWidthProgress: uploading..." + (current / (float) length));
+            }
+
+            @Override
+            public void onFailure(String errorMsg) {
+                Log.e("rango", "uploadFileWidthProgress: failure, " + errorMsg);
             }
         });
     }

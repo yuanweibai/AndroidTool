@@ -1,17 +1,17 @@
-package rango.tool.androidtool.http;
+package rango.tool.androidtool.http.download;
 
 import android.util.Log;
 
 import java.io.File;
 
 import okhttp3.ResponseBody;
+import rango.tool.androidtool.http.IFileCall;
 import rango.tool.common.utils.Worker;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class DownloadFileCall implements IDownloadFileCall {
+public class DownloadFileCall implements IFileCall {
 
-    private final float DEFAULT_INCREASE = 0.01f;
     private final retrofit2.Call<ResponseBody> delegate;
 
     public static long startMills;
@@ -21,15 +21,17 @@ public class DownloadFileCall implements IDownloadFileCall {
     }
 
     @Override
-    public void enqueue(DownloadFileCallback callback) {
+    public void enqueue(Object callback) {
         enqueue(DEFAULT_INCREASE, callback);
     }
 
     @Override
-    public void enqueue(float increaseOfProgress, DownloadFileCallback callback) {
-        if (callback == null) {
+    public void enqueue(float increaseOfProgress, Object callback) {
+        if (!(callback instanceof DownloadFileCallback)) {
             return;
         }
+
+        DownloadFileCallback downloadCallback = (DownloadFileCallback) callback;
 
         delegate.enqueue(new retrofit2.Callback<ResponseBody>() {
             @Override
@@ -59,7 +61,7 @@ public class DownloadFileCall implements IDownloadFileCall {
                     };
 
                     long cMills = System.currentTimeMillis();
-                    File file = callback.convert(responseBody);
+                    File file = downloadCallback.convert(responseBody);
                     long m = System.currentTimeMillis() - cMills;
                     Log.e("rango", "convert_file mills = " + m);
 
@@ -80,15 +82,15 @@ public class DownloadFileCall implements IDownloadFileCall {
 
             private void failure() {
 
-                Worker.postMain(callback::onFailure);
+                Worker.postMain(downloadCallback::onFailure);
             }
 
             private void downloading(long length, long current, boolean isDone) {
-                Worker.postMain(() -> callback.onDownload(length, current, isDone));
+                Worker.postMain(() -> downloadCallback.onDownload(length, current, isDone));
             }
 
             private void success(File file) {
-                Worker.postMain(() -> callback.onSuccess(file));
+                Worker.postMain(() -> downloadCallback.onSuccess(file));
             }
         });
     }

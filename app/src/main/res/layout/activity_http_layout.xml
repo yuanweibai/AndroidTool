@@ -51,4 +51,44 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/download_file_btn" />
 
+    <Button
+        android:id="@+id/upload_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="上传文件"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/download_file_btn" />
+
+    <Button
+        android:id="@+id/upload_description_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="上传文件+参数"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/upload_btn" />
+
+    <Button
+        android:id="@+id/upload_more_file_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="上传多个文件+参数"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/upload_description_btn" />
+
+    <Button
+        android:id="@+id/upload_file_width_progress_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="上传文件并监听进度"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/upload_description_btn" />
+
+    <Button
+        android:id="@+id/upload_more_files_with_progress_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="上传多个文件并监听进度"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/upload_file_width_progress_btn" />
+
 </android.support.constraint.ConstraintLayout>

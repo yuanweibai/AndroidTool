@@ -11,10 +11,10 @@
     <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
 
 
@@ -147,6 +147,9 @@
             android:name=".wallpaper.WallpaperActivity"
             android:process=":wallpaper" />
         <activity android:name=".http.activity.HttpActivity" />
+        <activity android:name=".alarm.AlarmActivity" />
+
+        <receiver android:name=".alarm.AlarmReceiver" />
 
         <service
             android:name=".service.TestService"

@@ -1,4 +1,4 @@
-package rango.tool.androidtool.http;
+package rango.tool.androidtool.http.download;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 
 import rango.tool.androidtool.R;
+import rango.tool.androidtool.alarm.AlarmActivity;
 import rango.tool.androidtool.alive.AliveActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.clickeffect.RippleRelativeLayout;
@@ -133,6 +134,7 @@ public class TestActivity extends BaseActivity {
         });
         findViewById(R.id.keep_alive_btn).setOnClickListener(v -> startActivity(AliveActivity.class));
         findViewById(R.id.http_btn).setOnClickListener(v -> startActivity(HttpActivity.class));
+        findViewById(R.id.alarm_btn).setOnClickListener(v -> startActivity(AlarmActivity.class));
 
     }
 
