@@ -45,6 +45,6 @@ public class UploadFileCall implements IFileCall {
 
     @Override
     public void cancel() {
-
+        delegate.cancel();
     }
 }

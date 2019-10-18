@@ -17,17 +17,17 @@ import okhttp3.ResponseBody;
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.ToolApplication;
 import rango.tool.androidtool.base.BaseActivity;
+import rango.tool.androidtool.http.Callback;
 import rango.tool.androidtool.http.CancelableCall;
-import rango.tool.androidtool.http.download.DownloadFileCall;
-import rango.tool.androidtool.http.download.DownloadFileCallback;
 import rango.tool.androidtool.http.HttpManager;
 import rango.tool.androidtool.http.HttpUtils;
-import rango.tool.androidtool.http.upload.UploadFileCallback;
 import rango.tool.androidtool.http.bean.LoginInfoBean;
 import rango.tool.androidtool.http.bean.TranslationBean;
 import rango.tool.androidtool.http.bean.TranslationGetBean;
+import rango.tool.androidtool.http.download.DownloadFileCall;
+import rango.tool.androidtool.http.download.DownloadFileCallback;
+import rango.tool.androidtool.http.upload.UploadFileCallback;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HttpActivity extends BaseActivity {
@@ -45,14 +45,13 @@ public class HttpActivity extends BaseActivity {
             @Override public void onClick(View v) {
                 HttpManager.getInstance().translate("Thanks!!!", new Callback<TranslationBean>() {
                     @Override
-                    public void onResponse(Call<TranslationBean> call, Response<TranslationBean> response) {
-                        TranslationBean bean = response.body();
-                        Toast.makeText(HttpActivity.this, "success", Toast.LENGTH_LONG).show();
+                    public void onFailure(String errorMsg) {
+                        Toast.makeText(HttpActivity.this, "failure", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
-                    public void onFailure(Call<TranslationBean> call, Throwable t) {
-                        Toast.makeText(HttpActivity.this, "failure", Toast.LENGTH_LONG).show();
+                    public void onSuccess(TranslationBean translationBean) {
+                        Toast.makeText(HttpActivity.this, "success", Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -61,7 +60,7 @@ public class HttpActivity extends BaseActivity {
         findViewById(R.id.translate_get_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HttpManager.getInstance().translateGet(new Callback<TranslationGetBean>() {
+                HttpManager.getInstance().translateGet(new retrofit2.Callback<TranslationGetBean>() {
                     @Override
                     public void onResponse(Call<TranslationGetBean> call, Response<TranslationGetBean> response) {
                         TranslationGetBean bean = response.body();
@@ -84,16 +83,15 @@ public class HttpActivity extends BaseActivity {
 
                 HttpManager.getInstance().login("singleman", "123456", new Callback<LoginInfoBean>() {
                     @Override
-                    public void onResponse(Call<LoginInfoBean> call, Response<LoginInfoBean> response) {
+                    public void onFailure(String errorMsg) {
                         long id = Thread.currentThread().getId();
-                        LoginInfoBean bean = response.body();
-                        Toast.makeText(HttpActivity.this, "success: threadId = " + id, Toast.LENGTH_LONG).show();
+                        Toast.makeText(HttpActivity.this, "failure: threadId = " + id, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
-                    public void onFailure(Call<LoginInfoBean> call, Throwable t) {
+                    public void onSuccess(LoginInfoBean loginInfoBean) {
                         long id = Thread.currentThread().getId();
-                        Toast.makeText(HttpActivity.this, "failure: threadId = " + id, Toast.LENGTH_LONG).show();
+                        Toast.makeText(HttpActivity.this, "success: threadId = " + id, Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -179,8 +177,8 @@ public class HttpActivity extends BaseActivity {
         });
     }
 
-    private void uploadMoreFilesWithProgress(){
-        List<String> filePathList= new ArrayList<>();
+    private void uploadMoreFilesWithProgress() {
+        List<String> filePathList = new ArrayList<>();
 
         HttpManager.getInstance().uploadMoreFilesWithProgress(filePathList, "ihandy", "man", new UploadFileCallback() {
             @Override
@@ -203,7 +201,7 @@ public class HttpActivity extends BaseActivity {
 
     private void uploadSingleFile() {
         String filePath = "";
-        HttpManager.getInstance().uploadSingleFile(filePath, new Callback<ResponseBody>() {
+        HttpManager.getInstance().uploadSingleFile(filePath, new retrofit2.Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
@@ -222,7 +220,7 @@ public class HttpActivity extends BaseActivity {
 
     private void uploadFileAndDescription() {
         String filePath = "";
-        HttpManager.getInstance().uploadFileAndDescription("ihandy", "man", "1993-2-9", filePath, new Callback<ResponseBody>() {
+        HttpManager.getInstance().uploadFileAndDescription("ihandy", "man", "1993-2-9", filePath, new retrofit2.Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
@@ -247,7 +245,7 @@ public class HttpActivity extends BaseActivity {
         filePathList.add("");
         filePathList.add("");
 
-        HttpManager.getInstance().uploadMoreFile(filePathList, "ihandy", "man", new Callback<ResponseBody>() {
+        HttpManager.getInstance().uploadMoreFile(filePathList, "ihandy", "man", new retrofit2.Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
@@ -266,7 +264,7 @@ public class HttpActivity extends BaseActivity {
         /**
          * uploadMoreFileByPart() 方法也是可以上传多个文件的
          */
-//        HttpManager.getInstance().uploadMoreFileByPart(filePathList,"ihandy", "man", new Callback<ResponseBody>() {
+//        HttpManager.getInstance().uploadMoreFileByPart(filePathList,"ihandy", "man", new retrofit2.Callback<ResponseBody>() {
 //            @Override
 //            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 //                if (response.isSuccessful()) {

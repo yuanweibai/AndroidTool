@@ -32,7 +32,7 @@ public interface IHttpRequest {
 
     @POST("translate?doctype=json&jsonversion=&type=&keyfrom=&model=&mid=&imei=&vendor=&screen=&ssid=&network=&abtest=")
     @FormUrlEncoded
-    Call<TranslationBean> translation(@Field("i") String targetSentence);
+    Callable<TranslationBean> translation(@Field("i") String targetSentence);
 
     @GET("ajax.php?a=fy&f=auto&t=auto&w=hello%20world")
     Call<TranslationGetBean> translationGet();
@@ -40,7 +40,7 @@ public interface IHttpRequest {
     @FormUrlEncoded
     @Headers(BASE_URL_NAME + ":" + NAME_WAN_ANDROID)
     @POST("user/login")
-    Call<LoginInfoBean> login(@Field("username") String username, @Field("password") String password);
+    Callable<LoginInfoBean> login(@Field("username") String username, @Field("password") String password);
 
     @Streaming
     @Headers("LogLevel:BASIC")

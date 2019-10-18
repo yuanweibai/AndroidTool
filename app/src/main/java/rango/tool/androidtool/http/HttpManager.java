@@ -30,7 +30,6 @@ import rango.tool.androidtool.http.upload.FilesRequestBodyConverter;
 import rango.tool.androidtool.http.upload.ProgressRequestBody;
 import rango.tool.androidtool.http.upload.UploadFileCallback;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -63,6 +62,7 @@ public final class HttpManager {
 
         DEFAULT = new Retrofit.Builder()
                 .baseUrl(HttpConstant.BASE_URL)
+                .addCallAdapterFactory(CallAdapterFactory.getInstance())
                 .addCallAdapterFactory(DownloadFileCallAdapterFactory.getInstance())
                 .addConverterFactory(new FilesConvertFactory())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -84,7 +84,7 @@ public final class HttpManager {
                 .enqueue(callback);
     }
 
-    public void translateGet(Callback<TranslationGetBean> callback) {
+    public void translateGet(retrofit2.Callback<TranslationGetBean> callback) {
         DEFAULT.create(IHttpRequest.class)
                 .translationGet()
                 .enqueue(callback);
@@ -103,7 +103,7 @@ public final class HttpManager {
         return call;
     }
 
-    public void uploadSingleFile(String filePath, Callback<ResponseBody> callback) {
+    public void uploadSingleFile(String filePath, retrofit2.Callback<ResponseBody> callback) {
         File file = new File(filePath);
         if (!file.exists() || file.length() == 0) {
             return;
@@ -118,7 +118,7 @@ public final class HttpManager {
                 .enqueue(callback);
     }
 
-    public void uploadFileAndDescription(String userName, String gender, String birthday, String filePath, Callback<ResponseBody> callback) {
+    public void uploadFileAndDescription(String userName, String gender, String birthday, String filePath, retrofit2.Callback<ResponseBody> callback) {
         File file = new File(filePath);
         if (!file.exists() || file.length() == 0) {
             return;
@@ -137,7 +137,7 @@ public final class HttpManager {
                 .enqueue(callback);
     }
 
-    public void uploadMoreFile(List<String> filePathList, String userName, String gender, Callback<ResponseBody> callback) {
+    public void uploadMoreFile(List<String> filePathList, String userName, String gender, retrofit2.Callback<ResponseBody> callback) {
         if (filePathList == null || filePathList.isEmpty()) {
             return;
         }
@@ -160,7 +160,7 @@ public final class HttpManager {
                 .enqueue(callback);
     }
 
-    public void uploadMoreFileByPart(List<String> filePathList, String userName, String gender, Callback<ResponseBody> callback) {
+    public void uploadMoreFileByPart(List<String> filePathList, String userName, String gender, retrofit2.Callback<ResponseBody> callback) {
 
         List<MultipartBody.Part> partList = new ArrayList<>();
 
@@ -212,7 +212,7 @@ public final class HttpManager {
 
         DEFAULT.create(IHttpRequest.class)
                 .uploadFileAndDescription(body)
-                .enqueue(new Callback<ResponseBody>() {
+                .enqueue(new retrofit2.Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
@@ -236,7 +236,7 @@ public final class HttpManager {
     }
 
     /**
-     * 上传过个文件及参数，并监听进度
+     * 上传多个文件及参数，并监听进度
      */
     public void uploadMoreFilesWithProgress(List<String> filePathList, String userName, String gender, UploadFileCallback callback) {
         if (filePathList == null || filePathList.isEmpty()) {
@@ -250,7 +250,7 @@ public final class HttpManager {
 
         DEFAULT.create(IHttpRequest.class)
                 .uploadMoreFileWithProgress(map)
-                .enqueue(new Callback<ResponseBody>() {
+                .enqueue(new retrofit2.Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if (response.isSuccessful()) {
