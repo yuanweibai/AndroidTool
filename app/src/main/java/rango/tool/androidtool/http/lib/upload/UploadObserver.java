@@ -2,6 +2,8 @@ package rango.tool.androidtool.http.lib.upload;
 
 import java.util.concurrent.atomic.AtomicLong;
 
+import rango.tool.common.utils.Worker;
+
 class UploadObserver {
 
     @SuppressWarnings("FieldCanBeLocal")
@@ -25,7 +27,9 @@ class UploadObserver {
         boolean isDone = current.get() == length;
         if (current.get() - last >= DEFAULT_INCREASE * length || isDone) {
             last = current.get();
-            callback.onUpload(length, current.get(), isDone);
+            final long currentProgress = current.get();
+            final boolean done = isDone;
+            Worker.postMain(() -> callback.onUpload(length, currentProgress, done));
         }
     }
 

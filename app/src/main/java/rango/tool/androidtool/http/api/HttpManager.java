@@ -195,7 +195,7 @@ public final class HttpManager {
     }
 
     private String getUserToken() {
-        return preferences.getString(PREF_USER_TOKEN, "STAIOUILOEPSB");
+        return preferences.getString(PREF_USER_TOKEN, "STAIOYVJSCUUL");
     }
 
     private String getSelfUserId() {
