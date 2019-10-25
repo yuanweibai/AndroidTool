@@ -1,94 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <Button
-        android:id="@+id/translate_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="翻译-POST"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/translate_get_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="翻译-GET"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/translate_btn" />
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <Button
         android:id="@+id/login_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="登陆"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/translate_get_btn" />
+        android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/download_file_btn"
-        android:layout_width="0dp"
+        android:id="@+id/edit_user_info_btn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="下载文件"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/progress_value_text"
-        app:layout_constraintTop_toBottomOf="@id/login_btn" />
+        android:text="编辑用户信息"
+        android:textAllCaps="false" />
 
-    <TextView
-        android:id="@+id/progress_value_text"
-        android:layout_width="60dp"
-        android:layout_height="40dp"
-        android:background="#050505"
-        android:gravity="center"
-        android:text="%0"
-        android:textColor="#fff"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/download_file_btn"
-        app:layout_constraintLeft_toRightOf="@id/download_file_btn"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/download_file_btn" />
+    <Button
+        android:id="@+id/get_user_info_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取用户信息"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/get_show_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取来电秀列表"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/upload_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="上传文件"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/download_file_btn" />
+        android:text="上传来电秀视频"
+        android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/upload_description_btn"
+        android:id="@+id/cancel_upload_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="上传文件+参数"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/upload_btn" />
+        android:text="取消上传"
+        android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/upload_more_file_btn"
+        android:id="@+id/get_upload_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="上传多个文件+参数"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/upload_description_btn" />
+        android:text="获取已上传的视频"
+        android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/upload_file_width_progress_btn"
+        android:id="@+id/get_publish_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="上传文件并监听进度"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/upload_description_btn" />
+        android:text="获取已发布的视频"
+        android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/upload_more_files_with_progress_btn"
+        android:id="@+id/delete_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="上传多个文件并监听进度"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/upload_file_width_progress_btn" />
+        android:text="删除用户已上传的视频"
+        android:textAllCaps="false" />
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/download_file_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="下载文件" />
+
+        <TextView
+            android:id="@+id/progress_value_text"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:background="#050505"
+            android:gravity="center"
+            android:text="%0"
+            android:textColor="#fff"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+
+</LinearLayout>
