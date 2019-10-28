@@ -29,6 +29,8 @@ import rango.tool.androidtool.http.lib.call.CancelableCall;
 import rango.tool.androidtool.http.lib.download.DownloadFileCallback;
 import rango.tool.androidtool.http.lib.upload.UploadFileCallback;
 import rango.tool.androidtool.http.lib.utils.HttpUtils;
+import rango.tool.androidtool.http.original.socket.SocketCallback;
+import rango.tool.androidtool.http.original.socket.SocketHttp;
 
 public class HttpActivity extends BaseActivity {
 
@@ -39,6 +41,8 @@ public class HttpActivity extends BaseActivity {
     private CancelableCall downloadApkCall;
 
     private Callable<ResponseBody> uploadCall = null;
+
+    private static final boolean IS_SOCKET = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,7 +69,11 @@ public class HttpActivity extends BaseActivity {
         findViewById(R.id.get_show_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getShow();
+                if (IS_SOCKET) {
+                    getShowBySocket();
+                } else {
+                    getShow();
+                }
             }
         });
         findViewById(R.id.upload_btn).setOnClickListener(new View.OnClickListener() {
@@ -163,6 +171,56 @@ public class HttpActivity extends BaseActivity {
                 success();
             }
         });
+    }
+
+    private void getShowBySocket() {
+        String url = "http://dev-colorphone-service.appcloudbox.net/shows";
+
+        SocketHttp socketHttp = new SocketHttp.Builder()
+                .url(url)
+                .methodGet()
+                .addParams("per_page", 5)
+                .addParams("page_index", 1)
+                .addHeader("Connection", "Keep-Alive")
+                .addHeader("Accept-Encoding", "gzip")
+                .addHeader("User-Agent", "SocketHttp")
+                .build();
+        socketHttp.enqueue(new SocketCallback() {
+            @Override
+            public void onFailure(String errorMsg) {
+                Log.e(TAG, errorMsg);
+            }
+
+            @Override
+            public void onSuccess(String response) {
+                Log.e(TAG, response);
+            }
+        });
+
+//        Worker.postWorker(new Runnable() {
+//            @Override public void run() {
+//                try {
+//                    SocketClientCopy socketHttp = new SocketClientCopy("http://dev-colorphone-service.appcloudbox.net/shows");
+//                    InputStream inputStream = socketHttp.execute();
+//
+//                    String response = "null";
+//                    long mills = System.currentTimeMillis();
+//                    if (inputStream.read() != -1) {
+//                        int count = inputStream.available();
+//
+//                        byte[] bytes = new byte[count];
+//                        inputStream.read(bytes);
+//                        response = new String(bytes, "utf-8");
+//                    }
+//
+//                    Log.e(TAG, "socket: time = " + (System.currentTimeMillis() - mills) + "\n\n" + response + "\n\n\n\n");
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+
     }
 
     private void getShow() {
