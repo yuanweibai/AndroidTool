@@ -1,6 +1,6 @@
 package rango.tool.androidtool.http.lib.download;
 
-import org.jetbrains.annotations.Nullable;
+import android.support.annotation.Nullable;
 
 import java.io.File;
 

@@ -16,6 +16,7 @@ import rango.tool.androidtool.alive.AliveActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.clickeffect.RippleRelativeLayout;
 import rango.tool.androidtool.dialog.ToolDialog;
+import rango.tool.androidtool.encrypt.EncryptActivity;
 import rango.tool.androidtool.experiments.activity.AidlActivity;
 import rango.tool.androidtool.experiments.activity.AnrActivity;
 import rango.tool.androidtool.experiments.activity.AutoScrollActivity;
@@ -135,6 +136,7 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.keep_alive_btn).setOnClickListener(v -> startActivity(AliveActivity.class));
         findViewById(R.id.http_btn).setOnClickListener(v -> startActivity(HttpActivity.class));
         findViewById(R.id.alarm_btn).setOnClickListener(v -> startActivity(AlarmActivity.class));
+        findViewById(R.id.encrypt_btn).setOnClickListener(v -> startActivity(EncryptActivity.class));
 
     }
 

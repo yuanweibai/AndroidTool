@@ -148,6 +148,7 @@
             android:process=":wallpaper" />
         <activity android:name=".http.activity.HttpActivity" />
         <activity android:name=".alarm.AlarmActivity" />
+        <activity android:name=".encrypt.EncryptActivity" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 
