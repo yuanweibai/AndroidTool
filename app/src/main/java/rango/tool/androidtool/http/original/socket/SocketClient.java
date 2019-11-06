@@ -3,16 +3,17 @@ package rango.tool.androidtool.http.original.socket;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
@@ -41,9 +42,9 @@ class SocketClient {
             return;
         }
 
-        final Executor callbackExecutor = SocketManager.getInstance().getCallbackExecutor();
+        final Executor callbackExecutor = SocketExecutorManager.getInstance().getCallbackExecutor();
 
-        SocketManager.getInstance().getWorkerExecutorService().execute(new Runnable() {
+        SocketExecutorManager.getInstance().getWorkerExecutorService().execute(new Runnable() {
             @Override public void run() {
                 URL url;
                 try {
@@ -84,7 +85,7 @@ class SocketClient {
                 Socket socket = new Socket();
                 SocketAddress address = new InetSocketAddress(host, port);
                 BufferedWriter writer = null;
-                InputStream inputStream = null;
+                BufferedReader reader = null;
                 try {
                     socket.connect(address);
 
@@ -99,17 +100,25 @@ class SocketClient {
 
                     String response = "null";
                     long mills = System.currentTimeMillis();
-                    inputStream = socket.getInputStream();
+                    InputStream inputStream = socket.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(inputStream));
 
-                    if (inputStream.read() != -1) {
-                        int count = inputStream.available();
-                        byte[] bytes = new byte[count];
-                        inputStream.read(bytes);
-                        response = new String(bytes, StandardCharsets.UTF_8);
+                    StringBuilder responseBuilder = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        if (TextUtils.isEmpty(line)) {
+                            break;
+                        }
+                        responseBuilder.append(line);
+                        responseBuilder.append(System.lineSeparator());
                     }
 
+                    byte[] result = new byte[1024];
+                    inputStream.read(result);
+                    String resultStr = new String(result, "utf-8");
+
                     Log.e(TAG, "\r\n\r\n---------------Response Message------------");
-                    Log.e(TAG, response);
+                    Log.e(TAG, responseBuilder.toString() + "\n\n result = " + resultStr);
                     Log.e(TAG, "---------------Response Message------------end\n\n");
                     Log.e(TAG, "socket: ----------------request time = " + (System.currentTimeMillis() - mills) + "\n\n\n");
                     callSuccess(response);
@@ -118,8 +127,8 @@ class SocketClient {
                     callFailure(e.getMessage());
                 } finally {
                     try {
-                        if (inputStream != null) {
-                            inputStream.close();
+                        if (reader != null) {
+                            reader.close();
                         }
                         if (writer != null) {
                             writer.close();

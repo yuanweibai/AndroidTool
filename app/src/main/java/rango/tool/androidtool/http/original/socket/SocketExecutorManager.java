@@ -3,19 +3,19 @@ package rango.tool.androidtool.http.original.socket;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 
-public class SocketManager {
+public class SocketExecutorManager {
 
     private Executor callbackExecutor;
     private ExecutorService workerExecutor;
 
-    private SocketManager() {
+    private SocketExecutorManager() {
     }
 
     private static class ClassHolder {
-        private final static SocketManager S_INTANCE = new SocketManager();
+        private final static SocketExecutorManager S_INTANCE = new SocketExecutorManager();
     }
 
-    public static SocketManager getInstance() {
+    public static SocketExecutorManager getInstance() {
         return ClassHolder.S_INTANCE;
     }
 

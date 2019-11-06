@@ -30,7 +30,7 @@ import rango.tool.androidtool.http.lib.download.DownloadFileCallback;
 import rango.tool.androidtool.http.lib.upload.UploadFileCallback;
 import rango.tool.androidtool.http.lib.utils.HttpUtils;
 import rango.tool.androidtool.http.original.socket.SocketCallback;
-import rango.tool.androidtool.http.original.socket.SocketHttp;
+import rango.tool.androidtool.http.original.socket.api.SocketManager;
 
 public class HttpActivity extends BaseActivity {
 
@@ -174,53 +174,17 @@ public class HttpActivity extends BaseActivity {
     }
 
     private void getShowBySocket() {
-        String url = "http://dev-colorphone-service.appcloudbox.net/shows";
 
-        SocketHttp socketHttp = new SocketHttp.Builder()
-                .url(url)
-                .methodGet()
-                .addParams("per_page", 5)
-                .addParams("page_index", 1)
-                .addHeader("Connection", "Keep-Alive")
-                .addHeader("Accept-Encoding", "gzip")
-                .addHeader("User-Agent", "SocketHttp")
-                .build();
-        socketHttp.enqueue(new SocketCallback() {
-            @Override
-            public void onFailure(String errorMsg) {
-                Log.e(TAG, errorMsg);
+        String url = "http://dev-colorphone-service.appcloudbox.net/shows";
+        SocketManager.getInstance().getShows(url, 1, new SocketCallback() {
+            @Override public void onFailure(String errorMsg) {
+                failure(errorMsg);
             }
 
-            @Override
-            public void onSuccess(String response) {
-                Log.e(TAG, response);
+            @Override public void onSuccess(String response) {
+                success();
             }
         });
-
-//        Worker.postWorker(new Runnable() {
-//            @Override public void run() {
-//                try {
-//                    SocketClientCopy socketHttp = new SocketClientCopy("http://dev-colorphone-service.appcloudbox.net/shows");
-//                    InputStream inputStream = socketHttp.execute();
-//
-//                    String response = "null";
-//                    long mills = System.currentTimeMillis();
-//                    if (inputStream.read() != -1) {
-//                        int count = inputStream.available();
-//
-//                        byte[] bytes = new byte[count];
-//                        inputStream.read(bytes);
-//                        response = new String(bytes, "utf-8");
-//                    }
-//
-//                    Log.e(TAG, "socket: time = " + (System.currentTimeMillis() - mills) + "\n\n" + response + "\n\n\n\n");
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-
     }
 
     private void getShow() {

@@ -28,6 +28,14 @@ public class RecyclerFragment extends BaseFragment {
     private SpecificRecyclerVIew recyclerView;
     private MyRecyclerAdapter adapter;
     private ListBannerView listBannerView;
+    private List<BaseItemData> data;
+
+    public void updateData() {
+        if (adapter != null) {
+            adapter.append(new BaseItemData("", BaseItemType.TYPE_LIST_IMAGE));
+            adapter.notifyDataSetChanged();
+        }
+    }
 
     @Override
     protected int getLayoutId() {
@@ -73,7 +81,8 @@ public class RecyclerFragment extends BaseFragment {
 ////                }
 //            }
 //        });
-        adapter.append(getTestData());
+        data = getTestData();
+        adapter.append(data);
     }
 
     private List<BaseItemData> getTestData() {
