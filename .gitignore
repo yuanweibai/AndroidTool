@@ -54,4 +54,5 @@ infer-out/
 #build-cache
 build-cache/
 test/
+tools/RedGateReflector/apktool/result/
 
