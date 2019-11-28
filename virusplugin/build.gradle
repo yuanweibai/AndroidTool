@@ -4,7 +4,7 @@ apply plugin: 'maven'
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
-    implementation 'com.android.tools.build:gradle:3.0.0'
+    implementation 'com.android.tools.build:gradle:3.0.1'
 }
 
 repositories {
@@ -21,7 +21,7 @@ uploadArchives {
             pom.artifactId = 'virus'
             pom.version = '1.0.0'
             //文件发布到下面目录
-            repository(url: uri('../repo'))
+            repository(url: uri('../LocalMaven'))
         }
     }
 }

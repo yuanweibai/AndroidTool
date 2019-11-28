@@ -9,6 +9,7 @@ import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformException
 import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
+import com.google.common.collect.Sets
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 import com.android.build.gradle.internal.pipeline.TransformManager
@@ -32,7 +33,9 @@ public class VirusTransform extends Transform {
 
     @Override
     public Set<QualifiedContent.Scope> getScopes() {
-        return TransformManager.SCOPE_FULL_PROJECT;
+        return Sets.immutableEnumSet(
+                QualifiedContent.Scope.PROJECT,
+                QualifiedContent.Scope.SUB_PROJECTS);
     }
 
     @Override

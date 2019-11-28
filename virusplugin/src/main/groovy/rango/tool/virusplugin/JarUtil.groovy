@@ -8,9 +8,12 @@ import java.util.zip.ZipEntry
 public class JarUtil{
 
     static List<String> blackList = Arrays.asList(
-//            "io.virtualapp.XApp",
-//            "io.virtualapp.VCommends",
-            "rango.tool.androidtool"
+            "com.colorphone.smooth.dialer.cn",
+            "com.honeycomb.colorphone",
+            "com.themelab",
+            "cn.jpush.android",
+            "com.acb.colorphone",
+            "com.colorphone.lock"
     )
 
     /**
