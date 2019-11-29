@@ -349,6 +349,13 @@
             android:layout_height="wrap_content"
             android:text="加密解密"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/drag_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="拖动"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 
