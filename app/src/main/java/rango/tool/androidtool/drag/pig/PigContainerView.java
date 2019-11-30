@@ -44,8 +44,13 @@ public class PigContainerView extends ConstraintLayout {
     private ObjectAnimator flyAnimator;
 
     private boolean isMerging = false;
+    private boolean isGenerating = false;
 
     private Context context;
+
+    private float downX;
+    private float downY;
+    private Pair<Integer, Integer> selectPigIndex;
 
     public PigContainerView(Context context) {
         this(context, null);
@@ -64,6 +69,10 @@ public class PigContainerView extends ConstraintLayout {
     }
 
     public void generatePig(int grade, int x, int y) {
+        if (isMerging) {
+            Toast.makeText(context, "小猪正在长大，请稍等...", Toast.LENGTH_SHORT).show();
+            return;
+        }
         final Pair<Integer, Integer> emptyStyPair = getEmptySty();
         if (emptyStyPair == null) {
             Toast.makeText(context, "猪圈已满！！！请杀猪吃肉。", Toast.LENGTH_SHORT).show();
@@ -103,11 +112,13 @@ public class PigContainerView extends ConstraintLayout {
         flyAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
+                isGenerating = true;
                 flyPig.setVisibility(VISIBLE);
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                isGenerating = false;
                 PigView selectPigView = pigViewArray[emptyStyPair.first][emptyStyPair.second];
                 selectPigView.setData(flyPig.getData());
                 selectPigView.setVisibility(VISIBLE);
@@ -182,13 +193,9 @@ public class PigContainerView extends ConstraintLayout {
         return true;
     }
 
-    private float downX;
-    private float downY;
-    private Pair<Integer, Integer> selectPigIndex;
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (isMerging) {
+        if (isMerging || isGenerating) {
             return false;
         }
         final int action = event.getAction();
