@@ -149,7 +149,7 @@
         <activity android:name=".http.activity.HttpActivity" />
         <activity android:name=".alarm.AlarmActivity" />
         <activity android:name=".encrypt.EncryptActivity" />
-        <activity android:name=".drag.DragActivity" />
+        <activity android:name=".drag.PigActivity" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 

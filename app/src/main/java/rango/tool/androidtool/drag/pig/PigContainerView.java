@@ -1,12 +1,12 @@
-package rango.tool.androidtool.drag.views;
+package rango.tool.androidtool.drag.pig;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.graphics.RectF;
-import android.graphics.drawable.Drawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
@@ -14,6 +14,7 @@ import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import rango.tool.androidtool.R;
 import rango.tool.common.utils.ScreenUtils;
@@ -37,9 +38,12 @@ public class PigContainerView extends ConstraintLayout {
     private int pigBottomMargin = ScreenUtils.dp2px(10);
     private int pigTopMargin = ScreenUtils.dp2px(8);
 
-    private ImageView[][] pigImageViewArray = new AppCompatImageView[MAX_ROWS][MAX_COLUMNS];
+    private PigView[][] pigViewArray = new PigView[MAX_ROWS][MAX_COLUMNS];
     private RectF[][] pigRectfArray = new RectF[MAX_ROWS][MAX_COLUMNS];
-    private ImageView touchPig = null;
+    private PigView flyPig = null; // be to move or anim or generate
+    private ObjectAnimator flyAnimator;
+
+    private boolean isMerging = false;
 
     private Context context;
 
@@ -53,9 +57,75 @@ public class PigContainerView extends ConstraintLayout {
 
     public PigContainerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setClipChildren(false);
         this.context = context;
 
         init();
+    }
+
+    public void generatePig(int grade, int x, int y) {
+        final Pair<Integer, Integer> emptyStyPair = getEmptySty();
+        if (emptyStyPair == null) {
+            Toast.makeText(context, "猪圈已满！！！请杀猪吃肉。", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        pigViewArray[emptyStyPair.first][emptyStyPair.second].setTag(true);
+
+        if (flyPig == null) {
+            addFlyPigView();
+        }
+
+
+        if (flyAnimator != null) {
+            flyAnimator.cancel();
+            flyAnimator = null;
+        }
+
+        PigData data = new PigData();
+        data.initData(grade);
+        flyPig.setData(data);
+
+        float startX = x - pigWidth / 2f;
+        float startY = y - getTop() - pigHeight / 2f;
+
+        RectF emptyStyRectF = pigRectfArray[emptyStyPair.first][emptyStyPair.second];
+
+        float finalX = emptyStyRectF.left;
+        float finalY = emptyStyRectF.top;
+
+        PropertyValuesHolder xHolder = PropertyValuesHolder.ofFloat("translationX", startX, finalX);
+        PropertyValuesHolder yHolder = PropertyValuesHolder.ofFloat("translationY", startY, finalY);
+        PropertyValuesHolder alphaHolder = PropertyValuesHolder.ofFloat("alpha", 0f, 1f, 1f);
+        flyAnimator = ObjectAnimator.ofPropertyValuesHolder(flyPig, xHolder, yHolder, alphaHolder);
+        flyAnimator.setDuration(2000);
+        flyAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        flyAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                flyPig.setVisibility(VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                PigView selectPigView = pigViewArray[emptyStyPair.first][emptyStyPair.second];
+                selectPigView.setData(flyPig.getData());
+                selectPigView.setVisibility(VISIBLE);
+                hideFlyPig();
+            }
+        });
+        flyAnimator.start();
+    }
+
+    private Pair<Integer, Integer> getEmptySty() {
+        for (int i = 0; i < MAX_ROWS; i++) {
+            for (int k = 0; k < MAX_COLUMNS; k++) {
+                if (!isHasPig(i, k)) {
+                    return new Pair<>(i, k);
+                }
+            }
+        }
+        return null;
     }
 
     private void init() {
@@ -93,22 +163,17 @@ public class PigContainerView extends ConstraintLayout {
 
         addView(styImageView, 0, styParams);
 
-        ImageView pigImageView = new AppCompatImageView(context);
-        pigImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        if (row == 2) {
-            pigImageView.setImageDrawable(getResources().getDrawable(R.drawable.pig_2));
-        } else {
-            pigImageView.setImageDrawable(getResources().getDrawable(R.drawable.pig_1));
-        }
+        PigView pigView = new PigView(context);
+        pigView.setVisibility(INVISIBLE);
 
         ConstraintLayout.LayoutParams pigParams = new ConstraintLayout.LayoutParams(pigWidth, pigHeight);
         pigParams.leftToLeft = PIG_STY_IDS[row][column];
         pigParams.rightToRight = PIG_STY_IDS[row][column];
         pigParams.bottomToBottom = PIG_STY_IDS[row][column];
         pigParams.bottomMargin = pigBottomMargin;
-        addView(pigImageView, -1, pigParams);
+        addView(pigView, -1, pigParams);
 
-        pigImageViewArray[row][column] = pigImageView;
+        pigViewArray[row][column] = pigView;
     }
 
     @Override
@@ -123,13 +188,16 @@ public class PigContainerView extends ConstraintLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (isMerging) {
+            return false;
+        }
         final int action = event.getAction();
         final int pointerId = TouchEventUtils.getDefaultPointerId(event);
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 downX = TouchEventUtils.getX(event, pointerId);
                 downY = TouchEventUtils.getY(event, pointerId);
-                if (!setTouchPig(downX, downY)) {
+                if (!tryToMovePig(downX, downY)) {
                     return false;
                 }
                 break;
@@ -150,8 +218,8 @@ public class PigContainerView extends ConstraintLayout {
     }
 
     private void tryToUpgradePig() {
-        float tx = touchPig.getTranslationX();
-        float ty = touchPig.getTranslationY();
+        float tx = flyPig.getTranslationX();
+        float ty = flyPig.getTranslationY();
         RectF rectF = pigRectfArray[selectPigIndex.first][selectPigIndex.second];
         float finalLX = rectF.left + tx;
         float finalTY = rectF.top + ty;
@@ -180,41 +248,62 @@ public class PigContainerView extends ConstraintLayout {
 
         if (first == selectPigIndex.first && second == selectPigIndex.second) {
             resetSelectPig();
+        } else if (!isHasPig(first, second)) {
+            hideFlyPig();
+
+            PigView selectPigView = pigViewArray[selectPigIndex.first][selectPigIndex.second];
+            showPigView(pigViewArray[first][second], selectPigView.getData());
+
+            releasePigView(selectPigView);
         } else {
-//            exchangePig(first, second);
+            handlePig(first, second);
+        }
+    }
+
+    private void handlePig(int first, int second) {
+        PigView selectPigView = pigViewArray[selectPigIndex.first][selectPigIndex.second];
+        PigView pigView = pigViewArray[first][second];
+        if (selectPigView.equals(pigView)) {
             mergePig(first, second);
+        } else {
+            exchangePig(first, second);
         }
     }
 
     private void exchangePig(int first, int second) {
         resetSelectPig();
-        LayoutParams params = (LayoutParams) pigImageViewArray[first][second].getLayoutParams();
-        LayoutParams selectParams = (LayoutParams) pigImageViewArray[selectPigIndex.first][selectPigIndex.second].getLayoutParams();
-        pigImageViewArray[first][second].setLayoutParams(selectParams);
-        pigImageViewArray[selectPigIndex.first][selectPigIndex.second].setLayoutParams(params);
+        LayoutParams params = (LayoutParams) pigViewArray[first][second].getLayoutParams();
+        LayoutParams selectParams = (LayoutParams) pigViewArray[selectPigIndex.first][selectPigIndex.second].getLayoutParams();
+        pigViewArray[first][second].setLayoutParams(selectParams);
+        pigViewArray[selectPigIndex.first][selectPigIndex.second].setLayoutParams(params);
 
-        ImageView imageView = pigImageViewArray[first][second];
-        pigImageViewArray[first][second] = pigImageViewArray[selectPigIndex.first][selectPigIndex.second];
-        pigImageViewArray[selectPigIndex.first][selectPigIndex.second] = imageView;
+        PigView tempPigView = pigViewArray[first][second];
+        pigViewArray[first][second] = pigViewArray[selectPigIndex.first][selectPigIndex.second];
+        pigViewArray[selectPigIndex.first][selectPigIndex.second] = tempPigView;
     }
 
     private void mergePig(int first, int second) {
-        pigImageViewArray[selectPigIndex.first][selectPigIndex.second].setVisibility(GONE);
-        pigImageViewArray[selectPigIndex.first][selectPigIndex.second].setAlpha(1f);
 
-        LayoutParams params = (LayoutParams) touchPig.getLayoutParams();
+        isMerging = true;
+        PigView selectPigView = pigViewArray[selectPigIndex.first][selectPigIndex.second];
+        selectPigView.setTag(false);
+        selectPigView.setVisibility(GONE);
+        selectPigView.setAlpha(1f);
+
+        LayoutParams params = (LayoutParams) flyPig.getLayoutParams();
         params.leftMargin = (int) pigRectfArray[first][second].left;
         params.topMargin = (int) pigRectfArray[first][second].top;
-        touchPig.setTranslationX(0);
-        touchPig.setTranslationY(0);
+        flyPig.setTranslationX(0);
+        flyPig.setTranslationY(0);
 
-        this.post(() -> startMergePigAnim(first, second));
+
+        this.post(() -> startMergePigAnim(first, second, () -> isMerging = false));
     }
 
-    private void startMergePigAnim(int first, int second) {
+    private void startMergePigAnim(int first, int second, Runnable endAction) {
         float translation = ScreenUtils.dp2px(40);
-        ObjectAnimator firstAnimator = ObjectAnimator.ofFloat(touchPig, "translationX", 0f, translation, 0f);
-        ObjectAnimator secondAnimator = ObjectAnimator.ofFloat(pigImageViewArray[first][second], "translationX", 0f, -translation, 0f);
+        ObjectAnimator firstAnimator = ObjectAnimator.ofFloat(flyPig, "translationX", 0f, translation, 0f);
+        ObjectAnimator secondAnimator = ObjectAnimator.ofFloat(pigViewArray[first][second], "translationX", 0f, -translation, 0f);
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.setDuration(1000);
         animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -222,39 +311,58 @@ public class PigContainerView extends ConstraintLayout {
         animatorSet.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
-                touchPig.setAlpha(0.5f);
-                pigImageViewArray[first][second].setAlpha(0.5f);
+                flyPig.setAlpha(0.5f);
+                pigViewArray[first][second].setAlpha(0.5f);
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                pigImageViewArray[first][second].setAlpha(1f);
-                pigImageViewArray[first][second].setImageDrawable(getResources().getDrawable(R.drawable.pig_2));
+                pigViewArray[first][second].setAlpha(1f);
+                pigViewArray[first][second].upgrade();
 
-                touchPig.setAlpha(1f);
-                hideTouchImageView();
+                flyPig.setAlpha(1f);
+                hideFlyPig();
+                if (endAction != null) {
+                    endAction.run();
+                }
             }
         });
         animatorSet.start();
     }
 
     private void resetSelectPig() {
-        hideTouchImageView();
-        pigImageViewArray[selectPigIndex.first][selectPigIndex.second].setAlpha(1f);
+        hideFlyPig();
+        pigViewArray[selectPigIndex.first][selectPigIndex.second].setAlpha(1f);
+    }
+
+    private void releasePigView(PigView pigView) {
+        pigView.setVisibility(INVISIBLE);
+        pigView.setAlpha(1f);
+        pigView.setTag(false);
+        pigView.release();
+    }
+
+    private void showPigView(PigView pigView, PigData data) {
+        pigView.setData(data);
+        pigView.setVisibility(VISIBLE);
+        pigView.setTag(true);
     }
 
     private void translationPig(float dx, float dy) {
-        touchPig.setTranslationX(touchPig.getTranslationX() + dx);
-        touchPig.setTranslationY(touchPig.getTranslationY() + dy);
+        flyPig.setTranslationX(flyPig.getTranslationX() + dx);
+        flyPig.setTranslationY(flyPig.getTranslationY() + dy);
     }
 
-    private boolean setTouchPig(float x, float y) {
+    private boolean tryToMovePig(float x, float y) {
         for (int i = 0; i < MAX_ROWS; i++) {
             for (int k = 0; k < MAX_COLUMNS; k++) {
                 RectF rectF = pigRectfArray[i][k];
                 if (rectF.contains(x, y)) {
-                    pigImageViewArray[i][k].setAlpha(0.5f);
-                    resetTouchImageView(rectF, pigImageViewArray[i][k].getDrawable());
+                    if (!isHasPig(i, k)) {
+                        return false;
+                    }
+                    pigViewArray[i][k].setAlpha(0.5f);
+                    resetFlyPigView(rectF, pigViewArray[i][k].getData());
                     selectPigIndex = new Pair<>(i, k);
                     return true;
                 }
@@ -263,36 +371,44 @@ public class PigContainerView extends ConstraintLayout {
         return false;
     }
 
-    private void resetTouchImageView(RectF rectF, Drawable drawable) {
-        ConstraintLayout.LayoutParams touchPigParams;
-        if (touchPig == null) {
-            touchPig = new AppCompatImageView(context);
-            touchPig.setVisibility(GONE);
-            touchPig.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            touchPigParams = new ConstraintLayout.LayoutParams(pigWidth, pigHeight);
-            touchPigParams.leftToLeft = LayoutParams.PARENT_ID;
-            touchPigParams.topToTop = LayoutParams.PARENT_ID;
-            addView(touchPig, touchPigParams);
-        } else {
-            touchPigParams = (LayoutParams) touchPig.getLayoutParams();
+    private boolean isHasPig(int x, int y) {
+        Object tag = pigViewArray[x][y].getTag();
+        return tag instanceof Boolean && (boolean) tag;
+    }
+
+    private void resetFlyPigView(RectF rectF, PigData pigData) {
+        if (flyPig == null) {
+            addFlyPigView();
         }
-        touchPig.setImageDrawable(drawable);
+        ConstraintLayout.LayoutParams touchPigParams = (LayoutParams) flyPig.getLayoutParams();
+        flyPig.setData(pigData);
         touchPigParams.leftMargin = (int) rectF.left;
         touchPigParams.topMargin = (int) rectF.top;
-        touchPig.setVisibility(VISIBLE);
+        flyPig.setVisibility(VISIBLE);
     }
 
-    private void hideTouchImageView() {
-        touchPig.setVisibility(GONE);
-        touchPig.setTranslationY(0);
-        touchPig.setTranslationX(0);
+    private void addFlyPigView() {
+        flyPig = new PigView(context);
+        flyPig.setVisibility(GONE);
+        ConstraintLayout.LayoutParams touchPigParams = new ConstraintLayout.LayoutParams(pigWidth, pigHeight);
+        touchPigParams.leftToLeft = LayoutParams.PARENT_ID;
+        touchPigParams.topToTop = LayoutParams.PARENT_ID;
+        addView(flyPig, touchPigParams);
     }
 
+    private void hideFlyPig() {
+        flyPig.setVisibility(GONE);
+        flyPig.setTranslationY(0);
+        flyPig.setTranslationX(0);
+        ConstraintLayout.LayoutParams params = (LayoutParams) flyPig.getLayoutParams();
+        params.leftMargin = 0;
+        params.topMargin = 0;
+    }
 
     private void initPigRectf() {
         for (int i = 0; i < MAX_ROWS; i++) {
             for (int k = 0; k < MAX_COLUMNS; k++) {
-                ImageView pig = pigImageViewArray[i][k];
+                ImageView pig = pigViewArray[i][k];
                 RectF rectF = new RectF();
                 rectF.left = pig.getLeft();
                 rectF.top = pig.getTop();

@@ -16,7 +16,7 @@ import rango.tool.androidtool.alive.AliveActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.clickeffect.RippleRelativeLayout;
 import rango.tool.androidtool.dialog.ToolDialog;
-import rango.tool.androidtool.drag.DragActivity;
+import rango.tool.androidtool.drag.PigActivity;
 import rango.tool.androidtool.encrypt.EncryptActivity;
 import rango.tool.androidtool.experiments.activity.AidlActivity;
 import rango.tool.androidtool.experiments.activity.AnrActivity;
@@ -138,7 +138,7 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.http_btn).setOnClickListener(v -> startActivity(HttpActivity.class));
         findViewById(R.id.alarm_btn).setOnClickListener(v -> startActivity(AlarmActivity.class));
         findViewById(R.id.encrypt_btn).setOnClickListener(v -> startActivity(EncryptActivity.class));
-        findViewById(R.id.drag_btn).setOnClickListener(v -> startActivity(DragActivity.class));
+        findViewById(R.id.drag_btn).setOnClickListener(v -> startActivity(PigActivity.class));
 
     }
 
