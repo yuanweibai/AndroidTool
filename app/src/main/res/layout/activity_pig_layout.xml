@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     android:clipChildren="false">
 
+    <rango.tool.androidtool.falling.FallingSurfaceView
+        android:id="@+id/falling_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
     <TextView
         android:id="@+id/buy_button"
         android:layout_width="100dp"
@@ -18,6 +24,19 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
+    <TextView
+        android:id="@+id/accelerate_btn"
+        android:layout_width="100dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="20dp"
+        android:background="#DB8E1B"
+        android:gravity="center"
+        android:text="加速"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/buy_button" />
+
     <rango.tool.androidtool.drag.pig.PigContainerView
         android:id="@+id/pig_container_view"
         android:layout_width="match_parent"
@@ -25,4 +44,5 @@
         android:background="#D6572D"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
