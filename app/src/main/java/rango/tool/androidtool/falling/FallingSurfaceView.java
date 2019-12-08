@@ -27,9 +27,9 @@ public abstract class FallingSurfaceView extends SurfaceView implements SurfaceH
     private static final long INTERVAL_UPDATE_DRAW = 16;
     private static final int DEFAULT_MIN_FALLING_SPEED = 4;
 
-    private Paint contentPaint;
-    private Matrix contentMatrix;
-    private Path contentPath;
+    protected Matrix contentMatrix;
+    private int contentAlpha;
+    protected Paint contentPaint;
 
     protected List<FallingPathItem> fallingItems;
 
@@ -38,7 +38,6 @@ public abstract class FallingSurfaceView extends SurfaceView implements SurfaceH
     private long logLastDrawEndTime;
     private long logLastCallUpdateTime;
 
-    private int contentAlpha;
     private ValueAnimator mValueAnimator;
 
     private HandlerThread handlerThread;
@@ -63,6 +62,8 @@ public abstract class FallingSurfaceView extends SurfaceView implements SurfaceH
     }
 
     protected abstract void createFallingItems(int minFallingSpeed);
+
+    protected abstract void onSurfaceViewDraw(Canvas canvas, FallingPathItem fallingItem);
 
     public void startFallingAnim() {
         startFallingAnim(false, 0, DEFAULT_MIN_FALLING_SPEED);
@@ -123,7 +124,6 @@ public abstract class FallingSurfaceView extends SurfaceView implements SurfaceH
 
         contentPaint = new Paint();
         contentMatrix = new Matrix();
-        contentPath = new Path();
 
         fallingItems = new ArrayList<>();
 
@@ -178,7 +178,31 @@ public abstract class FallingSurfaceView extends SurfaceView implements SurfaceH
             // clear bg
             canvas.drawPaint(bgPaint);
 
-            onSurfaceViewDraw(canvas);
+            final long drawStartTime = System.currentTimeMillis();
+
+            for (FallingPathItem fallingItem : fallingItems) {
+
+                if (fallingItem.posX < 0 || fallingItem.posX > getWidth()) {
+                    continue;
+                }
+
+                contentMatrix.setRotate(fallingItem.rotateAngle);
+                contentMatrix.postScale(fallingItem.scaleRatio, fallingItem.scaleRatio);
+                contentMatrix.postTranslate(fallingItem.posX, fallingItem.posY);
+
+                contentPaint.setColor(fallingItem.color);
+                contentPaint.setAlpha((int) (contentAlpha * fallingItem.alpha));
+
+                onSurfaceViewDraw(canvas, fallingItem);
+            }
+
+            final long drawEndTime = System.currentTimeMillis();
+
+            Log.d(TAG, "init background time is " + (drawStartTime - logLastCallUpdateTime)
+                    + ", draw falling items time is " + (drawEndTime - drawStartTime)
+                    + ", call draw interval time is " + (drawEndTime - logLastDrawEndTime));
+
+            logLastDrawEndTime = System.currentTimeMillis();
 
             try {
                 surfaceHolder.unlockCanvasAndPost(canvas);
@@ -187,39 +211,6 @@ public abstract class FallingSurfaceView extends SurfaceView implements SurfaceH
             }
         }
     }
-
-    private void onSurfaceViewDraw(Canvas canvas) {
-        final long drawStartTime = System.currentTimeMillis();
-
-        for (FallingPathItem fallingItem : fallingItems) {
-
-            if (fallingItem.posX < 0 || fallingItem.posX > getWidth()) {
-                continue;
-            }
-
-            contentMatrix.setRotate(fallingItem.rotateAngle);
-            contentMatrix.postScale(fallingItem.scaleRatio, fallingItem.scaleRatio);
-            contentMatrix.postTranslate(fallingItem.posX, fallingItem.posY);
-
-            contentPath.reset();
-            contentPath.addPath(fallingItem.path);
-            contentPath.transform(contentMatrix);
-
-            contentPaint.setColor(fallingItem.color);
-            contentPaint.setAlpha((int) (contentAlpha * fallingItem.alpha));
-
-            canvas.drawPath(contentPath, contentPaint);
-        }
-
-        final long drawEndTime = System.currentTimeMillis();
-
-        Log.d(TAG, "init background time is " + (drawStartTime - logLastCallUpdateTime)
-                + ", draw falling items time is " + (drawEndTime - drawStartTime)
-                + ", call draw interval time is " + (drawEndTime - logLastDrawEndTime));
-
-        logLastDrawEndTime = System.currentTimeMillis();
-    }
-
 
     private Runnable mUpdateFallingItemsRunnable = new Runnable() {
 
@@ -295,5 +286,4 @@ public abstract class FallingSurfaceView extends SurfaceView implements SurfaceH
             mValueAnimator = null;
         }
     }
-
 }

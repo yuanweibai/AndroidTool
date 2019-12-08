@@ -1,11 +1,17 @@
 package rango.tool.androidtool.falling;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseArray;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import rango.tool.common.utils.ScreenUtils;
@@ -30,6 +36,7 @@ public class FallingPathSurfaceView extends FallingSurfaceView {
     private SparseArray<Path> mShapePathSparse = new SparseArray<>();
     private int mCurrentShape;
 
+    private Path contentPath;
 
     public FallingPathSurfaceView(Context context) {
         this(context, null);
@@ -45,14 +52,10 @@ public class FallingPathSurfaceView extends FallingSurfaceView {
         init();
     }
 
-
-
-
     private void init() {
 
-
-
-
+        contentPath = new Path();
+        fallingItems = new ArrayList<>();
 
         SvgParser svgParser = new SvgParser();
         Matrix matrix = new Matrix();
@@ -111,5 +114,14 @@ public class FallingPathSurfaceView extends FallingSurfaceView {
         }
     }
 
+    @Override
+    protected void onSurfaceViewDraw(Canvas canvas,FallingPathItem fallingItem) {
+
+        contentPath.reset();
+        contentPath.addPath(fallingItem.path);
+        contentPath.transform(contentMatrix);
+
+        canvas.drawPath(contentPath, contentPaint);
+    }
 
 }
