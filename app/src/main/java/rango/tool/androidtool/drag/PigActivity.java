@@ -7,12 +7,12 @@ import android.view.View;
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.drag.pig.PigContainerView;
-import rango.tool.androidtool.falling.FallingSurfaceView;
+import rango.tool.androidtool.falling.FallingPathSurfaceView;
 
 public class PigActivity extends BaseActivity {
 
     private PigContainerView pigContainerView;
-    private FallingSurfaceView fallingSurfaceView;
+    private FallingPathSurfaceView fallingSurfaceView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,8 +31,8 @@ public class PigActivity extends BaseActivity {
         findViewById(R.id.accelerate_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                fallingSurfaceView.startFallingAnim(5000, 16f, 1f);
-                fallingSurfaceView.startFallingAnim();
+                fallingSurfaceView.startFallingAnim(5000, 16, 1f);
+//                fallingSurfaceView.startFallingAnim();
             }
         });
     }

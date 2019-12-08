@@ -6,106 +6,237 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-import rango.tool.common.utils.ScreenUtils;
+public abstract class FallingSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
-public class FallingSurfaceView extends HandlerSurfaceView {
+    private static final String TAG = "FallingSurfaceView";
 
-    private static final String PATH_DATA_RECTANGLE = "M23,18V6c0,-1.1 -0.9,-2 -2,-2H3c-1.1,0 -2,0.9 -2,2v12c0,1.1 0.9,2 2,2h18c1.1,0 2,-0.9 2,-2z";
-    private static final String PATH_DATA_TRIANGLE = "M8,5v14l11,-7z";
-    private static final String PATH_DATA_FIVE_POINTED_START = "M12,17.27L18.18,21l-1.64,-7.03L22,9.24l-7.19,-0.61L12,2L9.19,8.63L2,9.24l5.46,4.73L5.82,21z";
-
-    private static final int[] COLORS = new int[]{0xff29ffae, 0xff3983fe, 0xfffe246c, 0xffffe612};
-    private static final float[] ALPHA = new float[]{0.8f, 0.6f, 0.5f};
-
-    private static final float DISTRIBUTE_RATIO_IN_WIDTH = 1.4f;
     private static final float RATION_REAL_UPDATE_INTERVAL = 0.75f;
-
-    private static final int FALLING_ITEM_COUNT = 36;
-    private static final float DIRECTION_ANGLE_RANGE = 0.1f;
-
     private static final long INTERVAL_UPDATE_DRAW = 16;
+    private static final int DEFAULT_MIN_FALLING_SPEED = 4;
 
-    public static final int FALLING_SHAPE_RECTANGLE = 0;
-    public static final int FALLING_SHAPE_TRIANGLE = 1;
-    public static final int FALLING_SHAPE_FIVE_POINTED_STAR = 2;
+    private Paint contentPaint;
+    private Matrix contentMatrix;
+    private Path contentPath;
 
-    private class FallingItem {
-        float posX;
-        float posY;
+    protected List<FallingPathItem> fallingItems;
 
-        float increaseDistance;
-        float scaleRatio;
-        float rotateAngle;
-        float directionAngle;
+    private long lastUpdateTime;
 
-        float increaseAngle;
+    private long logLastDrawEndTime;
+    private long logLastCallUpdateTime;
 
-        float alpha;
-        int color;
-        Path path;
+    private int contentAlpha;
+    private ValueAnimator mValueAnimator;
 
-        FallingItem(float posX, float posY, Path path, float alpha, int color, float increaseDistanceFactor) {
-            this.posX = posX;
-            this.posY = posY;
-            this.alpha = alpha;
-            this.color = color;
-            this.path = path;
+    private HandlerThread handlerThread;
+    private Handler handler;
 
-            Random random = new Random();
-            this.rotateAngle = random.nextInt(360);
-            this.increaseAngle = random.nextFloat() * 0.5f + 0.5f;
-            this.scaleRatio = random.nextFloat() * 0.7f + 0.3f;
+    // Clear background
+    private Paint bgPaint;
 
-            this.increaseDistance = ((random.nextFloat() + 1) * increaseDistanceFactor) * getResources().getDisplayMetrics().density;
-            this.directionAngle = (float) (random.nextFloat() * DIRECTION_ANGLE_RANGE + (Math.PI - DIRECTION_ANGLE_RANGE) / 2f);
+    private boolean isCouldDraw;
+
+    public FallingSurfaceView(Context context) {
+        this(context, null);
+    }
+
+    public FallingSurfaceView(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public FallingSurfaceView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    protected abstract void createFallingItems(int minFallingSpeed);
+
+    public void startFallingAnim() {
+        startFallingAnim(false, 0, DEFAULT_MIN_FALLING_SPEED);
+    }
+
+    public void startFallingAnim(long duration, int minFallingSpeed, float startAlpha) {
+        startFallingAnim(true, duration, minFallingSpeed);
+
+        startAlphaAnim(startAlpha, duration);
+    }
+
+    public boolean isCouldDraw() {
+        return isCouldDraw;
+    }
+
+    public void stopFallingAnim() {
+        if (handler != null) {
+            handler.removeCallbacks(mRemoveFallingItemsUpdateRunnable);
+            handler.post(mRemoveFallingItemsUpdateRunnable);
+        }
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        Log.d(TAG, "surfaceCreated()");
+        if (handlerThread == null) {
+            handlerThread = new HandlerThread(TAG);
+            handlerThread.start();
+            handler = new Handler(handlerThread.getLooper());
+        }
+        isCouldDraw = true;
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        Log.d(TAG, "surfaceChanged()");
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        Log.d(TAG, "surfaceDestroyed()");
+
+        isCouldDraw = false;
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+            handler = null;
         }
 
-        void updatePosition(float intervalCoefficient) {
-            posX += intervalCoefficient * increaseDistance * Math.cos(directionAngle);
-            posY += intervalCoefficient * increaseDistance * Math.sin(directionAngle);
+        if (handlerThread != null) {
+            handlerThread.quit();
+            handlerThread = null;
+        }
+    }
 
-            Random random = new Random();
+    private void init() {
 
-            directionAngle += (random.nextFloat() - 0.5f) * 0.02f;
-            rotateAngle += increaseAngle + random.nextFloat() * 0.1f;
+        setZOrderOnTop(true);
 
-            if (posY > getHeight()) {
-                if (getWidth() > 0) {
-                    posX = random.nextInt(getWidth()) * DISTRIBUTE_RATIO_IN_WIDTH - (DISTRIBUTE_RATIO_IN_WIDTH / 2f - 0.5f) * getWidth();
-                } else {
-                    posX = 0;
-                }
+        contentPaint = new Paint();
+        contentMatrix = new Matrix();
+        contentPath = new Path();
 
-                posY = 0;
+        fallingItems = new ArrayList<>();
+
+        contentAlpha = 255;
+
+        bgPaint = new Paint();
+        bgPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+
+        contentPaint.setAntiAlias(true);
+        contentPaint.setStyle(Paint.Style.FILL);
+
+        SurfaceHolder surfaceHolder = getHolder();
+        surfaceHolder.addCallback(this);
+        surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
+    }
+
+    private void updateSurfaceView() {
+        synchronized (this) {
+            if (handler == null) {
+                return;
+            }
+
+            handler.post(this::surfaceViewDraw);
+        }
+    }
+
+    private void surfaceViewDraw() {
+        synchronized (this) {
+            if (!isCouldDraw) {
+                return;
+            }
+
+            if (getVisibility() != SurfaceView.VISIBLE) {
+                return;
+            }
+
+            SurfaceHolder surfaceHolder = getHolder();
+            if (surfaceHolder == null || surfaceHolder.isCreating()) {
+                return;
+            }
+
+            Canvas canvas = null;
+            try {
+                canvas = surfaceHolder.lockCanvas();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (canvas == null) {
+                return;
+            }
+
+            // clear bg
+            canvas.drawPaint(bgPaint);
+
+            onSurfaceViewDraw(canvas);
+
+            try {
+                surfaceHolder.unlockCanvasAndPost(canvas);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
+
+    private void onSurfaceViewDraw(Canvas canvas) {
+        final long drawStartTime = System.currentTimeMillis();
+
+        for (FallingPathItem fallingItem : fallingItems) {
+
+            if (fallingItem.posX < 0 || fallingItem.posX > getWidth()) {
+                continue;
+            }
+
+            contentMatrix.setRotate(fallingItem.rotateAngle);
+            contentMatrix.postScale(fallingItem.scaleRatio, fallingItem.scaleRatio);
+            contentMatrix.postTranslate(fallingItem.posX, fallingItem.posY);
+
+            contentPath.reset();
+            contentPath.addPath(fallingItem.path);
+            contentPath.transform(contentMatrix);
+
+            contentPaint.setColor(fallingItem.color);
+            contentPaint.setAlpha((int) (contentAlpha * fallingItem.alpha));
+
+            canvas.drawPath(contentPath, contentPaint);
+        }
+
+        final long drawEndTime = System.currentTimeMillis();
+
+        Log.d(TAG, "init background time is " + (drawStartTime - logLastCallUpdateTime)
+                + ", draw falling items time is " + (drawEndTime - drawStartTime)
+                + ", call draw interval time is " + (drawEndTime - logLastDrawEndTime));
+
+        logLastDrawEndTime = System.currentTimeMillis();
+    }
+
 
     private Runnable mUpdateFallingItemsRunnable = new Runnable() {
 
         @Override
         public void run() {
 
-            final long intervalUpdate = System.currentTimeMillis() - mLastUpdateTime;
+            final long intervalUpdate = System.currentTimeMillis() - lastUpdateTime;
             final float coefficient = (float) ((double) intervalUpdate / INTERVAL_UPDATE_DRAW);
 
-            for (FallingItem fallingItem : mFallingItems) {
-                fallingItem.updatePosition(coefficient);
+            for (FallingPathItem fallingItem : fallingItems) {
+                fallingItem.updatePosition(FallingSurfaceView.this.getWidth(), FallingSurfaceView.this.getHeight(), coefficient);
             }
 
-            mLogLastCallUpdateTime = System.currentTimeMillis();
-            updateSurfaceView(true);
+            logLastCallUpdateTime = System.currentTimeMillis();
+            updateSurfaceView();
 
-            mLastUpdateTime = System.currentTimeMillis();
+            lastUpdateTime = System.currentTimeMillis();
 
             synchronized (FallingSurfaceView.this) {
                 if (handler != null) {
@@ -119,224 +250,50 @@ public class FallingSurfaceView extends HandlerSurfaceView {
     private Runnable mRemoveFallingItemsUpdateRunnable = new Runnable() {
         @Override
         public void run() {
-            synchronized (FallingSurfaceView.this) {
-                if (handler == null) {
-                    return;
-                }
-                handler.removeCallbacks(mUpdateFallingItemsRunnable);
+            if (handler == null) {
+                return;
             }
+            handler.removeCallbacks(mUpdateFallingItemsRunnable);
 
-            mFallingItems.clear();
+            fallingItems.clear();
 
-            mLogLastCallUpdateTime = System.currentTimeMillis();
-            updateSurfaceView(true);
+            logLastCallUpdateTime = System.currentTimeMillis();
+            updateSurfaceView();
+
+            releaseAnim();
         }
     };
 
-    private SparseArray<Path> mShapePathSparse = new SparseArray<>();
-    private Paint mPaint = new Paint();
-    private Matrix mMatrix = new Matrix();
-    private Path mPath = new Path();
-
-    private List<FallingItem> mFallingItems = new ArrayList<>();
-    private long mLastUpdateTime;
-
-    private long mLogLastDrawEndTime;
-    private long mLogLastCallUpdateTime;
-
-    private int mShapeAlpha = 255;
-    private ValueAnimator mValueAnimator;
-    private int mCurrentShape;
-
-    public FallingSurfaceView(Context context) {
-        this(context, null);
-    }
-
-    public FallingSurfaceView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
-
-    public FallingSurfaceView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-
-        init();
-    }
-
-    public void setShape(int shape) {
-        mCurrentShape = shape;
-    }
-
-    public void startFallingAnim() {
-        startFallingAnim(false, 0, 3f);
-    }
-
-    public void startFallingAnim(long duration, float itemIncreaseDistanceFactor, float startAlpha) {
-        startFallingAnim(true, duration, itemIncreaseDistanceFactor);
-
-        if (mValueAnimator != null) {
-            mValueAnimator.cancel();
-            mValueAnimator = null;
+    private void startFallingAnim(boolean isAutoStop, long duration, int minFallingSpeed) {
+        if (!isCouldDraw()) {
+            return;
+        }
+        handler.removeCallbacks(mRemoveFallingItemsUpdateRunnable);
+        if (isAutoStop) {
+            handler.postDelayed(mRemoveFallingItemsUpdateRunnable, duration);
         }
 
+        lastUpdateTime = System.currentTimeMillis();
+
+        handler.removeCallbacks(mUpdateFallingItemsRunnable);
+        handler.post(() -> createFallingItems(minFallingSpeed));
+        handler.post(mUpdateFallingItemsRunnable);
+    }
+
+    private void startAlphaAnim(float startAlpha, long duration) {
+        releaseAnim();
+
         mValueAnimator = ValueAnimator.ofFloat(startAlpha, 1f, 1f, 0f);
-        mValueAnimator.addUpdateListener(animation -> mShapeAlpha = (int) (255 * (float) animation.getAnimatedValue()));
+        mValueAnimator.addUpdateListener(animation -> contentAlpha = (int) (255 * (float) animation.getAnimatedValue()));
         mValueAnimator.setDuration(duration);
         mValueAnimator.start();
     }
 
-    private void startFallingAnim(boolean isAutoStop, long duration, float itemIncreaseDistanceFactor) {
-        synchronized (this) {
-            if (!isCouldDraw()) {
-                return;
-            }
-            handler.removeCallbacks(mRemoveFallingItemsUpdateRunnable);
-            if (isAutoStop) {
-                handler.postDelayed(mRemoveFallingItemsUpdateRunnable, duration);
-            }
-
-            mLastUpdateTime = System.currentTimeMillis();
-
-            handler.removeCallbacks(mUpdateFallingItemsRunnable);
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    createFallingItems(itemIncreaseDistanceFactor);
-                }
-            });
-            handler.post(mUpdateFallingItemsRunnable);
-        }
-    }
-
-    public void stopFallingAnim() {
-        synchronized (this) {
-            if (handler != null) {
-                handler.removeCallbacks(mRemoveFallingItemsUpdateRunnable);
-                handler.post(mRemoveFallingItemsUpdateRunnable);
-            }
-        }
-    }
-
-    @Override
-    public void onSurfaceCreated(SurfaceHolder holder) {
-
-    }
-
-    @Override
-    public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-    }
-
-    @Override
-    public void onSurfaceDestroyed(SurfaceHolder holder) {
-
-    }
-
-    @Override
-    public void onSurfaceViewDraw(Canvas canvas) {
-        final long drawStartTime = System.currentTimeMillis();
-
-        for (FallingItem fallingItem : mFallingItems) {
-
-            if (fallingItem.posX < 0 || fallingItem.posX > getWidth()) {
-                continue;
-            }
-
-            mMatrix.setRotate(fallingItem.rotateAngle);
-            mMatrix.postScale(fallingItem.scaleRatio, fallingItem.scaleRatio);
-            mMatrix.postTranslate(fallingItem.posX, fallingItem.posY);
-
-            mPath.reset();
-            mPath.addPath(fallingItem.path);
-            mPath.transform(mMatrix);
-
-            mPaint.setColor(fallingItem.color);
-            mPaint.setAlpha((int) (mShapeAlpha * fallingItem.alpha));
-
-            canvas.drawPath(mPath, mPaint);
-        }
-
-        final long drawEndTime = System.currentTimeMillis();
-
-        Log.d("FALLING_DRAW_", "init background time is " + (drawStartTime - mLogLastCallUpdateTime)
-                + ", draw falling items time is " + (drawEndTime - drawStartTime)
-                + ", call draw interval time is " + (drawEndTime - mLogLastDrawEndTime));
-
-        mLogLastDrawEndTime = System.currentTimeMillis();
-    }
-
-    private void init() {
-
-        setZOrderOnTop(true);
-
-        mPaint.setAntiAlias(true);
-        mPaint.setStyle(Paint.Style.FILL);
-
-        SvgParser svgParser = new SvgParser();
-        Matrix matrix = new Matrix();
-
-        final float rectangleWidth = ScreenUtils.dp2px(24);
-        final float rectangleHeight = ScreenUtils.dp2px(24);
-        matrix.setScale(rectangleWidth / 24f, rectangleHeight / 24f);
-
-        SvgParser.PathDataInfo rectanglePathDataInfo = svgParser.parserPathInfo(PATH_DATA_RECTANGLE);
-        rectanglePathDataInfo.updatePath();
-        rectanglePathDataInfo.path.transform(matrix);
-        mShapePathSparse.put(FALLING_SHAPE_RECTANGLE, rectanglePathDataInfo.path);
-
-        final float triangleWidth = ScreenUtils.dp2px(48);
-        final float triangleHeight = ScreenUtils.dp2px(48);
-        matrix.setScale(triangleWidth / 24f, triangleHeight / 24f);
-
-        SvgParser.PathDataInfo trianglePathDataInfo = svgParser.parserPathInfo(PATH_DATA_TRIANGLE);
-        trianglePathDataInfo.updatePath();
-        trianglePathDataInfo.path.transform(matrix);
-        mShapePathSparse.put(FALLING_SHAPE_TRIANGLE, trianglePathDataInfo.path);
-
-        final float starWidth = ScreenUtils.dp2px(50);
-        final float starHeight = ScreenUtils.dp2px(50);
-        matrix.setScale(starWidth / 24f, starHeight / 24f);
-
-        SvgParser.PathDataInfo fiveStartPathDataInfo = svgParser.parserPathInfo(PATH_DATA_FIVE_POINTED_START);
-        fiveStartPathDataInfo.updatePath();
-        fiveStartPathDataInfo.path.transform(matrix);
-        mShapePathSparse.put(FALLING_SHAPE_FIVE_POINTED_STAR, fiveStartPathDataInfo.path);
-    }
-
-    private void createFallingItems(float increaseDistanceFactor) {
-        mFallingItems.clear();
-
-        Random random = new Random();
-        if (mCurrentShape < 0 || mCurrentShape >= mShapePathSparse.size()) {
-            mCurrentShape = random.nextInt(mShapePathSparse.size());
-        }
-        Path fallingShape = mShapePathSparse.valueAt(mCurrentShape);
-
-        for (int i = 0; i < FALLING_ITEM_COUNT; i++) {
-            final float posX = getWidth() <= 0 ? 0 : random.nextInt(getWidth()) * DISTRIBUTE_RATIO_IN_WIDTH - (DISTRIBUTE_RATIO_IN_WIDTH / 2f - 0.5f) * getWidth();
-            final float posY = getHeight() <= 0 ? 0 : random.nextInt(getHeight()) - getHeight();
-            float alpha;
-            int color;
-//            if (isFactorEquals(increaseDistanceFactor, 3f)) {
-            alpha = 1f;
-            color = COLORS[random.nextInt(COLORS.length)];
-//            } else {
-                alpha = ALPHA[random.nextInt(ALPHA.length)];
-//                color = Color.WHITE;
-//            }
-            mFallingItems.add(new FallingItem(posX, posY, fallingShape, alpha, color, increaseDistanceFactor));
-        }
-    }
-
-    private boolean isFactorEquals(float f1, float f2) {
-        return Math.abs(f1 - f2) < 0.0005f;
-    }
-
-    public void onDestroy() {
+    private void releaseAnim() {
         if (mValueAnimator != null) {
             mValueAnimator.cancel();
             mValueAnimator = null;
         }
-
-        stopFallingAnim();
     }
+
 }

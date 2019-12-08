@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:clipChildren="false">
 
-    <rango.tool.androidtool.falling.FallingSurfaceView
+    <rango.tool.androidtool.falling.FallingPathSurfaceView
         android:id="@+id/falling_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
