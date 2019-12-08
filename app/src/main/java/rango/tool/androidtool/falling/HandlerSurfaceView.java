@@ -18,14 +18,14 @@ public abstract class HandlerSurfaceView extends SurfaceView implements SurfaceH
 
     private static final String TAG = HandlerSurfaceView.class.getSimpleName();
 
-    private HandlerThread mHandlerThread;
+    private HandlerThread handlerThread;
 
     @Nullable
-    protected Handler mHandler;
+    protected Handler handler;
 
     // Clear background
-    private Paint mPaint;
-    private boolean mDrawOk;
+    private Paint paint;
+    private boolean isCouldDraw;
 
     public HandlerSurfaceView(Context context) {
         this(context, null);
@@ -40,17 +40,21 @@ public abstract class HandlerSurfaceView extends SurfaceView implements SurfaceH
         init();
     }
 
+    public boolean isCouldDraw() {
+        return isCouldDraw;
+    }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d(TAG, "surfaceCreated()");
-        if (mHandlerThread == null) {
-            mHandlerThread = new HandlerThread(TAG);
-            mHandlerThread.start();
-            mHandler = new Handler(mHandlerThread.getLooper());
+        if (handlerThread == null) {
+            handlerThread = new HandlerThread(TAG);
+            handlerThread.start();
+            handler = new Handler(handlerThread.getLooper());
         }
 
         onSurfaceCreated(holder);
-        mDrawOk = true;
+        isCouldDraw = true;
     }
 
     @Override
@@ -64,15 +68,15 @@ public abstract class HandlerSurfaceView extends SurfaceView implements SurfaceH
     public void surfaceDestroyed(SurfaceHolder holder) {
         Log.d(TAG, "surfaceDestroyed()");
 
-        mDrawOk = false;
-        if (mHandler != null){
-            mHandler.removeCallbacksAndMessages(null);
-            mHandler = null;
+        isCouldDraw = false;
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+            handler = null;
         }
 
-        if (mHandlerThread != null){
-            mHandlerThread.quit();
-            mHandlerThread = null;
+        if (handlerThread != null) {
+            handlerThread.quit();
+            handlerThread = null;
         }
 
         onSurfaceDestroyed(holder);
@@ -80,11 +84,11 @@ public abstract class HandlerSurfaceView extends SurfaceView implements SurfaceH
 
     public void updateSurfaceView(final boolean isClearCanvas) {
         synchronized (this) {
-            if (mHandler == null) {
+            if (handler == null) {
                 return;
             }
 
-            mHandler.post(() -> surfaceViewDraw(isClearCanvas));
+            handler.post(() -> surfaceViewDraw(isClearCanvas));
         }
     }
 
@@ -93,13 +97,13 @@ public abstract class HandlerSurfaceView extends SurfaceView implements SurfaceH
         surfaceHolder.addCallback(this);
         surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
 
-        mPaint = new Paint();
-        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        paint = new Paint();
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
     }
 
     private void surfaceViewDraw(final boolean isClearCanvas) {
         synchronized (this) {
-            if (!mDrawOk) {
+            if (!isCouldDraw) {
                 return;
             }
 
@@ -123,7 +127,7 @@ public abstract class HandlerSurfaceView extends SurfaceView implements SurfaceH
             }
 
             if (isClearCanvas) {
-                canvas.drawPaint(mPaint);
+                canvas.drawPaint(paint);
             }
             onSurfaceViewDraw(canvas);
 

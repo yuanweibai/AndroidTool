@@ -3,7 +3,6 @@ package rango.tool.androidtool.falling;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -109,8 +108,8 @@ public class FallingSurfaceView extends HandlerSurfaceView {
             mLastUpdateTime = System.currentTimeMillis();
 
             synchronized (FallingSurfaceView.this) {
-                if (mHandler != null) {
-                    mHandler.postDelayed(this, (long) (INTERVAL_UPDATE_DRAW * (1 - RATION_REAL_UPDATE_INTERVAL)
+                if (handler != null) {
+                    handler.postDelayed(this, (long) (INTERVAL_UPDATE_DRAW * (1 - RATION_REAL_UPDATE_INTERVAL)
                             + intervalUpdate * RATION_REAL_UPDATE_INTERVAL));
                 }
             }
@@ -121,10 +120,10 @@ public class FallingSurfaceView extends HandlerSurfaceView {
         @Override
         public void run() {
             synchronized (FallingSurfaceView.this) {
-                if (mHandler == null) {
+                if (handler == null) {
                     return;
                 }
-                mHandler.removeCallbacks(mUpdateFallingItemsRunnable);
+                handler.removeCallbacks(mUpdateFallingItemsRunnable);
             }
 
             mFallingItems.clear();
@@ -133,8 +132,6 @@ public class FallingSurfaceView extends HandlerSurfaceView {
             updateSurfaceView(true);
         }
     };
-
-    private Runnable mOnSurfaceCreateRunnable;
 
     private SparseArray<Path> mShapePathSparse = new SparseArray<>();
     private Paint mPaint = new Paint();
@@ -173,8 +170,8 @@ public class FallingSurfaceView extends HandlerSurfaceView {
         startFallingAnim(false, 0, 3f);
     }
 
-    public void startFallingAnim(long mill, float itemIncreaseDistanceFactor, float startAlpha) {
-        startFallingAnim(true, mill, itemIncreaseDistanceFactor);
+    public void startFallingAnim(long duration, float itemIncreaseDistanceFactor, float startAlpha) {
+        startFallingAnim(true, duration, itemIncreaseDistanceFactor);
 
         if (mValueAnimator != null) {
             mValueAnimator.cancel();
@@ -183,59 +180,45 @@ public class FallingSurfaceView extends HandlerSurfaceView {
 
         mValueAnimator = ValueAnimator.ofFloat(startAlpha, 1f, 1f, 0f);
         mValueAnimator.addUpdateListener(animation -> mShapeAlpha = (int) (255 * (float) animation.getAnimatedValue()));
-        mValueAnimator.setDuration(mill);
+        mValueAnimator.setDuration(duration);
         mValueAnimator.start();
     }
 
-    private void startFallingAnim(boolean isAutoStop, long mills, float itemIncreaseDistanceFactor) {
+    private void startFallingAnim(boolean isAutoStop, long duration, float itemIncreaseDistanceFactor) {
         synchronized (this) {
-            if (!isSurfaceReady()) {
+            if (!isCouldDraw()) {
                 return;
             }
-            mHandler.removeCallbacks(mRemoveFallingItemsUpdateRunnable);
+            handler.removeCallbacks(mRemoveFallingItemsUpdateRunnable);
             if (isAutoStop) {
-                mHandler.postDelayed(mRemoveFallingItemsUpdateRunnable, mills);
+                handler.postDelayed(mRemoveFallingItemsUpdateRunnable, duration);
             }
 
             mLastUpdateTime = System.currentTimeMillis();
 
-            mHandler.removeCallbacks(mUpdateFallingItemsRunnable);
-            mHandler.post(new Runnable() {
+            handler.removeCallbacks(mUpdateFallingItemsRunnable);
+            handler.post(new Runnable() {
                 @Override
                 public void run() {
                     createFallingItems(itemIncreaseDistanceFactor);
                 }
             });
-            mHandler.post(mUpdateFallingItemsRunnable);
+            handler.post(mUpdateFallingItemsRunnable);
         }
     }
 
     public void stopFallingAnim() {
         synchronized (this) {
-            if (mHandler != null) {
-                mHandler.removeCallbacks(mRemoveFallingItemsUpdateRunnable);
-                mHandler.post(mRemoveFallingItemsUpdateRunnable);
+            if (handler != null) {
+                handler.removeCallbacks(mRemoveFallingItemsUpdateRunnable);
+                handler.post(mRemoveFallingItemsUpdateRunnable);
             }
         }
     }
 
-    public boolean isSurfaceReady() {
-        return mHandler != null;
-    }
-
-    public void setOnSurfaceCreateRunnable(Runnable onSurfaceCreateRunnable) {
-        this.mOnSurfaceCreateRunnable = onSurfaceCreateRunnable;
-    }
-
-    public void removeOnSurfaceCreateRunnable() {
-        mOnSurfaceCreateRunnable = null;
-    }
-
     @Override
     public void onSurfaceCreated(SurfaceHolder holder) {
-        if (mOnSurfaceCreateRunnable != null) {
-            mOnSurfaceCreateRunnable.run();
-        }
+
     }
 
     @Override
@@ -337,7 +320,7 @@ public class FallingSurfaceView extends HandlerSurfaceView {
             alpha = 1f;
             color = COLORS[random.nextInt(COLORS.length)];
 //            } else {
-//                alpha = ALPHA[random.nextInt(ALPHA.length)];
+                alpha = ALPHA[random.nextInt(ALPHA.length)];
 //                color = Color.WHITE;
 //            }
             mFallingItems.add(new FallingItem(posX, posY, fallingShape, alpha, color, increaseDistanceFactor));

@@ -31,7 +31,8 @@ public class PigActivity extends BaseActivity {
         findViewById(R.id.accelerate_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fallingSurfaceView.startFallingAnim(5000, 16f, 1f);
+//                fallingSurfaceView.startFallingAnim(5000, 16f, 1f);
+                fallingSurfaceView.startFallingAnim();
             }
         });
     }
