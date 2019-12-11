@@ -31,9 +31,14 @@ public class PigActivity extends BaseActivity {
         findViewById(R.id.accelerate_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fallingSurfaceView.startFallingAnim(5000, 10);
-//                fallingSurfaceView.startFallingAnim();
+//                fallingSurfaceView.startFalling(5000, 10);
+                fallingSurfaceView.startFalling();
             }
         });
+
+        findViewById(R.id.stop_btn).setOnClickListener(v -> fallingSurfaceView.stopFalling());
+        findViewById(R.id.resume_button).setOnClickListener(v -> fallingSurfaceView.resumeFalling());
+        findViewById(R.id.pause_btn).setOnClickListener(v -> fallingSurfaceView.pauseFalling());
+
     }
 }

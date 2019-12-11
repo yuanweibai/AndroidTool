@@ -30,6 +30,9 @@ public abstract class BaseFallingSurfaceView extends SurfaceView implements Surf
     private Paint bgPaint;
 
     private boolean isCouldDraw;
+    private volatile boolean isPause = false;
+
+    private final Object lock = new Object();
 
     public BaseFallingSurfaceView(Context context) {
         this(context, null);
@@ -48,22 +51,37 @@ public abstract class BaseFallingSurfaceView extends SurfaceView implements Surf
 
     protected abstract boolean onSurfaceViewDraw(Canvas canvas);
 
-    public void startFallingAnim() {
-        startFallingAnim(false, 0, DEFAULT_MIN_FALLING_SPEED);
+    public void startFalling() {
+        startFalling(false, 0, DEFAULT_MIN_FALLING_SPEED);
     }
 
-    public void startFallingAnim(long duration, int fallingSpeed) {
-        startFallingAnim(true, duration, fallingSpeed);
+    public void startFalling(long duration, int fallingSpeed) {
+        startFalling(true, duration, fallingSpeed);
     }
 
     public boolean isCouldDraw() {
         return isCouldDraw;
     }
 
-    public void stopFallingAnim() {
-        if (handler != null) {
-            handler.removeCallbacks(mRemoveFallingItemsUpdateRunnable);
-            handler.post(mRemoveFallingItemsUpdateRunnable);
+    public void stopFalling() {
+        synchronized (lock) {
+            if (handler != null) {
+                handler.removeCallbacksAndMessages(null);
+                handler.post(stopRunnable);
+            }
+        }
+    }
+
+    public void pauseFalling() {
+        isPause = true;
+    }
+
+    public void resumeFalling() {
+        isPause = false;
+        synchronized (lock) {
+            if (handler != null) {
+                handler.post(updateFallingItemsRunnable);
+            }
         }
     }
 
@@ -84,9 +102,11 @@ public abstract class BaseFallingSurfaceView extends SurfaceView implements Surf
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         isCouldDraw = false;
-        if (handler != null) {
-            handler.removeCallbacksAndMessages(null);
-            handler = null;
+        synchronized (lock) {
+            if (handler != null) {
+                handler.removeCallbacksAndMessages(null);
+                handler = null;
+            }
         }
 
         if (handlerThread != null) {
@@ -144,7 +164,11 @@ public abstract class BaseFallingSurfaceView extends SurfaceView implements Surf
         // clear bg
         canvas.drawPaint(bgPaint);
 
-        shouldContinueDraw = onSurfaceViewDraw(canvas);
+        if (fallingBeanList.isEmpty()) {
+            shouldContinueDraw = false;
+        } else {
+            shouldContinueDraw = onSurfaceViewDraw(canvas);
+        }
 
         try {
             surfaceHolder.unlockCanvasAndPost(canvas);
@@ -154,10 +178,14 @@ public abstract class BaseFallingSurfaceView extends SurfaceView implements Surf
         return shouldContinueDraw;
     }
 
-    private Runnable mUpdateFallingItemsRunnable = new Runnable() {
+    private Runnable updateFallingItemsRunnable = new Runnable() {
 
         @Override
         public void run() {
+
+            if (isPause) {
+                return;
+            }
 
             for (BaseFallingBean bean : fallingBeanList) {
                 bean.updateData(BaseFallingSurfaceView.this.getWidth(), BaseFallingSurfaceView.this.getHeight());
@@ -167,8 +195,10 @@ public abstract class BaseFallingSurfaceView extends SurfaceView implements Surf
             boolean isPostNextDraw = surfaceViewDraw();
 
             if (isPostNextDraw) {
-                if (handler != null) {
-                    handler.post(this);
+                synchronized (lock) {
+                    if (handler != null) {
+                        handler.post(this);
+                    }
                 }
             } else {
                 release();
@@ -176,7 +206,7 @@ public abstract class BaseFallingSurfaceView extends SurfaceView implements Surf
         }
     };
 
-    private Runnable mRemoveFallingItemsUpdateRunnable = new Runnable() {
+    private Runnable notifyEndRunnable = new Runnable() {
         @Override
         public void run() {
             for (BaseFallingBean bean : fallingBeanList) {
@@ -185,17 +215,25 @@ public abstract class BaseFallingSurfaceView extends SurfaceView implements Surf
         }
     };
 
-    private void startFallingAnim(boolean isAutoStop, long duration, int fallingSpeed) {
+    private Runnable stopRunnable = () -> {
+        release();
+        surfaceViewDraw();
+    };
+
+    private void startFalling(boolean isAutoStop, long duration, int fallingSpeed) {
         if (!isCouldDraw()) {
             return;
         }
-        handler.removeCallbacks(mRemoveFallingItemsUpdateRunnable);
-        if (isAutoStop) {
-            handler.postDelayed(mRemoveFallingItemsUpdateRunnable, duration);
-        }
+        isPause = false;
+        synchronized (lock) {
+            handler.removeCallbacks(notifyEndRunnable);
+            if (isAutoStop) {
+                handler.postDelayed(notifyEndRunnable, duration);
+            }
 
-        handler.removeCallbacks(mUpdateFallingItemsRunnable);
-        handler.post(() -> createFallingItems(fallingSpeed));
-        handler.post(mUpdateFallingItemsRunnable);
+            handler.removeCallbacks(updateFallingItemsRunnable);
+            handler.post(() -> createFallingItems(fallingSpeed));
+            handler.post(updateFallingItemsRunnable);
+        }
     }
 }

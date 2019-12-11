@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:clipChildren="false">
 
-<!--    <rango.tool.androidtool.falling.path.FallingPathSurfaceView-->
-<!--        android:id="@+id/falling_view"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent" />-->
+    <!--    <rango.tool.androidtool.falling.path.FallingPathSurfaceView-->
+    <!--        android:id="@+id/falling_view"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent" />-->
 
     <rango.tool.androidtool.falling.image.FallingImageSurfaceView
         android:id="@+id/falling_view"
@@ -16,21 +16,8 @@
         android:layout_height="match_parent" />
 
     <TextView
-        android:id="@+id/buy_button"
-        android:layout_width="100dp"
-        android:layout_height="35dp"
-        android:layout_marginBottom="20dp"
-        android:background="#DB8E1B"
-        android:gravity="center"
-        android:text="购买"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <TextView
         android:id="@+id/accelerate_btn"
-        android:layout_width="100dp"
+        android:layout_width="60dp"
         android:layout_height="35dp"
         android:layout_marginBottom="20dp"
         android:background="#DB8E1B"
@@ -39,7 +26,59 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/buy_button" />
+        app:layout_constraintRight_toLeftOf="@+id/buy_button" />
+
+    <TextView
+        android:id="@+id/buy_button"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="20dp"
+        android:background="#DB8E1B"
+        android:gravity="center"
+        android:text="购买"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/accelerate_btn"
+        app:layout_constraintRight_toLeftOf="@+id/stop_btn" />
+
+    <TextView
+        android:id="@+id/stop_btn"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="20dp"
+        android:background="#DB8E1B"
+        android:gravity="center"
+        android:text="停止"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/buy_button"
+        app:layout_constraintRight_toLeftOf="@+id/resume_button" />
+
+    <TextView
+        android:id="@+id/resume_button"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="20dp"
+        android:background="#DB8E1B"
+        android:gravity="center"
+        android:text="resume"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/stop_btn"
+        app:layout_constraintRight_toLeftOf="@+id/pause_btn" />
+
+    <TextView
+        android:id="@+id/pause_btn"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="20dp"
+        android:background="#DB8E1B"
+        android:gravity="center"
+        android:text="pause"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/resume_button"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <rango.tool.androidtool.farm.pig.PigContainerView
         android:id="@+id/pig_container_view"

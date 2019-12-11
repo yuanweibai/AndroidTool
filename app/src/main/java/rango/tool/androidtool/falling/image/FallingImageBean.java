@@ -41,6 +41,7 @@ public class FallingImageBean implements BaseFallingBean {
 
         if (posY > height) {
             posX = getX(width);
+            alpha = 255;
             if (!isEnd) {
                 posY = -bitmap.getHeight();
             } else {
