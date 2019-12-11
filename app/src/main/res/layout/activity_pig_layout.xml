@@ -5,11 +5,15 @@
     android:layout_height="match_parent"
     android:clipChildren="false">
 
-    <rango.tool.androidtool.falling.FallingPathSurfaceView
+<!--    <rango.tool.androidtool.falling.path.FallingPathSurfaceView-->
+<!--        android:id="@+id/falling_view"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
+
+    <rango.tool.androidtool.falling.image.FallingImageSurfaceView
         android:id="@+id/falling_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 
     <TextView
         android:id="@+id/buy_button"

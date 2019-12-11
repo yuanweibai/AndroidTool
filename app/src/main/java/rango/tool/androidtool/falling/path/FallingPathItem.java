@@ -1,12 +1,13 @@
-package rango.tool.androidtool.falling;
+package rango.tool.androidtool.falling.path;
 
 import android.graphics.Path;
 
 import java.util.Random;
 
+import rango.tool.androidtool.falling.BaseFallingBean;
 import rango.tool.common.utils.ScreenUtils;
 
-public class FallingPathItem implements BaseFallingBean{
+public class FallingPathItem implements BaseFallingBean {
 
     private static final float DISTRIBUTE_RATIO_IN_WIDTH = 1.4f;
     private static final float DIRECTION_ANGLE_RANGE = 0.1f;

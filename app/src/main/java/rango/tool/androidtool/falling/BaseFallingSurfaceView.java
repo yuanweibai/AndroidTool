@@ -25,7 +25,9 @@ public abstract class BaseFallingSurfaceView extends SurfaceView implements Surf
     private static final long INTERVAL_UPDATE_DRAW = 16;
     private static final int DEFAULT_MIN_FALLING_SPEED = 4;
 
-    protected int contentAlpha;
+    public List<BaseFallingBean> fallingBeanList;
+    public int contentAlpha;
+
     private long lastUpdateTime;
     private long logLastDrawEndTime;
     private long logLastCallUpdateTime;
@@ -40,8 +42,6 @@ public abstract class BaseFallingSurfaceView extends SurfaceView implements Surf
 
     private boolean isCouldDraw;
 
-    protected List<BaseFallingBean> fallingBeanList;
-
     public BaseFallingSurfaceView(Context context) {
         this(context, null);
     }
@@ -52,7 +52,7 @@ public abstract class BaseFallingSurfaceView extends SurfaceView implements Surf
 
     public BaseFallingSurfaceView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        initView();
     }
 
     protected abstract void createFallingItems(int minFallingSpeed);
@@ -115,7 +115,7 @@ public abstract class BaseFallingSurfaceView extends SurfaceView implements Surf
         releaseAnim();
     }
 
-    private void init() {
+    private void initView() {
         setZOrderOnTop(true);
         contentAlpha = 255;
 

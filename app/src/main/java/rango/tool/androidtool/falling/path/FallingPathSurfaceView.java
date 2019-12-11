@@ -1,4 +1,4 @@
-package rango.tool.androidtool.falling;
+package rango.tool.androidtool.falling.path;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,7 +10,8 @@ import android.util.SparseArray;
 
 import java.util.Random;
 
-import rango.tool.androidtool.falling.path.SvgParser;
+import rango.tool.androidtool.falling.BaseFallingBean;
+import rango.tool.androidtool.falling.BaseFallingSurfaceView;
 import rango.tool.common.utils.ScreenUtils;
 
 public class FallingPathSurfaceView extends BaseFallingSurfaceView {
