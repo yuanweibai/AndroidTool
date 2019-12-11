@@ -12,35 +12,46 @@ public class FallingImageBean implements BaseFallingBean {
     float posX;
     float posY;
     float increaseDistance;
-    float alpha;
+    int alpha;
     Bitmap bitmap;
     private Random random;
+    private boolean isEnd;
+    boolean isAlreadyEnd;
 
-    FallingImageBean(Bitmap bitmap, int width, float minFallingSpeed) {
+    FallingImageBean(Bitmap bitmap, int width, float fallingSpeed) {
         this.bitmap = bitmap;
         random = new Random();
+        isEnd = false;
+        isAlreadyEnd = false;
 
         posX = getX(width);
         this.posY = -bitmap.getHeight();
-        this.alpha = 1f;
+        this.alpha = 255;
 
-        this.increaseDistance = ScreenUtils.dp2px((random.nextFloat() + 1) * minFallingSpeed);
+        this.increaseDistance = ScreenUtils.dp2px((random.nextFloat() + 1) * fallingSpeed);
     }
 
 
     @Override
-    public void updateData(int width, int height, float intervalCoefficient) {
-        posY += intervalCoefficient * increaseDistance;
-        this.alpha = 1f;
+    public void updateData(int width, int height) {
+        posY += increaseDistance;
+        if (posY > height / 2f) {
+            alpha = (int) ((1 - (posY / (height / 2) - 1)) * 255);
+        }
 
         if (posY > height) {
-            if (width > 0) {
-                posX = getX(width);
+            posX = getX(width);
+            if (!isEnd) {
+                posY = -bitmap.getHeight();
             } else {
-                posX = 0;
+                isAlreadyEnd = true;
             }
-            posY = -bitmap.getHeight();
         }
+    }
+
+    @Override
+    public void notifyEnd() {
+        isEnd = true;
     }
 
     private float getX(int width) {

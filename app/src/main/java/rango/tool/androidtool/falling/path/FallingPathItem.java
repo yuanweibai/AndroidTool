@@ -22,9 +22,11 @@ public class FallingPathItem implements BaseFallingBean {
 
     float increaseAngle;
 
-    float alpha;
+    int alpha;
     int color;
     Path path;
+    private boolean isEnd;
+    boolean isAlreadyEnd;
 
     /**
      * @param posX
@@ -32,28 +34,30 @@ public class FallingPathItem implements BaseFallingBean {
      * @param path
      * @param alpha
      * @param color
-     * @param minFallingSpeed dp
+     * @param fallingSpeed dp
      */
-    FallingPathItem(float posX, float posY, Path path, float alpha, int color, float minFallingSpeed) {
+    FallingPathItem(float posX, float posY, Path path, float alpha, int color, float fallingSpeed) {
         this.posX = posX;
         this.posY = posY;
-        this.alpha = alpha;
+        this.alpha = (int) (255 * alpha);
         this.color = color;
         this.path = path;
+        isEnd = false;
+        isAlreadyEnd = false;
 
         Random random = new Random();
         this.rotateAngle = random.nextInt(360);
         this.increaseAngle = random.nextFloat() * 0.5f + 0.5f;
         this.scaleRatio = random.nextFloat() * 0.7f + 0.3f;
 
-        this.increaseDistance = ScreenUtils.dp2px((random.nextFloat() + 1) * minFallingSpeed);
+        this.increaseDistance = ScreenUtils.dp2px((random.nextFloat() + 1) * fallingSpeed);
         this.directionAngle = (float) (random.nextFloat() * DIRECTION_ANGLE_RANGE + (Math.PI - DIRECTION_ANGLE_RANGE) / 2f);
     }
 
     @Override
-    public void updateData(int width, int height, float intervalCoefficient) {
-        posX += intervalCoefficient * increaseDistance * Math.cos(directionAngle);
-        posY += intervalCoefficient * increaseDistance * Math.sin(directionAngle);
+    public void updateData(int width, int height) {
+        posX += increaseDistance * Math.cos(directionAngle);
+        posY += increaseDistance * Math.sin(directionAngle);
 
         Random random = new Random();
 
@@ -67,7 +71,16 @@ public class FallingPathItem implements BaseFallingBean {
                 posX = 0;
             }
 
-            posY = 0;
+            if (!isEnd) {
+                posY = 0;
+            } else {
+                isAlreadyEnd = true;
+            }
         }
+    }
+
+    @Override
+    public void notifyEnd() {
+        isEnd = true;
     }
 }

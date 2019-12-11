@@ -25,7 +25,7 @@ public class FallingPathSurfaceView extends BaseFallingSurfaceView {
 
     private static final float DISTRIBUTE_RATIO_IN_WIDTH = 1.4f;
 
-    private static final int FALLING_ITEM_COUNT = 176;
+    private static final int FALLING_ITEM_COUNT = 66;
 
     public static final int FALLING_SHAPE_RECTANGLE = 0;
     public static final int FALLING_SHAPE_TRIANGLE = 1;
@@ -94,7 +94,7 @@ public class FallingPathSurfaceView extends BaseFallingSurfaceView {
     }
 
     @Override
-    protected void createFallingItems(int increaseDistanceFactor) {
+    protected void createFallingItems(int fallingSpeed) {
         fallingBeanList.clear();
 
         Random random = new Random();
@@ -115,23 +115,27 @@ public class FallingPathSurfaceView extends BaseFallingSurfaceView {
             alpha = ALPHA[random.nextInt(ALPHA.length)];
 //                color = Color.WHITE;
 //            }
-            fallingBeanList.add(new FallingPathItem(posX, posY, fallingShape, alpha, color, increaseDistanceFactor));
+            fallingBeanList.add(new FallingPathItem(posX, posY, fallingShape, alpha, color, fallingSpeed));
         }
     }
 
     @Override
-    protected void onSurfaceViewDraw(Canvas canvas) {
+    protected boolean onSurfaceViewDraw(Canvas canvas) {
 
+        boolean shouldContinueDraw = false;
         for (BaseFallingBean bean : fallingBeanList) {
 
             if (!(bean instanceof FallingPathItem)) {
-                return;
+                return false;
             }
 
             FallingPathItem fallingItem = (FallingPathItem) bean;
 
-            if (fallingItem.posX < 0 || fallingItem.posX > getWidth()) {
+            if (fallingItem.isAlreadyEnd || fallingItem.posX < 0 || fallingItem.posX > getWidth()) {
                 continue;
+            }
+            if (!shouldContinueDraw) {
+                shouldContinueDraw = true;
             }
 
             contentMatrix.setRotate(fallingItem.rotateAngle);
@@ -139,7 +143,7 @@ public class FallingPathSurfaceView extends BaseFallingSurfaceView {
             contentMatrix.postTranslate(fallingItem.posX, fallingItem.posY);
 
             contentPaint.setColor(fallingItem.color);
-            contentPaint.setAlpha((int) (contentAlpha * fallingItem.alpha));
+            contentPaint.setAlpha((int) (fallingItem.alpha));
 
             contentPath.reset();
             contentPath.addPath(fallingItem.path);
@@ -147,5 +151,7 @@ public class FallingPathSurfaceView extends BaseFallingSurfaceView {
 
             canvas.drawPath(contentPath, contentPaint);
         }
+
+        return shouldContinueDraw;
     }
 }

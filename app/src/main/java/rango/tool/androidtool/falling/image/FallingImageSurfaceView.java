@@ -40,36 +40,41 @@ public class FallingImageSurfaceView extends BaseFallingSurfaceView {
 
 
     @Override
-    protected void createFallingItems(int minFallingSpeed) {
+    protected void createFallingItems(int fallingSpeed) {
         if (bitmap == null) {
             return;
         }
 
         for (int i = 0; i < FALLING_ITEM_COUNT; i++) {
-            fallingBeanList.add(new FallingImageBean(bitmap, getWidth(), minFallingSpeed));
+            fallingBeanList.add(new FallingImageBean(bitmap, getWidth(), fallingSpeed));
         }
     }
 
     @Override
-    protected void onSurfaceViewDraw(Canvas canvas) {
+    protected boolean onSurfaceViewDraw(Canvas canvas) {
+        boolean shouldContinueDraw = false;
         for (BaseFallingBean bean : fallingBeanList) {
 
             if (!(bean instanceof FallingImageBean)) {
-                return;
+                return false;
             }
 
             FallingImageBean fallingItem = (FallingImageBean) bean;
 
-            if (fallingItem.posX < (-fallingItem.bitmap.getWidth()) || fallingItem.posX > (getWidth() + fallingItem.bitmap.getWidth())) {
+            if (fallingItem.isAlreadyEnd || fallingItem.posX < (-fallingItem.bitmap.getWidth()) || fallingItem.posX > (getWidth() + fallingItem.bitmap.getWidth())) {
                 continue;
+            }
+            if (!shouldContinueDraw) {
+                shouldContinueDraw = true;
             }
 
             contentMatrix.reset();
             contentMatrix.postTranslate(fallingItem.posX, fallingItem.posY);
-//                contentPaint.setAlpha((int) (fallingItem.alpha));
+            contentPaint.setAlpha(fallingItem.alpha);
 
             canvas.drawBitmap(fallingItem.bitmap, contentMatrix, contentPaint);
         }
+        return shouldContinueDraw;
     }
 
     private void init() {
