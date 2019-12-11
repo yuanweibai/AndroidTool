@@ -6,7 +6,7 @@ import java.util.Random;
 
 import rango.tool.common.utils.ScreenUtils;
 
-public class FallingPathItem {
+public class FallingPathItem implements BaseFallingBean{
 
     private static final float DISTRIBUTE_RATIO_IN_WIDTH = 1.4f;
     private static final float DIRECTION_ANGLE_RANGE = 0.1f;
@@ -49,7 +49,8 @@ public class FallingPathItem {
         this.directionAngle = (float) (random.nextFloat() * DIRECTION_ANGLE_RANGE + (Math.PI - DIRECTION_ANGLE_RANGE) / 2f);
     }
 
-    void updatePosition(int width, int height, float intervalCoefficient) {
+    @Override
+    public void updateData(int width, int height, float intervalCoefficient) {
         posX += intervalCoefficient * increaseDistance * Math.cos(directionAngle);
         posY += intervalCoefficient * increaseDistance * Math.sin(directionAngle);
 

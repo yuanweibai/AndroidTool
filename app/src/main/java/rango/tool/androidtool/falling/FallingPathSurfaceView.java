@@ -5,18 +5,15 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.SparseArray;
 
-import java.util.ArrayList;
 import java.util.Random;
 
+import rango.tool.androidtool.falling.path.SvgParser;
 import rango.tool.common.utils.ScreenUtils;
 
-public class FallingPathSurfaceView extends FallingSurfaceView {
+public class FallingPathSurfaceView extends BaseFallingSurfaceView {
 
     private static final String PATH_DATA_RECTANGLE = "M23,18V6c0,-1.1 -0.9,-2 -2,-2H3c-1.1,0 -2,0.9 -2,2v12c0,1.1 0.9,2 2,2h18c1.1,0 2,-0.9 2,-2z";
     private static final String PATH_DATA_TRIANGLE = "M8,5v14l11,-7z";
@@ -35,6 +32,8 @@ public class FallingPathSurfaceView extends FallingSurfaceView {
 
     private SparseArray<Path> mShapePathSparse = new SparseArray<>();
     private int mCurrentShape;
+    protected Matrix contentMatrix;
+    protected Paint contentPaint;
 
     private Path contentPath;
 
@@ -55,7 +54,12 @@ public class FallingPathSurfaceView extends FallingSurfaceView {
     private void init() {
 
         contentPath = new Path();
-        fallingItems = new ArrayList<>();
+
+        contentPaint = new Paint();
+        contentMatrix = new Matrix();
+
+        contentPaint.setAntiAlias(true);
+        contentPaint.setStyle(Paint.Style.FILL);
 
         SvgParser svgParser = new SvgParser();
         Matrix matrix = new Matrix();
@@ -90,7 +94,7 @@ public class FallingPathSurfaceView extends FallingSurfaceView {
 
     @Override
     protected void createFallingItems(int increaseDistanceFactor) {
-        fallingItems.clear();
+        fallingBeanList.clear();
 
         Random random = new Random();
         if (mCurrentShape < 0 || mCurrentShape >= mShapePathSparse.size()) {
@@ -107,21 +111,40 @@ public class FallingPathSurfaceView extends FallingSurfaceView {
             alpha = 1f;
             color = COLORS[random.nextInt(COLORS.length)];
 //            } else {
-                alpha = ALPHA[random.nextInt(ALPHA.length)];
+            alpha = ALPHA[random.nextInt(ALPHA.length)];
 //                color = Color.WHITE;
 //            }
-            fallingItems.add(new FallingPathItem(posX, posY, fallingShape, alpha, color, increaseDistanceFactor));
+            fallingBeanList.add(new FallingPathItem(posX, posY, fallingShape, alpha, color, increaseDistanceFactor));
         }
     }
 
     @Override
-    protected void onSurfaceViewDraw(Canvas canvas,FallingPathItem fallingItem) {
+    protected void onSurfaceViewDraw(Canvas canvas) {
 
-        contentPath.reset();
-        contentPath.addPath(fallingItem.path);
-        contentPath.transform(contentMatrix);
+        for (BaseFallingBean bean : fallingBeanList) {
 
-        canvas.drawPath(contentPath, contentPaint);
+            if (!(bean instanceof FallingPathItem)) {
+                return;
+            }
+
+            FallingPathItem fallingItem = (FallingPathItem) bean;
+
+            if (fallingItem.posX < 0 || fallingItem.posX > getWidth()) {
+                continue;
+            }
+
+            contentMatrix.setRotate(fallingItem.rotateAngle);
+            contentMatrix.postScale(fallingItem.scaleRatio, fallingItem.scaleRatio);
+            contentMatrix.postTranslate(fallingItem.posX, fallingItem.posY);
+
+            contentPaint.setColor(fallingItem.color);
+            contentPaint.setAlpha((int) (contentAlpha * fallingItem.alpha));
+
+            contentPath.reset();
+            contentPath.addPath(fallingItem.path);
+            contentPath.transform(contentMatrix);
+
+            canvas.drawPath(contentPath, contentPaint);
+        }
     }
-
 }
