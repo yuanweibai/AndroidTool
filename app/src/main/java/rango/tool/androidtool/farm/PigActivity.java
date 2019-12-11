@@ -1,4 +1,4 @@
-package rango.tool.androidtool.drag;
+package rango.tool.androidtool.farm;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,7 +6,7 @@ import android.view.View;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
-import rango.tool.androidtool.drag.pig.PigContainerView;
+import rango.tool.androidtool.farm.pig.PigContainerView;
 import rango.tool.androidtool.falling.FallingPathSurfaceView;
 
 public class PigActivity extends BaseActivity {

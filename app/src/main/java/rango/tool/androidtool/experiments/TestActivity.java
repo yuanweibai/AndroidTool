@@ -16,7 +16,7 @@ import rango.tool.androidtool.alive.AliveActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.clickeffect.RippleRelativeLayout;
 import rango.tool.androidtool.dialog.ToolDialog;
-import rango.tool.androidtool.drag.PigActivity;
+import rango.tool.androidtool.farm.PigActivity;
 import rango.tool.androidtool.encrypt.EncryptActivity;
 import rango.tool.androidtool.experiments.activity.AidlActivity;
 import rango.tool.androidtool.experiments.activity.AnrActivity;

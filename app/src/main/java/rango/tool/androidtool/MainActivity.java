@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
-import rango.tool.androidtool.drag.PigActivity;
+import rango.tool.androidtool.farm.PigActivity;
 import rango.tool.androidtool.experiments.TestActivity;
 import rango.tool.androidtool.game.GameMainActivity;
 import rango.tool.androidtool.list.activity.ListActivity;
