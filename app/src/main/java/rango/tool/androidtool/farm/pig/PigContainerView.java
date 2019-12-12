@@ -68,6 +68,13 @@ public class PigContainerView extends ConstraintLayout {
         init();
     }
 
+    public void initPig(int grade, int x, int y) {
+        PigData data = new PigData();
+        data.initData(grade);
+        pigViewArray[x][y].setTag(true);
+        setPigView(data, x, y);
+    }
+
     public void generatePig(int grade, int x, int y) {
         if (isMerging) {
             Toast.makeText(context, "小猪正在长大，请稍等...", Toast.LENGTH_SHORT).show();
@@ -107,7 +114,7 @@ public class PigContainerView extends ConstraintLayout {
         PropertyValuesHolder yHolder = PropertyValuesHolder.ofFloat("translationY", startY, finalY);
         PropertyValuesHolder alphaHolder = PropertyValuesHolder.ofFloat("alpha", 0f, 1f, 1f);
         flyAnimator = ObjectAnimator.ofPropertyValuesHolder(flyPig, xHolder, yHolder, alphaHolder);
-        flyAnimator.setDuration(2000);
+        flyAnimator.setDuration(400);
         flyAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         flyAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -119,13 +126,74 @@ public class PigContainerView extends ConstraintLayout {
             @Override
             public void onAnimationEnd(Animator animation) {
                 isGenerating = false;
-                PigView selectPigView = pigViewArray[emptyStyPair.first][emptyStyPair.second];
-                selectPigView.setData(flyPig.getData());
-                selectPigView.setVisibility(VISIBLE);
+                setPigView(flyPig.getData(), emptyStyPair.first, emptyStyPair.second);
                 hideFlyPig();
             }
         });
         flyAnimator.start();
+    }
+
+    private void setPigView(PigData data, int x, int y) {
+        PigView selectPigView = pigViewArray[x][y];
+        selectPigView.setData(data);
+        selectPigView.setVisibility(VISIBLE);
+    }
+
+    public RectF getFirstAndSecondPigRectF() {
+        RectF rectF = new RectF();
+
+        rectF.left = pigRectfArray[0][0].left + getLeft();
+        rectF.top = pigRectfArray[0][0].top + getTop();
+        rectF.right = pigRectfArray[0][1].right + getLeft();
+        rectF.bottom = pigRectfArray[0][0].bottom + getTop();
+
+        return rectF;
+    }
+
+    public RectF getFirstPigRectF() {
+        RectF rectF = new RectF();
+        rectF.left = pigRectfArray[0][0].left + getLeft();
+        rectF.top = pigRectfArray[0][0].top + getTop();
+        rectF.right = pigRectfArray[0][0].right + getLeft();
+        rectF.bottom = pigRectfArray[0][0].bottom + getTop();
+        return rectF;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        // All touch event must be handle by myself
+        return true;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (isMerging || isGenerating) {
+            return false;
+        }
+        final int action = event.getAction();
+        final int pointerId = TouchEventUtils.getDefaultPointerId(event);
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                downX = TouchEventUtils.getX(event, pointerId);
+                downY = TouchEventUtils.getY(event, pointerId);
+                if (!tryToMovePig(downX, downY)) {
+                    return false;
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float moveX = TouchEventUtils.getX(event, pointerId);
+                float moveY = TouchEventUtils.getY(event, pointerId);
+                translationPig(moveX - downX, moveY - downY);
+                downX = moveX;
+                downY = moveY;
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+            default:
+                tryToUpgradePig();
+                break;
+        }
+        return true;
     }
 
     private Pair<Integer, Integer> getEmptySty() {
@@ -185,43 +253,6 @@ public class PigContainerView extends ConstraintLayout {
         addView(pigView, -1, pigParams);
 
         pigViewArray[row][column] = pigView;
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        // All touch event must be handle by myself
-        return true;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (isMerging || isGenerating) {
-            return false;
-        }
-        final int action = event.getAction();
-        final int pointerId = TouchEventUtils.getDefaultPointerId(event);
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                downX = TouchEventUtils.getX(event, pointerId);
-                downY = TouchEventUtils.getY(event, pointerId);
-                if (!tryToMovePig(downX, downY)) {
-                    return false;
-                }
-                break;
-            case MotionEvent.ACTION_MOVE:
-                float moveX = TouchEventUtils.getX(event, pointerId);
-                float moveY = TouchEventUtils.getY(event, pointerId);
-                translationPig(moveX - downX, moveY - downY);
-                downX = moveX;
-                downY = moveY;
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-            default:
-                tryToUpgradePig();
-                break;
-        }
-        return true;
     }
 
     private void tryToUpgradePig() {
