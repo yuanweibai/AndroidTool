@@ -16,6 +16,7 @@ import rango.tool.androidtool.alive.AliveActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.clickeffect.RippleRelativeLayout;
 import rango.tool.androidtool.dialog.ToolDialog;
+import rango.tool.androidtool.experiments.activity.OutlineTextActivity;
 import rango.tool.androidtool.farm.PigActivity;
 import rango.tool.androidtool.encrypt.EncryptActivity;
 import rango.tool.androidtool.experiments.activity.AidlActivity;
@@ -128,7 +129,8 @@ public class TestActivity extends BaseActivity {
         view.setOnClickListener(v -> startActivity(ViewDrawActivity.class));
 
         findViewById(R.id.send_broadcast_to_other_process_btn).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 Intent intent = new Intent("com.example.normal.other.process.receiver");
                 intent.putExtra("rango_value", 89);
                 sendBroadcast(intent);
@@ -139,6 +141,7 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.alarm_btn).setOnClickListener(v -> startActivity(AlarmActivity.class));
         findViewById(R.id.encrypt_btn).setOnClickListener(v -> startActivity(EncryptActivity.class));
         findViewById(R.id.drag_btn).setOnClickListener(v -> startActivity(PigActivity.class));
+        findViewById(R.id.outline_text_btn).setOnClickListener(v -> startActivity(OutlineTextActivity.class));
 
     }
 
