@@ -9,8 +9,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="40dp"
-        android:textColor="#FFEB3B"
         android:text="米开发地方拉屎的肌肤"
+        android:textColor="#FFEB3B"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,14 +19,21 @@
         android:id="@+id/outline_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#2196F3"
         android:layout_marginStart="40dp"
         android:layout_marginTop="100dp"
-        android:textColor="#FFEB3B"
+        android:background="#2196F3"
         android:text="米开发地方拉屎的肌肤"
+        android:textColor="#FFEB3B"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="-10dp"
+        android:background="#DD1616"
+        app:layout_constraintTop_toBottomOf="@id/outline_text_view" />
 
 
 </android.support.constraint.ConstraintLayout>
