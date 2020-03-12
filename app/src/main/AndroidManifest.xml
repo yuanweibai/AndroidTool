@@ -153,6 +153,7 @@
             android:name=".farm.PigActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".experiments.activity.OutlineTextActivity" />
+        <activity android:name=".other.OtherActivity" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 

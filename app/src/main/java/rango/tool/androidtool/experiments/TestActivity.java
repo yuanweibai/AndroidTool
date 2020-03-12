@@ -51,6 +51,7 @@ import rango.tool.androidtool.launchmodel.LaunchMode1Activity;
 import rango.tool.androidtool.locker.LockerManager;
 import rango.tool.androidtool.memoryleak.MemoryLeakActivity;
 import rango.tool.androidtool.nestedscroll.NestedScrollActivity;
+import rango.tool.androidtool.other.OtherActivity;
 import rango.tool.androidtool.wallpaper.WallpaperActivity;
 import rango.tool.androidtool.workmanager.WorkManagerActivity;
 
@@ -142,6 +143,7 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.encrypt_btn).setOnClickListener(v -> startActivity(EncryptActivity.class));
         findViewById(R.id.drag_btn).setOnClickListener(v -> startActivity(PigActivity.class));
         findViewById(R.id.outline_text_btn).setOnClickListener(v -> startActivity(OutlineTextActivity.class));
+        findViewById(R.id.other_btn).setOnClickListener(v -> startActivity(OtherActivity.class));
 
     }
 
