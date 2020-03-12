@@ -9,6 +9,6 @@ public class ActivityThread {
         Bob.log();
         Person.log();
 
-        Bob bob = new Person();
+
     }
 }

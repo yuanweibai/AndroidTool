@@ -15,6 +15,7 @@ import rango.tool.androidtool.list.activity.RecyclerActivity;
 import rango.tool.androidtool.touch.TouchActivity;
 import rango.tool.androidtool.transition.OffsetActivity;
 import rango.tool.androidtool.transition.TransitionActivity;
+import rango.tool.androidtool.video.VideoActivity;
 
 public class MainActivity extends BaseActivity {
 
@@ -26,7 +27,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(PigActivity.class);
+            startActivity(VideoActivity.class);
         }
 
         setContentView(R.layout.activity_main);

@@ -17,6 +17,10 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
 
     <permission
         android:name="android.tool.permission.TEST_BROADCAST_RECEIVER"
@@ -154,6 +158,12 @@
             android:screenOrientation="portrait" />
         <activity android:name=".experiments.activity.OutlineTextActivity" />
         <activity android:name=".other.OtherActivity" />
+        <activity
+            android:name=".video.audio.AudioActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".video.VideoActivity"
+            android:screenOrientation="portrait" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 

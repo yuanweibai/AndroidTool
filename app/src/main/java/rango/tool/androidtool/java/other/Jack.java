@@ -8,8 +8,5 @@ public class Jack extends Person {
         Person person = new Person();
     }
 
-    @Override
-    protected void setName(String name) {
-        super.setName(name);
-    }
+
 }

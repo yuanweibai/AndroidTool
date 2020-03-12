@@ -371,6 +371,13 @@
             android:layout_height="wrap_content"
             android:text="其他"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/video_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="音视频"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 
