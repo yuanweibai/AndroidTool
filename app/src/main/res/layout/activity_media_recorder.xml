@@ -28,4 +28,12 @@
         android:text="播放"
         android:textAllCaps="false" />
 
+    <Button
+        android:id="@+id/stop_play_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="停止播放播放"
+        android:textAllCaps="false" />
+
 </LinearLayout>

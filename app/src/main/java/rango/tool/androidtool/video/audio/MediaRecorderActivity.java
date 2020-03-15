@@ -21,6 +21,7 @@ public class MediaRecorderActivity extends BaseActivity {
 
     private MediaRecorder mediaRecorder;
     private SoundPool soundPool;
+    private int streamId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +49,13 @@ public class MediaRecorderActivity extends BaseActivity {
                 loadAndPlayAudio();
             }
         });
+
+        findViewById(R.id.stop_play_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopPlay();
+            }
+        });
     }
 
     private void initSoundPool() {
@@ -56,7 +64,7 @@ public class MediaRecorderActivity extends BaseActivity {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
                 Log.e("rango", "sampleId = " + sampleId);
-                soundPool.play(sampleId, 1f, 1f, 0, -1, 1.0f);
+                streamId = soundPool.play(sampleId, 1f, 1f, 0, -1, 1.0f);
             }
         });
     }
@@ -117,6 +125,16 @@ public class MediaRecorderActivity extends BaseActivity {
         recorder.setOutputFile(file.getAbsolutePath());
 
         return recorder;
+    }
+
+    private void stopPlay() {
+        if (soundPool == null) {
+            return;
+        }
+
+        soundPool.stop(streamId);
+        soundPool.release();
+        soundPool = null;
     }
 
 
