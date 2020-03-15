@@ -31,13 +31,15 @@ public class AudioActivity extends BaseActivity {
     private String audioFIleName = "test.pcm";
 
     private AudioRecord audioRecord;
-    private int bufferSize;
+
     private volatile boolean isRecording;
 
     int audioSource = MediaRecorder.AudioSource.MIC;
     int sampleRateInHz = 16000;
     int audioChannel = AudioFormat.CHANNEL_IN_MONO;
     int pcmFormat = AudioFormat.ENCODING_PCM_16BIT;
+
+    private int bufferSize = AudioRecord.getMinBufferSize(sampleRateInHz, audioChannel, pcmFormat);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,6 +87,10 @@ public class AudioActivity extends BaseActivity {
             file.delete();
         }
 
+        if (!audioDir.exists()) {
+            audioDir.mkdirs();
+        }
+
         audioRecord.startRecording();
         isRecording = true;
 
@@ -121,8 +127,6 @@ public class AudioActivity extends BaseActivity {
     }
 
     private AudioRecord initAudioRecord() {
-
-        bufferSize = AudioRecord.getMinBufferSize(sampleRateInHz, audioChannel, pcmFormat);
 
         return new AudioRecord(audioSource,
                 sampleRateInHz,

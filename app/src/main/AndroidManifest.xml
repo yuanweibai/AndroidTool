@@ -164,6 +164,9 @@
         <activity
             android:name=".video.VideoActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".video.audio.MediaRecorderActivity"
+            android:screenOrientation="portrait" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 

@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:orientation="vertical">
 
     <Button
-        android:id="@+id/audio_btn"
+        android:id="@+id/start_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:text="audio 录音"
+        android:text="开始录制"
         android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/media_recorder_btn"
+        android:id="@+id/stop_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:text="MediaRecorder"
+        android:text="停止录制"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/play_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="播放"
         android:textAllCaps="false" />
 
 </LinearLayout>

@@ -7,6 +7,7 @@ import android.view.View;
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.video.audio.AudioActivity;
+import rango.tool.androidtool.video.audio.MediaRecorderActivity;
 
 public class VideoActivity extends BaseActivity {
 
@@ -16,5 +17,6 @@ public class VideoActivity extends BaseActivity {
         setContentView(R.layout.activity_video);
 
         findViewById(R.id.audio_btn).setOnClickListener(v -> startActivity(AudioActivity.class));
+        findViewById(R.id.media_recorder_btn).setOnClickListener(v -> startActivity(MediaRecorderActivity.class));
     }
 }
