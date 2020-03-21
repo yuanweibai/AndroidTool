@@ -2,8 +2,6 @@ package rango.tool.androidtool.http.lib.call;
 
 import android.support.annotation.NonNull;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.concurrent.Executor;
 
 import retrofit2.Call;
@@ -33,7 +31,7 @@ public final class RealCall<T> implements Callable<T> {
     public void enqueue(Callback<T> callback) {
         delegate.enqueue(new retrofit2.Callback<T>() {
             @Override
-            public void onResponse(@NotNull Call<T> call, @NotNull Response<T> response) {
+            public void onResponse(@NonNull Call<T> call, @NonNull Response<T> response) {
                 if (response.isSuccessful()) {
                     success(response.body());
                 } else {
@@ -42,7 +40,7 @@ public final class RealCall<T> implements Callable<T> {
             }
 
             @Override
-            public void onFailure(@NotNull Call<T> call, @NotNull Throwable t) {
+            public void onFailure(@NonNull Call<T> call, @NonNull Throwable t) {
                 failure(t.getMessage());
             }
 

@@ -1,8 +1,7 @@
 package rango.tool.androidtool.http.lib.signature;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -21,9 +20,9 @@ public class SignatureInterceptor implements Interceptor {
     private static final String TAG = "SignatureInterceptor";
     private static final Charset UTF_8 = Charset.forName("UTF-8");
 
-    @NotNull
+    @NonNull
     @Override
-    public Response intercept(@NotNull Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
         RequestBody requestBody = request.body();
 

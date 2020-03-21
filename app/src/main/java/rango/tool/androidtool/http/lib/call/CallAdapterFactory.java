@@ -1,6 +1,7 @@
 package rango.tool.androidtool.http.lib.call;
 
-import org.jetbrains.annotations.NotNull;
+
+import android.support.annotation.NonNull;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
@@ -24,7 +25,7 @@ public final class CallAdapterFactory extends CallAdapter.Factory {
     }
 
     @Override
-    public CallAdapter<?, ?> get(@NotNull Type returnType, @NotNull Annotation[] annotations, @NotNull Retrofit retrofit) {
+    public CallAdapter<?, ?> get(@NonNull Type returnType, @NonNull Annotation[] annotations, @NonNull Retrofit retrofit) {
         if (getRawType(returnType) != Callable.class) {
             return null;
         }
@@ -42,7 +43,7 @@ public final class CallAdapterFactory extends CallAdapter.Factory {
             }
 
             @Override
-            public Callable<Object> adapt(@NotNull Call<Object> call) {
+            public Callable<Object> adapt(@NonNull Call<Object> call) {
                 return new RealCall<>(retrofit.callbackExecutor(), call);
             }
         };

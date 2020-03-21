@@ -1,6 +1,6 @@
 package rango.tool.androidtool.http.lib.upload;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class FilesRequestBodyConverter implements Converter<HashMap<String, Obje
     public static final String KEY_UPLOAD_FILE_CALLBACK = "key_upload_file_callback";
 
     @Override
-    public RequestBody convert(@NotNull HashMap<String, Object> value) throws IOException {
+    public RequestBody convert(@NonNull HashMap<String, Object> value) throws IOException {
         if (value.isEmpty() || !value.containsKey(KEY_FILE_PATH_MAP) || !value.containsKey(KEY_UPLOAD_FILE_CALLBACK)) {
             return null;
         } else {

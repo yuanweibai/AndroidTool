@@ -1,15 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion rootProject.compileSdk
+    compileSdkVersion 29
 
     defaultConfig {
-        minSdkVersion rootProject.minSdk
-        targetSdkVersion rootProject.targetSdk
+        minSdkVersion 16
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -22,9 +20,17 @@ android {
 
 }
 
+final SUPPORT_LIBRARY_VERSION = '27.1.1'
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:' + rootProject.support
+    final ANDROID_DEPENDENCIES = [
+            "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION".toString(),
+    ]
+
+    for (dependency in ANDROID_DEPENDENCIES) {
+        implementation dependency
+    }
 }
 repositories {
     mavenCentral()

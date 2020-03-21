@@ -29,8 +29,6 @@ import java.util.List;
 
 import rango.tool.androidtool.base.BaseApplication;
 import rango.tool.androidtool.job.MainJobCreator;
-import rango.tool.androidtool.webp.libwebp.WebpBytebufferDecoder;
-import rango.tool.androidtool.webp.libwebp.WebpResourceDecoder;
 import rango.tool.common.utils.CommonManager;
 import rango.tool.common.utils.Worker;
 
@@ -69,13 +67,6 @@ public class ToolApplication extends BaseApplication {
         } finally {
             TraceCompat.endSection();
         }
-
-        ResourceDecoder decoder = new WebpResourceDecoder(this);
-        ResourceDecoder byteDecoder = new WebpBytebufferDecoder(this);
-        // use prepend() avoid intercept by default decoder
-        Glide.get(this).getRegistry()
-                .prepend(InputStream.class, Drawable.class, decoder)
-                .prepend(ByteBuffer.class, Drawable.class, byteDecoder);
 
         CommonManager.getInstance().setCommonCallable(ToolApplication::getContext);
 
