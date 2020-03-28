@@ -166,6 +166,7 @@
         <activity
             android:name=".video.camera.CameraActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".experiments.activity.AnyThingActivity" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 

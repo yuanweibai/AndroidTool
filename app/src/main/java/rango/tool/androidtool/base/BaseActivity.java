@@ -18,6 +18,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void replaceFragment(int id, Fragment fragment) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(id, fragment);
+//        ft.addToBackStack(null);
         ft.commitAllowingStateLoss();
     }
 
@@ -36,7 +37,6 @@ public class BaseActivity extends AppCompatActivity {
         if (prev != null) {
             ft.remove(prev);
         }
-        ft.addToBackStack(null);
         dialogFragment.show(ft, TAG_DIALOG_FRAGMENT);
     }
 

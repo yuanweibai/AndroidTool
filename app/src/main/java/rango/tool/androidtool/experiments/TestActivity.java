@@ -16,6 +16,7 @@ import rango.tool.androidtool.alive.AliveActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.clickeffect.RippleRelativeLayout;
 import rango.tool.androidtool.dialog.ToolDialog;
+import rango.tool.androidtool.experiments.activity.AnyThingActivity;
 import rango.tool.androidtool.experiments.activity.OutlineTextActivity;
 import rango.tool.androidtool.farm.PigActivity;
 import rango.tool.androidtool.encrypt.EncryptActivity;
@@ -146,6 +147,7 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.outline_text_btn).setOnClickListener(v -> startActivity(OutlineTextActivity.class));
         findViewById(R.id.other_btn).setOnClickListener(v -> startActivity(OtherActivity.class));
         findViewById(R.id.video_btn).setOnClickListener(v -> startActivity(VideoActivity.class));
+        findViewById(R.id.any_thing_btn).setOnClickListener(v -> startActivity(AnyThingActivity.class));
 
     }
 
