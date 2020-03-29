@@ -28,7 +28,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(AnyThingActivity.class);
+            startActivity(TouchActivity.class);
         }
 
         setContentView(R.layout.activity_main);

@@ -14,10 +14,10 @@ public class TouchActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_touch_layout);
-        findViewById(R.id.image_view).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                Log.e("TouchActivity","ddddddddddddddd");
-            }
-        });
+//        findViewById(R.id.image_view).setOnClickListener(new View.OnClickListener() {
+//            @Override public void onClick(View v) {
+//                Log.e("TouchActivity","ddddddddddddddd");
+//            }
+//        });
     }
 }
