@@ -1,5 +1,7 @@
 package rango.tool.androidtool.experiments.activity;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -28,8 +30,7 @@ public class AnyThingActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                Log.e("rango", "rango.hashCode = " + rango.hashCode());
-                Log.e("rango", "rang1.hashCode = " + rango1.hashCode());
+                startOtherActivity();
 
             }
         });
@@ -42,5 +43,13 @@ public class AnyThingActivity extends BaseActivity {
 //        });
 
     }
+
+    private void startOtherActivity() {
+        Intent intent = new Intent();
+        ComponentName cn = new ComponentName("com.dograise.richman.cn", "com.infini.pigfarm.lottery.LotteryWheelActivity");
+        intent.setComponent(cn);
+        startActivity(intent);
+    }
+
 
 }

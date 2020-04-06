@@ -1,15 +1,20 @@
 package rango.tool.androidtool.experiments.activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
+import rango.tool.androidtool.receiver.TestBroadcastReceiver;
 
 public class BroadcastActivity extends BaseActivity {
 
     private static String ACTION = "com.example.normal.receiver";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -18,8 +23,10 @@ public class BroadcastActivity extends BaseActivity {
 
         findViewById(R.id.send_broadcast_btn).setOnClickListener(v -> {
             Intent intent = new Intent(ACTION);
-            intent.putExtra("keeeeeeee", 90);
+            intent.putExtra("extra", "AndroidTool");
+//            intent.addFlags(0x01000000);
             sendBroadcast(intent);
+//            sendBroadcast(intent, "android.tool.permission.TEST_BROADCAST_RECEIVER");
 //            Intent intent = new Intent();
 //            intent.setAction("android.intent.action.MAIN");
 //            intent.addCategory("android.intent.category.HOME");
@@ -30,5 +37,10 @@ public class BroadcastActivity extends BaseActivity {
 //            intent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 //            startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

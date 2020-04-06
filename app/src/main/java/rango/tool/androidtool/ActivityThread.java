@@ -5,6 +5,8 @@ import rango.tool.androidtool.java.Person;
 
 public class ActivityThread {
 
+
+
     private static class User {
         private String name;
         private int age;

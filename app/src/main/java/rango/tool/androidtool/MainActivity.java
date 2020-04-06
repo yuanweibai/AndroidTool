@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
 import rango.tool.androidtool.experiments.activity.AnyThingActivity;
+import rango.tool.androidtool.experiments.activity.BroadcastActivity;
 import rango.tool.androidtool.farm.PigActivity;
 import rango.tool.androidtool.experiments.TestActivity;
 import rango.tool.androidtool.game.GameMainActivity;
@@ -28,7 +29,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(TouchActivity.class);
+            startActivity(BroadcastActivity.class);
         }
 
         setContentView(R.layout.activity_main);
