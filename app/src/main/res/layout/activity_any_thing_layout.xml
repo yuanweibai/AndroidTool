@@ -16,9 +16,9 @@
         android:text="show" />
 
     <Button
-        android:id="@+id/hide_btn"
+        android:id="@+id/any_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hide" />
+        android:text="市场" />
 
 </LinearLayout>

@@ -1,10 +1,11 @@
 package rango.tool.androidtool;
 
+import java.util.Arrays;
+
 import rango.tool.androidtool.java.Bob;
 import rango.tool.androidtool.java.Person;
 
 public class ActivityThread {
-
 
 
     private static class User {
@@ -44,16 +45,41 @@ public class ActivityThread {
         }
     }
 
+    private static int[] result(int[] nums, int target) {
+        int end = nums.length - 1;
+        int start = 0;
+        boolean isFound = false;
+        while (start < nums.length && end >= 0) {
+            if (nums[start] == (target - nums[end]) && (start != end)) {
+                isFound = true;
+                break;
+            } else if (nums[start] > (target - nums[end])) {
+                end--;
+            } else if (nums[start] < (target - nums[end])) {
+                start++;
+            } else {
+                break;
+            }
+        }
+
+        if (isFound) {
+            return new int[]{start, end};
+        } else {
+            return null;
+        }
+    }
+
     public static void main(String[] args) throws Exception {
 
-        User user = new User();
-        user.setName("Child");
-        user.setAge(12);
+//        int[] array = new int[]{1, 3, 4, 6, 7, 24, 67};
+//        int[] array = new int[]{-5, -4, -3, -2, -1};
+//        int[] array = new int[]{-5,-1,0,5,9,11,13,15,22,35,46};
+//        int[] result = result(array, 8);
 
-        Spy spy = new Spy();
-        spy.changeName(user);
-        spy.changeAge(user.getAge());
+        int result = Long.valueOf("1206734247411318784").intValue();
 
-        System.out.println("name = " + user.getName() + ", age = " + user.getAge());
+
+        System.out.println("value = " + result);
     }
+
 }

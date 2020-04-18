@@ -95,6 +95,6 @@ public class TestService extends Service {
     @Override
     public boolean onUnbind(Intent intent) {
         Log.e(TAG, "onUnBind()," + ",ThreadId = " + Thread.currentThread().getId());
-        return false;
+        return true;
     }
 }

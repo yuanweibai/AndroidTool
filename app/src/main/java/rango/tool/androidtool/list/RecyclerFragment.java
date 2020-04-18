@@ -3,6 +3,7 @@ package rango.tool.androidtool.list;
 import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -32,8 +33,8 @@ public class RecyclerFragment extends BaseFragment {
 
     public void updateData() {
         if (adapter != null) {
-            adapter.append(new BaseItemData("", BaseItemType.TYPE_LIST_IMAGE));
-            adapter.notifyDataSetChanged();
+            Log.e("rango", "--------------------isComputingLayout = " + recyclerView.isComputingLayout());
+            adapter.notifyItemChanged(12);
         }
     }
 
@@ -54,33 +55,43 @@ public class RecyclerFragment extends BaseFragment {
         adapter = new MyRecyclerAdapter();
         recyclerView.setAdapter(adapter);
 
-//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//            }
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                Log.e("rango", "newState = " + newState + ", isComputingLayout = " + recyclerView.isComputingLayout());
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
 //                listBannerView.scrollBy(dx, dy);
+
+//                if (listBannerView.getScrollY() < listBannerView.getHeight()) {
+//                    int y = dy;
+//                    if (listBannerView.getScrollY() + dy > listBannerView.getHeight()) {
+//                        y = listBannerView.getScrollY() + dy - listBannerView.getHeight();
+//                    }
+//                    Log.e(TAG, "listBannerView.scrollY = " + listBannerView.getScrollY() + ", listBannerView.height = " + listBannerView.getHeight());
+//                    listBannerView.scrollBy(dx, y);
+//                } else if (listBannerView.getScrollY() > listBannerView.getHeight()) {
 //
-////                if (listBannerView.getScrollY() < listBannerView.getHeight()) {
-////                    int y = dy;
-////                    if (listBannerView.getScrollY() + dy > listBannerView.getHeight()) {
-////                        y = listBannerView.getScrollY() + dy - listBannerView.getHeight();
-////                    }
-////                    Log.e(TAG, "listBannerView.scrollY = " + listBannerView.getScrollY() + ", listBannerView.height = " + listBannerView.getHeight());
-////                    listBannerView.scrollBy(dx, y);
-////                } else if (listBannerView.getScrollY() > listBannerView.getHeight()) {
-////
-////                    int y = listBannerView.getScrollY() - listBannerView.getHeight();
-////                    Log.e(TAG, "listBannerView.scrollY = " + listBannerView.getScrollY() + ", listBannerView.height = " + listBannerView.getHeight());
-////                    listBannerView.scrollBy(dx, -y);
-////                }
-//            }
-//        });
+//                    int y = listBannerView.getScrollY() - listBannerView.getHeight();
+//                    Log.e(TAG, "listBannerView.scrollY = " + listBannerView.getScrollY() + ", listBannerView.height = " + listBannerView.getHeight());
+//                    listBannerView.scrollBy(dx, -y);
+//                }
+            }
+        });
+
+        recyclerView.setOnFlingListener(new RecyclerView.OnFlingListener() {
+            @Override
+            public boolean onFling(int velocityX, int velocityY) {
+                Log.e("rango", "Fling......, isComputingLayout = " + recyclerView.isComputingLayout());
+                return false;
+            }
+        });
         data = getTestData();
         adapter.append(data);
     }

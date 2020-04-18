@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.ViewStub;
 
 import rango.tool.androidtool.R;
+import rango.tool.androidtool.ToolApplication;
 import rango.tool.androidtool.any.Rango;
 import rango.tool.androidtool.base.BaseActivity;
+import rango.tool.androidtool.market.MarketTools;
 
 public class AnyThingActivity extends BaseActivity {
 
@@ -35,12 +37,12 @@ public class AnyThingActivity extends BaseActivity {
             }
         });
 //
-//        findViewById(R.id.hide_btn).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                view.setVisibility(View.GONE);
-//            }
-//        });
+        findViewById(R.id.any_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MarketTools.getTools().startMarket(ToolApplication.getContext(),"com.colorphone.smooth.dialer.cn");
+            }
+        });
 
     }
 
