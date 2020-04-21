@@ -3,6 +3,8 @@ package rango.tool.androidtool.launchmodel;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -28,6 +30,19 @@ public class LaunchMode1Activity extends BaseActivity {
         findViewById(R.id.btn_1).setOnClickListener(v -> {
             startActivity(LaunchMode2Activity.class);
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Log.e("rango","onSaveInstanceState");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.e("rango","onRestoreInstanceState");
     }
 
     @Override

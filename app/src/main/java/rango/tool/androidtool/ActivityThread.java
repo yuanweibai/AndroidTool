@@ -1,12 +1,44 @@
 package rango.tool.androidtool;
 
 import java.util.Arrays;
+import java.util.Stack;
 
 import rango.tool.androidtool.java.Bob;
 import rango.tool.androidtool.java.Person;
 
 public class ActivityThread {
 
+    public static class MyQueue {
+
+        private Stack<Integer> inStack;
+        private Stack<Integer> outStack;
+
+        public MyQueue() {
+            inStack = new Stack<>();
+            outStack = new Stack<>();
+        }
+
+        public int pop() {
+            if (outStack.isEmpty()) {
+                while (!inStack.isEmpty()) {
+                    outStack.push(inStack.pop());
+                }
+            }
+            return outStack.pop();
+        }
+
+        public void add(int value) {
+            inStack.push(value);
+        }
+
+        public int size() {
+            return inStack.size() + outStack.size();
+        }
+
+        public boolean isEmpty() {
+            return inStack.isEmpty() && outStack.isEmpty();
+        }
+    }
 
     private static class User {
         private String name;
@@ -71,15 +103,15 @@ public class ActivityThread {
 
     public static void main(String[] args) throws Exception {
 
-//        int[] array = new int[]{1, 3, 4, 6, 7, 24, 67};
-//        int[] array = new int[]{-5, -4, -3, -2, -1};
-//        int[] array = new int[]{-5,-1,0,5,9,11,13,15,22,35,46};
-//        int[] result = result(array, 8);
+        MyQueue queue = new MyQueue();
 
-        int result = Long.valueOf("1206734247411318784").intValue();
+        for (int i = 9; i > 0; i--) {
+            queue.add(i);
+        }
 
-
-        System.out.println("value = " + result);
+        while (!queue.isEmpty()) {
+            System.out.println("value = " + queue.pop());
+        }
     }
 
 }
