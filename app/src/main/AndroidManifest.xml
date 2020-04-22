@@ -168,6 +168,7 @@
             android:name=".video.camera.CameraActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".experiments.activity.AnyThingActivity" />
+        <activity android:name=".accessibility.AccessibilityActivity" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 
@@ -245,6 +246,20 @@
             android:name=".alive.frontdeskservice.FrontDeskService"
             android:enabled="true"
             android:exported="true" />
+
+        <service
+            android:name=".accessibility.ToolAccessibilityService"
+            android:enabled="true"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
     </application>
 
 </manifest>

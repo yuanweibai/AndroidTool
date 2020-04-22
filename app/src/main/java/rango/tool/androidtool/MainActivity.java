@@ -1,10 +1,12 @@
 package rango.tool.androidtool;
 
+import android.accessibilityservice.AccessibilityService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import rango.tool.androidtool.accessibility.AccessibilityActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
 import rango.tool.androidtool.experiments.activity.AnyThingActivity;
@@ -31,7 +33,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(LaunchMode1Activity.class);
+            startActivity(AccessibilityActivity.class);
         }
 
         setContentView(R.layout.activity_main);

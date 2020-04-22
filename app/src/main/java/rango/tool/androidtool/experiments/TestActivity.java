@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 
 import rango.tool.androidtool.R;
+import rango.tool.androidtool.accessibility.AccessibilityActivity;
 import rango.tool.androidtool.alarm.AlarmActivity;
 import rango.tool.androidtool.alive.AliveActivity;
 import rango.tool.androidtool.base.BaseActivity;
@@ -148,6 +149,7 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.other_btn).setOnClickListener(v -> startActivity(OtherActivity.class));
         findViewById(R.id.video_btn).setOnClickListener(v -> startActivity(VideoActivity.class));
         findViewById(R.id.any_thing_btn).setOnClickListener(v -> startActivity(AnyThingActivity.class));
+        findViewById(R.id.acc_btn).setOnClickListener(v -> startActivity(AccessibilityActivity.class));
 
     }
 
