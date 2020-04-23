@@ -43,13 +43,13 @@ public class OtherProcessProvider extends ContentProvider {
         return 0;
     }
 
-    @Override public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
+    @Override public synchronized int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
         return 0;
     }
 
     @Nullable
     @Override
-    public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
+    public synchronized Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
         Log.e(TAG, "call: method = " + method + ", extras = " + extras);
         Bundle bundle = new Bundle();
         switch (method) {

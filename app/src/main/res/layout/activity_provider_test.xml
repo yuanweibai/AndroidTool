@@ -15,7 +15,30 @@
         android:id="@+id/read_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:text="读取" />
+
+    <Button
+        android:id="@+id/query_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="查询" />
+
+    <Button
+        android:id="@+id/insert_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="插入" />
+
+    <Button
+        android:id="@+id/delete_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="删除" />
+
+    <Button
+        android:id="@+id/update_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="更新" />
 
 </LinearLayout>

@@ -130,7 +130,9 @@
         <activity android:name=".experiments.activity.ChargingShowActivity" />
         <activity android:name=".experiments.activity.DialogActivity" />
         <activity android:name=".experiments.activity.ViewDrawActivity" />
-        <activity android:name=".experiments.activity.ProviderTestActivity" />
+        <activity
+            android:name=".experiments.activity.ProviderTestActivity"
+            android:process=":test" />
         <activity android:name=".experiments.activity.GifImageActivity" />
         <activity android:name=".experiments.activity.ThreadActivity" />
         <activity android:name=".experiments.activity.NotificationActivity" />
@@ -213,7 +215,8 @@
         <provider
             android:name=".provider.OtherProcessProvider"
             android:authorities="rango.tool.androidtool.provider.OtherProcessProvider"
-            android:process=":other" />
+            android:multiprocess="true"
+          />
 
         <receiver android:name=".receiver.OutingReceiver">
             <intent-filter>
