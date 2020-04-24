@@ -41,4 +41,10 @@
         android:layout_height="wrap_content"
         android:text="更新" />
 
+    <Button
+        android:id="@+id/more_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="批量操作" />
+
 </LinearLayout>

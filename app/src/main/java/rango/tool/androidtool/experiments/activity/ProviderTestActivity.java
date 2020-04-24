@@ -1,15 +1,21 @@
 package rango.tool.androidtool.experiments.activity;
 
+import android.content.ContentProviderOperation;
 import android.content.ContentValues;
+import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
+import rango.tool.androidtool.provider.OtherContentObserver;
 import rango.tool.androidtool.provider.OtherProcessProvider;
 import rango.tool.common.utils.Worker;
 
@@ -105,6 +111,35 @@ public class ProviderTestActivity extends BaseActivity {
                     @Override
                     public void run() {
                         getContentResolver().update(OtherProcessProvider.createRemoteConfigContentUri(), null, null, null);
+                    }
+                });
+
+            }
+        });
+
+        findViewById(R.id.more_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Worker.postWorker(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        ArrayList<ContentProviderOperation> operationList = new ArrayList<>();
+                        operationList.add(ContentProviderOperation
+                                .newInsert(OtherProcessProvider.createRemoteConfigContentUri())
+                                .withValue("jfkjl","errwer")
+                                .withYieldAllowed(true)
+                                .build());
+                        operationList.add(ContentProviderOperation
+                                .newUpdate(OtherProcessProvider.createRemoteConfigContentUri())
+                                .withValue("ddd", "djkjlkj")
+                                .withYieldAllowed(true)
+                                .build());
+
+                        try {
+                            getContentResolver().applyBatch(OtherProcessProvider.AUTHORITIES, operationList);
+                        } catch (Exception ignore) {
+                        }
                     }
                 });
 
