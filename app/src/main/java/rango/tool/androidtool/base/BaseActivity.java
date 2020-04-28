@@ -1,6 +1,8 @@
 package rango.tool.androidtool.base;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -44,4 +46,12 @@ public class BaseActivity extends AppCompatActivity {
         return getSupportFragmentManager().findFragmentByTag(tag);
     }
 
+    @Override
+    public Resources getResources() {
+        Resources resources = super.getResources();
+        Configuration configuration = resources.getConfiguration();
+        configuration.fontScale = 1f;
+        resources.updateConfiguration(configuration, null);
+        return resources;
+    }
 }

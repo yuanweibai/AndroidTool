@@ -16,7 +16,6 @@ import rango.tool.androidtool.list.view.ListBannerView;
 
 public class MyListAdapter extends BaseAdapter {
 
-
     private List<BaseItemData> dataList;
     private LayoutInflater layoutInflater;
     private ListBannerView listBannerView;
