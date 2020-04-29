@@ -105,7 +105,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".launchmodel.LaunchMode3Activity" />
+        <activity android:name=".launchmodel.LaunchMode3Activity"
+            android:taskAffinity="xx.dd"
+            />
 
         <activity android:name=".memoryleak.MemoryLeakActivity" />
         <activity android:name=".memoryleak.HandlerMemoryLeakActivity" />

@@ -1,6 +1,7 @@
 package rango.tool.androidtool;
 
 import android.accessibilityservice.AccessibilityService;
+import android.app.LauncherActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -34,7 +35,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(VideoActivity.class);
+            startActivity(LaunchMode1Activity.class);
         }
 
         setContentView(R.layout.activity_main);

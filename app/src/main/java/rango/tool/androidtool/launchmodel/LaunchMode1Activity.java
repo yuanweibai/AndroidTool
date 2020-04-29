@@ -30,19 +30,25 @@ public class LaunchMode1Activity extends BaseActivity {
         findViewById(R.id.btn_1).setOnClickListener(v -> {
             startActivity(LaunchMode2Activity.class);
         });
+
+        findViewById(R.id.btn_3).setOnClickListener(v -> {
+            Intent intent = new Intent(LaunchMode1Activity.this, LaunchMode3Activity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivityForResult(intent, 1);
+        });
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        Log.e("rango","onSaveInstanceState");
+        Log.e("rango", "onSaveInstanceState");
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Log.e("rango","onRestoreInstanceState");
+        Log.e("rango", "onRestoreInstanceState");
     }
 
     @Override
@@ -52,45 +58,60 @@ public class LaunchMode1Activity extends BaseActivity {
         setIntent(intent);
     }
 
-    @Override protected void onStart() {
+    @Override
+    protected void onStart() {
         super.onStart();
         Log.e("rango", "onStart()");
     }
 
-    @Override protected void onResume() {
+    @Override
+    protected void onResume() {
         super.onResume();
         Log.e("rango", "onResume()");
         Intent intent = getIntent();
         Log.e("rango", "intentValue = " + intent.getStringExtra(INTENT_KEY_TEST));
     }
 
-    @Override protected void onRestart() {
+    @Override
+    protected void onRestart() {
         super.onRestart();
         Log.e("rango", "onRestart()");
     }
 
-    @Override protected void onPause() {
+    @Override
+    protected void onPause() {
         super.onPause();
         Log.e("rango", "onPause()");
     }
 
-    @Override protected void onStop() {
+    @Override
+    protected void onStop() {
         super.onStop();
         Log.e("rango", "onStop()");
     }
 
-    @Override protected void onDestroy() {
+    @Override
+    protected void onDestroy() {
         super.onDestroy();
         Log.e("rango", "onDestroy()");
     }
 
-    @Override public void onAttachedToWindow() {
+    @Override
+    public void onAttachedToWindow() {
         super.onAttachedToWindow();
         Log.e("rango", "onAttachedToWindow()");
     }
 
-    @Override public void onDetachedFromWindow() {
+    @Override
+    public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         Log.e("rango", "onDetachedFromWindow()");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.e("rango", "onActivityResult: requestCode = " + requestCode + ", resultCode = " + resultCode + ", data = " + (data == null ? "null" : data.toString()));
     }
 }
