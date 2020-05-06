@@ -121,9 +121,9 @@ public class CustomListView extends ListView implements AbsListView.OnScrollList
 
     private void onUp() {
         if (refreshState == RefreshState.PULL_TO_REFRESH) {
-            headerViewHolder.reset();
+            headerViewHolder.hide();
         } else if (refreshState == RefreshState.RELEASE_TO_REFRESH) {
-            headerViewHolder.showHeader();
+            headerViewHolder.show();
 
             setRefreshState(RefreshState.REFRESHING);
 
@@ -162,11 +162,11 @@ public class CustomListView extends ListView implements AbsListView.OnScrollList
     public void onLoadMoreFinished() {
         isLoadingMore = false;
         isShowingFooter = false;
-        footerViewHolder.reset();
+        footerViewHolder.hide();
     }
 
     public void onRefreshFinished() {
-        headerViewHolder.reset();
+        headerViewHolder.hide();
         setRefreshState(RefreshState.PULL_TO_REFRESH);
     }
 
@@ -188,7 +188,7 @@ public class CustomListView extends ListView implements AbsListView.OnScrollList
 
         if (!isShowingFooter && lastVisiblePosition == count - 1) {
             isShowingFooter = true;
-            footerViewHolder.showFooter();
+            footerViewHolder.show();
             setSelection(getCount() - 1);
 
             if (!isLoadingMore) {
@@ -226,7 +226,7 @@ public class CustomListView extends ListView implements AbsListView.OnScrollList
         void init() {
             view.measure(0, 0);
             height = view.getMeasuredHeight();
-            view.setPadding(0, -height, 0, 0);
+            hide();
         }
 
         int getInitPaddingTop() {
@@ -241,12 +241,12 @@ public class CustomListView extends ListView implements AbsListView.OnScrollList
             textView.setText(id);
         }
 
-        void showHeader() {
-            view.setPadding(0, 0, 0, 0);
+        void show() {
+            setPaddingTop(0);
         }
 
-        void reset() {
-            view.setPadding(0, -height, 0, 0);
+        void hide() {
+            setPaddingTop(-height);
         }
     }
 
@@ -264,14 +264,14 @@ public class CustomListView extends ListView implements AbsListView.OnScrollList
         void init() {
             view.measure(0, 0);
             height = view.getMeasuredHeight();
-            view.setPadding(0, -height, 0, 0);
+            hide();
         }
 
-        void showFooter() {
+        void show() {
             view.setPadding(0, 0, 0, 0);
         }
 
-        void reset() {
+        void hide() {
             view.setPadding(0, -height, 0, 0);
         }
     }
