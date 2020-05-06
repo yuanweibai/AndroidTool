@@ -172,7 +172,7 @@ public class CustomListView extends ListView implements AbsListView.OnScrollList
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-        Log.e("rango", "scrollState = " + scrollState + ", lastPosition = " + getLastVisiblePosition() + ", fistPosition = " + getFirstVisiblePosition() + ", count =" + getCount());
+        Log.e("rango-scroll_changed", "scrollState = " + scrollState + ", lastPosition = " + getLastVisiblePosition() + ", fistPosition = " + getFirstVisiblePosition() + ", count =" + getCount());
 
         int lastVisiblePosition = getLastVisiblePosition();
         int count = getCount();
@@ -201,7 +201,7 @@ public class CustomListView extends ListView implements AbsListView.OnScrollList
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
+        Log.e("rango-onScroll", "firstVisibleItem = " + firstVisibleItem + "visibleItemCount = " + visibleItemCount + ", totalItemCount = " + totalItemCount + ", lastPosition = " + getLastVisiblePosition() + ", fistPosition = " + getFirstVisiblePosition() + ", count =" + getCount());
     }
 
     public interface RefreshListener {
