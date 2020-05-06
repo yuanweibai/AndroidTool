@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Toast;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.list.adapter.BaseItemView;
@@ -28,6 +30,8 @@ public class ListBannerView extends BaseItemView {
         super(context, attrs, defStyleAttr);
         LayoutInflater.from(context).inflate(R.layout.list_banner_item_view, this);
         initView();
+
+        setOnClickListener(v -> Toast.makeText(getContext(), "hhhhhhh", Toast.LENGTH_SHORT).show());
     }
 
     private void initView() {

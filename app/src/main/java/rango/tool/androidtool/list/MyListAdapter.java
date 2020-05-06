@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -41,6 +42,17 @@ public class MyListAdapter extends BaseAdapter {
         return position;
     }
 
+    public void update(List<BaseItemData> data) {
+        dataList.clear();
+        dataList.addAll(data);
+        notifyDataSetChanged();
+    }
+
+    public void append(List<BaseItemData> data) {
+        dataList.addAll(data);
+        notifyDataSetChanged();
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (dataList.get(position).getType() == BaseItemType.TYPE_LIST_BANNER) {
@@ -51,6 +63,12 @@ public class MyListAdapter extends BaseAdapter {
                 convertView = layoutInflater.inflate(R.layout.list_normal_item_view, null);
                 viewHolder = new ViewHolder();
                 viewHolder.textView = convertView.findViewById(R.id.text);
+                convertView.findViewById(R.id.image_view).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(parent.getContext(), "iiiiiiiiii", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
