@@ -1,8 +1,11 @@
 package rango.tool.androidtool.list;
 
 import android.graphics.Rect;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 
@@ -16,6 +19,7 @@ import rango.tool.androidtool.base.list.adapter.BaseItemType;
 import rango.tool.androidtool.base.list.view.SpecificRecyclerVIew;
 import rango.tool.androidtool.list.view.ListBannerView;
 import rango.tool.androidtool.list.view.ListImageItemView;
+import rango.tool.common.utils.ScreenUtils;
 
 /**
  * Created by baiyuanwei on 17/11/15.
@@ -34,7 +38,7 @@ public class RecyclerFragment extends BaseFragment {
     public void updateData() {
         if (adapter != null) {
             Log.e("rango", "--------------------isComputingLayout = " + recyclerView.isComputingLayout());
-            adapter.notifyItemChanged(12);
+            adapter.remove(1);
         }
     }
 
@@ -113,13 +117,13 @@ public class RecyclerFragment extends BaseFragment {
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            outRect.top = 0;
-            outRect.bottom = 0;
-            if (view instanceof ListImageItemView) {
-                outRect.bottom = 100;
-                outRect.top = 20;
+            int position = parent.getChildAdapterPosition(view);
+            int count = parent.getAdapter().getItemCount();
+            int lastPosition = count - 1;
+            if (position == lastPosition) {
+                return;
             }
-
+            outRect.bottom = ScreenUtils.dp2px(8);
         }
     }
 
