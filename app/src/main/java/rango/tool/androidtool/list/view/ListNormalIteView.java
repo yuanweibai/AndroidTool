@@ -1,6 +1,7 @@
 package rango.tool.androidtool.list.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -30,6 +31,16 @@ public class ListNormalIteView extends BaseItemView {
             Toast.makeText(getContext(), "fjakjdfkla", Toast.LENGTH_LONG).show();
             return true;
         });
+    }
+
+    @Override
+    public void onViewRemoved(View child) {
+        Log.e("rango", "view removed, data = " + data);
+    }
+
+    @Override
+    public void onViewAdded(View child) {
+        Log.e("rango", "view added, data = " + data);
     }
 
     @Override

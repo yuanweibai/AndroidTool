@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class RecyclerFragment extends BaseFragment {
     public void updateData() {
         if (adapter != null) {
             Log.e("rango", "--------------------isComputingLayout = " + recyclerView.isComputingLayout());
-            adapter.remove(1);
+            recyclerView.requestLayout();
         }
     }
 
@@ -51,9 +52,43 @@ public class RecyclerFragment extends BaseFragment {
     protected void initView(View view) {
         listBannerView = view.findViewById(R.id.banner_layout);
         recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setRecyclerListener(new RecyclerView.RecyclerListener() {
+            @Override
+            public void onViewRecycled(RecyclerView.ViewHolder holder) {
+                int position = holder.getAdapterPosition();
+                Log.e("rango", "RecyclerView: recycler, position = " + position);
+            }
+        });
 //        recyclerView.setRealView(listBannerView);
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+                if (e.getAction() != MotionEvent.ACTION_UP) {
+                    return;
+                }
+
+                View child = rv.findChildViewUnder(e.getX(), e.getY());
+
+                RecyclerView.ViewHolder holder = rv.getChildViewHolder(child);
+
+                int position = holder.getAdapterPosition();
+
+                //todo 处理点击事件
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
         recyclerView.setLayoutManager(manager);
         recyclerView.addItemDecoration(new ListRecyclerViewDivider());
         adapter = new MyRecyclerAdapter();
@@ -102,14 +137,11 @@ public class RecyclerFragment extends BaseFragment {
 
     private List<BaseItemData> getTestData() {
         List<BaseItemData> dataList = new ArrayList<>();
-//        dataList.add(new BaseItemData(ScreenUtils.dp2px(100), BaseItemType.TYPE_LIST_EMPTY));
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 50; i++) {
             dataList.add(new BaseItemData("data - " + i, BaseItemType.TYPE_LIST_NORMAL));
         }
-        dataList.add(new BaseItemData("", BaseItemType.TYPE_LIST_IMAGE));
-        for (int i = 20; i < 50; i++) {
-            dataList.add(new BaseItemData("data - " + i, BaseItemType.TYPE_LIST_NORMAL));
-        }
+
+        dataList.add(3, new BaseItemData(10, BaseItemType.TYPE_LIST_NEST));
         return dataList;
     }
 

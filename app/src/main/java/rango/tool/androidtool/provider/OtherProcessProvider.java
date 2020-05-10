@@ -5,9 +5,13 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import rango.tool.androidtool.ToolApplication;
+import rango.tool.common.utils.Worker;
 
 public class OtherProcessProvider extends ContentProvider {
 
@@ -24,6 +28,12 @@ public class OtherProcessProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         Log.e(TAG, "onCreate(), process: " + android.os.Process.myPid());
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                Bundle bundle = ToolApplication.getContext().getContentResolver().call(OtherProcessProvider.createRemoteConfigContentUri(), "rango_r", null, null);
+            }
+        });
         return true;
     }
 

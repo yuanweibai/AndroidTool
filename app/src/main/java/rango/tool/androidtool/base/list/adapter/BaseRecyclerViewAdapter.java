@@ -1,6 +1,7 @@
 package rango.tool.androidtool.base.list.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,11 +14,13 @@ public abstract class BaseRecyclerViewAdapter<T, V extends View & ViewWrapper.Bi
 
     @Override
     public final ViewWrapper<T, V> onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.e("rango", "onCreateViewHolder()....");
         return new ViewWrapper<>(onCreateItemView(parent, viewType));
     }
 
     @Override
     public void onBindViewHolder(ViewWrapper<T, V> holder, int position) {
+        Log.e("rango", "onBindViewHolder(), position = " + position);
         V view = holder.getView();
         T data = getItem(position);
         view.bind(data);

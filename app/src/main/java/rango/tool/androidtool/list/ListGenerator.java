@@ -6,6 +6,7 @@ import rango.tool.androidtool.base.list.adapter.BaseItemType;
 import rango.tool.androidtool.base.list.adapter.BaseItemView;
 import rango.tool.androidtool.list.view.ListEmptyItemView;
 import rango.tool.androidtool.list.view.ListImageItemView;
+import rango.tool.androidtool.list.view.ListNestItemView;
 import rango.tool.androidtool.list.view.ListNormalIteView;
 
 public class ListGenerator {
@@ -18,6 +19,8 @@ public class ListGenerator {
                 return new ListEmptyItemView(context);
             case BaseItemType.TYPE_LIST_IMAGE:
                 return new ListImageItemView(context);
+            case BaseItemType.TYPE_LIST_NEST:
+                return new ListNestItemView(context);
         }
         return null;
     }

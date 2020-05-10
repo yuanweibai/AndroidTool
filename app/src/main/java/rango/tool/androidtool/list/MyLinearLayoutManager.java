@@ -14,7 +14,6 @@ public class MyLinearLayoutManager extends LinearLayoutManager {
     }
 
 
-    @Override
     public boolean canScrollVertically() {
         return false;
     }
