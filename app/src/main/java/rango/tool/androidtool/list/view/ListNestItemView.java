@@ -40,6 +40,7 @@ public class ListNestItemView extends BaseItemView {
     private void initView() {
 
         recyclerView = findViewById(R.id.nest_recycler_view);
+        recyclerView.setHasFixedSize(true);
 
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);

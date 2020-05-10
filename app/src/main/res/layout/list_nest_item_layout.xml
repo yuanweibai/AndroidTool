@@ -8,9 +8,8 @@
         android:id="@+id/nest_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:overScrollMode="never"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:focusableInTouchMode="true"
-        android:focusable="true"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
