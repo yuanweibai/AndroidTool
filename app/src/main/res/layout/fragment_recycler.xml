@@ -3,17 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <rango.tool.androidtool.base.list.view.SpecificRecyclerVIew
-        android:id="@+id/recycler_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#a6a6a6" />
+        android:layout_height="match_parent">
+
+        <rango.tool.androidtool.base.list.view.SpecificRecyclerVIew
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#a6a6a6"
+            android:overScrollMode="never" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <rango.tool.androidtool.list.view.ListBannerView
         android:id="@+id/banner_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
 </FrameLayout>

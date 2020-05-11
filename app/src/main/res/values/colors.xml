@@ -11,6 +11,11 @@
     <color name="transparent">#00000000</color>
     <color name="gray">#e9e6e6</color>
 
+    <color name="yellow">#FFC107</color>
+    <color name="green">#4CAF50</color>
+    <color name="black">#000000</color>
+
+
     <color name="click_effect_red">#CA4F4F</color>
     <color name="click_effect_red_2">#EA6363</color>
     <color name="potholer_bg_color">#A45C5B5B</color>
