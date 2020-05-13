@@ -6,7 +6,7 @@ import android.view.View;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
-import rango.tool.androidtool.list.RecyclerFragment;
+import rango.tool.androidtool.list.RecyclerFragment2;
 
 /**
  * Created by baiyuanwei on 17/11/15.
@@ -14,7 +14,7 @@ import rango.tool.androidtool.list.RecyclerFragment;
 
 public class RecyclerActivity extends BaseActivity {
 
-    private RecyclerFragment recyclerFragment;
+    private RecyclerFragment2 recyclerFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class RecyclerActivity extends BaseActivity {
             }
         });
 
-        recyclerFragment = new RecyclerFragment();
+        recyclerFragment = new RecyclerFragment2();
         initFragment(R.id.fragment, recyclerFragment);
     }
 }

@@ -21,6 +21,8 @@ public class ListGenerator {
                 return new ListImageItemView(context);
             case BaseItemType.TYPE_LIST_NEST:
                 return new ListNestItemView(context);
+            case BaseItemType.TYPE_LIST_FOOTER:
+                return new FooterView(context);
         }
         return null;
     }

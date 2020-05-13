@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Stack;
 
 import rango.tool.androidtool.java.Person;
@@ -40,10 +41,15 @@ public class ActivityThread {
 
     public static void main(String[] args) throws Exception {
 
-        setFlags(FLAG_BOUND,
-                FLAG_BOUND | FLAG_UPDATE | FLAG_INVALID);
 
-        System.out.println("result = " + ((mFlags & FLAG_BOUND) != 0));
+        Random random = new Random();
+
+        for (int i = 0;i<1000;i++){
+            System.out.println("result----- end" + random.nextInt(2));
+        }
+
+
+
 
     }
 

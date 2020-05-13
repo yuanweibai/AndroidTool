@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <rango.tool.androidtool.list.RefreshRecyclerView
+        android:id="@+id/refresh_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <rango.tool.androidtool.list.view.ListBannerView
+        android:id="@+id/banner_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+</FrameLayout>

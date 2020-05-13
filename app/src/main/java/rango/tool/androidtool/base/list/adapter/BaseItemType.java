@@ -10,6 +10,7 @@ public class BaseItemType {
     public static final int TYPE_LIST_EMPTY = 2;
     public static final int TYPE_LIST_IMAGE = 3;
     public static final int TYPE_LIST_NEST = 4;
+    public static final int TYPE_LIST_FOOTER = 5;
 
     /**
      * ImageListActivity
