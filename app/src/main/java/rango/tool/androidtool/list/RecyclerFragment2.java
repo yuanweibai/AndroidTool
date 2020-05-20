@@ -2,8 +2,10 @@ package rango.tool.androidtool.list;
 
 import android.graphics.Rect;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,21 +25,8 @@ import rango.tool.common.utils.Worker;
 
 public class RecyclerFragment2 extends BaseFragment {
 
-
-    private static final String TAG = RecyclerFragment2.class.getSimpleName();
-
-
     private RefreshRecyclerView recyclerView;
     private MyRecyclerAdapter adapter;
-
-    private List<BaseItemData> data;
-
-    public void updateData() {
-        if (adapter != null) {
-            Log.e("rango", "--------------------isComputingLayout = ");
-
-        }
-    }
 
     @Override
     protected int getLayoutId() {
@@ -50,6 +39,9 @@ public class RecyclerFragment2 extends BaseFragment {
         recyclerView = view.findViewById(R.id.refresh_recycler_view);
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
+//        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+//        GridLayoutManager manager = new GridLayoutManager(getContext(), 3);
+
 
         addHeaderView();
         recyclerView.setLayoutManager(manager);
@@ -86,9 +78,7 @@ public class RecyclerFragment2 extends BaseFragment {
             }
         });
 
-
-        data = getTestData();
-        adapter.update(data);
+        adapter.update(getTestData());
     }
 
     private void addHeaderView() {
@@ -101,8 +91,6 @@ public class RecyclerFragment2 extends BaseFragment {
         for (int i = 0; i < 10; i++) {
             dataList.add(new BaseItemData("data - " + i, BaseItemType.TYPE_LIST_NORMAL));
         }
-
-        dataList.add(3, new BaseItemData(10, BaseItemType.TYPE_LIST_NEST));
         return dataList;
     }
 

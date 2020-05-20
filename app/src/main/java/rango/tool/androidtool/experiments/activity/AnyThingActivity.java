@@ -8,6 +8,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
+
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.ToolApplication;
 import rango.tool.androidtool.any.Rango;
@@ -31,8 +38,17 @@ public class AnyThingActivity extends BaseActivity {
         findViewById(R.id.show_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TimeZone tz = TimeZone.getDefault();
+                String strTz = tz.getDisplayName(false, TimeZone.SHORT);
 
-                startOtherActivity();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                format.setTimeZone(tz);
+                String date = format.format(new Date(System.currentTimeMillis()));
+
+                long curTime = System.currentTimeMillis();
+                String timeStr = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault()).format(new Date(curTime));
+
+                Log.e("rango", "strTz = " + strTz + ", date = " + timeStr);
 
             }
         });
@@ -40,7 +56,11 @@ public class AnyThingActivity extends BaseActivity {
         findViewById(R.id.any_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MarketTools.getTools().startMarket(ToolApplication.getContext(),"com.colorphone.smooth.dialer.cn");
+                Calendar calendar = Calendar.getInstance(Locale.getDefault());
+                int zoneOffset = calendar.get(java.util.Calendar.ZONE_OFFSET);
+                int dstOffset = calendar.get(java.util.Calendar.DST_OFFSET);
+
+                Log.e("rango", "zoneOffset = " + zoneOffset + ", dstOffset = " + dstOffset);
             }
         });
 

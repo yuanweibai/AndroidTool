@@ -75,7 +75,7 @@ public class RefreshRecyclerView extends LinearLayout {
     public boolean onInterceptTouchEvent(MotionEvent e) {
         switch (e.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                downY = e.getY();
+                downY = e.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (isIntercept(e)) {
@@ -107,7 +107,7 @@ public class RefreshRecyclerView extends LinearLayout {
         if (refreshStatus == RefreshStatus.REFRESHING) {
             return false;
         }
-        float moveY = event.getY();
+        float moveY = event.getRawY();
         float disY = moveY - downY;
         return (isFirstItemVisible() && disY > 0);
     }
@@ -134,7 +134,7 @@ public class RefreshRecyclerView extends LinearLayout {
             }
         }
 
-        float moveY = event.getY();
+        float moveY = event.getRawY();
         int disY = (int) (moveY - downY);
         moveHeaderView(disY);
 
@@ -271,7 +271,6 @@ public class RefreshRecyclerView extends LinearLayout {
                         onRefreshListener.onLoadMore();
                     }
                 }
-
             }
         });
     }
@@ -283,7 +282,7 @@ public class RefreshRecyclerView extends LinearLayout {
             BaseItemData footerData = new BaseItemData(0, BaseItemType.TYPE_LIST_FOOTER);
             recyclerAdapter.append(footerData);
             if (isLastVisible) {
-                recyclerView.scrollToPosition(recyclerAdapter.getItemCount() - 1);
+                scrollToPosition(recyclerAdapter.getItemCount() - 1);
             }
         }
     }

@@ -21,12 +21,6 @@ public class RecyclerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
-        findViewById(R.id.update_btn).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                recyclerFragment.updateData();
-            }
-        });
-
         recyclerFragment = new RecyclerFragment2();
         initFragment(R.id.fragment, recyclerFragment);
     }
