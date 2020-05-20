@@ -56,6 +56,7 @@ public class RecyclerFragment2 extends BaseFragment {
         recyclerView.addItemDecoration(new ListRecyclerViewDivider());
         adapter = new MyRecyclerAdapter();
         recyclerView.setAdapter(adapter);
+        recyclerView.setPositionBackToLoadMore(3);
 
         recyclerView.setOnRefreshListener(new RefreshRecyclerView.OnRefreshListener() {
             @Override
@@ -72,7 +73,16 @@ public class RecyclerFragment2 extends BaseFragment {
 
             @Override
             public void onLoadMore() {
+                Toast.makeText(getContext(), "load more.......", Toast.LENGTH_SHORT).show();
+                Worker.postMain(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.onLoadMoreFinished();
 
+                        adapter.append(getLoadMoreData());
+
+                    }
+                }, 5000);
             }
         });
 
@@ -88,7 +98,7 @@ public class RecyclerFragment2 extends BaseFragment {
 
     private List<BaseItemData> getTestData() {
         List<BaseItemData> dataList = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 10; i++) {
             dataList.add(new BaseItemData("data - " + i, BaseItemType.TYPE_LIST_NORMAL));
         }
 
@@ -98,8 +108,16 @@ public class RecyclerFragment2 extends BaseFragment {
 
     private List<BaseItemData> getRefreshData() {
         List<BaseItemData> dataList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             dataList.add(new BaseItemData("refresh - " + i, BaseItemType.TYPE_LIST_NORMAL));
+        }
+        return dataList;
+    }
+
+    private List<BaseItemData> getLoadMoreData() {
+        List<BaseItemData> dataList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            dataList.add(new BaseItemData("loadMore - " + i, BaseItemType.TYPE_LIST_NORMAL));
         }
         return dataList;
     }

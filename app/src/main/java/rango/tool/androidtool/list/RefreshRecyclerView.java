@@ -15,18 +15,21 @@ import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
 import rango.tool.androidtool.R;
+import rango.tool.androidtool.base.list.adapter.BaseItemData;
+import rango.tool.androidtool.base.list.adapter.BaseItemType;
 import rango.tool.common.utils.ScreenUtils;
 
 public class RefreshRecyclerView extends LinearLayout {
 
     private static final int LAST_POSITION = 0;
+
     private RecyclerHeaderView headerView;
     private RecyclerView recyclerView;
+    private MyRecyclerAdapter recyclerAdapter;
     private RecyclerView.LayoutManager layoutManager;
 
     private int headerViewHeight;
     private ValueAnimator currentRunningAnimator;
-
 
     private float downY;
 
@@ -175,6 +178,11 @@ public class RefreshRecyclerView extends LinearLayout {
         refreshStatus = RefreshStatus.NONE;
     }
 
+    public void onLoadMoreFinished() {
+        isLoadingMore = false;
+        recyclerAdapter.remove(recyclerAdapter.getItemCount() - 1);
+    }
+
     private void moveToRefreshPositionWithAnim() {
         int currentTopMargin = getHeaderViewTopMargin();
         int purposeTopMargin = 0;
@@ -257,6 +265,7 @@ public class RefreshRecyclerView extends LinearLayout {
                 }
 
                 if (isCouldLoadMore()) {
+                    addFooterItem();
                     isLoadingMore = true;
                     if (onRefreshListener != null) {
                         onRefreshListener.onLoadMore();
@@ -265,12 +274,31 @@ public class RefreshRecyclerView extends LinearLayout {
 
             }
         });
+    }
 
+    @SuppressWarnings("unchecked")
+    private void addFooterItem() {
+        if (recyclerAdapter != null) {
+            boolean isLastVisible = isLastItemVisible();
+            BaseItemData footerData = new BaseItemData(0, BaseItemType.TYPE_LIST_FOOTER);
+            recyclerAdapter.append(footerData);
+            if (isLastVisible) {
+                recyclerView.scrollToPosition(recyclerAdapter.getItemCount() - 1);
+            }
+        }
     }
 
     private boolean isCouldLoadMore() {
         int lastVisiblePosition = findLastCompletelyVisibleItemPosition();
-        return lastVisiblePosition >= layoutManager.getItemCount() - 1 - positionBackToLoadMore;
+        return lastVisiblePosition >= getLastPosition() - positionBackToLoadMore;
+    }
+
+    private int getLastPosition() {
+        return layoutManager.getItemCount() - 1;
+    }
+
+    private boolean isLastItemVisible() {
+        return findLastCompletelyVisibleItemPosition() == getLastPosition();
     }
 
     private int findFirstCompletelyVisibleItemPosition() {
@@ -302,9 +330,10 @@ public class RefreshRecyclerView extends LinearLayout {
         }
     }
 
-    public void setAdapter(RecyclerView.Adapter adapter) {
+    public void setAdapter(MyRecyclerAdapter adapter) {
+        recyclerAdapter = adapter;
         if (recyclerView != null) {
-            recyclerView.setAdapter(adapter);
+            recyclerView.setAdapter(recyclerAdapter);
         }
     }
 
