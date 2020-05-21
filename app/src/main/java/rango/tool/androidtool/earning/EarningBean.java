@@ -41,11 +41,9 @@ public class EarningBean {
     }
 
     public void start(long delay) {
-        ValueAnimator animator = ValueAnimator.ofFloat(0f, 1.2f);
-        animator.addUpdateListener(animation -> {
-            float value = (float) animation.getAnimatedValue();
-            scale = value;
-        });
+        ValueAnimator animator = ValueAnimator.ofFloat(0f, 1.2f, 1f);
+        animator.addUpdateListener(animation -> scale = (float) animation.getAnimatedValue());
+//        animator.setInterpolator(new AccelerateDecelerateInterpolator());
 
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -53,7 +51,7 @@ public class EarningBean {
                 startTranslate();
             }
         });
-        animator.setDuration(1000);
+        animator.setDuration(800);
         animator.setStartDelay(delay);
         animator.start();
     }
@@ -63,14 +61,14 @@ public class EarningBean {
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
         animator.addUpdateListener(animation -> {
             float value = (float) animation.getAnimatedValue();
-            scale = scale - (scale * value * 0.02f);
+//            scale = scale - (scale * value * 0.02f);
 
             x = (int) (startX + (endX - startX) * value);
             y = (int) (startY + (endY - startY) * value);
 
         });
 
-        animator.setDuration(1000);
+        animator.setDuration(800);
         animator.start();
     }
 }

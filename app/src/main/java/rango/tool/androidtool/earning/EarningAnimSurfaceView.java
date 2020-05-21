@@ -133,7 +133,7 @@ public class EarningAnimSurfaceView extends SurfaceView implements SurfaceHolder
             for (int k = 0; k < 4; k++) {
                 EarningBean bean = new EarningBean(startX + i * width, startY + k * height,
                         endX, endY);
-                bean.start(i * 50);
+                bean.start((i*4+k) * 20);
 
                 earningBeanList.add(bean);
             }
