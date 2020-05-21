@@ -21,7 +21,7 @@ import rango.tool.common.utils.ScreenUtils;
 
 public class RefreshRecyclerView extends LinearLayout {
 
-    private static final int LAST_POSITION = 0;
+    private static final int DEFAULT_POSITION_BACK = 3;
 
     private RecyclerHeaderView headerView;
     private RecyclerView recyclerView;
@@ -36,7 +36,7 @@ public class RefreshRecyclerView extends LinearLayout {
     private RefreshStatus refreshStatus = RefreshStatus.NONE;
 
     private int distanceToRefresh;
-    private int positionBackToLoadMore = LAST_POSITION;
+    private int positionBackToLoadMore = DEFAULT_POSITION_BACK;
 
     private boolean isLoadingMore = false;
 
@@ -64,6 +64,9 @@ public class RefreshRecyclerView extends LinearLayout {
     }
 
     public void setPositionBackToLoadMore(int positionBack) {
+        if (positionBack < 0) {
+            throw new IllegalStateException("positionBack could not smaller than 0!!!");
+        }
         this.positionBackToLoadMore = positionBack;
     }
 
@@ -278,7 +281,7 @@ public class RefreshRecyclerView extends LinearLayout {
     @SuppressWarnings("unchecked")
     private void addFooterItem() {
         if (recyclerAdapter != null) {
-            boolean isLastVisible = isLastItemVisible();
+            boolean isLastVisible = isLastItemCompletelyVisible();
             BaseItemData footerData = new BaseItemData(0, BaseItemType.TYPE_LIST_FOOTER);
             recyclerAdapter.append(footerData);
             if (isLastVisible) {
@@ -288,7 +291,7 @@ public class RefreshRecyclerView extends LinearLayout {
     }
 
     private boolean isCouldLoadMore() {
-        int lastVisiblePosition = findLastCompletelyVisibleItemPosition();
+        int lastVisiblePosition = findLastVisibleItemPosition();
         return lastVisiblePosition >= getLastPosition() - positionBackToLoadMore;
     }
 
@@ -296,7 +299,7 @@ public class RefreshRecyclerView extends LinearLayout {
         return layoutManager.getItemCount() - 1;
     }
 
-    private boolean isLastItemVisible() {
+    private boolean isLastItemCompletelyVisible() {
         return findLastCompletelyVisibleItemPosition() == getLastPosition();
     }
 
@@ -305,6 +308,17 @@ public class RefreshRecyclerView extends LinearLayout {
             return ((LinearLayoutManager) layoutManager).findFirstCompletelyVisibleItemPosition();
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
             int[] positionArray = ((StaggeredGridLayoutManager) layoutManager).findFirstCompletelyVisibleItemPositions(null);
+            return positionArray[0];
+        } else {
+            throw new IllegalStateException("layoutManager is unknown!!!");
+        }
+    }
+
+    private int findLastVisibleItemPosition() {
+        if (layoutManager instanceof LinearLayoutManager) {
+            return ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+        } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+            int[] positionArray = ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(null);
             return positionArray[0];
         } else {
             throw new IllegalStateException("layoutManager is unknown!!!");

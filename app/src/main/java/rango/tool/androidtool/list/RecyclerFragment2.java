@@ -114,10 +114,8 @@ public class RecyclerFragment2 extends BaseFragment {
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view);
-            int count = parent.getAdapter().getItemCount();
-            int lastPosition = count - 1;
-            if (position == lastPosition) {
+            RecyclerView.ViewHolder holder = parent.getChildViewHolder(view);
+            if (holder.getItemViewType() == BaseItemType.TYPE_LIST_FOOTER) {
                 return;
             }
             outRect.bottom = ScreenUtils.dp2px(8);
