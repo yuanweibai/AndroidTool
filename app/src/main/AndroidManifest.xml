@@ -173,6 +173,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".experiments.activity.AnyThingActivity" />
         <activity android:name=".accessibility.AccessibilityActivity" />
+        <activity android:name=".earning.EarningActivity" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 
