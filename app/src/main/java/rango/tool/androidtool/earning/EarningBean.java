@@ -25,77 +25,21 @@ public class EarningBean {
 
     private TimeInterpolator interpolator;
 
-    private int[] firstRotationArray;
-    private long firstRotationDelay;
+    private int[] firstRotateArray;
+    private long firstRotateDelay;
     private int firstDisX;
     private int firstDisY;
     private float[] firstScaleArray;
-
-    private long firstDuration;
-    private long firstRotationDuration;
+    private long firstScaleAndTranslateDuration;
+    private long firstRotateDuration;
 
     private float[] secondScaleArray;
     private long secondDuration;
 
-    private float thirdEndScale;
-    private int thirdDisRotation;
-    private long thirdDuration;
-    private long thirdDelay;
-
-    EarningBean(int startX, int startY, int endX, int endY) {
-        this.startX = startX;
-        this.startY = startY;
-        this.endX = endX;
-        this.endY = endY;
-        x = startX;
-        y = startY;
-        scale = 0f;
-    }
-
-    void setFirstTranslation(int disX, int disY) {
-        firstDisX = ScreenUtils.dp2px(disX);
-        firstDisY = ScreenUtils.dp2px(disY);
-    }
-
-    void setFirstScaleArray(float[] value) {
-        firstScaleArray = value;
-    }
-
-    void setInterpolator(TimeInterpolator value) {
-        this.interpolator = value;
-    }
-
-    void setFirstRotationArray(int[] value) {
-        firstRotationArray = value;
-    }
-
-    void setFirstRotationDelay(long delay) {
-        firstRotationDelay = delay;
-    }
-
-    void setSecondScaleArray(float[] value) {
-        secondScaleArray = value;
-    }
-
-    void setSecondDuration(long duration) {
-        secondDuration = duration;
-    }
-
-    void setThirdEndScale(float scale) {
-        this.thirdEndScale = scale;
-    }
-
-    void setThirdDisRotation(int value) {
-        thirdDisRotation = value;
-    }
-
-    void setThirdDuration(long duration) {
-        thirdDuration = duration;
-    }
-
-    void setThirdDelay(long delay) {
-        thirdDelay = delay;
-    }
+    private float lastEndScale;
+    private int lastDisRotate;
+    private long lastDuration;
+    private long lastDelay;
 
     float getScale() {
         return scale;
@@ -105,13 +49,6 @@ public class EarningBean {
         return rotation;
     }
 
-    void setFirstDuration(long firstDuration) {
-        this.firstDuration = firstDuration;
-    }
-
-    void setFirstRotationDuration(long duration) {
-        this.firstRotationDuration = duration;
-    }
 
     int getX() {
         return x;
@@ -122,10 +59,23 @@ public class EarningBean {
     }
 
     public void start(long delay) {
+        reset();
 
         startFirstScaleAndTranslate(delay);
 
         startFirstRotation();
+    }
+
+    private EarningAnimEndListener earningAnimEndListener;
+
+    void setEarningAnimEndListener(EarningAnimEndListener earningAnimEndListener) {
+        this.earningAnimEndListener = earningAnimEndListener;
+    }
+
+    private void reset() {
+        x = startX;
+        y = startY;
+        scale = 1f;
     }
 
     private void startFirstScaleAndTranslate(long delay) {
@@ -145,17 +95,17 @@ public class EarningBean {
                 startSecondScale();
             }
         });
-        animator.setDuration(firstDuration);
+        animator.setDuration(firstScaleAndTranslateDuration);
         animator.setStartDelay(delay);
         animator.start();
     }
 
     private void startFirstRotation() {
-        ValueAnimator animator = ValueAnimator.ofInt(firstRotationArray);
+        ValueAnimator animator = ValueAnimator.ofInt(firstRotateArray);
         animator.setInterpolator(new LinearInterpolator());
         animator.addUpdateListener(animation -> rotation = (int) animation.getAnimatedValue());
-        animator.setDuration(firstRotationDuration);
-        animator.setStartDelay(firstRotationDelay);
+        animator.setDuration(firstRotateDuration);
+        animator.setStartDelay(firstRotateDelay);
         animator.start();
     }
 
@@ -167,35 +117,141 @@ public class EarningBean {
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                startThirdAnim();
+                startLastAnim();
             }
         });
         animator.start();
     }
 
-    private float thirdStartScale;
-    private int thirdStartX;
-    private int thirdStartY;
-    private int thirdStartRotation;
+    private float lastStartScale;
+    private int lastStartX;
+    private int lastStartY;
+    private int lastStartRotation;
 
-    private void startThirdAnim() {
-        thirdStartScale = scale;
-        thirdStartX = x;
-        thirdStartY = y;
-        thirdStartRotation = rotation;
+    private void startLastAnim() {
+        lastStartScale = scale;
+        lastStartX = x;
+        lastStartY = y;
+        lastStartRotation = rotation;
 
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
         animator.setInterpolator(interpolator);
         animator.addUpdateListener(animation -> {
             float value = (float) animation.getAnimatedValue();
-            scale = thirdStartScale + (thirdEndScale - thirdStartScale) * value;
-            x = (int) (thirdStartX + (endX - thirdStartX) * value);
-            y = (int) (thirdStartY + (endY - thirdStartY) * value);
-            rotation = (int) (thirdStartRotation + thirdDisRotation * value);
+            scale = lastStartScale + (lastEndScale - lastStartScale) * value;
+            x = (int) (lastStartX + (endX - lastStartX) * value);
+            y = (int) (lastStartY + (endY - lastStartY) * value);
+            rotation = (int) (lastStartRotation + lastDisRotate * value);
         });
-
-        animator.setDuration(thirdDuration);
-        animator.setStartDelay(thirdDelay);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                scale = 0;
+                if (earningAnimEndListener != null) {
+                    earningAnimEndListener.onAnimEnd();
+                }
+            }
+        });
+        animator.setDuration(lastDuration);
+        animator.setStartDelay(lastDelay);
         animator.start();
+    }
+
+    @SuppressWarnings("SameParameterValue")
+    public static final class Builder {
+        private int endX;
+        private int endY;
+
+        private int startX;
+        private int startY;
+
+        private TimeInterpolator interpolator;
+
+        private int[] firstRotateArray;
+        private long firstRotateDelay;
+        private int firstDisX;
+        private int firstDisY;
+        private float[] firstScaleArray;
+
+        private long firstScaleAndTranslateDuration;
+        private long firstRotateDuration;
+
+        private float[] secondScaleArray;
+        private long secondDuration;
+
+        private float lastEndScale;
+        private int lastDisRotate;
+        private long lastDuration;
+        private long lastDelay;
+
+        Builder setStartPointer(int startX, int startY) {
+            this.startX = startX;
+            this.startY = startY;
+            return this;
+        }
+
+        Builder setEndPointer(int endX, int endY) {
+            this.endX = endX;
+            this.endY = endY;
+            return this;
+        }
+
+        Builder setInterpolator(TimeInterpolator interpolator) {
+            this.interpolator = interpolator;
+            return this;
+        }
+
+        Builder setFirstAnim(int[] firstRotateArray, long firstRotateDelay, long firstRotateDuration, int firstDisX, int firstDisY, float[] firstScaleArray, long firstScaleAndTranslateDuration) {
+            this.firstRotateArray = firstRotateArray;
+            this.firstRotateDelay = firstRotateDelay;
+            this.firstRotateDuration = firstRotateDuration;
+
+            this.firstDisX = ScreenUtils.dp2px(firstDisX);
+            this.firstDisY = ScreenUtils.dp2px(firstDisY);
+            this.firstScaleArray = firstScaleArray;
+            this.firstScaleAndTranslateDuration = firstScaleAndTranslateDuration;
+            return this;
+        }
+
+        Builder setSecondAnim(float[] secondScaleArray, long secondDuration) {
+            this.secondScaleArray = secondScaleArray;
+            this.secondDuration = secondDuration;
+            return this;
+        }
+
+        Builder setLastAnim(float lastEndScale, int lastDisRotate, long lastDuration, long lastDelay) {
+            this.lastEndScale = lastEndScale;
+            this.lastDisRotate = lastDisRotate;
+            this.lastDuration = lastDuration;
+            this.lastDelay = lastDelay;
+            return this;
+        }
+
+        public EarningBean build() {
+            EarningBean bean = new EarningBean();
+            bean.endX = endX;
+            bean.endY = endY;
+            bean.startX = startX;
+            bean.startY = startY;
+            bean.interpolator = interpolator;
+
+            bean.firstRotateDelay = firstRotateDelay;
+            bean.firstRotateDuration = firstRotateDuration;
+            bean.firstDisY = firstDisY;
+            bean.firstDisX = firstDisX;
+            bean.firstScaleArray = firstScaleArray;
+            bean.firstRotateArray = firstRotateArray;
+            bean.firstScaleAndTranslateDuration = firstScaleAndTranslateDuration;
+
+            bean.secondDuration = secondDuration;
+            bean.secondScaleArray = secondScaleArray;
+
+            bean.lastDelay = lastDelay;
+            bean.lastDisRotate = lastDisRotate;
+            bean.lastDuration = lastDuration;
+            bean.lastEndScale = lastEndScale;
+
+            return bean;
+        }
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#009688"
@@ -16,10 +17,5 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="停止" />
-
-    <rango.tool.androidtool.earning.EarningAnimSurfaceView
-        android:id="@+id/earning_surface_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </LinearLayout>

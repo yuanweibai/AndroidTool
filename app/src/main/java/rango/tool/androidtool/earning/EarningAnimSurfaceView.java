@@ -24,6 +24,7 @@ import java.util.List;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.ToolApplication;
+import rango.tool.common.utils.Worker;
 
 public class EarningAnimSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -56,28 +57,41 @@ public class EarningAnimSurfaceView extends SurfaceView implements SurfaceHolder
 
     private volatile boolean isStart = false;
 
-    public EarningAnimSurfaceView(Context context) {
-        this(context, null);
-    }
+    private EarningAnimEndListener earningAnimEndListener = new EarningAnimEndListener() {
+        private int count;
 
-    public EarningAnimSurfaceView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
+        @Override
+        @WorkerThread
+        public void onAnimEnd() {
+            count++;
+            Log.e(TAG, "count = " + count);
+            if (count >= earningBeanList.size()) {
+                stop();
+                count = 0;
+                onSurfaceDraw();
 
-    public EarningAnimSurfaceView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+                Worker.postMain(() -> {
+                    if (allEarningEndListener != null) {
+                        allEarningEndListener.onAnimEnd();
+                    }
+                });
+            }
+        }
+    };
 
+    private EarningAnimEndListener allEarningEndListener;
+
+    public EarningAnimSurfaceView(Context context, int startX, int startY, int endX, int endY) {
+        super(context);
+        this.startX = startX;
+        this.startY = startY;
+        this.endX = endX;
+        this.endY = endY;
         init();
     }
 
-    public void setStart(int x, int y) {
-        startX = x;
-        startY = y;
-    }
-
-    public void setEnd(int x, int y) {
-        endX = x;
-        endY = y;
+    public void setAllEarningEndListener(EarningAnimEndListener earningEndListener) {
+        this.allEarningEndListener = earningEndListener;
     }
 
     public void start() {
@@ -130,41 +144,30 @@ public class EarningAnimSurfaceView extends SurfaceView implements SurfaceHolder
         int halfWidth = width / 2;
         int halfHeight = height / 2;
 
+        int x = startX - halfWidth;
+        int y = startY - halfHeight;
+
         earningBeanList.clear();
 
-        long[] scaleDurationArray = new long[]{420, 400, 400};
-//        float[][] scaleArray = new float[][]{{0.4f, 1.1f, 0.95f, 1f}, {0.4f, 0.98f, 0.85f, 0.90f}, {0.4f, 0.85f, 0.76f, 0.8f}};
         float[][] firstScaleArray = new float[][]{{0.4f, 1.1f}, {0.4f, 0.98f}, {0.4f, 0.85f}};
-        int[][] firstTranslateDis = new int[][]{{0, 0}, {11, 27}, {12, -39}, {27, 0}, {47, -20}, {64, 0}, {-21, -24}, {-59, 0}, {-27, 13}};
+        int[][] firstTranslateDisDp = new int[][]{{0, 0}, {11, 27}, {12, -39}, {27, 0}, {47, -20}, {64, 0}, {-21, -24}, {-59, 0}, {-27, 13}};
         int[][] firstRotationArray = new int[][]{{0, 0, 0}, {0, 10, 0}, {0, 10, 0}, {0, 15, 0}, {0, 10, 0}, {0, 20, 0}, {0, -10, 0}, {0, -20, 0}, {0, -15, 0}};
         int[] firstRotationDelayArray = new int[]{0, 40, 40, 0, 40, 80, 0, 0, 0};
 
         float[][] secondScaleArray = new float[][]{{1.1f, 0.95f, 1f}, {0.98f, 0.85f, 0.9f}, {0.85f, 0.76f, 0.80f}};
         TimeInterpolator interpolator = PathInterpolatorCompat.create(0.17f, 0.17f, 0.67f, 1f);
         for (int i = 0; i < 9; i++) {
-            int x = startX - halfWidth;
-            int y = startY - halfHeight;
-            EarningBean bean = new EarningBean(x, y, endX, endY);
-
-            int temp = i % 3;
-            bean.setFirstDuration(200);
-            bean.setFirstScaleArray(firstScaleArray[temp]);
-            bean.setFirstTranslation(firstTranslateDis[i][0], firstTranslateDis[i][1]);
-            bean.setInterpolator(interpolator);
-
-            bean.setFirstRotationArray(firstRotationArray[i]);
-            bean.setFirstRotationDelay(firstRotationDelayArray[i]);
-            bean.setFirstRotationDuration(280);
-
-            bean.setSecondScaleArray(secondScaleArray[temp]);
-            bean.setSecondDuration(200);
-
-            bean.setThirdDelay(150);
-            bean.setThirdDisRotation(180);
-            bean.setThirdEndScale(0.4f);
-            bean.setThirdDuration(320);
-
-            bean.start(temp * 40);
+            int index = i % 3;
+            EarningBean bean = new EarningBean.Builder()
+                    .setStartPointer(x, y)
+                    .setEndPointer(endX, endY)
+                    .setInterpolator(interpolator)
+                    .setFirstAnim(firstRotationArray[i], firstRotationDelayArray[i], 280, firstTranslateDisDp[i][0], firstTranslateDisDp[i][1], firstScaleArray[index], 200)
+                    .setSecondAnim(secondScaleArray[index], 200)
+                    .setLastAnim(0.4f, 180, 320, 150)
+                    .build();
+            bean.setEarningAnimEndListener(earningAnimEndListener);
+            bean.start(index * 40);
 
             earningBeanList.add(bean);
         }
@@ -173,7 +176,6 @@ public class EarningAnimSurfaceView extends SurfaceView implements SurfaceHolder
     @WorkerThread
     private void onSurfaceDraw() {
 
-        Log.e(TAG, "onSurfaceDraw, size = " + earningBeanList.size());
         if (surfaceHolder == null || surfaceHolder.isCreating()) {
             return;
         }
@@ -188,12 +190,11 @@ public class EarningAnimSurfaceView extends SurfaceView implements SurfaceHolder
         if (canvas == null) {
             return;
         }
+        canvas.drawPaint(bgPaint);
 
         if (earningBeanList.isEmpty()) {
             return;
         }
-
-        canvas.drawPaint(bgPaint);
 
         for (EarningBean bean : earningBeanList) {
             matrix.reset();
@@ -236,6 +237,7 @@ public class EarningAnimSurfaceView extends SurfaceView implements SurfaceHolder
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        Log.e(TAG, "surfaceCreated");
         initHandler();
         isCouldDraw = true;
         if (waitRunnable != null) {
@@ -246,27 +248,27 @@ public class EarningAnimSurfaceView extends SurfaceView implements SurfaceHolder
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        Log.e(TAG, "surfaceDestroyed");
         isCouldDraw = false;
+        release();
+    }
+
+    private void release() {
+        isStart = false;
         synchronized (lock) {
             if (handler != null) {
                 handler.removeCallbacksAndMessages(null);
-                handler.post(releaseRunnable);
+                handler = null;
             }
-        }
-    }
 
-    private Runnable releaseRunnable = new Runnable() {
-        @Override
-        public void run() {
             if (handlerThread != null) {
                 handlerThread.quit();
                 handlerThread = null;
             }
         }
-    };
+    }
 }
