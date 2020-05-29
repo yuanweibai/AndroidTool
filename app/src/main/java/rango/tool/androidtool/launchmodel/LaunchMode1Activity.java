@@ -35,6 +35,8 @@ public class LaunchMode1Activity extends BaseActivity {
             Intent intent = new Intent(LaunchMode1Activity.this, LaunchMode3Activity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivityForResult(intent, 1);
+
+//            startActivity(LaunchMode3Activity.class);
         });
     }
 

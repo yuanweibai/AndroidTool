@@ -18,8 +18,11 @@ public class EarningActivity extends BaseActivity {
         setContentView(R.layout.earning_layout);
 
         earningAnimSurfaceView = findViewById(R.id.earning_surface_view);
-        earningAnimSurfaceView.setStart(500, 1200);
-        earningAnimSurfaceView.setEnd(300, 300);
+
+        int x = ScreenUtils.getScreenWidthPx() / 2;
+        int y = (int) (ScreenUtils.getScreenHeightPx() * (438 / 1920f));
+        earningAnimSurfaceView.setStart(x, y);
+        earningAnimSurfaceView.setEnd(100, 60);
 
         findViewById(R.id.start_btn).setOnClickListener(new View.OnClickListener() {
             @Override

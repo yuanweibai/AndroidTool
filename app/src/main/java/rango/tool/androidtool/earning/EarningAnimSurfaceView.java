@@ -1,5 +1,6 @@
 package rango.tool.androidtool.earning;
 
+import android.animation.TimeInterpolator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,10 +10,10 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.Xfermode;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.WorkerThread;
+import android.support.v4.view.animation.PathInterpolatorCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -20,7 +21,6 @@ import android.view.SurfaceView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.ToolApplication;
@@ -121,22 +121,52 @@ public class EarningAnimSurfaceView extends SurfaceView implements SurfaceHolder
     @WorkerThread
     private void createCoinItems() {
         if (bitmap == null) {
-            bitmap = BitmapFactory.decodeResource(ToolApplication.getContext().getResources(), R.drawable.coin_icon);
+            bitmap = BitmapFactory.decodeResource(ToolApplication.getContext().getResources(), R.drawable.animate_coin_icon);
         }
 
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
 
+        int halfWidth = width / 2;
+        int halfHeight = height / 2;
+
         earningBeanList.clear();
 
-        for (int i = 0; i < 4; i++) {
-            for (int k = 0; k < 4; k++) {
-                EarningBean bean = new EarningBean(startX + i * width, startY + k * height,
-                        endX, endY);
-                bean.start((i*4+k) * 20);
+        long[] scaleDurationArray = new long[]{420, 400, 400};
+//        float[][] scaleArray = new float[][]{{0.4f, 1.1f, 0.95f, 1f}, {0.4f, 0.98f, 0.85f, 0.90f}, {0.4f, 0.85f, 0.76f, 0.8f}};
+        float[][] firstScaleArray = new float[][]{{0.4f, 1.1f}, {0.4f, 0.98f}, {0.4f, 0.85f}};
+        int[][] firstTranslateDis = new int[][]{{0, 0}, {11, 27}, {12, -39}, {27, 0}, {47, -20}, {64, 0}, {-21, -24}, {-59, 0}, {-27, 13}};
+        int[][] firstRotationArray = new int[][]{{0, 0, 0}, {0, 10, 0}, {0, 10, 0}, {0, 15, 0}, {0, 10, 0}, {0, 20, 0}, {0, -10, 0}, {0, -20, 0}, {0, -15, 0}};
+        int[] firstRotationDelayArray = new int[]{0, 40, 40, 0, 40, 80, 0, 0, 0};
 
-                earningBeanList.add(bean);
-            }
+        float[][] secondScaleArray = new float[][]{{1.1f, 0.95f, 1f}, {0.98f, 0.85f, 0.9f}, {0.85f, 0.76f, 0.80f}};
+        TimeInterpolator interpolator = PathInterpolatorCompat.create(0.17f, 0.17f, 0.67f, 1f);
+        for (int i = 0; i < 9; i++) {
+            int x = startX - halfWidth;
+            int y = startY - halfHeight;
+            EarningBean bean = new EarningBean(x, y, endX, endY);
+
+            int temp = i % 3;
+            bean.setFirstDuration(200);
+            bean.setFirstScaleArray(firstScaleArray[temp]);
+            bean.setFirstTranslation(firstTranslateDis[i][0], firstTranslateDis[i][1]);
+            bean.setInterpolator(interpolator);
+
+            bean.setFirstRotationArray(firstRotationArray[i]);
+            bean.setFirstRotationDelay(firstRotationDelayArray[i]);
+            bean.setFirstRotationDuration(280);
+
+            bean.setSecondScaleArray(secondScaleArray[temp]);
+            bean.setSecondDuration(200);
+
+            bean.setThirdDelay(150);
+            bean.setThirdDisRotation(180);
+            bean.setThirdEndScale(0.4f);
+            bean.setThirdDuration(320);
+
+            bean.start(temp * 40);
+
+            earningBeanList.add(bean);
         }
     }
 
@@ -167,8 +197,9 @@ public class EarningAnimSurfaceView extends SurfaceView implements SurfaceHolder
 
         for (EarningBean bean : earningBeanList) {
             matrix.reset();
-            matrix.postTranslate(bean.getX(), bean.getY());
+            matrix.setTranslate(bean.getX(), bean.getY());
             matrix.preScale(bean.getScale(), bean.getScale());
+            matrix.preRotate(bean.getRotation());
 
             canvas.drawBitmap(bitmap, matrix, contentPaint);
         }
@@ -182,7 +213,7 @@ public class EarningAnimSurfaceView extends SurfaceView implements SurfaceHolder
     private Runnable updateEarningAnimRunnable = new Runnable() {
         @Override
         public void run() {
-            if (!isStart){
+            if (!isStart) {
                 return;
             }
 

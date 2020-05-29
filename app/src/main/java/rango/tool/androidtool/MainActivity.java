@@ -15,6 +15,7 @@ import rango.tool.androidtool.experiments.activity.AnyThingActivity;
 import rango.tool.androidtool.experiments.activity.BroadcastActivity;
 import rango.tool.androidtool.experiments.activity.ProviderTestActivity;
 import rango.tool.androidtool.experiments.activity.ServiceActivity;
+import rango.tool.androidtool.experiments.activity.UIActivity;
 import rango.tool.androidtool.farm.PigActivity;
 import rango.tool.androidtool.experiments.TestActivity;
 import rango.tool.androidtool.game.GameMainActivity;

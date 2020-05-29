@@ -99,6 +99,7 @@
             android:launchMode="standard" />
         <activity
             android:name=".launchmodel.LaunchMode2Activity"
+            android:launchMode="singleInstance"
             android:theme="@style/BlockingerWelcomeTheme">
             <intent-filter>
                 <action android:name="com.acbs.libcasualgames.solitaire" />
@@ -106,7 +107,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".launchmodel.LaunchMode3Activity"
-            android:taskAffinity="xx.dd"
+            android:launchMode="singleInstance"
+            android:taskAffinity="dd.xx"
             />
 
         <activity android:name=".memoryleak.MemoryLeakActivity" />
@@ -174,6 +176,7 @@
         <activity android:name=".experiments.activity.AnyThingActivity" />
         <activity android:name=".accessibility.AccessibilityActivity" />
         <activity android:name=".earning.EarningActivity" />
+        <activity android:name=".experiments.activity.UIActivity" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 
