@@ -37,7 +37,7 @@
     <style name="BlockingerWelcomeTheme" parent="@style/Theme.AppCompat">
         <!--        <item name="android:colorBackgroundCacheHint">@null</item>-->
         <!--        <item name="android:windowNoTitle">true</item>-->
-<!--        <item name="android:windowIsTranslucent">true</item>-->
+        <!--        <item name="android:windowIsTranslucent">true</item>-->
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
@@ -54,19 +54,13 @@
         <item name="android:windowNoDisplay">false</item>
     </style>
 
-    <style name="Dialog">
+    <style name="ActivityGuideTransparent">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
-        <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowFullscreen">true</item>
-    </style>
-
-    <style name="Dialog.transparent">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowIsFloating">true</item>
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>

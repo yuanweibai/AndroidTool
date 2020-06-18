@@ -62,6 +62,8 @@ import rango.tool.androidtool.workmanager.WorkManagerActivity;
 
 public class TestActivity extends BaseActivity {
 
+    private static final String TAG = "TestActivity";
+
     private View view;
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -77,6 +79,7 @@ public class TestActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e(TAG, "onCreate()");
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
@@ -164,9 +167,23 @@ public class TestActivity extends BaseActivity {
 
     Handler handler = new Handler();
 
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.e(TAG, "onRestart()");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e(TAG, "onStart()");
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+        Log.e(TAG, "onResume()");
 
         handler.post(() -> {
             int height = view.getHeight();
@@ -178,7 +195,20 @@ public class TestActivity extends BaseActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e(TAG, "onPause()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e(TAG, "onStop()");
+    }
+
+    @Override
     protected void onDestroy() {
+        Log.e(TAG, "onDestroy()");
         unregisterReceiver(broadcastReceiver);
         super.onDestroy();
     }

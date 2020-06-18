@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 
 public class ActivityHook {
 
-    public static void m15071a(Activity activity) {
+    public static void tryToHook(Activity activity) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("hookOrientation : targetSdkVersion=");
         stringBuilder.append(activity.getApplicationInfo().targetSdkVersion);
@@ -19,23 +19,22 @@ public class ActivityHook {
         stringBuilder.append(26);
         stringBuilder.append(",Build.VERSION.SDK_INT=");
         stringBuilder.append(Build.VERSION.SDK_INT);
-        Log.e("kevint", stringBuilder.toString());
-        if (activity.getApplicationInfo().targetSdkVersion >= 26 && Build.VERSION.SDK_INT == 26 && ActivityHook.m15073c(activity)) {
-            ActivityHook.m15072b(activity);
+        if (activity.getApplicationInfo().targetSdkVersion >= 26 && Build.VERSION.SDK_INT == 26 && ActivityHook.hookTranslucentOrFloating(activity)) {
+            ActivityHook.hookScreenOrientation(activity);
         }
     }
 
-    private static void m15072b(Activity activity) {
+    private static void hookScreenOrientation(Activity activity) {
         try {
             Field declaredField = Activity.class.getDeclaredField("mActivityInfo");
             declaredField.setAccessible(true);
-            ((ActivityInfo) declaredField.get(activity)).screenOrientation = -1;
+            ((ActivityInfo) declaredField.get(activity)).screenOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static boolean m15073c(Activity activity) {
+    private static boolean hookTranslucentOrFloating(Activity activity) {
         boolean z = false;
         try {
             Field declaredField = Class.forName("com.android.internal.R$styleable").getDeclaredField("Window");
@@ -50,6 +49,4 @@ public class ActivityHook {
             return z;
         }
     }
-
-
 }
