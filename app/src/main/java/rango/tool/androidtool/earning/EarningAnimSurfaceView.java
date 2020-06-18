@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
@@ -54,6 +55,9 @@ public class EarningAnimSurfaceView extends SurfaceView implements SurfaceHolder
     private Paint bgPaint;
     private Paint contentPaint;
     private Matrix matrix;
+
+    private float bitmapPx = 0f;
+    private float bitmapPy = 0f;
 
     private volatile boolean isStart = false;
 
@@ -124,6 +128,7 @@ public class EarningAnimSurfaceView extends SurfaceView implements SurfaceHolder
 
         contentPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         contentPaint.setStyle(Paint.Style.FILL);
+        contentPaint.setColor(Color.RED);
 
         matrix = new Matrix();
 
@@ -144,8 +149,14 @@ public class EarningAnimSurfaceView extends SurfaceView implements SurfaceHolder
         int halfWidth = width / 2;
         int halfHeight = height / 2;
 
-        int x = startX - halfWidth;
-        int y = startY - halfHeight;
+        bitmapPx = halfWidth;
+        bitmapPy = halfHeight;
+
+        int sX = startX - halfWidth;
+        int sY = startY - halfHeight;
+
+        int eX = endX - halfWidth;
+        int eY = endY - halfHeight;
 
         earningBeanList.clear();
 
@@ -159,8 +170,8 @@ public class EarningAnimSurfaceView extends SurfaceView implements SurfaceHolder
         for (int i = 0; i < 9; i++) {
             int index = i % 3;
             EarningBean bean = new EarningBean.Builder()
-                    .setStartPointer(x, y)
-                    .setEndPointer(endX, endY)
+                    .setStartPointer(sX, sY)
+                    .setEndPointer(eX, eY)
                     .setInterpolator(interpolator)
                     .setFirstAnim(firstRotationArray[i], firstRotationDelayArray[i], 280, firstTranslateDisDp[i][0], firstTranslateDisDp[i][1], firstScaleArray[index], 200)
                     .setSecondAnim(secondScaleArray[index], 200)
@@ -199,11 +210,13 @@ public class EarningAnimSurfaceView extends SurfaceView implements SurfaceHolder
         for (EarningBean bean : earningBeanList) {
             matrix.reset();
             matrix.setTranslate(bean.getX(), bean.getY());
-            matrix.preScale(bean.getScale(), bean.getScale());
-            matrix.preRotate(bean.getRotation());
+            matrix.preScale(bean.getScale(), bean.getScale(), bitmapPx, bitmapPy);
+            matrix.preRotate(bean.getRotation(), bitmapPx, bitmapPy);
 
             canvas.drawBitmap(bitmap, matrix, contentPaint);
         }
+
+        canvas.drawCircle(endX, endY, 2, contentPaint);
 
         try {
             surfaceHolder.unlockCanvasAndPost(canvas);

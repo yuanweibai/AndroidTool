@@ -399,6 +399,13 @@
             android:layout_height="wrap_content"
             android:text="收入动画"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/guide_activity_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="activity形式的引导"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 

@@ -47,6 +47,7 @@ import rango.tool.androidtool.experiments.activity.ThreadActivity;
 import rango.tool.androidtool.experiments.activity.ViewDrawActivity;
 import rango.tool.androidtool.experiments.activity.WaterMarkActivity;
 import rango.tool.androidtool.experiments.activity.WindowActivity;
+import rango.tool.androidtool.guide.GuideActivity;
 import rango.tool.androidtool.http.activity.HttpActivity;
 import rango.tool.androidtool.job.JobActivity;
 import rango.tool.androidtool.keyboard.KeyboardActivity;
@@ -152,6 +153,12 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.any_thing_btn).setOnClickListener(v -> startActivity(AnyThingActivity.class));
         findViewById(R.id.acc_btn).setOnClickListener(v -> startActivity(AccessibilityActivity.class));
         findViewById(R.id.earning_anim_btn).setOnClickListener(v -> startActivity(EarningActivity.class));
+        findViewById(R.id.guide_activity_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(GuideActivity.class);
+            }
+        });
 
     }
 

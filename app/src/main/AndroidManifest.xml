@@ -178,6 +178,14 @@
         <activity android:name=".earning.EarningActivity" />
         <activity android:name=".experiments.activity.UIActivity" />
 
+        <activity
+            android:name="rango.tool.androidtool.guide.GuideActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/Dialog.transparent" />
+
         <receiver android:name=".alarm.AlarmReceiver" />
 
         <service

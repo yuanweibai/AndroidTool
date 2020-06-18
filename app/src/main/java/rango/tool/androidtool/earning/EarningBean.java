@@ -146,10 +146,10 @@ public class EarningBean {
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                scale = 0;
-                if (earningAnimEndListener != null) {
-                    earningAnimEndListener.onAnimEnd();
-                }
+//                scale = 0;
+//                if (earningAnimEndListener != null) {
+//                    earningAnimEndListener.onAnimEnd();
+//                }
             }
         });
         animator.setDuration(lastDuration);

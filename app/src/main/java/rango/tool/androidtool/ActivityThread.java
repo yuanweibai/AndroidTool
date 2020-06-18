@@ -1,28 +1,27 @@
 package rango.tool.androidtool;
 
-import android.animation.ObjectAnimator;
-import android.support.v7.widget.RecyclerView;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Stack;
-
-import rango.tool.androidtool.java.Person;
 
 public class ActivityThread {
-
 
 
     private static int mFlags;
 
     public static void main(String[] args) throws Exception {
 
+        String string = "၀.၀၂၅၀၀";
 
+        StringBuffer unicode = new StringBuffer();
+
+        for (int i = 0; i < string.length(); i++) {
+
+            // 取出每一个字符
+            char c = string.charAt(i);
+
+            // 转换为unicode
+            unicode.append("\\u" + Integer.toHexString(c));
+        }
+        double temp = Double.parseDouble(unicode.toString());
+        System.out.println("double = " + temp + ", unicode = " + unicode);
 
 
     }

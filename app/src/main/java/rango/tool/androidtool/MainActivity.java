@@ -19,6 +19,7 @@ import rango.tool.androidtool.experiments.activity.UIActivity;
 import rango.tool.androidtool.farm.PigActivity;
 import rango.tool.androidtool.experiments.TestActivity;
 import rango.tool.androidtool.game.GameMainActivity;
+import rango.tool.androidtool.game.hero.GameHeroView;
 import rango.tool.androidtool.launchmodel.LaunchMode1Activity;
 import rango.tool.androidtool.list.activity.ListActivity;
 import rango.tool.androidtool.list.activity.RecyclerActivity;
@@ -37,7 +38,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(EarningActivity.class);
+            startActivity(GameMainActivity.class);
         }
 
         setContentView(R.layout.activity_main);
