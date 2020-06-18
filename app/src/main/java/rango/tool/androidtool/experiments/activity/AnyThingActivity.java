@@ -51,14 +51,7 @@ public class AnyThingActivity extends BaseActivity {
 
         setContentView(R.layout.activity_any_thing_layout);
 
-        ImageView testView = findViewById(R.id.test_view);
 
-        findViewById(R.id.show_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 //
 
 

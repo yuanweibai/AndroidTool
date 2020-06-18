@@ -2,34 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/pig_farm_bg"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/view_stub"
-        layout="@layout/layout_tag" />
-
-    <Button
-        android:id="@+id/show_btn"
+    <rango.tool.androidtool.view.DrawImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="show" />
-
-    <Button
-        android:id="@+id/any_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="市场" />
-
-    <View
-        android:layout_width="360dp"
-        android:layout_height="100dp"
-        android:background="#E61313" />
-
-    <ImageView
-        android:id="@+id/test_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/size_picture_test"
-        />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

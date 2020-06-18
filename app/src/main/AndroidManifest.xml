@@ -186,6 +186,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/ActivityGuideTransparent" />
 
+        <activity android:name=".surfaceview.SurfaceActivity" />
+
         <receiver android:name=".alarm.AlarmReceiver" />
 
         <service

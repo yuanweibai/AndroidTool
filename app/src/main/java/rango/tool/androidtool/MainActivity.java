@@ -23,6 +23,7 @@ import rango.tool.androidtool.game.hero.GameHeroView;
 import rango.tool.androidtool.launchmodel.LaunchMode1Activity;
 import rango.tool.androidtool.list.activity.ListActivity;
 import rango.tool.androidtool.list.activity.RecyclerActivity;
+import rango.tool.androidtool.surfaceview.SurfaceActivity;
 import rango.tool.androidtool.touch.TouchActivity;
 import rango.tool.androidtool.transition.OffsetActivity;
 import rango.tool.androidtool.transition.TransitionActivity;
@@ -38,7 +39,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(GameMainActivity.class);
+            startActivity(AnyThingActivity.class);
         }
 
         setContentView(R.layout.activity_main);
