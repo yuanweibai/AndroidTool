@@ -5,8 +5,9 @@
     android:background="@drawable/pig_farm_bg"
     android:orientation="vertical">
 
-    <rango.tool.androidtool.view.DrawImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
+    <View
+        android:layout_width="360dp"
+        android:layout_height="100dp"
+        android:background="#FF0000" />
 </LinearLayout>

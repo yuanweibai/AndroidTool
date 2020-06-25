@@ -36,6 +36,7 @@ import rango.tool.androidtool.ToolApplication;
 import rango.tool.androidtool.any.Rango;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.market.MarketTools;
+import rango.tool.common.utils.ScreenUtils;
 
 public class AnyThingActivity extends BaseActivity {
 
@@ -46,8 +47,17 @@ public class AnyThingActivity extends BaseActivity {
     private int d = 0;
 
     @Override
+    public void onAttachedToWindow() {
+        ScreenUtils.setCustomDensity(this, getApplication());
+        super.onAttachedToWindow();
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+
 
         setContentView(R.layout.activity_any_thing_layout);
 
