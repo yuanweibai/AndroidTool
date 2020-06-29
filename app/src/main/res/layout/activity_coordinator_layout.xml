@@ -29,13 +29,22 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="#ffffff"
+            android:layout_gravity="center_horizontal"
+            android:fadingEdgeLength="6dp"
+            android:layoutDirection="ltr"
+            android:requiresFadingEdge="horizontal"
+            app:tabBackground="@color/transparent"
             app:tabGravity="fill"
-            app:tabIndicatorColor="#f00"
-            app:tabIndicatorHeight="4dp"
-            app:tabMode="fixed"
+            app:tabIndicatorColor="#FF0000"
+            app:tabIndicatorHeight="1.5dp"
+            app:tabMaxWidth="0dp"
+            app:tabMinWidth="6dp"
+            app:tabMode="scrollable"
+            app:tabPaddingEnd="10dp"
+            app:tabPaddingStart="10dp"
             app:tabSelectedTextColor="#ed0606"
-            app:tabTextColor="#000000" />
+            app:tabTextColor="#000000"
+            />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager"

@@ -30,10 +30,18 @@ public class CoordinatorActivity extends BaseActivity {
         tabLayout = findViewById(R.id.tab_layout);
         viewPager = findViewById(R.id.view_pager);
 
+
         addTestData();
         coordinatorPageAdapter = new CoordinatorPageAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(coordinatorPageAdapter);
         tabLayout.setupWithViewPager(viewPager);
+
+//        for (int i = 0;i<tabLayout.getTabCount();i++){
+//            TabLayout.Tab tab = tabLayout.getTabAt(i);
+//            if (tab != null){
+//                tab.setIcon(R.drawable.coin_icon);
+//            }
+//        }
 
     }
 
@@ -44,7 +52,7 @@ public class CoordinatorActivity extends BaseActivity {
             fragments = new ArrayList<>();
         }
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 8; i++) {
             fragments.add(ListFragment.newInstance("coordinator" + i));
         }
     }

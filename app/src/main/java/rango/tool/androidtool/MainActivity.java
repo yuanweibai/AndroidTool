@@ -12,6 +12,7 @@ import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
 import rango.tool.androidtool.earning.EarningActivity;
 import rango.tool.androidtool.experiments.activity.AnyThingActivity;
+import rango.tool.androidtool.experiments.activity.AutoScrollActivity;
 import rango.tool.androidtool.experiments.activity.BroadcastActivity;
 import rango.tool.androidtool.experiments.activity.ProviderTestActivity;
 import rango.tool.androidtool.experiments.activity.ServiceActivity;
@@ -39,7 +40,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(AnyThingActivity.class);
+            startActivity(CoordinatorActivity.class);
         }
 
         setContentView(R.layout.activity_main);

@@ -68,6 +68,6 @@ public class ListFragment extends TitleFragment {
 
     @Override
     public String getTitle() {
-        return "coordinator";
+        return "title";
     }
 }
