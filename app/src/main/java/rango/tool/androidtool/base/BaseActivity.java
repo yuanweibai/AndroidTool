@@ -45,13 +45,4 @@ public class BaseActivity extends AppCompatActivity {
     public Fragment getCurrentDialogFragmentByTag(String tag) {
         return getSupportFragmentManager().findFragmentByTag(tag);
     }
-
-    @Override
-    public Resources getResources() {
-        Resources resources = super.getResources();
-        Configuration configuration = resources.getConfiguration();
-        configuration.fontScale = 1f;
-        resources.updateConfiguration(configuration, null);
-        return resources;
-    }
 }

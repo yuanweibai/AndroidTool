@@ -1,34 +1,21 @@
 package rango.tool.androidtool;
 
-import android.accessibilityservice.AccessibilityService;
-import android.app.LauncherActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import rango.tool.androidtool.accessibility.AccessibilityActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
-import rango.tool.androidtool.earning.EarningActivity;
 import rango.tool.androidtool.experiments.activity.AnyThingActivity;
-import rango.tool.androidtool.experiments.activity.AutoScrollActivity;
-import rango.tool.androidtool.experiments.activity.BroadcastActivity;
-import rango.tool.androidtool.experiments.activity.ProviderTestActivity;
-import rango.tool.androidtool.experiments.activity.ServiceActivity;
-import rango.tool.androidtool.experiments.activity.UIActivity;
-import rango.tool.androidtool.farm.PigActivity;
 import rango.tool.androidtool.experiments.TestActivity;
 import rango.tool.androidtool.game.GameMainActivity;
-import rango.tool.androidtool.game.hero.GameHeroView;
-import rango.tool.androidtool.launchmodel.LaunchMode1Activity;
 import rango.tool.androidtool.list.activity.ListActivity;
 import rango.tool.androidtool.list.activity.RecyclerActivity;
-import rango.tool.androidtool.surfaceview.SurfaceActivity;
 import rango.tool.androidtool.touch.TouchActivity;
 import rango.tool.androidtool.transition.OffsetActivity;
 import rango.tool.androidtool.transition.TransitionActivity;
-import rango.tool.androidtool.video.VideoActivity;
+import rango.tool.common.utils.ScreenUtils;
 
 public class MainActivity extends BaseActivity {
 
@@ -38,9 +25,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ScreenUtils.setCustomDensity(this, getApplication());
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(CoordinatorActivity.class);
+            startActivity(AnyThingActivity.class);
         }
 
         setContentView(R.layout.activity_main);
