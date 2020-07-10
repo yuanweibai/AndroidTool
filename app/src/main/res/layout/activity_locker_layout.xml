@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#DF0D0D"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="锁屏"
+        android:textColor="#fff"
+        android:textSize="36sp" />
+
+    <Button
+        android:id="@+id/close_btn"
+        android:layout_marginTop="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:text="关闭" />
+
+</LinearLayout>

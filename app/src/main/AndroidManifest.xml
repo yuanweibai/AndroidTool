@@ -187,6 +187,8 @@
             android:theme="@style/ActivityGuideTransparent" />
 
         <activity android:name=".surfaceview.SurfaceActivity" />
+        <activity android:name=".viewpager.ViewPagerActivity" />
+        <activity android:name=".locker.LockerActivity" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 

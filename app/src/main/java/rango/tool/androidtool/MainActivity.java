@@ -15,6 +15,7 @@ import rango.tool.androidtool.list.activity.RecyclerActivity;
 import rango.tool.androidtool.touch.TouchActivity;
 import rango.tool.androidtool.transition.OffsetActivity;
 import rango.tool.androidtool.transition.TransitionActivity;
+import rango.tool.androidtool.viewpager.ViewPagerActivity;
 import rango.tool.common.utils.ScreenUtils;
 
 public class MainActivity extends BaseActivity {
@@ -28,7 +29,7 @@ public class MainActivity extends BaseActivity {
         ScreenUtils.setCustomDensity(this, getApplication());
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(AnyThingActivity.class);
+            startActivity(ViewPagerActivity.class);
         }
 
         setContentView(R.layout.activity_main);

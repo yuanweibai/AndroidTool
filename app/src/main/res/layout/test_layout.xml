@@ -44,6 +44,13 @@
             android:text="锁屏"
             android:textAllCaps="false" />
 
+        <Button
+            android:id="@+id/locker_delay_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="延迟锁屏"
+            android:textAllCaps="false" />
+
         <rango.tool.androidtool.clickeffect.RippleTextView
             android:layout_width="match_parent"
             android:layout_height="40dp"

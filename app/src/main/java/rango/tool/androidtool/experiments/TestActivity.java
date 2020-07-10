@@ -52,6 +52,7 @@ import rango.tool.androidtool.http.activity.HttpActivity;
 import rango.tool.androidtool.job.JobActivity;
 import rango.tool.androidtool.keyboard.KeyboardActivity;
 import rango.tool.androidtool.launchmodel.LaunchMode1Activity;
+import rango.tool.androidtool.locker.LockerActivity;
 import rango.tool.androidtool.locker.LockerManager;
 import rango.tool.androidtool.memoryleak.MemoryLeakActivity;
 import rango.tool.androidtool.nestedscroll.NestedScrollActivity;
@@ -59,6 +60,7 @@ import rango.tool.androidtool.other.OtherActivity;
 import rango.tool.androidtool.video.VideoActivity;
 import rango.tool.androidtool.wallpaper.WallpaperActivity;
 import rango.tool.androidtool.workmanager.WorkManagerActivity;
+import rango.tool.common.utils.Worker;
 
 public class TestActivity extends BaseActivity {
 
@@ -92,6 +94,12 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.shape_btn).setOnClickListener(v -> startActivity(ShapeActivity.class));
 
         findViewById(R.id.locker).setOnClickListener(v -> LockerManager.getInstance(TestActivity.this).lockScreen());
+        findViewById(R.id.locker_delay_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Worker.postMain(LockerActivity::start,5000);
+            }
+        });
         findViewById(R.id.window).setOnClickListener(v -> startActivity(WindowActivity.class));
         findViewById(R.id.navigation_btn).setOnClickListener(v -> startActivity(NavigationBarActivity.class));
         findViewById(R.id.auto_scroll_btn).setOnClickListener(v -> startActivity(AutoScrollActivity.class));

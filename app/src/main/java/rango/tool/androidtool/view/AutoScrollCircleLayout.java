@@ -16,7 +16,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import rango.tool.androidtool.R;
-import rango.tool.androidtool.adapter.ViewPagerAdapter;
+import rango.tool.androidtool.viewpager.ViewPagerAdapter;
 import rango.tool.androidtool.view.util.BannerScroller;
 import rango.tool.common.utils.ScreenUtils;
 import rango.tool.common.utils.Worker;
