@@ -43,7 +43,9 @@ public class ListFragment extends TitleFragment {
         return R.layout.recycler_view;
     }
 
-    @Override protected void initView(View view) {
+    @Override
+    protected void initView(View view) {
+        view.setTag(title);
         mRecyclerView = view.findViewById(R.id.recycler_view);
 
         manager = new LinearLayoutManager(getContext());

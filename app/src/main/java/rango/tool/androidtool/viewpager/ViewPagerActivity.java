@@ -2,8 +2,11 @@ package rango.tool.androidtool.viewpager;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -14,11 +17,15 @@ import java.util.Random;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
+import rango.tool.androidtool.coordinator.ListFragment;
+import rango.tool.androidtool.viewpager.transformpage.CustomPageTransformer;
+import rango.tool.common.utils.ScreenUtils;
 
 public class ViewPagerActivity extends BaseActivity {
 
     private ViewPager viewPager;
     private ViewPagerAdapter adapter;
+    private FragmentAdapter fragmentAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,9 +33,36 @@ public class ViewPagerActivity extends BaseActivity {
         setContentView(R.layout.activity_view_pager);
 
         viewPager = findViewById(R.id.view_pager);
-        viewPager.setOffscreenPageLimit(1);
         adapter = new ViewPagerAdapter(getTestView());
-        viewPager.setAdapter(adapter);
+        viewPager.setPageMargin(ScreenUtils.dp2px(18));
+        viewPager.setOffscreenPageLimit(2);
+
+        fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), getTestFragment());
+        viewPager.setAdapter(fragmentAdapter);
+
+        CustomPageTransformer customPageTransformer = new CustomPageTransformer(viewPager.getPageMargin());
+        viewPager.setPageTransformer(false, customPageTransformer);
+
+//        viewPager.setPageTransformer(false, new ViewPager.PageTransformer() {
+//            @Override
+//            public void transformPage(@NonNull View page, float position) {
+//                String tag = (String) page.getTag();
+//                float offset = viewPager.getPageMargin() / (float) page.getWidth();
+//                Log.e("rango", "tag = " + tag + ", position = " + position + ", offset = " + offset);
+//
+////                if (position < -1) {
+////                    page.setAlpha(0f);
+////                } else if (position <= 1) {
+////                    if (position < 0) {
+////                        page.setAlpha(1 + position);
+////                    } else {
+////                        page.setAlpha(1 - position);
+////                    }
+////                } else {
+////                    page.setAlpha(0f);
+////                }
+//            }
+//        });
     }
 
     private List<View> getTestView() {
@@ -40,10 +74,19 @@ public class ViewPagerActivity extends BaseActivity {
             view.setBackgroundColor(colorArray[random.nextInt(colorArray.length)]);
             TextView msgText = view.findViewById(R.id.msg_text);
             msgText.setText(String.valueOf(i));
+            view.setTag(String.valueOf(i));
 
             result.add(view);
         }
 
+        return result;
+    }
+
+    private List<Fragment> getTestFragment() {
+        List<Fragment> result = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            result.add(ListFragment.newInstance(String.valueOf(i)));
+        }
         return result;
     }
 }

@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.text.Layout;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -359,41 +360,25 @@ public class ScreenUtils {
     }
 
     private static float sNoncompatDensity;
-    private static float sNoncompatScaledDensity;
 
     public static void setCustomDensity(Activity activity, final Application application) {
+        Log.e("rango","set custom density....");
         final DisplayMetrics metrics = application.getResources().getDisplayMetrics();
 
         if (sNoncompatDensity == 0) {
             sNoncompatDensity = metrics.density;
-            sNoncompatScaledDensity = metrics.scaledDensity;
-
-            application.registerComponentCallbacks(new ComponentCallbacks() {
-                @Override
-                public void onConfigurationChanged(@NonNull Configuration newConfig) {
-                    if (newConfig != null && newConfig.fontScale > 0) {
-                        sNoncompatScaledDensity = application.getResources().getDisplayMetrics().scaledDensity;
-                    }
-                }
-
-                @Override
-                public void onLowMemory() {
-
-                }
-            });
         }
 
         final float targetDensity = metrics.widthPixels / 360f;
-        final float targetScaledDensity = targetDensity * (sNoncompatScaledDensity / sNoncompatDensity);
         final int targetDensityDpi = (int) (160 * targetDensity);
 
         metrics.density = targetDensity;
-        metrics.scaledDensity = targetScaledDensity;
+        metrics.scaledDensity = targetDensity;
         metrics.densityDpi = targetDensityDpi;
 
         final DisplayMetrics activityMetrics = activity.getResources().getDisplayMetrics();
         activityMetrics.density = targetDensity;
-        activityMetrics.scaledDensity = targetScaledDensity;
+        activityMetrics.scaledDensity = targetDensity;
         activityMetrics.densityDpi = targetDensityDpi;
     }
 }

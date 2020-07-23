@@ -2,28 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pig_farm_bg"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="360dp"
-        android:layout_height="100dp"
-        android:background="#FF0000" />
-
     <TextView
-        android:id="@+id/value_text"
+        android:id="@+id/title_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
         android:gravity="center"
-        android:text="中的打开发呆发呆了看法就到了饭卡福建阿拉山口的卷发老地方接口"
-        android:textColor="#E80808"
-        android:textSize="38sp" />
+        android:text="弹窗"
+        android:textColor="#000"
+        android:textSize="38sp"
+        android:textStyle="bold" />
 
     <Button
-        android:id="@+id/show_dialog"
+        android:id="@+id/update_title_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:text="显示弹窗" />
+        android:text="更新标题" />
 </LinearLayout>
