@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.Random;
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.ListFragment;
-import rango.tool.androidtool.viewpager.transformpage.CustomPageTransformer;
+import rango.tool.androidtool.viewpager.transformpage.ParallaxTransformer;
 import rango.tool.common.utils.ScreenUtils;
 
 public class ViewPagerActivity extends BaseActivity {
@@ -34,14 +35,13 @@ public class ViewPagerActivity extends BaseActivity {
 
         viewPager = findViewById(R.id.view_pager);
         adapter = new ViewPagerAdapter(getTestView());
-        viewPager.setPageMargin(ScreenUtils.dp2px(18));
+//        viewPager.setPageMargin(ScreenUtils.dp2px(18));
         viewPager.setOffscreenPageLimit(2);
 
         fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), getTestFragment());
-        viewPager.setAdapter(fragmentAdapter);
+        viewPager.setAdapter(adapter);
 
-        CustomPageTransformer customPageTransformer = new CustomPageTransformer(viewPager.getPageMargin());
-        viewPager.setPageTransformer(false, customPageTransformer);
+        viewPager.setPageTransformer(false, new ParallaxTransformer());
 
 //        viewPager.setPageTransformer(false, new ViewPager.PageTransformer() {
 //            @Override
@@ -68,12 +68,16 @@ public class ViewPagerActivity extends BaseActivity {
     private List<View> getTestView() {
         List<View> result = new ArrayList<>();
         int[] colorArray = new int[]{Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN};
+        int[] resIdArray = new int[]{R.drawable.pig_farm_bg,R.drawable.screen_bg,R.drawable.solon};
         Random random = new Random();
         for (int i = 0; i < 10; i++) {
             View view = LayoutInflater.from(this).inflate(R.layout.view_test_1, null);
             view.setBackgroundColor(colorArray[random.nextInt(colorArray.length)]);
             TextView msgText = view.findViewById(R.id.msg_text);
             msgText.setText(String.valueOf(i));
+
+            ImageView imageView = view.findViewById(R.id.image_view);
+            imageView.setImageResource(resIdArray[new Random().nextInt(resIdArray.length)]);
             view.setTag(String.valueOf(i));
 
             result.add(view);

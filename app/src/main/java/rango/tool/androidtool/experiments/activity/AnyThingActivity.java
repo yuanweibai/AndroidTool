@@ -1,8 +1,11 @@
 package rango.tool.androidtool.experiments.activity;
 
+
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -35,14 +38,17 @@ public class AnyThingActivity extends BaseActivity {
         setContentView(R.layout.activity_any_thing_layout);
         valueText = findViewById(R.id.value_text);
 
-        findViewById(R.id.update_btn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.show_dialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+                        Log.e("rango------","thread = "+Thread.currentThread().getName());
+                        Looper.prepare();
                         Dialog dialog = new CustomDialog(AnyThingActivity.this);
                         dialog.show();
+                        Looper.loop();
                     }
                 }).start();
             }

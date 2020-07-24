@@ -15,4 +15,11 @@
         android:textColor="#fff"
         android:textSize="26sp"
         android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/pig_farm_bg"
+        android:scaleType="centerCrop" />
 </LinearLayout>

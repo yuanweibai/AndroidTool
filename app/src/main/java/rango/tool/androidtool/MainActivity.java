@@ -2,6 +2,7 @@ package rango.tool.androidtool;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,6 +18,7 @@ import rango.tool.androidtool.touch.TouchActivity;
 import rango.tool.androidtool.transition.OffsetActivity;
 import rango.tool.androidtool.transition.TransitionActivity;
 import rango.tool.androidtool.util.CryptoUtils;
+import rango.tool.androidtool.viewpager.ViewPagerActivity;
 
 public class MainActivity extends BaseActivity {
 
