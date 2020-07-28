@@ -58,6 +58,7 @@ import rango.tool.androidtool.memoryleak.MemoryLeakActivity;
 import rango.tool.androidtool.nestedscroll.NestedScrollActivity;
 import rango.tool.androidtool.other.OtherActivity;
 import rango.tool.androidtool.video.VideoActivity;
+import rango.tool.androidtool.viewpager.ViewPagerActivity;
 import rango.tool.androidtool.wallpaper.WallpaperActivity;
 import rango.tool.androidtool.workmanager.WorkManagerActivity;
 import rango.tool.common.utils.Worker;
@@ -97,7 +98,7 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.locker_delay_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Worker.postMain(LockerActivity::start,5000);
+                Worker.postMain(LockerActivity::start, 5000);
             }
         });
         findViewById(R.id.window).setOnClickListener(v -> startActivity(WindowActivity.class));
@@ -170,6 +171,8 @@ public class TestActivity extends BaseActivity {
                 startActivity(GuideActivity.class);
             }
         });
+
+        findViewById(R.id.view_pager_btn).setOnClickListener(v -> startActivity(ViewPagerActivity.class));
 
     }
 

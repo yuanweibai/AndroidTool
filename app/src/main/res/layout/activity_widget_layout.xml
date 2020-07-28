@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/add_widget_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="添加Widget"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/update_widget_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="更新Widget"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/add_shortcut_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="添加shortcut"
+        android:textAllCaps="false" />
+
+
+</LinearLayout>
