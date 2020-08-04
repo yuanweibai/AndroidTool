@@ -2,15 +2,13 @@ package rango.tool.androidtool;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import rango.kotlin.widget.WidgetActivity;
+import rango.kotlin.designmode.mvp.view.IpActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
-import rango.tool.androidtool.experiments.activity.AnyThingActivity;
 import rango.tool.androidtool.experiments.TestActivity;
 import rango.tool.androidtool.game.GameMainActivity;
 import rango.tool.androidtool.list.activity.ListActivity;
@@ -19,7 +17,6 @@ import rango.tool.androidtool.touch.TouchActivity;
 import rango.tool.androidtool.transition.OffsetActivity;
 import rango.tool.androidtool.transition.TransitionActivity;
 import rango.tool.androidtool.util.CryptoUtils;
-import rango.tool.androidtool.viewpager.ViewPagerActivity;
 
 public class MainActivity extends BaseActivity {
 
@@ -31,7 +28,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(WidgetActivity.class);
+            startActivity(IpActivity.class);
         }
 
         setContentView(R.layout.activity_main);

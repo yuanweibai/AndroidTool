@@ -191,6 +191,7 @@
         <activity android:name=".viewpager.ViewPagerActivity" />
         <activity android:name=".locker.LockerActivity" />
         <activity android:name="rango.kotlin.widget.WidgetActivity" />
+        <activity android:name="rango.kotlin.designmode.mvp.view.IpActivity" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 
