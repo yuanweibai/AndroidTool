@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#009688">
+
+    <rango.kotlin.views.BladeFlashImageView
+        android:id="@+id/spin_button"
+        android:layout_width="102dp"
+        android:layout_height="102dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/cash_center_spin_button_content_cn"
+        app:flash_bitmap="@drawable/cash_center_flash_light"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

@@ -192,6 +192,7 @@
         <activity android:name=".locker.LockerActivity" />
         <activity android:name="rango.kotlin.widget.WidgetActivity" />
         <activity android:name="rango.kotlin.designmode.mvp.view.IpActivity" />
+        <activity android:name="rango.kotlin.views.ViewActivity" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 

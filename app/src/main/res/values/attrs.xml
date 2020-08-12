@@ -34,4 +34,8 @@
             <enum name="margin" value="2" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="BladeFlashImageView">
+        <attr name="flash_bitmap" format="reference" />
+    </declare-styleable>
 </resources>

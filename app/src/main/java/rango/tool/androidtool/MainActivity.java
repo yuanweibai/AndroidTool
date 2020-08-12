@@ -7,10 +7,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import rango.kotlin.designmode.mvp.view.IpActivity;
+import rango.kotlin.views.ViewActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
 import rango.tool.androidtool.experiments.TestActivity;
 import rango.tool.androidtool.game.GameMainActivity;
+import rango.tool.androidtool.launchmodel.LaunchMode1Activity;
 import rango.tool.androidtool.list.activity.ListActivity;
 import rango.tool.androidtool.list.activity.RecyclerActivity;
 import rango.tool.androidtool.touch.TouchActivity;
@@ -28,7 +30,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(IpActivity.class);
+            startActivity(ViewActivity.class);
         }
 
         setContentView(R.layout.activity_main);

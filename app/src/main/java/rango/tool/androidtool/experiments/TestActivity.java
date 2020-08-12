@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
+import rango.kotlin.views.ViewActivity;
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.accessibility.AccessibilityActivity;
 import rango.tool.androidtool.alarm.AlarmActivity;
@@ -173,6 +174,7 @@ public class TestActivity extends BaseActivity {
         });
 
         findViewById(R.id.view_pager_btn).setOnClickListener(v -> startActivity(ViewPagerActivity.class));
+        findViewById(R.id.blade_flash_btn).setOnClickListener(v -> startActivity(ViewActivity.class));
 
     }
 

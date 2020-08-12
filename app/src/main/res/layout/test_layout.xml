@@ -420,6 +420,13 @@
             android:layout_height="wrap_content"
             android:text="ViewPager"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/blade_flash_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="按钮闪光"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 
