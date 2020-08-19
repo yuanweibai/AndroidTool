@@ -13,8 +13,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.ResourceDecoder;
 import com.evernote.android.job.JobManager;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
@@ -70,19 +68,7 @@ public class ToolApplication extends BaseApplication {
 
         CommonManager.getInstance().setCommonCallable(ToolApplication::getContext);
 
-        initLeakCanary();
-
         TraceCompat.endSection();
-    }
-
-    private RefWatcher refWatcher;
-
-    private void initLeakCanary() {
-        refWatcher = LeakCanary.install(this);
-    }
-
-    public static RefWatcher getRefWatcher() {
-        return ((ToolApplication) getContext().getApplicationContext()).refWatcher;
     }
 
     private String getToolProcessName() {

@@ -20,6 +20,11 @@
         android:textColor="#E80808"
         android:textSize="38sp" />
 
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
+
     <Button
         android:id="@+id/show_dialog"
         android:layout_width="match_parent"

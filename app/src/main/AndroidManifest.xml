@@ -193,6 +193,7 @@
         <activity android:name="rango.kotlin.widget.WidgetActivity" />
         <activity android:name="rango.kotlin.designmode.mvp.view.IpActivity" />
         <activity android:name="rango.kotlin.views.ViewActivity" />
+        <activity android:name="rango.kotlin.KotlinTestActivity" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 

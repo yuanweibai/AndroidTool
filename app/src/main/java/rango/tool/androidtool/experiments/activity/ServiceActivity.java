@@ -10,8 +10,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
-import com.squareup.leakcanary.RefWatcher;
-
 import java.util.concurrent.TimeUnit;
 
 import rango.tool.androidtool.R;
@@ -132,8 +130,6 @@ public class ServiceActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        RefWatcher watcher = ToolApplication.getRefWatcher();
-        watcher.watch(this);
         Log.e(TAG, "onDestroy()");
     }
 }
