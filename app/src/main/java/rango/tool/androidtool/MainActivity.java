@@ -6,15 +6,11 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import rango.kotlin.KotlinTestActivity;
-import rango.kotlin.designmode.mvp.view.IpActivity;
-import rango.kotlin.views.ViewActivity;
+import rango.kotlin.views.custom.TestViewActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
 import rango.tool.androidtool.experiments.TestActivity;
-import rango.tool.androidtool.experiments.activity.AnyThingActivity;
 import rango.tool.androidtool.game.GameMainActivity;
-import rango.tool.androidtool.launchmodel.LaunchMode1Activity;
 import rango.tool.androidtool.list.activity.ListActivity;
 import rango.tool.androidtool.list.activity.RecyclerActivity;
 import rango.tool.androidtool.touch.TouchActivity;
@@ -32,7 +28,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(AnyThingActivity.class);
+            startActivity(TestViewActivity.class);
         }
 
         setContentView(R.layout.activity_main);
