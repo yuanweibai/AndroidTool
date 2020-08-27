@@ -59,35 +59,35 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
         // 从该 View 的左上角开始绘制
         bitmapShader = BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
         val matrix = Matrix()
-        val scaleX = 200f / bitmap.width
-        val scaleY = 200f / bitmap.height
-        val scale = if (scaleX < scaleY) {
+        val scaleX = 400f / bitmap.width
+        val scaleY = 400f / bitmap.height
+        val scale = if (scaleX > scaleY) {
             scaleX
         } else {
             scaleY
         }
 
-        val dx: Float = (200 - bitmap.width * scale) / 2f
-        val dy: Float = (200 - bitmap.height * scale) / 2f + 800f
+        val dx: Float = (400 - bitmap.width * scale) / 2f + 100f
+        val dy: Float = (400 - bitmap.height * scale) / 2f + 400f
         matrix.setScale(scale, scale)
         matrix.postTranslate(dx, dy)
         bitmapShader.setLocalMatrix(matrix)
 
 
-        val otherBitmap = BitmapFactory.decodeResource(resources, R.drawable.cash_center_flash_red_light)
+        val otherBitmap = BitmapFactory.decodeResource(resources, R.drawable.guide_profile_icon)
         val otherShader = BitmapShader(otherBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
 
         val otherMatrix = Matrix()
-        val otherScaleX = 200f / otherBitmap.width
-        val otherScaleY = 200f / otherBitmap.height
-        val otherScale = if (scaleX > scaleY) {
+        val otherScaleX = 400f / otherBitmap.width
+        val otherScaleY = 400f / otherBitmap.height
+        val otherScale = if (otherScaleX > otherScaleY) {
             otherScaleX
         } else {
             otherScaleY
         }
 
-        val otherDx: Float = (200 - otherBitmap.width * otherScaleY) / 2f
-        val otherDy: Float = (200 - otherBitmap.height * otherScaleY) / 2f + 800f
+        val otherDx: Float = (400 - otherBitmap.width * otherScale) / 2f + 100f
+        val otherDy: Float = (400 - otherBitmap.height * otherScale) / 2f + 400f
         otherMatrix.setScale(otherScale, otherScale)
         otherMatrix.postTranslate(otherDx, otherDy)
         otherShader.setLocalMatrix(otherMatrix)
@@ -117,10 +117,10 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
         path.addCircle(100f, 400f, 20f, Path.Direction.CW)
         canvas?.drawPath(path, paint)
 
-        rectF.left = 200f
-        rectF.top = 400f
-        rectF.right = 500f
-        rectF.bottom = 700f
+        rectF.left = 400f
+        rectF.top = 100f
+        rectF.right = 700f
+        rectF.bottom = 400f
 
 
 
@@ -134,7 +134,7 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
 
         canvas?.drawArc(rectF, 350f, 10f, true, paint4)
 
-        canvas?.drawCircle(100f, 900f, 100f, bitmapPaint)
+        canvas?.drawCircle(300f, 600f, 200f, bitmapPaint)
 
 
     }
