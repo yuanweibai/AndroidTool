@@ -34,6 +34,8 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
     private val xfermodeRectF = RectF()
     val rect = Rect()
 
+    private val linePaint = Paint()
+
     init {
 
         paint.isAntiAlias = true
@@ -101,9 +103,15 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
 
         // 硬件加速不支持两个相同的 shader，因此必须关掉硬件加速，才能看到 ComposeShader 的效果
         composeShader = ComposeShader(bitmapShader, otherShader, PorterDuff.Mode.SRC_OVER)
-        setLayerType(LAYER_TYPE_HARDWARE, null)
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
 
         bitmapPaint.shader = composeShader
+
+        linePaint.strokeWidth = 30f
+        linePaint.color = Color.BLACK
+        linePaint.style = Paint.Style.STROKE
+        linePaint.strokeCap = Paint.Cap.ROUND
+        linePaint.strokeJoin = Paint.Join.ROUND
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -162,6 +170,10 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
         xfermodePaint.xfermode = null
         canvas?.restoreToCount(saved!!)
 
-
+        path.reset()
+        path.moveTo(600f, 500f)
+        path.lineTo(800f, 500f)
+        path.lineTo(700f, 800f)
+        canvas?.drawPath(path, linePaint)
     }
 }
