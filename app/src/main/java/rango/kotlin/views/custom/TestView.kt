@@ -2,6 +2,7 @@ package rango.kotlin.views.custom
 
 import android.content.Context
 import android.graphics.*
+import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import rango.tool.androidtool.R
@@ -10,6 +11,8 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
 
     constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0)
     constructor(context: Context) : this(context, null, 0)
+
+    private var drawIndex = 1
 
     val path = Path()
     val paint = Paint()
@@ -24,6 +27,8 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
     private val bitmap: Bitmap
     private val otherBitmap: Bitmap
 
+    private val textPaint = TextPaint()
+
     private val composeShader: ComposeShader
 
     val rectF = RectF()
@@ -36,7 +41,11 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
 
     private val linePaint = Paint()
 
+    private val bPaint = Paint()
+
     init {
+
+        drawIndex = 2
 
         paint.isAntiAlias = true
         paint.color = Color.BLACK
@@ -112,11 +121,27 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
         linePaint.style = Paint.Style.STROKE
         linePaint.strokeCap = Paint.Cap.ROUND
         linePaint.strokeJoin = Paint.Join.ROUND
+
+        textPaint.textSize = 50f
+        textPaint.color = Color.BLACK
+        textPaint.setShadowLayer(10f, 0f, 0f, Color.RED)
+
+        bPaint.maskFilter = BlurMaskFilter(100f, BlurMaskFilter.Blur.NORMAL)
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        canvas?.drawColor(Color.RED)
+
+        if (drawIndex == 1) {
+            drawFirstIndex(canvas)
+        } else if (drawIndex == 2) {
+            drawSecondIndex(canvas)
+        }
+    }
+
+    private fun drawFirstIndex(canvas: Canvas?) {
+
+        canvas?.drawColor(Color.WHITE)
 
         canvas?.drawCircle(100f, 100f, 50f, paint)
 
@@ -175,5 +200,14 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
         path.lineTo(800f, 500f)
         path.lineTo(700f, 800f)
         canvas?.drawPath(path, linePaint)
+
+        canvas?.drawText("Hello HenCoder", 100f, 1400f, textPaint)
+    }
+
+    private fun drawSecondIndex(canvas: Canvas?) {
+        canvas?.drawColor(Color.WHITE)
+
+        canvas?.drawBitmap(bitmap, 100f, 100f, bPaint)
+
     }
 }
