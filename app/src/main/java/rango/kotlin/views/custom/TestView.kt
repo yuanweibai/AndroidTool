@@ -22,10 +22,17 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
     private val bitmapShader: BitmapShader
     private val bitmapPaint = Paint()
     private val bitmap: Bitmap
+    private val otherBitmap: Bitmap
 
     private val composeShader: ComposeShader
 
     val rectF = RectF()
+
+
+    private val xfermodePaint = Paint()
+    private val xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN)
+    private val xfermodeRectF = RectF()
+    val rect = Rect()
 
     init {
 
@@ -74,7 +81,7 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
         bitmapShader.setLocalMatrix(matrix)
 
 
-        val otherBitmap = BitmapFactory.decodeResource(resources, R.drawable.guide_profile_icon)
+        otherBitmap = BitmapFactory.decodeResource(resources, R.drawable.guide_profile_icon)
         val otherShader = BitmapShader(otherBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
 
         val otherMatrix = Matrix()
@@ -94,7 +101,7 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
 
         // 硬件加速不支持两个相同的 shader，因此必须关掉硬件加速，才能看到 ComposeShader 的效果
         composeShader = ComposeShader(bitmapShader, otherShader, PorterDuff.Mode.SRC_OVER)
-        setLayerType(LAYER_TYPE_SOFTWARE, null)
+        setLayerType(LAYER_TYPE_HARDWARE, null)
 
         bitmapPaint.shader = composeShader
     }
@@ -135,6 +142,25 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
         canvas?.drawArc(rectF, 350f, 10f, true, paint4)
 
         canvas?.drawCircle(300f, 600f, 200f, bitmapPaint)
+
+
+        xfermodeRectF.left = 100f
+        xfermodeRectF.top = 900f
+        xfermodeRectF.right = 500f
+        xfermodeRectF.bottom = 1300f
+
+
+        rect.left = 50
+        rect.top = 50
+        rect.right = bitmap.width - 50
+        rect.bottom = bitmap.height - 50
+
+        val saved = canvas?.saveLayer(null, null, Canvas.ALL_SAVE_FLAG)
+        canvas?.drawBitmap(bitmap, rect, xfermodeRectF, xfermodePaint)
+        xfermodePaint.xfermode = xfermode
+        canvas?.drawBitmap(otherBitmap, null, xfermodeRectF, xfermodePaint)
+        xfermodePaint.xfermode = null
+        canvas?.restoreToCount(saved!!)
 
 
     }
