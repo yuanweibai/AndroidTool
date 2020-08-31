@@ -28,18 +28,15 @@ android {
     }
 }
 
-final SUPPORT_LIBRARY_VERSION = '28.0.0'
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     final ANDROID_DEPENDENCIES = [
-            "com.android.support:support-v4:$SUPPORT_LIBRARY_VERSION".toString(),
-            "com.android.support:appcompat-v7:$SUPPORT_LIBRARY_VERSION".toString(),
-            "com.android.support:recyclerview-v7:$SUPPORT_LIBRARY_VERSION".toString(),
-            "com.android.support:design:$SUPPORT_LIBRARY_VERSION".toString(),
-            "com.android.support:multidex:1.0.1",
-            'com.android.support.constraint:constraint-layout:1.1.3'
+            "androidx.appcompat:appcompat:1.1.0",
+            "androidx.constraintlayout:constraintlayout:1.1.3",
+            "androidx.recyclerview:recyclerview:1.1.0",
+            "androidx.multidex:multidex:2.0.1",
+            "com.google.android.material:material:1.2.0"
     ]
 
     for (dependency in ANDROID_DEPENDENCIES) {
@@ -57,7 +54,6 @@ dependencies {
     implementation 'com.facebook.fresco:fresco:1.11.0'
     implementation 'com.facebook.fresco:animated-webp:1.11.0'
     implementation 'com.facebook.fresco:webpsupport:1.11.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.7'
     implementation 'com.squareup.leakcanary:leakcanary-android:2.0'
 
