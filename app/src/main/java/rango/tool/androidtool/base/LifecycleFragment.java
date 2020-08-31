@@ -2,22 +2,12 @@ package rango.tool.androidtool.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import rango.tool.androidtool.R;
-import rango.tool.androidtool.base.list.adapter.BaseItemData;
-import rango.tool.androidtool.base.list.adapter.BaseItemType;
-import rango.tool.androidtool.list.MyListAdapter;
-import rango.tool.androidtool.list.view.ListBannerView;
 
 public abstract class LifecycleFragment extends BaseFragment {
 

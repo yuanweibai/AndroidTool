@@ -1,7 +1,7 @@
 package rango.tool.androidtool.surfaceview;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;

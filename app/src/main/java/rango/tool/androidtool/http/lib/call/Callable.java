@@ -1,6 +1,6 @@
 package rango.tool.androidtool.http.lib.call;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public interface Callable<T> extends CancelableCall {
 

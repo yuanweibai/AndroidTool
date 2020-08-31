@@ -4,7 +4,7 @@ import android.animation.Animator;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.transition.Transition;
 import android.widget.Button;
 import android.widget.ImageView;

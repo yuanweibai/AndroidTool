@@ -1,6 +1,6 @@
 package rango.tool.androidtool.http.lib.download;
 
-import android.support.annotation.FloatRange;
+import androidx.annotation.FloatRange;
 
 import rango.tool.androidtool.http.lib.call.CancelableCall;
 

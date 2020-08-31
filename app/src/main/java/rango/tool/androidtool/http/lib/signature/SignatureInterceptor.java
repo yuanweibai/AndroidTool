@@ -1,6 +1,6 @@
 package rango.tool.androidtool.http.lib.signature;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import java.io.EOFException;

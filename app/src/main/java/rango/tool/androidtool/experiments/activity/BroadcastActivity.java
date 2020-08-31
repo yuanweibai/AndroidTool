@@ -1,15 +1,11 @@
 package rango.tool.androidtool.experiments.activity;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.util.Log;
+import androidx.annotation.Nullable;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
-import rango.tool.androidtool.receiver.TestBroadcastReceiver;
 
 public class BroadcastActivity extends BaseActivity {
 

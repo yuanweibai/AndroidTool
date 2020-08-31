@@ -3,7 +3,7 @@ package rango.tool.androidtool.experiments.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 
 import rango.tool.androidtool.R;

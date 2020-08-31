@@ -2,20 +2,17 @@ package rango.tool.androidtool.experiments.activity;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentValues;
-import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.RemoteException;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
-import rango.tool.androidtool.provider.OtherContentObserver;
 import rango.tool.androidtool.provider.OtherProcessProvider;
 import rango.tool.common.utils.Worker;
 

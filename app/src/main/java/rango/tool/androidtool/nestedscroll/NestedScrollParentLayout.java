@@ -1,9 +1,9 @@
 package rango.tool.androidtool.nestedscroll;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.view.NestedScrollingParent2;
-import android.support.v4.view.NestedScrollingParentHelper;
+import androidx.annotation.NonNull;
+import androidx.core.view.NestedScrollingParent2;
+import androidx.core.view.NestedScrollingParentHelper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;

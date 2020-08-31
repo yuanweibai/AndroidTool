@@ -1,6 +1,6 @@
 package rango.tool.androidtool.http.lib.utils;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

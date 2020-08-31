@@ -1,8 +1,8 @@
 package rango.tool.androidtool.job;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.os.TraceCompat;
+import androidx.annotation.NonNull;
+import androidx.core.os.TraceCompat;
 import android.util.Log;
 
 import com.evernote.android.job.Job;

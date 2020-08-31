@@ -1,7 +1,7 @@
 package rango.tool.androidtool.list.activity
 
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import rango.tool.androidtool.R
 import rango.tool.androidtool.base.BaseActivity
 

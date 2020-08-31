@@ -1,11 +1,10 @@
 package rango.tool.androidtool.list.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 
 import rango.tool.androidtool.R;
-import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.base.LifecycleActivity;
 import rango.tool.androidtool.launchmodel.LaunchMode1Activity;
 import rango.tool.androidtool.list.ListFragment;

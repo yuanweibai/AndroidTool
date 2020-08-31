@@ -5,8 +5,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.Window;
@@ -23,8 +23,8 @@ public class ActivityUtils {
             return (Activity) context;
         } else if (context instanceof ContextThemeWrapper) {
             return (Activity) (((ContextThemeWrapper) context).getBaseContext());
-        } else if (context instanceof android.support.v7.view.ContextThemeWrapper) {
-            return (Activity) (((android.support.v7.view.ContextThemeWrapper) context).getBaseContext());
+        } else if (context instanceof androidx.appcompat.view.ContextThemeWrapper) {
+            return (Activity) (((androidx.appcompat.view.ContextThemeWrapper) context).getBaseContext());
         } else {
             return null;
         }
@@ -91,10 +91,10 @@ public class ActivityUtils {
             return (Activity) context;
         } else if (context instanceof ContextThemeWrapper) {
             return (Activity) (((ContextThemeWrapper) context).getBaseContext());
-        } else if (context instanceof android.support.v7.view.ContextThemeWrapper) {
-            return (Activity) (((android.support.v7.view.ContextThemeWrapper) context).getBaseContext());
-        } else if (context instanceof android.support.v7.widget.TintContextWrapper) {
-            return (Activity) (((android.support.v7.widget.TintContextWrapper) context).getBaseContext());
+        } else if (context instanceof androidx.appcompat.view.ContextThemeWrapper) {
+            return (Activity) (((androidx.appcompat.view.ContextThemeWrapper) context).getBaseContext());
+        } else if (context instanceof androidx.appcompat.widget.TintContextWrapper) {
+            return (Activity) (((androidx.appcompat.widget.TintContextWrapper) context).getBaseContext());
         } else {
             return null;
         }

@@ -1,6 +1,6 @@
 package rango.tool.androidtool.viewpager;
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by baiyuanwei on 17/11/16.

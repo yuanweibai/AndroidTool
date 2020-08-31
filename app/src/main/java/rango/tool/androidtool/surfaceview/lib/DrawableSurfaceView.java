@@ -9,7 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.WorkerThread;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;

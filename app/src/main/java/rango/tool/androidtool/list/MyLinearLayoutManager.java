@@ -1,7 +1,7 @@
 package rango.tool.androidtool.list;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 /**
  * Created by baiyuanwei on 17/11/16.

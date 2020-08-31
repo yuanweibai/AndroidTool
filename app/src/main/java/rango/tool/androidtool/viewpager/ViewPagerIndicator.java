@@ -2,8 +2,8 @@ package rango.tool.androidtool.viewpager;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.AppCompatTextView;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.ViewGroup;

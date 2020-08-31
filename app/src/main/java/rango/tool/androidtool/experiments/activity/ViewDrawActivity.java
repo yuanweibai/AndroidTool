@@ -2,7 +2,7 @@ package rango.tool.androidtool.experiments.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.widget.TextView;
 
 import rango.tool.androidtool.R;

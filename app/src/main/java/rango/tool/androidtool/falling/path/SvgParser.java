@@ -6,9 +6,9 @@ import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.XmlRes;
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.XmlRes;
 import android.util.Log;
 
 import java.lang.annotation.Retention;

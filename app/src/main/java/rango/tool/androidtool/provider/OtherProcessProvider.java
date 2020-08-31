@@ -6,12 +6,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
 import rango.tool.androidtool.ToolApplication;
-import rango.tool.common.utils.Worker;
 
 public class OtherProcessProvider extends ContentProvider {
 

@@ -3,8 +3,8 @@ package rango.tool.androidtool.locker;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.View;
+import androidx.annotation.Nullable;
+
 import android.view.Window;
 import android.view.WindowManager;
 

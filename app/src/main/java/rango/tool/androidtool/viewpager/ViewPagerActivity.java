@@ -2,11 +2,11 @@ package rango.tool.androidtool.viewpager;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,7 +20,6 @@ import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.ListFragment;
 import rango.tool.androidtool.viewpager.transformpage.ParallaxTransformer;
-import rango.tool.common.utils.ScreenUtils;
 
 public class ViewPagerActivity extends BaseActivity {
 

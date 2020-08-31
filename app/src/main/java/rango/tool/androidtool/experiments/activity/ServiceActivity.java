@@ -1,19 +1,15 @@
 package rango.tool.androidtool.experiments.activity;
 
-import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
-import java.util.concurrent.TimeUnit;
-
 import rango.tool.androidtool.R;
-import rango.tool.androidtool.ToolApplication;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.service.MyIntentService;
 import rango.tool.androidtool.service.MyService;

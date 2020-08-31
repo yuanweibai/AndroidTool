@@ -1,7 +1,7 @@
 package rango.tool.androidtool.memoryleak;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import rango.tool.androidtool.base.BaseActivity;
 

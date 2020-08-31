@@ -2,7 +2,7 @@ package rango.tool.androidtool.experiments.activity;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,7 +33,7 @@ public class GifImageActivity extends BaseActivity {
 
     private static final String CACHE_DIR_NAME = "GifCache";
 
-    private static final String GIF_URL = "https://s3.amazonaws.com/superapps-dev/airlauncher/GameRecommend/newgames/Widget/2048.gif";
+    private static final String GIF_URL = "https://media.giphy.com/media/f4Uvqh6zELReymrel9/giphy.gif";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

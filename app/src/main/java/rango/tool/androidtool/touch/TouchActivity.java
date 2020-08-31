@@ -1,9 +1,7 @@
 package rango.tool.androidtool.touch;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.View;
+import androidx.annotation.Nullable;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;

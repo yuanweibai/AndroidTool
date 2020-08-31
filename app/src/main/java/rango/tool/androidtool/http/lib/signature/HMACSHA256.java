@@ -1,6 +1,6 @@
 package rango.tool.androidtool.http.lib.signature;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;

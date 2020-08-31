@@ -1,10 +1,8 @@
 package rango.tool.androidtool.experiments.activity;
 
-import android.annotation.SuppressLint;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.text.TextPaint;
+import androidx.annotation.Nullable;
+
 import android.widget.TextView;
 
 import rango.tool.androidtool.R;

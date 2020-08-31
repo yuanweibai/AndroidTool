@@ -3,9 +3,9 @@ package rango.kotlin.shortcut
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.support.v4.content.pm.ShortcutInfoCompat
-import android.support.v4.content.pm.ShortcutManagerCompat
-import android.support.v4.graphics.drawable.IconCompat
+import androidx.core.content.pm.ShortcutInfoCompat
+import androidx.core.content.pm.ShortcutManagerCompat
+import androidx.core.graphics.drawable.IconCompat
 import android.util.Log
 import rango.tool.androidtool.R
 import rango.tool.androidtool.ToolApplication

@@ -3,11 +3,8 @@ package rango.tool.androidtool.base;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
-
-import rango.tool.androidtool.R;
-import rango.tool.androidtool.launchmodel.LaunchMode2Activity;
 
 @SuppressLint("Registered")
 public class LifecycleActivity extends BaseActivity {

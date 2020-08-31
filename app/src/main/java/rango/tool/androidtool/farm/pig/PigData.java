@@ -1,6 +1,6 @@
 package rango.tool.androidtool.farm.pig;
 
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 
 import rango.tool.androidtool.R;
 

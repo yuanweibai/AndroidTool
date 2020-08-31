@@ -2,9 +2,9 @@ package rango.tool.androidtool.transition;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;

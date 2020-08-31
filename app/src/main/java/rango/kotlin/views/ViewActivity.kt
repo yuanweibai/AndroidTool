@@ -2,7 +2,7 @@ package rango.kotlin.views
 
 import android.animation.ValueAnimator
 import android.os.Bundle
-import android.support.v4.view.animation.PathInterpolatorCompat
+import androidx.core.view.animation.PathInterpolatorCompat
 import rango.tool.androidtool.R
 import rango.tool.androidtool.base.BaseActivity
 

@@ -2,7 +2,7 @@ package rango.tool.androidtool.list;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;

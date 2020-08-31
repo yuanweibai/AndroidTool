@@ -1,9 +1,8 @@
 package rango.tool.androidtool.accessibility;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
-import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Toast;
 
 import rango.tool.androidtool.R;

@@ -2,15 +2,12 @@ package rango.tool.androidtool;
 
 import android.app.ActivityManager;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Process;
-import android.support.v4.os.TraceCompat;
+import androidx.core.os.TraceCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.ResourceDecoder;
 import com.evernote.android.job.JobManager;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -21,8 +18,6 @@ import com.xsj.crasheye.Crasheye;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
 import java.util.List;
 
 import rango.tool.androidtool.base.BaseApplication;

@@ -13,9 +13,9 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.support.annotation.WorkerThread;
-import android.support.v4.view.animation.PathInterpolatorCompat;
-import android.util.AttributeSet;
+import androidx.annotation.WorkerThread;
+import androidx.core.view.animation.PathInterpolatorCompat;
+
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;

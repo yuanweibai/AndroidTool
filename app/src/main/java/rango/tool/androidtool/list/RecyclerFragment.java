@@ -1,12 +1,10 @@
 package rango.tool.androidtool.list;
 
 import android.graphics.Rect;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,7 +18,6 @@ import rango.tool.androidtool.base.list.adapter.BaseItemData;
 import rango.tool.androidtool.base.list.adapter.BaseItemType;
 import rango.tool.androidtool.base.list.view.SpecificRecyclerVIew;
 import rango.tool.androidtool.list.view.ListBannerView;
-import rango.tool.androidtool.list.view.ListImageItemView;
 import rango.tool.common.utils.ScreenUtils;
 import rango.tool.common.utils.Worker;
 

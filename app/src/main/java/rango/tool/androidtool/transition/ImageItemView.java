@@ -2,8 +2,8 @@ package rango.tool.androidtool.transition;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
