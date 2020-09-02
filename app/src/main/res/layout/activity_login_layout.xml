@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
+    <data class="MyTestBinding">
 
         <import type="androidx.databinding.ObservableMap" />
 
@@ -16,7 +16,7 @@
 
         <variable
             name="clickListener"
-            type="rango.kotlin.designmode.mvvm.view.LoginActivity.ClickListener" />
+            type="rango.kotlin.mytest.MyTestActivity.ClickListener" />
 
         <variable
             name="map"

@@ -1,4 +1,4 @@
-package rango.kotlin.designmode.mvvm.view
+package rango.kotlin.mytest
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -8,9 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.*
 import rango.kotlin.mytest.People
 import rango.tool.androidtool.R
-import rango.tool.androidtool.databinding.ActivityLoginLayoutBinding
+import rango.tool.androidtool.databinding.MyTestBinding
 
-class LoginActivity : AppCompatActivity() {
+class MyTestActivity : AppCompatActivity() {
 
     lateinit var people: People
     lateinit var map: ObservableArrayMap<String, Any>
@@ -19,7 +19,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         people = People(ObservableField("You"), ObservableInt(9023),ObservableField(""))
-        val binding = DataBindingUtil.setContentView<ActivityLoginLayoutBinding>(this, R.layout.activity_login_layout)
+        val binding = DataBindingUtil.setContentView<MyTestBinding>(this, R.layout.activity_login_layout)
         binding.people = people
         binding.clickListener = ClickListener()
         map = ObservableArrayMap()

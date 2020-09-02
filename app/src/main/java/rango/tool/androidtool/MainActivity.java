@@ -6,8 +6,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import rango.kotlin.designmode.mvvm.view.LoginActivity;
-import rango.kotlin.views.custom.TestViewActivity;
+import rango.kotlin.mytest.MyTestActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
 import rango.tool.androidtool.experiments.TestActivity;
@@ -29,7 +28,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(LoginActivity.class);
+            startActivity(MyTestActivity.class);
         }
 
         setContentView(R.layout.activity_main);
