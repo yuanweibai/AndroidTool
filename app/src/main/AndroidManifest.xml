@@ -195,6 +195,7 @@
         <activity android:name="rango.kotlin.views.ViewActivity" />
         <activity android:name="rango.kotlin.KotlinTestActivity" />
         <activity android:name="rango.kotlin.views.custom.TestViewActivity" />
+        <activity android:name="rango.kotlin.designmode.mvvm.view.LoginActivity" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 

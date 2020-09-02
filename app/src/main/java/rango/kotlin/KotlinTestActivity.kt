@@ -17,8 +17,8 @@ class KotlinTestActivity : AppCompatActivity() {
     private lateinit var msgText: TextView
 
 
-    val coroutineScope = CoroutineScope(Job()+Dispatchers.Main)
-    val con = object: CoroutineContext{
+    val coroutineScope = CoroutineScope(Job() + Dispatchers.Main)
+    val con = object : CoroutineContext {
         override fun <R> fold(initial: R, operation: (R, CoroutineContext.Element) -> R): R {
             TODO("Not yet implemented")
         }
@@ -44,7 +44,7 @@ class KotlinTestActivity : AppCompatActivity() {
             startAction()
         }
 
-        findViewById<View>(R.id.stop_btn).setOnClickListener(View.OnClickListener(){
+        findViewById<View>(R.id.stop_btn).setOnClickListener(View.OnClickListener() {
 
         })
     }
@@ -62,7 +62,7 @@ class KotlinTestActivity : AppCompatActivity() {
     }
 
     fun stopAction() {
-       coroutineScope.cancel()
+        coroutineScope.cancel()
     }
 
     suspend fun getName(): String {
@@ -81,6 +81,16 @@ class KotlinTestActivity : AppCompatActivity() {
             Log.e("rango-getAge-2", "threadName = " + Thread.currentThread().name)
             89
         }
+    }
+
+    fun test() {
+        val o = object {
+            val x = 2
+            val y = 9
+        }
+
+        Log.e("string", "${o.y}")
+
     }
 
 
