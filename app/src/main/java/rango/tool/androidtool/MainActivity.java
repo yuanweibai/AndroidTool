@@ -6,8 +6,8 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import rango.kotlin.designmode.mvvm.view.LoginActivity;
 import rango.kotlin.mytest.MyTestActivity;
+import rango.kotlin.wanandroid.LoginActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
 import rango.tool.androidtool.experiments.TestActivity;

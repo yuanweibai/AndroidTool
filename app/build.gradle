@@ -9,7 +9,7 @@ android {
     buildToolsVersion "28.0.3"
     defaultConfig {
         applicationId "rango.tool.androidtool"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 26
         multiDexEnabled true
         versionCode 2
@@ -53,6 +53,7 @@ dependencies {
     implementation 'com.facebook.fresco:animated-webp:1.11.0'
 
     implementation project(':common')
+    implementation project(':wanandroid')
     compile 'com.evernote:android-job:' + rootProject.android_job
     implementation "android.arch.work:work-runtime:" + rootProject.workManager
     //    implementation files('src/libs/webp-imageio-0.4.2.jar')

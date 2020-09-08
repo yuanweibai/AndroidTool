@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="rango.kotlin.wanandroid">
+
+    <application>
+        <activity android:name="rango.kotlin.wanandroid.LoginActivity" />
+    </application>
+</manifest>
