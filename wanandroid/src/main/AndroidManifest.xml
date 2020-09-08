@@ -2,6 +2,6 @@
     package="rango.kotlin.wanandroid">
 
     <application>
-        <activity android:name="rango.kotlin.wanandroid.LoginActivity" />
+        <activity android:name="rango.kotlin.wanandroid.WALoginActivity" />
     </application>
 </manifest>
