@@ -2,10 +2,14 @@ package rango.kotlin.views.custom
 
 import android.content.Context
 import android.graphics.*
+import android.text.Layout
+import android.text.StaticLayout
 import android.text.TextPaint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import rango.tool.androidtool.R
+import rango.tool.common.utils.ScreenUtils
 
 class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : View(context, attributeSet, defStyle) {
 
@@ -42,6 +46,12 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
     private val linePaint = Paint()
 
     private val bPaint = Paint()
+
+    private val bitmapMatrix = Matrix()
+
+    private var staticLayout: StaticLayout? = null
+
+    private val textP = TextPaint()
 
     init {
 
@@ -126,7 +136,18 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
         textPaint.color = Color.BLACK
         textPaint.setShadowLayer(10f, 0f, 0f, Color.RED)
 
-        bPaint.maskFilter = BlurMaskFilter(100f, BlurMaskFilter.Blur.NORMAL)
+        bPaint.maskFilter = BlurMaskFilter(50f, BlurMaskFilter.Blur.NORMAL)
+
+        textP.isAntiAlias = true
+        textP.textSize = ScreenUtils.sp2px(12f).toFloat()
+        textP.color = Color.BLACK
+        val string = "阿凡达家里"
+
+        staticLayout = StaticLayout(string, textP, ScreenUtils.getScreenWidthPx() - 300, Layout.Alignment.ALIGN_CENTER, 1f, 0f, true)
+        val h = staticLayout?.height
+        Log.e("rango", "static_height = $h, pHeight = ${textP.fontSpacing}")
+
+        paint.getFontMetrics()
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -206,8 +227,11 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
 
     private fun drawSecondIndex(canvas: Canvas?) {
         canvas?.drawColor(Color.WHITE)
-
         canvas?.drawBitmap(bitmap, 100f, 100f, bPaint)
 
+        canvas?.save()
+        canvas?.translate(0f, 800f)
+        staticLayout?.draw(canvas)
+        canvas?.restore()
     }
 }
