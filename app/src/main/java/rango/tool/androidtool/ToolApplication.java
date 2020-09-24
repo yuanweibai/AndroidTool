@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.List;
 
+import rango.kotlin.sound.SoundManager;
 import rango.tool.androidtool.base.BaseApplication;
 import rango.tool.androidtool.job.MainJobCreator;
 import rango.tool.common.utils.CommonManager;
@@ -44,6 +45,8 @@ public class ToolApplication extends BaseApplication {
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
 
         CrashReport.initCrashReport(this, "586293be04", true);
+
+        SoundManager.INSTANCE.init(this);
 
         JobManager.create(this).addJobCreator(new MainJobCreator());
         if (BuildConfig.DEBUG && Build.VERSION.SDK_INT < 24) {

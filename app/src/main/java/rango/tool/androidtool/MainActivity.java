@@ -6,6 +6,9 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import rango.kotlin.currentactivity.WatchingActivityService;
+import rango.kotlin.mytest.MyTestActivity;
+import rango.kotlin.mytest.TransparentActivity;
 import rango.kotlin.views.custom.TestViewActivity;
 import rango.kotlin.wanandroid.WALoginActivity;
 import rango.tool.androidtool.base.BaseActivity;
@@ -29,7 +32,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(TestViewActivity.class);
+            startActivity(MyTestActivity.class);
+//            TransparentActivity.start();
         }
 
         setContentView(R.layout.activity_main);
@@ -73,5 +77,10 @@ public class MainActivity extends BaseActivity {
         ImageView imageView = new ImageView(this);
         imageView.setImageResource(R.drawable.solon);
         containerView.addView(imageView, 1);
+    }
+
+    private void startWatchingActivityService() {
+        Intent intent = new Intent(this, WatchingActivityService.class);
+        startService(intent);
     }
 }

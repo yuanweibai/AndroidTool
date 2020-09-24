@@ -10,11 +10,15 @@ import android.os.Build;
 import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+
 import androidx.core.app.NotificationManagerCompat;
+
 import android.util.Log;
 
 import java.util.Set;
 
+import rango.kotlin.mytest.TransparentActivity;
+import rango.tool.androidtool.experiments.activity.WindowActivity;
 import rango.tool.common.utils.Worker;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -58,32 +62,34 @@ public class ToolNotificationListenerService extends NotificationListenerService
         NotificationInfoBean infoBean = NotificationInfoBean.valueOf(sbn);
         Log.e(TAG, "onNotificationPosted:" + infoBean.title);
 
-        Worker.postWorker(new Runnable() {
-            @Override public void run() {
-                try {
+        Log.e("rango-weixin", "posted---packageId: " + infoBean.packageId + ",\n text: " + infoBean.text + ", \ntitle: " + infoBean.title);
 
-                    Thread.sleep(8000);
-
-                    Worker.postMain(new Runnable() {
-                        @Override public void run() {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                cancelNotification(infoBean.key);
-                            } else {
-                                cancelNotification(infoBean.packageId, infoBean.tag, infoBean.notificationId);
-                            }
-                        }
-                    });
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        if (("语音通话中").equals(infoBean.text)) {
+            Worker.postMain(new Runnable() {
+                @Override
+                public void run() {
+                    WindowActivity.showWindow();
                 }
-            }
-        });
+            }, 4000);
+        }
+
+//        Worker.postMain(() -> {
+//            if (infoBean.text.equals("栖梧")) {
+//                TransparentActivity.start();
+//            }
+//        }, 2000);
     }
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
         Log.e(TAG, "onNotificationRemoved:" + sbn.toString());
+        NotificationInfoBean infoBean = NotificationInfoBean.valueOf(sbn);
+
+        Log.e("rango-weixin", "removed---packageId: " + infoBean.packageId + ",\n text: " + infoBean.text + ", \ntitle: " + infoBean.title);
+
+        if (infoBean.title.equals("栖梧")) {
+            TransparentActivity.stop();
+        }
     }
 
     @Override

@@ -136,7 +136,7 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
         textPaint.color = Color.BLACK
         textPaint.setShadowLayer(10f, 0f, 0f, Color.RED)
 
-        bPaint.maskFilter = BlurMaskFilter(50f, BlurMaskFilter.Blur.NORMAL)
+//        bPaint.maskFilter = BlurMaskFilter(50f, BlurMaskFilter.Blur.NORMAL)
 
         textP.isAntiAlias = true
         textP.textSize = ScreenUtils.sp2px(12f).toFloat()
@@ -225,13 +225,62 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
         canvas?.drawText("Hello HenCoder", 100f, 1400f, textPaint)
     }
 
+    private val clipPath = Path()
+    private val myMatrix = Matrix()
+    private val camera = Camera()
     private fun drawSecondIndex(canvas: Canvas?) {
         canvas?.drawColor(Color.WHITE)
         canvas?.drawBitmap(bitmap, 100f, 100f, bPaint)
 
+//        canvas?.save()
+//        canvas?.clipRect(100, 600, 400, 800)
+//        canvas?.drawBitmap(bitmap, 100f, 600f, bPaint)
+//        canvas?.restore()
+//
+//        canvas?.save()
+//        clipPath.reset()
+//        clipPath.moveTo(100f, 850f)
+//        clipPath.addCircle(400f, 1150f, 300f, Path.Direction.CCW)
+//        canvas?.drawPath(clipPath, paint)
+//        canvas?.clipPath(clipPath)
+//        canvas?.drawBitmap(bitmap, 100f, 850f, bPaint)
+//        canvas?.restore()
+//
+
+
+//        myMatrix.reset()
+//        myMatrix.setRotate(40f, bitmap.width / 2f, bitmap.height / 2f)
+//        myMatrix.postTranslate(100f, 850f)
+//
+//        canvas?.save()
+//        canvas?.drawBitmap(bitmap, myMatrix, bPaint)
+//        canvas?.restore()
+//
+//        canvas?.save()
+//        canvas?.translate(0f, 800f)
+//        staticLayout?.draw(canvas)
+//        canvas?.restore()
+
         canvas?.save()
-        canvas?.translate(0f, 800f)
-        staticLayout?.draw(canvas)
+
+        camera.save()
+        camera.rotateX(10f)
+        canvas?.translate(100 + bitmap.width / 2f, 400 + bitmap.height / 2f)
+        camera.applyToCanvas(canvas)
+        canvas?.translate(-100 - bitmap.width / 2f, -400 - bitmap.height / 2f)
+        camera.restore()
+
+        canvas?.drawBitmap(bitmap, 100f, 400f, bPaint)
         canvas?.restore()
+    }
+
+    override fun onDrawForeground(canvas: Canvas?) {
+        super.onDrawForeground(canvas)
+
+        foreground
+    }
+
+    override fun draw(canvas: Canvas?) {
+        super.draw(canvas)
     }
 }

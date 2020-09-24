@@ -197,6 +197,12 @@
         <activity android:name="rango.kotlin.views.custom.TestViewActivity" />
         <activity android:name="rango.kotlin.mytest.MyTestActivity" />
         <activity android:name="rango.kotlin.designmode.mvvm.view.LoginActivity" />
+        <activity
+            android:name="rango.kotlin.mytest.TransparentActivity"
+            android:enabled="true"
+            android:exported="true"
+            android:taskAffinity="com.transparent"
+            android:theme="@style/TransparentStyle" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 
@@ -288,6 +294,8 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config" />
         </service>
+
+        <service android:name="rango.kotlin.currentactivity.WatchingActivityService" />
 
         <receiver android:name="rango.kotlin.widget.MyAppWidget">
             <intent-filter>

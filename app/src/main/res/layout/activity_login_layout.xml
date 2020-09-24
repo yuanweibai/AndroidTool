@@ -23,7 +23,7 @@
             type="ObservableMap&lt;String,Object&gt;" />
     </data>
 
-    <LinearLayout
+    <rango.kotlin.mytest.MyLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -80,10 +80,7 @@
             android:textColorHint="#CB494848"
             android:textSize="18sp" />
 
-
-
-
-    </LinearLayout>
+    </rango.kotlin.mytest.MyLinearLayout>
 
 
 </layout>

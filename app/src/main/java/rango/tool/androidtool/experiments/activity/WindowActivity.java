@@ -2,13 +2,16 @@ package rango.tool.androidtool.experiments.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 
 import rango.tool.androidtool.R;
+import rango.tool.androidtool.ToolApplication;
 import rango.tool.androidtool.base.BaseActivity;
 
 public class WindowActivity extends BaseActivity {
@@ -21,29 +24,32 @@ public class WindowActivity extends BaseActivity {
         findViewById(R.id.activity_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-                showWindow(wm);
+                showWindow();
             }
         });
 
         findViewById(R.id.application_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
-                showWindow(wm);
+                showWindow();
             }
         });
     }
 
-    private void showWindow(WindowManager wm) {
+    public static void showWindow() {
+        WindowManager wm = (WindowManager) ToolApplication.getContext().getSystemService(Context.WINDOW_SERVICE);
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-        params.token = getWindow().getDecorView().getWindowToken();
-        params.type = WindowManager.LayoutParams.TYPE_APPLICATION;
-        params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        params.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = 500;
+        params.height = WindowManager.LayoutParams.MATCH_PARENT;
         params.gravity = Gravity.CENTER;
-        final View view = LayoutInflater.from(this).inflate(R.layout.window_alert_layout, null);
+        final View view = LayoutInflater.from(ToolApplication.getContext()).inflate(R.layout.window_alert_layout, null);
+        view.findViewById(R.id.remove_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                wm.removeView(view);
+            }
+        });
         wm.addView(view, params);
     }
 
