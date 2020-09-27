@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.annotation.Nullable;
+
 import android.util.Log;
 import android.view.View;
 
@@ -96,11 +98,16 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.canvas_btn).setOnClickListener(v -> startActivity(CanvasActivity.class));
         findViewById(R.id.shape_btn).setOnClickListener(v -> startActivity(ShapeActivity.class));
 
-        findViewById(R.id.locker).setOnClickListener(v -> LockerManager.getInstance(TestActivity.this).lockScreen());
+        findViewById(R.id.locker).setOnClickListener(v -> LockerManager.getInstance().lockScreen());
         findViewById(R.id.locker_delay_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Worker.postMain(LockerActivity::start, 5000);
+                Worker.postMain(new Runnable() {
+                    @Override
+                    public void run() {
+                        LockerManager.getInstance().lockScreen();
+                    }
+                }, 5000);
             }
         });
         findViewById(R.id.window).setOnClickListener(v -> startActivity(WindowActivity.class));
