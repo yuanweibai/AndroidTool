@@ -68,11 +68,20 @@
         android:text="Game"
         android:textAllCaps="false" />
 
+    <Button
+        android:id="@+id/kotlin_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kotlin"
+        android:textAllCaps="false" />
+
     <LinearLayout
         android:id="@+id/container_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" />
+
+
 
 
 </LinearLayout>

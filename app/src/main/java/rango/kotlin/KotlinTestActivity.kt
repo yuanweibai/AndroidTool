@@ -17,7 +17,7 @@ class KotlinTestActivity : AppCompatActivity() {
     private lateinit var msgText: TextView
 
 
-    val coroutineScope = CoroutineScope(Job() + Dispatchers.Main)
+    private val coroutineScope = CoroutineScope(Job() + Dispatchers.Main)
     val con = object : CoroutineContext {
         override fun <R> fold(initial: R, operation: (R, CoroutineContext.Element) -> R): R {
             TODO("Not yet implemented")

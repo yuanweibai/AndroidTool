@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import rango.kotlin.AllTestActivity;
 import rango.kotlin.currentactivity.WatchingActivityService;
 import rango.kotlin.mytest.MyTestActivity;
 import rango.kotlin.mytest.TransparentActivity;
@@ -61,6 +62,7 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.offset_btn).setOnClickListener(v -> startActivity(OffsetActivity.class));
         findViewById(R.id.touch_btn).setOnClickListener(v -> startActivity(TouchActivity.class));
         findViewById(R.id.game_btn).setOnClickListener(v -> startActivity(GameMainActivity.class));
+        findViewById(R.id.kotlin_btn).setOnClickListener(v -> startActivity(AllTestActivity.class));
 
         String string = "spyIFKsRDDywx96YXDjAyiuo0imMzoGBOIhavrlmvma5A0gXJTzklg/jrGbVUd11VqigDk7zJCQt\n" +
                 "p7wEnVs3pnn5rU7WsT+F+yTJhe9zcLM7l84rL+/TO4qVN+hBS6mson6KhsiZXV/b06jpcbKanAxe\n" +
