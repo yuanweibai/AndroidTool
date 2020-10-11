@@ -3,6 +3,7 @@ package rango.kotlin.coroutines
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.lifecycleScope
 import rango.tool.androidtool.R
 import rango.tool.androidtool.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_coroutines_layout.*
@@ -13,8 +14,6 @@ class CoroutinesActivity : BaseActivity() {
     companion object {
         const val TAG = "CoroutinesActivity"
     }
-
-    private val coroutinesScope = MainScope()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,12 +26,11 @@ class CoroutinesActivity : BaseActivity() {
         parallelBtn.setOnClickListener {
             parallelRequest()
         }
-
     }
 
     private fun sequenceRequest() {
         Log.e(TAG, "requestData-Thread: " + Thread.currentThread().name)
-        val job = coroutinesScope.launch {
+        lifecycleScope.launch {
             Log.e(TAG, "launch-Thread: " + Thread.currentThread().name)
             val token = getToken()
             Log.e(TAG, "getToken end.... token = $token")
@@ -52,7 +50,7 @@ class CoroutinesActivity : BaseActivity() {
     }
 
     private suspend fun getName(token: String): String = withContext(Dispatchers.IO) {
-        Thread.sleep(5000)
+        delay(5000)
         Log.e(TAG, "getName-Thread: " + Thread.currentThread().name)
         "$token-name"
     }
@@ -61,7 +59,7 @@ class CoroutinesActivity : BaseActivity() {
     private fun parallelRequest() {
         Log.e(TAG, "parallelRequest start....")
 
-        coroutinesScope.launch {
+        lifecycleScope.launch {
             Log.e(TAG, "parallel starting....")
             val imageUrl = async { getImageUrl() }
             val age = async { getAge() }
@@ -89,13 +87,13 @@ class CoroutinesActivity : BaseActivity() {
 
     private suspend fun getImageUrl(): String {
         return withContext(Dispatchers.IO) {
-            Thread.sleep(8000)
+            delay(8000)
             "imageUrl"
         }
     }
 
     private suspend fun getAge(): Int = withContext(Dispatchers.IO) {
-        Thread.sleep(10000)
+        delay(10000)
         90
     }
 
