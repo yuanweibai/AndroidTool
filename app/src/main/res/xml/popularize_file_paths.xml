@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <root-path name="root" path="."/>
+    <files-path name="files_path" path="Download"/>
+    <cache-path name="cache_path" path="Download"/>
+    <external-path name="external_path" path="Download"/>
+    <external-files-path name="external_files_path" path="Download"/>
+    <external-cache-path name="external_cache_path" path="Download"/>
+</paths>

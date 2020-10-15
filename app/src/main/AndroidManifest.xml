@@ -307,6 +307,22 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/my_widget" />
         </receiver>
+
+        <receiver android:name="rango.kotlin.apk.DownloadCompeteReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
+
+        <provider
+            android:name="rango.kotlin.apk.DownloadApkProvider"
+            android:authorities="${applicationId}.popularize.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/popularize_file_paths" />
+        </provider>
     </application>
 
 </manifest>

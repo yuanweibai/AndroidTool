@@ -1,9 +1,11 @@
 package rango.tool.androidtool.experiments;
 
+import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -184,6 +186,12 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.view_pager_btn).setOnClickListener(v -> startActivity(ViewPagerActivity.class));
         findViewById(R.id.blade_flash_btn).setOnClickListener(v -> startActivity(ViewActivity.class));
         findViewById(R.id.custom_view_btn).setOnClickListener(v -> startActivity(TestViewActivity.class));
+        findViewById(R.id.download_install_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                downloadApk();
+            }
+        });
 
     }
 
@@ -238,5 +246,16 @@ public class TestActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    private void downloadApk() {
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse("https://cdn.ihandysoft.cn/light2019/apps/apkrat/channels/test/app-rat-dograise-1.0.54.apk"));
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
+        request.setTitle("popularize.apk");
+        request.setDescription("正在下载");
+        request.setAllowedOverRoaming(false);
+        request.setDestinationInExternalFilesDir(TestActivity.this, "Download", "popularize.apk");
+        DownloadManager downloadManager = (DownloadManager) TestActivity.this.getSystemService(Context.DOWNLOAD_SERVICE);
+        downloadManager.enqueue(request);
     }
 }
