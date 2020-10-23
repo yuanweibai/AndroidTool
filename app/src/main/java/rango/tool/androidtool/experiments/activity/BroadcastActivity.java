@@ -19,7 +19,7 @@ public class BroadcastActivity extends BaseActivity {
 
         findViewById(R.id.send_broadcast_btn).setOnClickListener(v -> {
             Intent intent = new Intent(ACTION);
-            intent.putExtra("extra", "AndroidTool");
+            intent.setPackage(getPackageName());
 //            intent.addFlags(0x01000000);
             sendBroadcast(intent);
 //            sendBroadcast(intent, "android.tool.permission.TEST_BROADCAST_RECEIVER");

@@ -12,6 +12,13 @@
 
 
         <Button
+            android:id="@+id/screenRecordBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="屏幕录制"
+            android:textAllCaps="false" />
+
+        <Button
             android:id="@+id/download_install_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

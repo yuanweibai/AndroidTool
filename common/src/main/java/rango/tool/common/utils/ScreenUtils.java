@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Build;
+
 import androidx.annotation.NonNull;
+
 import android.text.Layout;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
@@ -36,6 +38,7 @@ public class ScreenUtils {
     private static float SCREEN_ONE_DP_TO_PX = -1;
     private static float SCREEN_ONE_PX_TO_DP = -1;
     private static int STATUS_BAR_HEIGHT = -1;
+    private static int SCREEN_DENSITY_DPI = -1;
 
     private static TextPaint textPaint;
 
@@ -63,6 +66,15 @@ public class ScreenUtils {
         }
 
         return (int) (SCREEN_ONE_PX_TO_DP * px);
+    }
+
+    public static int getDensityDpi() {
+        if (SCREEN_DENSITY_DPI < 0) {
+            Resources resources = Resources.getSystem();
+            DisplayMetrics metrics = resources.getDisplayMetrics();
+            SCREEN_DENSITY_DPI = metrics.densityDpi;
+        }
+        return SCREEN_DENSITY_DPI;
     }
 
     public static int px2sp(float pxValue) {
@@ -360,7 +372,7 @@ public class ScreenUtils {
     private static float sNoncompatDensity;
 
     public static void setCustomDensity(Activity activity, final Application application) {
-        Log.e("rango","set custom density....");
+        Log.e("rango", "set custom density....");
         final DisplayMetrics metrics = application.getResources().getDisplayMetrics();
 
         if (sNoncompatDensity == 0) {

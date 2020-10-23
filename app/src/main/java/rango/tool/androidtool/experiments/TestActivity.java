@@ -1,5 +1,6 @@
 package rango.tool.androidtool.experiments;
 
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
+import rango.kotlin.screenrecord.ScreenRecordManager;
 import rango.kotlin.views.ViewActivity;
 import rango.kotlin.views.custom.TestViewActivity;
 import rango.tool.androidtool.R;
@@ -186,12 +188,9 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.view_pager_btn).setOnClickListener(v -> startActivity(ViewPagerActivity.class));
         findViewById(R.id.blade_flash_btn).setOnClickListener(v -> startActivity(ViewActivity.class));
         findViewById(R.id.custom_view_btn).setOnClickListener(v -> startActivity(TestViewActivity.class));
-        findViewById(R.id.download_install_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                downloadApk();
-            }
-        });
+        findViewById(R.id.download_install_btn).setOnClickListener(v -> downloadApk());
+
+        findViewById(R.id.screenRecordBtn).setOnClickListener(v -> ScreenRecordManager.INSTANCE.showScreenRecordView(TestActivity.this, 12));
 
     }
 
@@ -257,5 +256,13 @@ public class TestActivity extends BaseActivity {
         request.setDestinationInExternalFilesDir(TestActivity.this, "Download", "popularize.apk");
         DownloadManager downloadManager = (DownloadManager) TestActivity.this.getSystemService(Context.DOWNLOAD_SERVICE);
         downloadManager.enqueue(request);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 12 && resultCode == Activity.RESULT_OK) {
+            ScreenRecordManager.INSTANCE.setupData(resultCode, data);
+        }
     }
 }
