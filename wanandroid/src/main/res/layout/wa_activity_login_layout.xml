@@ -50,5 +50,24 @@
         android:textSize="24sp"
         app:layout_constraintTop_toBottomOf="@id/accountEdit" />
 
+    <Button
+        android:id="@+id/loginBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="登录"
+        app:layout_constraintTop_toBottomOf="@id/passwordEdit" />
+
+    <TextView
+        android:id="@+id/loginStatusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:text="登录页"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,8 @@ package rango.tool.androidtool.base;
 import android.app.Application;
 import android.content.Context;
 
+import rango.kotlin.wanandroid.common.utils.WAApplication;
+
 /**
  * Created by baiyuanwei on 17/11/15.
  */
@@ -23,6 +25,7 @@ public class BaseApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        WAApplication.INSTANCE.attachBaseContext(this);
 
         context = base;
     }

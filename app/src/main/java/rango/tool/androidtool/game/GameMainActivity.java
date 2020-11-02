@@ -1,9 +1,12 @@
 package rango.tool.androidtool.game;
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
+
 import android.view.View;
 
+import rango.kotlin.wanandroid.LaunchActivity;
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.game.hero.GameHeroActivity;
@@ -19,6 +22,13 @@ public class GameMainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 startActivity(GameHeroActivity.class);
+            }
+        });
+
+        findViewById(R.id.wanAndroidBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(LaunchActivity.class);
             }
         });
     }
