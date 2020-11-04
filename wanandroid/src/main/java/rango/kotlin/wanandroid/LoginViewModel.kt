@@ -1,6 +1,5 @@
 package rango.kotlin.wanandroid
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import rango.kotlin.wanandroid.common.http.lib.FailureData
@@ -25,7 +24,6 @@ class LoginViewModel : ViewModel() {
     fun login(name: String, password: String) {
         loginStatusLiveData.value = "登录中......"
         httpRequest({
-            Log.e("rango-5", "currentThread = " + Thread.currentThread().name)
             httpService.login(name, password)
         }, loginSuccessLiveData, loginErrorLiveData)
     }

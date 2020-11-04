@@ -4,6 +4,6 @@
     <application>
         <activity android:name="rango.kotlin.wanandroid.WALoginActivity" />
         <activity android:name=".LaunchActivity" />
-        <activity android:name=".common.WAMainActivity" />
+        <activity android:name=".main.WAMainActivity" />
     </application>
 </manifest>

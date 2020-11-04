@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.wa_activity_login_layout.*
-import rango.kotlin.wanandroid.common.WAMainActivity
+import rango.kotlin.wanandroid.main.WAMainActivity
 import rango.kotlin.wanandroid.common.http.api.bean.LoginBean
 import rango.kotlin.wanandroid.common.http.lib.FailureData
 
@@ -24,8 +24,7 @@ class WALoginActivity : AppCompatActivity() {
         loginViewModel.loginSuccessLiveData.observe(this, Observer<LoginBean> {
             loginStatusText.text = "登录成功了，${it.username}!!!"
             Toast.makeText(this, "登录成功了！！！", Toast.LENGTH_LONG).show()
-            val intent = Intent(this, WAMainActivity::class.java)
-            startActivity(intent)
+            gotoMainPage()
         })
 
         loginViewModel.loginErrorLiveData.observe(this, Observer<FailureData> {
@@ -40,5 +39,14 @@ class WALoginActivity : AppCompatActivity() {
         loginBtn.setOnClickListener {
             loginViewModel.login(accountEdit.text.toString(), passwordEdit.text.toString())
         }
+
+        skipBtn.setOnClickListener {
+            gotoMainPage()
+        }
+    }
+
+    private fun gotoMainPage() {
+        startActivity(Intent(this, WAMainActivity::class.java))
+        finish()
     }
 }

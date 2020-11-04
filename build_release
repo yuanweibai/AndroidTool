@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+mkdir outputs
+mkdir outputs/luckydog
+mkdir outputs/luckydog/configs
+mkdir outputs/luckydog/mapping
+
+python ./tools/ModifyPackagePathName/package_modifier.py com.infini.pigfarm com.fortunedog.cn
+./gradlew :app:clean :app:assembleLuckydogRelease --stacktrace
+python ./tools/ModifyPackagePathName/package_modifier.py com.fortunedog.cn com.infini.pigfarm
+
+./gradlew -p . :app:dependencies > outputs/luckydog/build-dependencies.txt
+
+cp app/build/outputs/apk/luckydog/release/app-luckydog-release.apk outputs/luckydog/app-luckydog-release.apk
+
+for file in `find app/build/outputs/mapping/luckydog/release`
+do
+    echo $file
+    cp $file outputs/luckydog/mapping/$(basename "$file")
+done
+
+cp app/build/outputs/mapping/configuration.txt outputs/luckydog/mapping/configuration.txt
+
+for file in `find app/build/intermediates/merged_assets/luckydogRelease/out/ -type f -name "*.la"`
+do
+    echo $file
+    cp $file outputs/luckydog/configs/$(basename "$file")
+done
+
+for file in `find app/build/intermediates/merged_assets/luckydogRelease/out/ -type f -name "*.ya"`
+do
+    echo $file
+    cp $file outputs/luckydog/configs/$(basename "$file")
+done
