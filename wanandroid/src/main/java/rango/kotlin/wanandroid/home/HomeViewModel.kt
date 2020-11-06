@@ -1,4 +1,4 @@
-package rango.kotlin.wanandroid.main
+package rango.kotlin.wanandroid.home
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,8 +17,17 @@ class HomeViewModel : ViewModel() {
         MutableLiveData<FailureData>()
     }
 
-    fun requestHomeData(pageNo: Int) {
-        httpRequest({ httpService.getArticleList(pageNo) }, homeLiveData, requestErrorLiveData)
+    fun refreshHomeData() {
+        requestHomeData(0)
+    }
+
+    fun loadMoreHomeData() {
+        val page = homeLiveData.value?.curPage ?: 0
+        requestHomeData(page)
+    }
+
+    private fun requestHomeData(page: Int) {
+        httpRequest({ httpService.getArticleList(page) }, homeLiveData, requestErrorLiveData)
     }
 
 

@@ -88,8 +88,13 @@ abstract class BaseRecyclerViewAdapter : RecyclerView.Adapter<ViewWrapper>() {
     }
 
     fun append(position: Int, items: List<BaseItemData<*>>) {
+        val isNotifyAll = position == mItems.size
         mItems.addAll(position, items)
-        notifyItemRangeChanged(position, items.size)
+        if (isNotifyAll) {
+            notifyDataSetChanged()
+        } else {
+            notifyItemRangeChanged(position, items.size)
+        }
     }
 
     fun remove(position: Int) {

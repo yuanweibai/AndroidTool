@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.wa_activity_login_layout.*
-import rango.kotlin.wanandroid.main.WAMainActivity
+import rango.kotlin.wanandroid.home.WAMainActivity
 import rango.kotlin.wanandroid.common.http.api.bean.LoginBean
 import rango.kotlin.wanandroid.common.http.lib.FailureData
 

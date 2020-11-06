@@ -1,4 +1,4 @@
-package rango.kotlin.wanandroid.main
+package rango.kotlin.wanandroid.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -11,10 +11,10 @@ class WAMainActivity : AppCompatActivity() {
         setContentView(R.layout.wa_activity_main_layout)
 
 
-
         val homeFragment = WAHomeFragment()
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.fragment_container, homeFragment)
+        transaction.disallowAddToBackStack()
         transaction.commit()
     }
 }

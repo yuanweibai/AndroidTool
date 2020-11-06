@@ -1,11 +1,9 @@
-package rango.kotlin.wanandroid.main
+package rango.kotlin.wanandroid.home
 
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.wa_home_item_article_layout.view.*
 import rango.kotlin.wanandroid.R
 import rango.kotlin.wanandroid.common.list.BaseItemView
