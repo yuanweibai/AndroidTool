@@ -205,6 +205,7 @@
             android:theme="@style/TransparentStyle" />
         <activity android:name="rango.kotlin.coroutines.CoroutinesActivity" />
         <activity android:name="rango.kotlin.AllTestActivity" />
+        <activity android:name="rango.kotlin.calendar.CalendarActivity" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 

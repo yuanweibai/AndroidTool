@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import rango.kotlin.AllTestActivity;
+import rango.kotlin.calendar.CalendarActivity;
 import rango.kotlin.currentactivity.WatchingActivityService;
 import rango.kotlin.mytest.MyTestActivity;
 import rango.kotlin.mytest.TransparentActivity;
@@ -35,7 +36,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(LaunchActivity.class);
+            startActivity(CalendarActivity.class);
 //            TransparentActivity.start();
         }
 
