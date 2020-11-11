@@ -3,6 +3,7 @@ package rango.kotlin.calendar
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.LinearLayout
 import android.widget.NumberPicker
+import androidx.annotation.ColorInt
 import androidx.constraintlayout.widget.ConstraintLayout
 import rango.tool.androidtool.R
 import rango.tool.common.utils.ScreenUtils
@@ -25,8 +27,10 @@ class SpinnerDatePicker @JvmOverloads constructor(context: Context, attributeSet
         val DEFAULT_LINE_HEIGHT = ScreenUtils.dp2px(1f)
         const val DEFAULT_PICKER_HEIGHT = ViewGroup.LayoutParams.WRAP_CONTENT
         const val DEFAULT_PICKER_ITEM_WIDTH = ViewGroup.LayoutParams.WRAP_CONTENT
-        const val DEFAULT_PICKER_ITEM_INTERVAL = 0
+        const val DEFAULT_PICKER_ITEM_INTERVAL = -1
+        const val DEFAULT_ORIGINAL_DIVIDER_COLOR = -1
 
+        const val ORIGINAL_DIVIDER_COLOR_FIELD = "mSelectionDivider"
     }
 
     private var lineDrawable: Drawable? = null
@@ -35,6 +39,9 @@ class SpinnerDatePicker @JvmOverloads constructor(context: Context, attributeSet
     private var pickerHeight: Int
     private var pickerItemWidth: Int
     private var pickerItemInterval: Int
+
+    @ColorInt
+    private var originalDividerColor: Int
 
 
     init {
@@ -47,9 +54,16 @@ class SpinnerDatePicker @JvmOverloads constructor(context: Context, attributeSet
         pickerHeight = styleAttr.getDimensionPixelSize(R.styleable.SpinnerDatePicker_picker_height, DEFAULT_PICKER_HEIGHT)
         pickerItemWidth = styleAttr.getDimensionPixelSize(R.styleable.SpinnerDatePicker_picker_item_width, DEFAULT_PICKER_ITEM_WIDTH)
         pickerItemInterval = styleAttr.getDimensionPixelSize(R.styleable.SpinnerDatePicker_picker_item_interval, DEFAULT_PICKER_ITEM_INTERVAL)
+        originalDividerColor = styleAttr.getColor(R.styleable.SpinnerDatePicker_original_divider_color, DEFAULT_ORIGINAL_DIVIDER_COLOR)
         styleAttr.recycle()
 
-        resizePicker()
+        if (shouldResizePicker()) {
+            resizePicker()
+        }
+
+        if (shouldResetDividerColor()) {
+            setOriginalDividerDrawable(ColorDrawable(originalDividerColor))
+        }
     }
 
     override fun onAttachedToWindow() {
@@ -64,7 +78,7 @@ class SpinnerDatePicker @JvmOverloads constructor(context: Context, attributeSet
             throw IllegalStateException("The parent of spinnerDatePicker must be a ConstraintLayout!!! $parent")
         }
 
-        if (!hideOriginalDatePickerDivider()) {
+        if (!hideOriginalDivider()) {
             Log.e(TAG, "Hide original date picker divider failure!!! So show original divider.")
             return
         }
@@ -96,15 +110,15 @@ class SpinnerDatePicker @JvmOverloads constructor(context: Context, attributeSet
         return lineView
     }
 
-    private fun hideOriginalDatePickerDivider(): Boolean {
-        if (setOriginalDatePickerDividerDrawable(null)) {
+    private fun hideOriginalDivider(): Boolean {
+        if (setOriginalDividerDrawable(null)) {
             invalidate()
             return true
         }
         return false
     }
 
-    private fun setOriginalDatePickerDividerDrawable(drawable: Drawable?): Boolean {
+    private fun setOriginalDividerDrawable(drawable: Any?): Boolean {
         val dateContainer: LinearLayout = getChildAt(0) as LinearLayout
         val spinnerContainer: LinearLayout = dateContainer.getChildAt(0) as LinearLayout
         var result = 0
@@ -112,7 +126,7 @@ class SpinnerDatePicker @JvmOverloads constructor(context: Context, attributeSet
             val picker: NumberPicker = spinnerContainer.getChildAt(i) as NumberPicker
             val fieldList: Array<Field> = NumberPicker::class.java.declaredFields
             for (field in fieldList) {
-                if (field.name == "mSelectionDivider") {
+                if (field.name == ORIGINAL_DIVIDER_COLOR_FIELD) {
                     field.isAccessible = true
                     try {
                         field.set(picker, drawable)
@@ -161,33 +175,44 @@ class SpinnerDatePicker @JvmOverloads constructor(context: Context, attributeSet
         return numberPickerList
     }
 
+    private fun shouldResizePicker(): Boolean {
+        return pickerHeight != DEFAULT_PICKER_HEIGHT || pickerItemWidth != DEFAULT_PICKER_ITEM_WIDTH || pickerItemInterval != DEFAULT_PICKER_ITEM_INTERVAL
+    }
+
+    private fun shouldResetDividerColor(): Boolean {
+        return lineDrawable == null && originalDividerColor != DEFAULT_ORIGINAL_DIVIDER_COLOR
+    }
+
 
     private fun resizeNumberPicker(index: Int, np: NumberPicker?) {
         if (index >= 3) {
             throw IllegalStateException("Index must be smaller than 3!!! index = $index")
         }
         val params = LinearLayout.LayoutParams(pickerItemWidth, pickerHeight)
-        val halfInterval = pickerItemInterval / 2
-        val left: Int
-        val right: Int
-        when (index) {
-            0 -> {
-                left = 0
-                right = halfInterval
+        if (pickerItemInterval != DEFAULT_PICKER_ITEM_INTERVAL) {
+            val halfInterval = pickerItemInterval / 2
+            val left: Int
+            val right: Int
+            when (index) {
+                0 -> {
+                    left = 0
+                    right = halfInterval
+                }
+                1 -> {
+                    left = halfInterval
+                    right = halfInterval
+                }
+                2 -> {
+                    left = halfInterval
+                    right = 0
+                }
+                else -> {
+                    throw IllegalStateException("Index is illegal!!!")
+                }
             }
-            1 -> {
-                left = halfInterval
-                right = halfInterval
-            }
-            2 -> {
-                left = halfInterval
-                right = 0
-            }
-            else -> {
-                throw IllegalStateException("Index is illegal!!!")
-            }
+            params.setMargins(left, 0, right, 0)
         }
-        params.setMargins(left, 0, right, 0)
+
         np?.layoutParams = params
     }
 }

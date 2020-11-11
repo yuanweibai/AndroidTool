@@ -22,7 +22,7 @@
         android:id="@+id/spinnerPicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="220dp"
         android:endYear="2020"
         android:startYear="1970"
         android:theme="@style/Theme.picker"
@@ -35,13 +35,16 @@
         app:picker_item_interval="10dp"
         app:picker_item_width="60dp" />
 
-    <View
-        android:layout_width="300dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="250dp"
-        android:background="@drawable/line_shape"
+    <rango.kotlin.calendar.SpinnerDatePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="380dp"
+        android:endYear="2020"
+        android:startYear="1970"
+        app:original_divider_color="#FF5722"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <NumberPicker
         android:id="@+id/numberPicker"

@@ -48,5 +48,6 @@
         <attr name="picker_height" format="dimension" />
         <attr name="picker_item_width" format="dimension" />
         <attr name="picker_item_interval" format="dimension" />
+        <attr name="original_divider_color" format="color" />
     </declare-styleable>
 </resources>
