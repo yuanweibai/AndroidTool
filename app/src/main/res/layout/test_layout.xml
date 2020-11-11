@@ -12,6 +12,20 @@
 
 
         <Button
+            android:id="@+id/constraintBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="constraintLayout详解"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/calendarBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="日历"
+            android:textAllCaps="false" />
+
+        <Button
             android:id="@+id/screenRecordBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

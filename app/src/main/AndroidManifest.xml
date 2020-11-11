@@ -206,6 +206,7 @@
         <activity android:name="rango.kotlin.coroutines.CoroutinesActivity" />
         <activity android:name="rango.kotlin.AllTestActivity" />
         <activity android:name="rango.kotlin.calendar.CalendarActivity" />
+        <activity android:name="rango.kotlin.constraint.ConstraintActivity" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 

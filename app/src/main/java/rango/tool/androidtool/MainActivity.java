@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import rango.kotlin.AllTestActivity;
 import rango.kotlin.calendar.CalendarActivity;
+import rango.kotlin.constraint.ConstraintActivity;
 import rango.kotlin.currentactivity.WatchingActivityService;
 import rango.kotlin.mytest.MyTestActivity;
 import rango.kotlin.mytest.TransparentActivity;

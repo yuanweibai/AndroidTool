@@ -38,4 +38,15 @@
     <declare-styleable name="BladeFlashImageView">
         <attr name="flash_bitmap" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="SpinnerDatePicker">
+        <attr name="android:layout_width" />
+        <attr name="android:layout_height" />
+        <attr name="line_background" format="reference|color" />
+        <attr name="line_width" format="dimension" />
+        <attr name="line_height" format="dimension" />
+        <attr name="picker_height" format="dimension" />
+        <attr name="picker_item_width" format="dimension" />
+        <attr name="picker_item_interval" format="dimension" />
+    </declare-styleable>
 </resources>

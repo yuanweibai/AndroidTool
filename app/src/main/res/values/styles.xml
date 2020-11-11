@@ -67,7 +67,7 @@
 
     <style name="Widget.EditText.White" parent="@android:style/Widget.EditText">
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">88sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="Theme.picker" parent="android:Theme.Holo.Light">

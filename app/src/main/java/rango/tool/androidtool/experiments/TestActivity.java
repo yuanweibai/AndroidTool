@@ -11,10 +11,13 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.util.Log;
 import android.view.View;
 
+import rango.kotlin.calendar.CalendarActivity;
+import rango.kotlin.constraint.ConstraintActivity;
 import rango.kotlin.screenrecord.ScreenRecordManager;
 import rango.kotlin.views.ViewActivity;
 import rango.kotlin.views.custom.TestViewActivity;
@@ -191,6 +194,8 @@ public class TestActivity extends BaseActivity {
         findViewById(R.id.download_install_btn).setOnClickListener(v -> downloadApk());
 
         findViewById(R.id.screenRecordBtn).setOnClickListener(v -> ScreenRecordManager.INSTANCE.showScreenRecordView(TestActivity.this, 12));
+        findViewById(R.id.calendarBtn).setOnClickListener(v -> startActivity(CalendarActivity.class));
+        findViewById(R.id.constraintBtn).setOnClickListener(v -> startActivity(ConstraintActivity.class));
 
     }
 

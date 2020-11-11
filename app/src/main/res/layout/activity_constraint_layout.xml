@@ -5,137 +5,20 @@
     android:layout_height="match_parent"
     android:background="#fff">
 
-    <View
-        android:id="@+id/empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/first_view"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread"
-        app:layout_constraintVertical_weight="1" />
 
-    <View
+    <TextView
         android:id="@+id/first_view"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="100dp"
         android:background="#F44336"
-        app:layout_constraintBottom_toTopOf="@+id/empty_2_view"
-        app:layout_constraintTop_toBottomOf="@id/empty_view" />
-
-    <View
-        android:id="@+id/empty_2_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/second_view"
-        app:layout_constraintTop_toBottomOf="@id/first_view"
-        app:layout_constraintVertical_weight="1" />
-
-    <View
-        android:id="@+id/second_view"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="#2196F3"
-        app:layout_constraintBottom_toTopOf="@id/empty_3_view"
-        app:layout_constraintTop_toBottomOf="@id/empty_2_view" />
-
-    <View
-        android:id="@+id/empty_3_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/third_view"
-        app:layout_constraintTop_toBottomOf="@id/second_view"
-        app:layout_constraintVertical_weight="4" />
-
-    <View
-        android:id="@+id/third_view"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="#CDDC39"
-        app:layout_constraintBottom_toTopOf="@+id/empty_4_view"
+        android:text="alkjdkjdlfajfjaklkajdsl"
+        android:textSize="26sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/third_2_view"
-        app:layout_constraintTop_toBottomOf="@id/empty_3_view" />
-
-    <View
-        android:id="@+id/third_2_view"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="#CDDC39"
-        app:layout_constraintBottom_toTopOf="@+id/empty_4_view"
-        app:layout_constraintLeft_toRightOf="@id/third_view"
-        app:layout_constraintRight_toLeftOf="@+id/third_3_view"
-        app:layout_constraintTop_toBottomOf="@id/empty_3_view" />
-
-    <View
-        android:id="@+id/third_3_view"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="#CDDC39"
-        app:layout_constraintBottom_toTopOf="@+id/empty_4_view"
-        app:layout_constraintLeft_toRightOf="@id/third_2_view"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/empty_3_view" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/empty_4_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/forth_view"
-        app:layout_constraintTop_toBottomOf="@id/third_view"
-        app:layout_constraintVertical_weight="1" />
-
-    <View
-        android:id="@+id/forth_view"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="#CDDC39"
-        app:layout_constraintBottom_toTopOf="@+id/empty_5_view"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/forth_2_view"
-        app:layout_constraintTop_toBottomOf="@id/empty_4_view" />
-
-    <View
-        android:id="@+id/forth_2_view"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="#CDDC39"
-        app:layout_constraintBottom_toTopOf="@+id/empty_5_view"
-        app:layout_constraintLeft_toRightOf="@id/forth_view"
-        app:layout_constraintRight_toLeftOf="@+id/forth_3_view"
-        app:layout_constraintTop_toBottomOf="@id/empty_4_view" />
-
-    <View
-        android:id="@+id/forth_3_view"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="#CDDC39"
-        app:layout_constraintBottom_toTopOf="@+id/empty_5_view"
-        app:layout_constraintLeft_toRightOf="@id/forth_2_view"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/empty_4_view" />
-
-    <View
-        android:id="@+id/empty_5_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/fifth_view"
-        app:layout_constraintTop_toBottomOf="@id/forth_view"
-        app:layout_constraintVertical_weight="1" />
-
-    <View
-        android:id="@+id/fifth_view"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#CDDC39"
-        app:layout_constraintBottom_toTopOf="@+id/empty_6_view"
-        app:layout_constraintTop_toBottomOf="@id/empty_5_view" />
-
-    <View
-        android:id="@+id/empty_6_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fifth_view"
-        app:layout_constraintVertical_weight="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

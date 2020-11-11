@@ -4,19 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8767BF"
+    android:background="#702CEA"
     tools:ignore="MissingDefaultResource">
 
     <DatePicker
-        android:layout_width="400dp"
-        android:layout_height="400dp"
-        android:calendarTextColor="#F3C63E"
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:calendarViewShown="false"
-        android:datePickerMode="spinner"
         android:endYear="2020"
         android:startYear="1970"
         android:theme="@style/Theme.picker"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <rango.kotlin.calendar.SpinnerDatePicker
+        android:id="@+id/spinnerPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300dp"
+        android:endYear="2020"
+        android:startYear="1970"
+        android:theme="@style/Theme.picker"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:line_background="@drawable/line_shape"
+        app:line_height="1dp"
+        app:line_width="100dp"
+        app:picker_height="100dp"
+        app:picker_item_interval="10dp"
+        app:picker_item_width="60dp" />
+
+    <View
+        android:layout_width="300dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/line_shape"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <NumberPicker
+        android:id="@+id/numberPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
