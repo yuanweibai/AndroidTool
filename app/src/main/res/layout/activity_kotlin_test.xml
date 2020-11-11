@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -19,13 +20,16 @@
         android:text="stop"
         android:textAllCaps="false" />
 
-    <TextView
+    <rango.kotlin.views.BlurTextView
         android:id="@+id/msg_text"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:background="#FF0000"
-        android:padding="20dp"
-        android:text="hhhhhhhh"
-        android:textColor="#ffffff"
-        android:textSize="18sp" />
+        android:maxLines="3"
+        android:text="发的六块腹肌阿里的咖啡机阿里快递放假啦科技发达啦看到faldfaldfjlkadjflakjdflakdjsflaksjdflaksdjflaksdjflakdsjfalksdjflaksdjflaksdjflakjsdflaksdjflaksd"
+        android:textColor="#201D1D"
+        android:textSize="18sp"
+        app:blur_end_color="#ffffffff"
+        app:blur_height="24dp"
+        app:blur_start_color="#10ffffff" />
 </LinearLayout>

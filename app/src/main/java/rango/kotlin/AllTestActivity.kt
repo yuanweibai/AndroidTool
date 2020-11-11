@@ -15,6 +15,10 @@ class AllTestActivity : BaseActivity() {
         coroutinesBtn.setOnClickListener {
             startActivity(CoroutinesActivity::class.java)
         }
+
+        kotlinTestBtn.setOnClickListener {
+            startActivity(KotlinTestActivity::class.java)
+        }
     }
 
 }

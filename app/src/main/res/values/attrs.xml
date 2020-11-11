@@ -50,4 +50,10 @@
         <attr name="picker_item_interval" format="dimension" />
         <attr name="original_divider_color" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="BlurTextView">
+        <attr name="blur_start_color" format="color" />
+        <attr name="blur_end_color" format="color" />
+        <attr name="blur_height" format="dimension" />
+    </declare-styleable>
 </resources>
