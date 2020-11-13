@@ -1,11 +1,16 @@
 package rango.kotlin.wanandroid.common.utils
 
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.os.MessageQueue
+import android.util.Log
 import java.util.concurrent.*
 import java.util.concurrent.atomic.AtomicInteger
 
 object Threads {
+
+    private const val TAG = "AndroidToolThreads"
 
     private const val THREAD_TAG_POOL = "rango-pool-thread-"
     private const val THREAD_TAG_SINGLE = "rango-single-thread"
@@ -13,27 +18,31 @@ object Threads {
 
     private var sExecutor: ThreadPoolExecutor? = null
     private val sDefaultThreadFactory = Executors.defaultThreadFactory()
-    private var sSingleThreadExecutor: Executor? = null
+    private var sSingleThreadExecutor: Executor
     private val sMainHandler = Handler(Looper.getMainLooper())
 
-    fun postWorker(r: Runnable?) {
+    fun postWorker(r: Runnable) {
         sExecutor!!.execute(r)
     }
 
-    fun postOnSingleWorker(r: Runnable?) {
-        sSingleThreadExecutor!!.execute(r)
+    fun postOnSingleWorker(r: Runnable) {
+        sSingleThreadExecutor.execute(r)
     }
 
-    fun postMain(r: Runnable?) {
-        sMainHandler.post(r!!)
+    fun postMain(r: Runnable) {
+        sMainHandler.post(r)
     }
 
-    fun postMain(r: Runnable?, delay: Long) {
-        sMainHandler.postDelayed(r!!, delay)
+    fun postMain(r: Runnable, delay: Long) {
+        sMainHandler.postDelayed(r, delay)
     }
 
-    fun removeOnMainThread(r: Runnable?) {
-        sMainHandler.removeCallbacks(r!!)
+    fun removeOnMainThread(r: Runnable) {
+        sMainHandler.removeCallbacks(r)
+    }
+
+    fun removeAllCallbackAndMessage() {
+        sMainHandler.removeCallbacksAndMessages(null)
     }
 
     fun runOnMainThread(r: Runnable) {
@@ -42,6 +51,36 @@ object Threads {
             postMain(r)
         } else {
             r.run()
+        }
+    }
+
+    fun runOnMainThreadIdle(action: () -> Unit, timeoutMills: Long) {
+        val idleHandler = MessageQueue.IdleHandler {
+            Log.d(TAG, "run action when handler idle ......")
+            sMainHandler.removeCallbacksAndMessages(null) // remove timeout action
+            action()
+            return@IdleHandler false
+        }
+
+        fun setupIdleHandler(messageQueue: MessageQueue) {
+            sMainHandler.postDelayed({
+                Log.d(TAG, "run action because of timeout ......")
+                messageQueue.removeIdleHandler(idleHandler)
+                action()
+            }, timeoutMills)
+            messageQueue.addIdleHandler(idleHandler)
+        }
+
+        if (Looper.getMainLooper() == Looper.myLooper()) {
+            setupIdleHandler(Looper.myQueue())
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                setupIdleHandler(Looper.getMainLooper().queue)
+            } else {
+                sMainHandler.post {
+                    setupIdleHandler(Looper.myQueue())
+                }
+            }
         }
     }
 
