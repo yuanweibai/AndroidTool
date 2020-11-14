@@ -38,4 +38,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <ProgressBar
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="300dp"
+        android:layout_height="9dp"
+        android:max="100"
+        android:progress="56"
+        android:progressDrawable="@drawable/progress_bar_circle_head" />
+
+    <ProgressBar
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="300dp"
+        android:layout_height="9dp"
+        android:layout_marginTop="30dp"
+        android:max="100"
+        android:progress="56"
+        android:progressDrawable="@drawable/progress_bar_normal_head" />
+
 </LinearLayout>
