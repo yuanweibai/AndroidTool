@@ -11,10 +11,19 @@ import kotlinx.coroutines.*
 import rango.tool.androidtool.R
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
+import kotlin.properties.Delegates
 
 class KotlinTestActivity : AppCompatActivity() {
 
     private lateinit var msgText: TextView
+
+    private val arr: IntArray = intArrayOf(2, 3, 4)
+
+    private var name: String by Delegates.observable("dd") { property, oldValue, newValue ->
+        run {
+            Log.e("rango", "dd_$oldValue")
+        }
+    }
 
 
     private val coroutineScope = CoroutineScope(Job() + Dispatchers.Main)
@@ -36,6 +45,9 @@ class KotlinTestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kotlin_test)
+
+
+
 
         msgText = findViewById(R.id.msg_text)
         Log.e("rango-onCreate", "threadName = " + Thread.currentThread().name)

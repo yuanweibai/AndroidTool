@@ -5,6 +5,10 @@
 
     </style>
 
+    <style name="main" parent="AppTheme">
+        <item name="android:windowBackground">@color/red</item>
+    </style>
+
     <style name="NavigationBarStyle" parent="Theme.AppCompat.NoActionBar" />
 
     <style name="Image" parent="AppTheme">
