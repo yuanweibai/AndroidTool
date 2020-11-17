@@ -5,13 +5,19 @@
     android:layout_height="match_parent"
     android:background="#FF9800">
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/bezierGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="bezier2Btn,bezier3Btn,bezierView" />
+
     <Button
         android:id="@+id/bezier2Btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
         android:text="二阶贝塞尔曲线"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="10dp"
         app:layout_constraintRight_toLeftOf="@+id/bezier3Btn"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,9 +36,57 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bezierBtn"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/heartGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="heartStartBtn,heartView" />
+
+    <Button
+        android:id="@+id/heartStartBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:text="开始变成心形"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <rango.kotlin.bezier.HeartShapeView
+        android:id="@+id/heartView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="80dp"
+        app:layout_constraintBottom_toTopOf="@id/bezierBtn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/bezierBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:text="贝塞尔曲线"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/heartBtn" />
+
+    <Button
+        android:id="@+id/heartBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="心形"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/bezierBtn"
+        app:layout_constraintRight_toRightOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
