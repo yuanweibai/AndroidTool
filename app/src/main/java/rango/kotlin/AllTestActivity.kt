@@ -2,6 +2,7 @@ package rango.kotlin
 
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_all_test.*
+import rango.kotlin.bezier.BezierActivity
 import rango.kotlin.coroutines.CoroutinesActivity
 import rango.tool.androidtool.R
 import rango.tool.androidtool.base.BaseActivity
@@ -18,6 +19,10 @@ class AllTestActivity : BaseActivity() {
 
         kotlinTestBtn.setOnClickListener {
             startActivity(KotlinTestActivity::class.java)
+        }
+
+        bezierBtn.setOnClickListener {
+            startActivity(BezierActivity::class.java)
         }
     }
 

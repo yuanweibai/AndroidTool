@@ -10,6 +10,13 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/bezierBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="贝塞尔曲线"
+            android:textAllCaps="false" />
+
+        <Button
             android:id="@+id/kotlinTestBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
