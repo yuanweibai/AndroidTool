@@ -26,7 +26,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="二阶贝塞尔曲线"
+        android:text="三阶贝塞尔曲线"
         app:layout_constraintLeft_toRightOf="@id/bezier2Btn"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
