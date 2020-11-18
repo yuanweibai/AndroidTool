@@ -60,7 +60,7 @@ class MagicCircleView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         mPath.reset()
-        canvas.translate(radius, radius*3)
+        canvas.translate(radius, radius * 3)
         if (mInterpolatedTime >= 0 && mInterpolatedTime <= 0.2) {
             model1(mInterpolatedTime)
         } else if (mInterpolatedTime > 0.2 && mInterpolatedTime <= 0.5) {
@@ -190,14 +190,27 @@ class MagicCircleView @JvmOverloads constructor(
         }
     }
 
+    private var moveAnim: MoveAnimation? = null
+    override fun setVisibility(visibility: Int) {
+        super.setVisibility(visibility)
+
+        if (visibility != VISIBLE) {
+            clearAnimation()
+            moveAnim?.cancel()
+        }
+    }
+
+
     fun startAnimation() {
         mPath.reset()
         mInterpolatedTime = 0f
-        val move = MoveAnimation()
-        move.duration = 1000
-        move.interpolator = AccelerateDecelerateInterpolator()
-        move.repeatCount = Animation.INFINITE;
-        move.repeatMode = Animation.REVERSE;
-        startAnimation(move)
+        moveAnim = MoveAnimation()
+        moveAnim?.run {
+            duration = 1000
+            interpolator = AccelerateDecelerateInterpolator()
+            repeatCount = Animation.INFINITE
+            repeatMode = Animation.REVERSE
+        }
+        startAnimation(moveAnim)
     }
 }
