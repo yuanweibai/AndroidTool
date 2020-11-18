@@ -68,6 +68,34 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/magicCircleGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="magicCircleStartBtn,magicCircleView" />
+
+    <Button
+        android:id="@+id/magicCircleStartBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:text="开始弹"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <rango.kotlin.bezier.MagicCircleView
+        android:id="@+id/magicCircleView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="80dp"
+        app:layout_constraintBottom_toTopOf="@id/bezierBtn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <Button
         android:id="@+id/bezierBtn"
         android:layout_width="0dp"
@@ -76,6 +104,16 @@
         android:text="贝塞尔曲线"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/magicCircleBtn" />
+
+    <Button
+        android:id="@+id/magicCircleBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:text="弹性球"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/bezierBtn"
         app:layout_constraintRight_toLeftOf="@+id/heartBtn" />
 
     <Button
@@ -85,7 +123,7 @@
         android:layout_marginLeft="10dp"
         android:text="心形"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/bezierBtn"
+        app:layout_constraintLeft_toRightOf="@id/magicCircleBtn"
         app:layout_constraintRight_toRightOf="parent" />
 
 
