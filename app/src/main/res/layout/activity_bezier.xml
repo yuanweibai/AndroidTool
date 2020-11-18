@@ -35,7 +35,7 @@
         android:id="@+id/bezierView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="50dp"
+        android:layout_margin="80dp"
         app:layout_constraintBottom_toTopOf="@id/bezierBtn"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -96,11 +96,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
+    <rango.kotlin.bezier.BookPageView
+        android:id="@+id/bookPageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="80dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/bezierBtn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/bezierBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="4dp"
         android:text="贝塞尔曲线"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -110,20 +121,30 @@
         android:id="@+id/magicCircleBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginHorizontal="4dp"
         android:text="弹性球"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/bezierBtn"
+        app:layout_constraintRight_toLeftOf="@+id/bookPageBtn" />
+
+    <Button
+        android:id="@+id/bookPageBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="4dp"
+        android:text="翻页效果"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/magicCircleBtn"
         app:layout_constraintRight_toLeftOf="@+id/heartBtn" />
 
     <Button
         android:id="@+id/heartBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="4dp"
         android:text="心形"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/magicCircleBtn"
+        app:layout_constraintLeft_toRightOf="@id/bookPageBtn"
         app:layout_constraintRight_toRightOf="parent" />
 
 

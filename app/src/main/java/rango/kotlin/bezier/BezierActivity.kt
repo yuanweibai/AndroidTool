@@ -22,6 +22,7 @@ class BezierActivity : BaseActivity() {
         bezierBtn.setOnClickListener {
             heartGroup.visibility = View.GONE
             magicCircleGroup.visibility = View.GONE
+            bookPageView.visibility = View.GONE
             bezierGroup.visibility = View.VISIBLE
         }
 
@@ -32,17 +33,26 @@ class BezierActivity : BaseActivity() {
         heartBtn.setOnClickListener {
             bezierGroup.visibility = View.GONE
             magicCircleGroup.visibility = View.GONE
+            bookPageView.visibility = View.GONE
             heartGroup.visibility = View.VISIBLE
         }
 
         magicCircleBtn.setOnClickListener {
             bezierGroup.visibility = View.GONE
             heartGroup.visibility = View.GONE
+            bookPageView.visibility = View.GONE
             magicCircleGroup.visibility = View.VISIBLE
         }
 
         magicCircleStartBtn.setOnClickListener {
             magicCircleView.startAnimation()
+        }
+
+        bookPageBtn.setOnClickListener {
+            bezierGroup.visibility = View.GONE
+            heartGroup.visibility = View.GONE
+            magicCircleGroup.visibility = View.GONE
+            bookPageView.visibility = View.VISIBLE
         }
 
     }
