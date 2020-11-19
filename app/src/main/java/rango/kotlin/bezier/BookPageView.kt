@@ -48,6 +48,7 @@ class BookPageView @JvmOverloads constructor(
     private var isFlippingOver = false
 
     init {
+        setLayerType(LAYER_TYPE_SOFTWARE, null)
         paint.isAntiAlias = true
         paint.style = Paint.Style.STROKE
     }
@@ -69,7 +70,7 @@ class BookPageView @JvmOverloads constructor(
         pointC.y = screenCornerF.y
 
         controlH.x = screenCornerF.x
-        controlH.y = screenCornerF.y - (screenCornerF.x - controlE.x) * (screenCornerF.y - assistG.y) / (assistG.x - controlE.x)
+        controlH.y = assistG.y - (screenCornerF.x - assistG.x) * (screenCornerF.x - assistG.x) / (screenCornerF.y - assistG.y)
 
         pointJ.x = screenCornerF.x
         pointJ.y = controlH.y - (screenCornerF.y - controlH.y) / 2f
@@ -162,14 +163,13 @@ class BookPageView @JvmOverloads constructor(
 
     private fun setContentPathFromRightBottom() {
         path.reset()
-        path.moveTo(0f, 0f)
-        path.lineTo(0f, pointC.y)
+        path.lineTo(0f, viewHeight)
         path.lineTo(pointC.x, pointC.y)
         path.quadTo(controlE.x, controlE.y, pointB.x, pointB.y)
         path.lineTo(fingerA.x, fingerA.y)
         path.lineTo(pointK.x, pointK.y)
         path.quadTo(controlH.x, controlH.y, pointJ.x, pointJ.y)
-        path.lineTo(pointJ.x, 0f)
+        path.lineTo(viewWidth, 0f)
         path.close()
     }
 
@@ -283,7 +283,6 @@ class BookPageView @JvmOverloads constructor(
     private fun actionUp() {
         isFlippingOver = false
         postInvalidate()
-
     }
 
     private fun getMoveFrom(x: Float, y: Float): Int {

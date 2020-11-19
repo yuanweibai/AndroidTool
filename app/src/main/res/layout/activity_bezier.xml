@@ -95,18 +95,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <rango.kotlin.bezier.BookPageView
-        android:id="@+id/bookPageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="80dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/bezierBtn"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/bezierBtn"
         android:layout_width="0dp"
