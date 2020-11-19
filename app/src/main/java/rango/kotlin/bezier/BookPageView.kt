@@ -3,6 +3,7 @@ package rango.kotlin.bezier
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import rango.tool.common.utils.ScreenUtils
@@ -233,9 +234,9 @@ class BookPageView @JvmOverloads constructor(
         canvas?.run {
             path.reset()
             path.moveTo(0f, 0f)
-            path.lineTo(0f, height.toFloat())
-            path.lineTo(width.toFloat(), height.toFloat())
-            path.lineTo(width.toFloat(), 0f)
+            path.lineTo(0f, viewHeight)
+            path.lineTo(viewWidth, viewHeight)
+            path.lineTo(viewWidth, 0f)
             path.close()
 
             paint.style = Paint.Style.FILL
@@ -270,19 +271,19 @@ class BookPageView @JvmOverloads constructor(
         fingerA.x = x
         fingerA.y = y
         calculatePoint()
-        postInvalidate()
+        invalidate()
     }
 
     private fun actionMoving(x: Float, y: Float) {
         fingerA.x = x
         fingerA.y = y
         calculatePoint()
-        postInvalidate()
+        invalidate()
     }
 
     private fun actionUp() {
         isFlippingOver = false
-        postInvalidate()
+        invalidate()
     }
 
     private fun getMoveFrom(x: Float, y: Float): Int {

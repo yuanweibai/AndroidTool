@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import rango.kotlin.AllTestActivity;
 import rango.kotlin.bezier.BezierActivity;
+import rango.kotlin.bezier.BookPageActivity;
 import rango.kotlin.calendar.CalendarActivity;
 import rango.kotlin.constraint.ConstraintActivity;
 import rango.kotlin.currentactivity.WatchingActivityService;
@@ -38,7 +39,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(BezierActivity.class);
+            startActivity(BookPageActivity.class);
 //            TransparentActivity.start();
         }
 
