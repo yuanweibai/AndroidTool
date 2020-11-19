@@ -6,7 +6,7 @@
     </style>
 
     <style name="main" parent="AppTheme">
-        <item name="android:windowBackground">@color/red</item>
+        <item name="android:windowBackground">@color/white</item>
     </style>
 
     <style name="NavigationBarStyle" parent="Theme.AppCompat.NoActionBar" />

@@ -68,10 +68,6 @@ class BookPageView @JvmOverloads constructor(
 
     private fun calculatePoint() {
 
-        if (isMoveDirectly()) {
-            return
-        }
-
         assistG.x = (fingerA.x + screenCornerF.x) / 2f
         assistG.y = (fingerA.y + screenCornerF.y) / 2f
 
@@ -228,14 +224,14 @@ class BookPageView @JvmOverloads constructor(
 
     private fun setContentPathFromLeftBottom() {
         path.reset()
-        path.moveTo(viewWidth, viewHeight)
-        path.lineTo(viewWidth, 0f)
-        path.lineTo(0f, 0f)
+        path.moveTo(0f, 0f)
         path.lineTo(pointJ.x, pointJ.y)
         path.quadTo(controlH.x, controlH.y, pointK.x, pointK.y)
         path.lineTo(fingerA.x, fingerA.y)
         path.lineTo(pointB.x, pointB.y)
         path.quadTo(controlE.x, controlE.y, pointC.x, pointC.y)
+        path.lineTo(viewWidth, viewHeight)
+        path.lineTo(viewWidth, 0f)
         path.close()
     }
 
@@ -369,7 +365,12 @@ class BookPageView @JvmOverloads constructor(
             return
         }
         isFlippingOver = true
-        fingerA.x = x
+
+        fingerA.x = if (x <= 0) {
+            1f
+        } else {
+            x
+        }
         fingerA.y = y
 
         when (moveFrom) {
@@ -391,7 +392,9 @@ class BookPageView @JvmOverloads constructor(
             }
         }
 
-        calculatePoint()
+        if (!isMoveDirectly()) {
+            calculatePoint()
+        }
         invalidate()
     }
 
@@ -400,9 +403,18 @@ class BookPageView @JvmOverloads constructor(
     }
 
     private fun actionMoving(x: Float, y: Float) {
-        fingerA.x = x
+
+
+        fingerA.x = if (x <= 0) {
+            1f
+        } else {
+            x
+        }
         fingerA.y = y
-        calculatePoint()
+
+        if (!isMoveDirectly()) {
+            calculatePoint()
+        }
         invalidate()
     }
 
