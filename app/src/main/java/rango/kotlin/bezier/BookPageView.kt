@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import rango.tool.common.utils.ScreenUtils
+import java.lang.IllegalStateException
 
 class BookPageView @JvmOverloads constructor(
         context: Context,
@@ -15,10 +16,16 @@ class BookPageView @JvmOverloads constructor(
 ) : View(context, attributeSet, defStyle) {
 
     companion object {
+        const val TAG = "BookPageView"
+        const val MOVE_FROM_INVALID = 0
         const val MOVE_FROM_RIGHT_BOTTOM = 1
         const val MOVE_FROM_RIGHT_TOP = 2
         const val MOVE_FROM_LEFT_BOTTOM = 3
         const val MOVE_FROM_LEFT_TOP = 4
+        const val MOVE_FROM_LEFT_DIRECTLY = 5
+        const val MOVE_FROM_TOP_DIRECTLY = 6
+        const val MOVE_FROM_RIGHT_DIRECTLY = 7
+        const val MOVE_FROM_BOTTOM_DIRECTLY = 8
     }
 
     private val paint = Paint()
@@ -60,6 +67,10 @@ class BookPageView @JvmOverloads constructor(
     }
 
     private fun calculatePoint() {
+
+        if (isMoveDirectly()) {
+            return
+        }
 
         assistG.x = (fingerA.x + screenCornerF.x) / 2f
         assistG.y = (fingerA.y + screenCornerF.y) / 2f
@@ -154,6 +165,21 @@ class BookPageView @JvmOverloads constructor(
                 MOVE_FROM_RIGHT_BOTTOM -> {
                     setContentPathFromRightBottom()
                 }
+                MOVE_FROM_RIGHT_DIRECTLY -> {
+                    setContentPathFromRight()
+                }
+                MOVE_FROM_LEFT_DIRECTLY -> {
+                    setContentPathFromLeft()
+                }
+                MOVE_FROM_TOP_DIRECTLY -> {
+                    setContentPathFromTop()
+                }
+                MOVE_FROM_BOTTOM_DIRECTLY -> {
+                    setContentPathFromBottom()
+                }
+                else -> {
+                    throw IllegalStateException("DrawPageContent error: moveFrom = $moveFrom is not know!!!")
+                }
             }
 
             paint.style = Paint.Style.FILL
@@ -213,21 +239,112 @@ class BookPageView @JvmOverloads constructor(
         path.close()
     }
 
+    private fun setContentPathFromLeft() {
+        path.reset()
+        path.moveTo(fingerA.x, 0f)
+        path.lineTo(fingerA.x, viewHeight)
+        path.lineTo(viewWidth, viewHeight)
+        path.lineTo(viewHeight, 0f)
+        path.close()
+    }
+
+    private fun setContentPathFromTop() {
+        path.reset()
+        path.moveTo(0f, fingerA.y)
+        path.lineTo(viewWidth, fingerA.y)
+        path.lineTo(viewWidth, viewHeight)
+        path.lineTo(0f, viewHeight)
+        path.close()
+    }
+
+    private fun setContentPathFromRight() {
+        path.reset()
+        path.moveTo(0f, 0f)
+        path.lineTo(0f, viewHeight)
+        path.lineTo(fingerA.x, viewHeight)
+        path.lineTo(fingerA.x, 0f)
+        path.close()
+    }
+
+    private fun setContentPathFromBottom() {
+        path.reset()
+        path.moveTo(0f, 0f)
+        path.lineTo(0f, fingerA.y)
+        path.lineTo(viewWidth, fingerA.y)
+        path.lineTo(viewWidth, 0f)
+        path.close()
+    }
+
     private fun drawPageBack(canvas: Canvas?) {
         canvas?.run {
-
-            path.reset()
-            path.moveTo(fingerA.x, fingerA.y)
-            path.lineTo(pointB.x, pointB.y)
-            path.lineTo(pointD.x, pointD.y)
-            path.lineTo(pointI.x, pointI.y)
-            path.lineTo(pointK.x, pointK.y)
-            path.close()
+            when (moveFrom) {
+                MOVE_FROM_LEFT_DIRECTLY -> {
+                    setBackPathFromLeft()
+                }
+                MOVE_FROM_TOP_DIRECTLY -> {
+                    setBackPathFromTop()
+                }
+                MOVE_FROM_RIGHT_DIRECTLY -> {
+                    setBackPathFromRight()
+                }
+                MOVE_FROM_BOTTOM_DIRECTLY -> {
+                    setBackPathFromBottom()
+                }
+                else -> {
+                    setBackPathFromFourCorners()
+                }
+            }
 
             paint.style = Paint.Style.FILL
             paint.color = Color.BLUE
             drawPath(path, paint)
         }
+    }
+
+    private fun setBackPathFromFourCorners() {
+        path.reset()
+        path.moveTo(fingerA.x, fingerA.y)
+        path.lineTo(pointB.x, pointB.y)
+        path.lineTo(pointD.x, pointD.y)
+        path.lineTo(pointI.x, pointI.y)
+        path.lineTo(pointK.x, pointK.y)
+        path.close()
+    }
+
+    private fun setBackPathFromLeft() {
+        path.reset()
+        path.moveTo(fingerA.x, 0f)
+        path.lineTo(fingerA.x, viewHeight)
+        path.lineTo(fingerA.x / 2f, viewHeight)
+        path.lineTo(fingerA.x / 2f, 0f)
+        path.close()
+    }
+
+    private fun setBackPathFromTop() {
+        path.reset()
+        path.moveTo(0f, fingerA.y)
+        path.lineTo(viewWidth, fingerA.y)
+        path.lineTo(viewWidth, fingerA.y / 2f)
+        path.lineTo(0f, fingerA.y / 2f)
+        path.close()
+    }
+
+    private fun setBackPathFromRight() {
+        path.reset()
+        path.moveTo(fingerA.x, 0f)
+        path.lineTo(fingerA.x, viewHeight)
+        path.lineTo((viewWidth + fingerA.x) / 2f, viewHeight)
+        path.lineTo((viewWidth + fingerA.x) / 2f, 0f)
+        path.close()
+    }
+
+    private fun setBackPathFromBottom() {
+        path.reset()
+        path.moveTo(0f, fingerA.y)
+        path.lineTo(viewWidth, fingerA.y)
+        path.lineTo(viewWidth, (fingerA.y + viewHeight) / 2f)
+        path.lineTo(0f, (fingerA.y + viewHeight) / 2f)
+        path.close()
     }
 
     private fun drawNextPage(canvas: Canvas?) {
@@ -246,9 +363,14 @@ class BookPageView @JvmOverloads constructor(
     }
 
     private fun actionDown(x: Float, y: Float) {
-        isFlippingOver = true
-
         moveFrom = getMoveFrom(x, y)
+        if (moveFrom == MOVE_FROM_INVALID) {
+            Log.d(TAG, "actionDown: moveFrom is invalid, x = $x,y = $y,viewWidth = $viewWidth,viewHeight = $viewHeight")
+            return
+        }
+        isFlippingOver = true
+        fingerA.x = x
+        fingerA.y = y
 
         when (moveFrom) {
             MOVE_FROM_LEFT_TOP -> {
@@ -268,10 +390,13 @@ class BookPageView @JvmOverloads constructor(
                 screenCornerF.y = viewHeight
             }
         }
-        fingerA.x = x
-        fingerA.y = y
+
         calculatePoint()
         invalidate()
+    }
+
+    private fun isMoveDirectly(): Boolean {
+        return moveFrom == MOVE_FROM_RIGHT_DIRECTLY || moveFrom == MOVE_FROM_BOTTOM_DIRECTLY || moveFrom == MOVE_FROM_LEFT_DIRECTLY || moveFrom == MOVE_FROM_TOP_DIRECTLY
     }
 
     private fun actionMoving(x: Float, y: Float) {
@@ -289,14 +414,28 @@ class BookPageView @JvmOverloads constructor(
     private fun getMoveFrom(x: Float, y: Float): Int {
         val halfWidth = viewWidth / 2f
         val halfHeight = viewHeight / 2f
-        return if (x < halfWidth && y < halfHeight) {
+        val quarterWidth = viewWidth / 4f
+        val quarterHeight = viewHeight / 4f
+        return if (x < quarterWidth && y < quarterHeight) {
             MOVE_FROM_LEFT_TOP
-        } else if (x < halfWidth && y >= halfHeight) {
+        } else if (x < quarterWidth && y < (halfHeight + quarterHeight)) {
+            MOVE_FROM_LEFT_DIRECTLY
+        } else if (x < quarterWidth && y <= viewHeight) {
             MOVE_FROM_LEFT_BOTTOM
-        } else if (x >= halfWidth && y < halfHeight) {
+        } else if (x < (halfWidth + quarterWidth) && y < quarterHeight) {
+            MOVE_FROM_TOP_DIRECTLY
+        } else if (x < (halfWidth + quarterWidth) && y < (halfHeight + quarterHeight)) {
+            MOVE_FROM_INVALID
+        } else if (x < (halfWidth + quarterWidth) && y <= viewHeight) {
+            MOVE_FROM_BOTTOM_DIRECTLY
+        } else if (x <= viewWidth && y < quarterHeight) {
             MOVE_FROM_RIGHT_TOP
-        } else {
+        } else if (x <= viewWidth && y < (halfHeight + quarterHeight)) {
+            MOVE_FROM_RIGHT_DIRECTLY
+        } else if (x < viewWidth && y <= viewHeight) {
             MOVE_FROM_RIGHT_BOTTOM
+        } else {
+            throw IllegalStateException("getMoveFrom error: x = $x, y = $y,viewHeight = $viewHeight,viewWidth = $viewWidth")
         }
     }
 
