@@ -1,13 +1,19 @@
 package rango.kotlin.bezier
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import rango.tool.common.utils.ScreenUtils
 import java.lang.IllegalStateException
+import kotlin.math.abs
 
 class BookPageView @JvmOverloads constructor(
         context: Context,
@@ -17,6 +23,7 @@ class BookPageView @JvmOverloads constructor(
 
     companion object {
         const val TAG = "BookPageView"
+        const val MAX_DURATION_RETURN_BACK = 1000
         const val MOVE_FROM_INVALID = 0
         const val MOVE_FROM_RIGHT_BOTTOM = 1
         const val MOVE_FROM_RIGHT_TOP = 2
@@ -26,6 +33,7 @@ class BookPageView @JvmOverloads constructor(
         const val MOVE_FROM_TOP_DIRECTLY = 6
         const val MOVE_FROM_RIGHT_DIRECTLY = 7
         const val MOVE_FROM_BOTTOM_DIRECTLY = 8
+
     }
 
     private val paint = Paint()
@@ -359,11 +367,15 @@ class BookPageView @JvmOverloads constructor(
     }
 
     private fun actionDown(x: Float, y: Float) {
-        moveFrom = getMoveFrom(x, y)
-        if (moveFrom == MOVE_FROM_INVALID) {
+        val from = getMoveFrom(x, y)
+        if (from == MOVE_FROM_INVALID) {
             Log.d(TAG, "actionDown: moveFrom is invalid, x = $x,y = $y,viewWidth = $viewWidth,viewHeight = $viewHeight")
             return
         }
+
+        cancelActionUpAnim()
+
+        moveFrom = from
         isFlippingOver = true
 
         fingerA.x = if (x <= 0) {
@@ -403,8 +415,6 @@ class BookPageView @JvmOverloads constructor(
     }
 
     private fun actionMoving(x: Float, y: Float) {
-
-
         fingerA.x = if (x <= 0) {
             1f
         } else {
@@ -419,8 +429,139 @@ class BookPageView @JvmOverloads constructor(
     }
 
     private fun actionUp() {
-        isFlippingOver = false
-        invalidate()
+        if (!isMoveDirectly()) {
+            startActionUpAnimFromFourCorners()
+        } else {
+            when (moveFrom) {
+                MOVE_FROM_LEFT_DIRECTLY -> {
+                    startActionUpAnimFromLeft()
+                }
+                MOVE_FROM_TOP_DIRECTLY -> {
+                    startActionUpAnimFromTop()
+                }
+                MOVE_FROM_RIGHT_DIRECTLY -> {
+                    startActionUpAnimFromRight()
+                }
+                MOVE_FROM_BOTTOM_DIRECTLY -> {
+                    startActionUpAnimFromBottom()
+                }
+            }
+        }
+    }
+
+    private var k = 1f
+    private var b = 0f
+    private var actionUpAnimator: ValueAnimator? = null
+
+    private fun startActionUpAnimFromFourCorners() {
+        k = (fingerA.y - screenCornerF.y) / (fingerA.x - screenCornerF.x)
+        b = fingerA.y - k * fingerA.x
+
+        cancelActionUpAnim()
+        actionUpAnimator = ValueAnimator.ofFloat(fingerA.x, screenCornerF.x)
+        actionUpAnimator?.run {
+
+            addUpdateListener {
+                val x = it.animatedValue as Float
+                fingerA.x = if (x <= 0) {
+                    1f
+                } else {
+                    x
+                }
+                fingerA.y = k * x + b
+                calculatePoint()
+                invalidate()
+            }
+
+            duration = getReturnBackDuration(abs(fingerA.x - screenCornerF.x))
+
+            interpolator = AccelerateDecelerateInterpolator()
+
+            addListener(object : AnimatorListenerAdapter() {
+                var isCanceled = false
+                override fun onAnimationEnd(animation: Animator?) {
+                    if (isCanceled) {
+                        return
+                    }
+                    isFlippingOver = false
+                    invalidate()
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                    isCanceled = true
+                }
+            })
+            start()
+        }
+    }
+
+    private fun getReturnBackDuration(distance: Float): Long {
+        return (distance / viewWidth * MAX_DURATION_RETURN_BACK).toLong()
+    }
+
+    private fun startActionUpAnimFromLeft() {
+        cancelActionUpAnim()
+        actionUpAnimator = ValueAnimator.ofFloat(fingerA.x, 0f)
+        actionUpAnimator?.run {
+            addUpdateListener {
+                fingerA.x = it.animatedValue as Float
+                invalidate()
+            }
+
+            duration = getReturnBackDuration(fingerA.x)
+            interpolator = AccelerateDecelerateInterpolator()
+            start()
+        }
+    }
+
+    private fun startActionUpAnimFromTop() {
+        cancelActionUpAnim()
+        actionUpAnimator = ValueAnimator.ofFloat(fingerA.y, 0f)
+        actionUpAnimator?.run {
+            addUpdateListener {
+                fingerA.y = it.animatedValue as Float
+                invalidate()
+            }
+
+            duration = getReturnBackDuration(fingerA.y)
+            interpolator = AccelerateDecelerateInterpolator()
+            start()
+        }
+    }
+
+    private fun startActionUpAnimFromRight() {
+        cancelActionUpAnim()
+        actionUpAnimator = ValueAnimator.ofFloat(fingerA.x, viewWidth)
+        actionUpAnimator?.run {
+            addUpdateListener {
+                fingerA.x = it.animatedValue as Float
+                invalidate()
+            }
+
+            duration = getReturnBackDuration(viewWidth - fingerA.x)
+            interpolator = AccelerateDecelerateInterpolator()
+            start()
+        }
+    }
+
+    private fun startActionUpAnimFromBottom() {
+        cancelActionUpAnim()
+        actionUpAnimator = ValueAnimator.ofFloat(fingerA.y, viewHeight)
+        actionUpAnimator?.run {
+            addUpdateListener {
+                fingerA.y = it.animatedValue as Float
+                invalidate()
+            }
+
+            duration = getReturnBackDuration(viewHeight - fingerA.y)
+            interpolator = AccelerateDecelerateInterpolator()
+            start()
+        }
+    }
+
+    private fun cancelActionUpAnim() {
+        actionUpAnimator?.cancel()
+        actionUpAnimator = null
     }
 
     private fun getMoveFrom(x: Float, y: Float): Int {
@@ -451,6 +592,7 @@ class BookPageView @JvmOverloads constructor(
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event?.run {
             when (action) {
