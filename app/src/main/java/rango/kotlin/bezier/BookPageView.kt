@@ -7,10 +7,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.ViewConfiguration
 import android.view.animation.LinearInterpolator
 import rango.tool.common.utils.ScreenUtils
 import java.lang.IllegalStateException
@@ -66,10 +65,13 @@ class BookPageView @JvmOverloads constructor(
 
     private var isFlippingOver = false
 
+    private val touchSlop: Int
+
     init {
         setLayerType(LAYER_TYPE_SOFTWARE, null)
         paint.isAntiAlias = true
         paint.style = Paint.Style.STROKE
+        touchSlop = ViewConfiguration.get(context).scaledTouchSlop
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -369,25 +371,14 @@ class BookPageView @JvmOverloads constructor(
         }
     }
 
+    private var downX = 0f
+    private var downY = 0f
+    private var isDownAgain = false
+
     private fun actionDown(x: Float, y: Float) {
-        val from = getMoveFrom(x, y)
-        if (from == MOVE_FROM_INVALID) {
-            Log.d(TAG, "actionDown: moveFrom is invalid, x = $x,y = $y,viewWidth = $viewWidth,viewHeight = $viewHeight")
-            return
-        }
-
-        cancelActionUpAnim()
-
-        moveFrom = from
-        isFlippingOver = true
-
-        setFingerA(x, y)
-        setScreenCornerF()
-
-        if (!isMoveDirectly()) {
-            calculatePoint()
-        }
-        invalidate()
+        isDownAgain = true
+        downX = x
+        downY = y
     }
 
     private fun setFingerA(x: Float, y: Float) {
@@ -454,6 +445,20 @@ class BookPageView @JvmOverloads constructor(
     }
 
     private fun actionMoving(x: Float, y: Float) {
+        if (isDownAgain) {
+            val from = getMoveFrom(x, y)
+            if (from == MOVE_FROM_INVALID) {
+                return
+            }
+            cancelActionUpAnim()
+
+            moveFrom = from
+            isFlippingOver = true
+
+            setScreenCornerF()
+            isDownAgain = false
+        }
+
         setFingerA(x, y)
 
         if (!isMoveDirectly()) {
@@ -563,30 +568,68 @@ class BookPageView @JvmOverloads constructor(
     }
 
     private fun getMoveFrom(x: Float, y: Float): Int {
-        val halfWidth = viewWidth / 2f
-        val halfHeight = viewHeight / 2f
-        val quarterWidth = viewWidth / 4f
-        val quarterHeight = viewHeight / 4f
-        return if (x < quarterWidth && y < quarterHeight) {
-            MOVE_FROM_LEFT_TOP
-        } else if (x < quarterWidth && y < (halfHeight + quarterHeight)) {
-            MOVE_FROM_LEFT_DIRECTLY
-        } else if (x < quarterWidth && y <= viewHeight) {
-            MOVE_FROM_LEFT_BOTTOM
-        } else if (x < (halfWidth + quarterWidth) && y < quarterHeight) {
-            MOVE_FROM_TOP_DIRECTLY
-        } else if (x < (halfWidth + quarterWidth) && y < (halfHeight + quarterHeight)) {
-            MOVE_FROM_INVALID
-        } else if (x < (halfWidth + quarterWidth) && y <= viewHeight) {
-            MOVE_FROM_BOTTOM_DIRECTLY
-        } else if (x <= viewWidth && y < quarterHeight) {
-            MOVE_FROM_RIGHT_TOP
-        } else if (x <= viewWidth && y < (halfHeight + quarterHeight)) {
-            MOVE_FROM_RIGHT_DIRECTLY
-        } else if (x < viewWidth && y <= viewHeight) {
-            MOVE_FROM_RIGHT_BOTTOM
-        } else {
-            throw IllegalStateException("getMoveFrom error: x = $x, y = $y,viewHeight = $viewHeight,viewWidth = $viewWidth")
+
+        val vectorX = x - downX
+        val vectorY = y - downY
+
+        val absVx = abs(vectorX)
+        val absVy = abs(vectorY)
+
+        val dirTilt = 0
+        val dirHorizontal = 1
+        val dirVertical = 2
+
+        val direction = when {
+            absVx > 2 * absVy && absVy < touchSlop -> {
+                dirHorizontal
+            }
+            absVy > 2 * absVx && absVx < touchSlop -> {
+                dirVertical
+            }
+            else -> {
+                dirTilt
+            }
+        }
+        return when (direction) {
+            dirHorizontal -> {
+                if (absVx < touchSlop) {
+                    MOVE_FROM_INVALID
+                } else {
+                    if (vectorX > 0) {
+                        MOVE_FROM_LEFT_DIRECTLY
+                    } else {
+                        MOVE_FROM_RIGHT_DIRECTLY
+                    }
+                }
+            }
+            dirVertical -> {
+                if (absVy < touchSlop) {
+                    MOVE_FROM_INVALID
+                } else {
+                    if (vectorY > 0) {
+                        MOVE_FROM_TOP_DIRECTLY
+                    } else {
+                        MOVE_FROM_BOTTOM_DIRECTLY
+                    }
+                }
+            }
+            else -> {
+                if (absVx < touchSlop || absVy < touchSlop) {
+                    MOVE_FROM_INVALID
+                } else {
+                    if (vectorX > 0 && vectorY < 0) {
+                        MOVE_FROM_LEFT_BOTTOM
+                    } else if (vectorX > 0 && vectorY > 0) {
+                        MOVE_FROM_LEFT_TOP
+                    } else if (vectorX < 0 && vectorY < 0) {
+                        MOVE_FROM_RIGHT_BOTTOM
+                    } else if (vectorX < 0 && vectorY > 0) {
+                        MOVE_FROM_RIGHT_TOP
+                    } else {
+                        MOVE_FROM_INVALID
+                    }
+                }
+            }
         }
     }
 
