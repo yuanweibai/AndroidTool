@@ -11,9 +11,11 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.LinearInterpolator
 import rango.tool.common.utils.ScreenUtils
 import java.lang.IllegalStateException
 import kotlin.math.abs
+import kotlin.math.sqrt
 
 class BookPageView @JvmOverloads constructor(
         context: Context,
@@ -23,7 +25,8 @@ class BookPageView @JvmOverloads constructor(
 
     companion object {
         const val TAG = "BookPageView"
-        const val MAX_DURATION_RETURN_BACK = 1000
+        const val MAX_DURATION_RETURN_BACK = 500
+
         const val MOVE_FROM_INVALID = 0
         const val MOVE_FROM_RIGHT_BOTTOM = 1
         const val MOVE_FROM_RIGHT_TOP = 2
@@ -378,13 +381,38 @@ class BookPageView @JvmOverloads constructor(
         moveFrom = from
         isFlippingOver = true
 
-        fingerA.x = if (x <= 0) {
-            1f
-        } else {
-            x
-        }
-        fingerA.y = y
+        setFingerA(x, y)
+        setScreenCornerF()
 
+        if (!isMoveDirectly()) {
+            calculatePoint()
+        }
+        invalidate()
+    }
+
+    private fun setFingerA(x: Float, y: Float) {
+        if (!isMoveDirectly()) {
+            fingerA.x = if (x <= 0) {
+                1f
+            } else {
+                x
+            }
+            fingerA.y = y
+        } else {
+            when (moveFrom) {
+                MOVE_FROM_LEFT_DIRECTLY, MOVE_FROM_RIGHT_DIRECTLY -> {
+                    fingerA.x = x
+                    fingerA.y = viewHeight / 2f
+                }
+                MOVE_FROM_TOP_DIRECTLY, MOVE_FROM_BOTTOM_DIRECTLY -> {
+                    fingerA.x = viewWidth / 2f
+                    fingerA.y = y
+                }
+            }
+        }
+    }
+
+    private fun setScreenCornerF() {
         when (moveFrom) {
             MOVE_FROM_LEFT_TOP -> {
                 screenCornerF.x = 0f
@@ -402,12 +430,23 @@ class BookPageView @JvmOverloads constructor(
                 screenCornerF.x = viewWidth
                 screenCornerF.y = viewHeight
             }
+            MOVE_FROM_LEFT_DIRECTLY -> {
+                screenCornerF.x = 0f
+                screenCornerF.y = viewHeight / 2f
+            }
+            MOVE_FROM_TOP_DIRECTLY -> {
+                screenCornerF.x = viewWidth / 2f
+                screenCornerF.y = 0f
+            }
+            MOVE_FROM_RIGHT_DIRECTLY -> {
+                screenCornerF.x = viewWidth
+                screenCornerF.y = viewHeight / 2f
+            }
+            MOVE_FROM_BOTTOM_DIRECTLY -> {
+                screenCornerF.x = viewWidth / 2f
+                screenCornerF.y = viewHeight
+            }
         }
-
-        if (!isMoveDirectly()) {
-            calculatePoint()
-        }
-        invalidate()
     }
 
     private fun isMoveDirectly(): Boolean {
@@ -415,12 +454,7 @@ class BookPageView @JvmOverloads constructor(
     }
 
     private fun actionMoving(x: Float, y: Float) {
-        fingerA.x = if (x <= 0) {
-            1f
-        } else {
-            x
-        }
-        fingerA.y = y
+        setFingerA(x, y)
 
         if (!isMoveDirectly()) {
             calculatePoint()
@@ -434,16 +468,28 @@ class BookPageView @JvmOverloads constructor(
         } else {
             when (moveFrom) {
                 MOVE_FROM_LEFT_DIRECTLY -> {
-                    startActionUpAnimFromLeft()
+                    startActionUpAnimFromDirectly(fingerA.x, 0f, ValueAnimator.AnimatorUpdateListener {
+                        fingerA.x = it.animatedValue as Float
+                        invalidate()
+                    })
                 }
                 MOVE_FROM_TOP_DIRECTLY -> {
-                    startActionUpAnimFromTop()
+                    startActionUpAnimFromDirectly(fingerA.y, 0f, ValueAnimator.AnimatorUpdateListener {
+                        fingerA.y = it.animatedValue as Float
+                        invalidate()
+                    })
                 }
                 MOVE_FROM_RIGHT_DIRECTLY -> {
-                    startActionUpAnimFromRight()
+                    startActionUpAnimFromDirectly(fingerA.x, viewWidth, ValueAnimator.AnimatorUpdateListener {
+                        fingerA.x = it.animatedValue as Float
+                        invalidate()
+                    })
                 }
                 MOVE_FROM_BOTTOM_DIRECTLY -> {
-                    startActionUpAnimFromBottom()
+                    startActionUpAnimFromDirectly(fingerA.y, viewHeight, ValueAnimator.AnimatorUpdateListener {
+                        fingerA.y = it.animatedValue as Float
+                        invalidate()
+                    })
                 }
             }
         }
@@ -473,9 +519,9 @@ class BookPageView @JvmOverloads constructor(
                 invalidate()
             }
 
-            duration = getReturnBackDuration(abs(fingerA.x - screenCornerF.x))
+            duration = getReturnBackDuration()
 
-            interpolator = AccelerateDecelerateInterpolator()
+            interpolator = LinearInterpolator()
 
             addListener(object : AnimatorListenerAdapter() {
                 var isCanceled = false
@@ -495,66 +541,18 @@ class BookPageView @JvmOverloads constructor(
         }
     }
 
-    private fun getReturnBackDuration(distance: Float): Long {
-        return (distance / viewWidth * MAX_DURATION_RETURN_BACK).toLong()
+    private fun getReturnBackDuration(): Long {
+        val distance = sqrt(((fingerA.x - screenCornerF.x) * (fingerA.x - screenCornerF.x) + (fingerA.y - screenCornerF.y) * (fingerA.y - screenCornerF.y)).toDouble())
+        return (distance / ScreenUtils.getScreenWidthPx() * MAX_DURATION_RETURN_BACK).toLong()
     }
 
-    private fun startActionUpAnimFromLeft() {
+    private fun startActionUpAnimFromDirectly(start: Float, end: Float, updateListener: ValueAnimator.AnimatorUpdateListener) {
         cancelActionUpAnim()
-        actionUpAnimator = ValueAnimator.ofFloat(fingerA.x, 0f)
+        actionUpAnimator = ValueAnimator.ofFloat(start, end)
         actionUpAnimator?.run {
-            addUpdateListener {
-                fingerA.x = it.animatedValue as Float
-                invalidate()
-            }
-
-            duration = getReturnBackDuration(fingerA.x)
-            interpolator = AccelerateDecelerateInterpolator()
-            start()
-        }
-    }
-
-    private fun startActionUpAnimFromTop() {
-        cancelActionUpAnim()
-        actionUpAnimator = ValueAnimator.ofFloat(fingerA.y, 0f)
-        actionUpAnimator?.run {
-            addUpdateListener {
-                fingerA.y = it.animatedValue as Float
-                invalidate()
-            }
-
-            duration = getReturnBackDuration(fingerA.y)
-            interpolator = AccelerateDecelerateInterpolator()
-            start()
-        }
-    }
-
-    private fun startActionUpAnimFromRight() {
-        cancelActionUpAnim()
-        actionUpAnimator = ValueAnimator.ofFloat(fingerA.x, viewWidth)
-        actionUpAnimator?.run {
-            addUpdateListener {
-                fingerA.x = it.animatedValue as Float
-                invalidate()
-            }
-
-            duration = getReturnBackDuration(viewWidth - fingerA.x)
-            interpolator = AccelerateDecelerateInterpolator()
-            start()
-        }
-    }
-
-    private fun startActionUpAnimFromBottom() {
-        cancelActionUpAnim()
-        actionUpAnimator = ValueAnimator.ofFloat(fingerA.y, viewHeight)
-        actionUpAnimator?.run {
-            addUpdateListener {
-                fingerA.y = it.animatedValue as Float
-                invalidate()
-            }
-
-            duration = getReturnBackDuration(viewHeight - fingerA.y)
-            interpolator = AccelerateDecelerateInterpolator()
+            addUpdateListener(updateListener)
+            duration = getReturnBackDuration()
+            interpolator = LinearInterpolator()
             start()
         }
     }
