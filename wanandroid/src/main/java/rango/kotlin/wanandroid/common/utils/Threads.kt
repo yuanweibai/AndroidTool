@@ -33,6 +33,10 @@ object Threads {
         sMainHandler.post(r)
     }
 
+    fun postAtFrontOfQueue(r: Runnable) {
+        sMainHandler.postAtFrontOfQueue(r)
+    }
+
     fun postMain(r: Runnable, delay: Long) {
         sMainHandler.postDelayed(r, delay)
     }
