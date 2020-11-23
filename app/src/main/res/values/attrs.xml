@@ -54,6 +54,6 @@
     <declare-styleable name="BlurTextView">
         <attr name="blur_start_color" format="color" />
         <attr name="blur_end_color" format="color" />
-        <attr name="blur_height" format="dimension" />
+        <attr name="blur_line_count" format="integer" />
     </declare-styleable>
 </resources>
