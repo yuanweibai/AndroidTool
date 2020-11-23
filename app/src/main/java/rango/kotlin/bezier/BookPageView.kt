@@ -102,7 +102,7 @@ class BookPageView @JvmOverloads constructor(
         viewHeight = h.toFloat()
     }
 
-    private fun calculateSpecialPoint(){
+    private fun calculateBasePoint() {
         assistG.x = (fingerA.x + screenCornerF.x) / 2f
         assistG.y = (fingerA.y + screenCornerF.y) / 2f
 
@@ -123,24 +123,22 @@ class BookPageView @JvmOverloads constructor(
 
     private fun calculatePoint() {
 
-        calculateSpecialPoint()
+        calculateBasePoint()
 
-        if (fingerA.x > 0 && fingerA.x < viewWidth) {
-            if (pointC.x < 0 || pointC.x > viewWidth) {
+        if (pointC.x < 0 || pointC.x > viewWidth) {
 
-                if (pointC.x < 0) {
-                    pointC.x = viewWidth - pointC.x
-                }
-
-                val tempB = abs(screenCornerF.x - fingerA.x)
-                val tempC = viewWidth * tempB / pointC.x
-                fingerA.x = abs(screenCornerF.x - tempC)
-
-                val tempD = abs(screenCornerF.x - fingerA.x) * abs(screenCornerF.y - fingerA.y) / tempB
-                fingerA.y = abs(screenCornerF.y - tempD)
-
-                calculateSpecialPoint()
+            if (pointC.x < 0) {
+                pointC.x = viewWidth - pointC.x
             }
+
+            val tempB = abs(screenCornerF.x - fingerA.x)
+            val tempC = viewWidth * tempB / pointC.x
+            fingerA.x = abs(screenCornerF.x - tempC)
+
+            val tempD = abs(screenCornerF.x - fingerA.x) * abs(screenCornerF.y - fingerA.y) / tempB
+            fingerA.y = abs(screenCornerF.y - tempD)
+
+            calculateBasePoint()
         }
 
         pointC.y = screenCornerF.y
