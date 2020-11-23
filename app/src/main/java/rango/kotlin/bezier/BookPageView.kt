@@ -56,7 +56,7 @@ class BookPageView @JvmOverloads constructor(
     private var viewWidth = 0.toFloat()
     private var viewHeight = 0.toFloat()
 
-    private var moveDirection = MOVE_DIRECTION_INVALID
+    private var moveFromDirection = MOVE_DIRECTION_INVALID
 
     private val colorArray = intArrayOf(Color.RED, Color.YELLOW)
     private var currentPageColorIndex = 0
@@ -68,33 +68,35 @@ class BookPageView @JvmOverloads constructor(
 
     private var clickListener: OnClickListener? = null
 
-    private var invalidMoveDirectionList: MutableList<Int> = ArrayList()
+    private var invalidMoveFromDirectionList: MutableList<Int> = ArrayList()
 
     private var isLikeBook = false
+
+    private var isMoveToNext = false
 
     init {
         setLayerType(LAYER_TYPE_SOFTWARE, null)
         paint.isAntiAlias = true
         paint.style = Paint.Style.STROKE
         touchSlop = ViewConfiguration.get(context).scaledTouchSlop
-        invalidMoveDirectionList.add(MOVE_DIRECTION_INVALID)
+        invalidMoveFromDirectionList.add(MOVE_DIRECTION_INVALID)
     }
 
-    fun resetMoveDirection() {
+    fun resetMoveFromDirection() {
         isLikeBook = false
-        invalidMoveDirectionList.clear()
-        invalidMoveDirectionList.add(MOVE_DIRECTION_INVALID)
+        invalidMoveFromDirectionList.clear()
+        invalidMoveFromDirectionList.add(MOVE_DIRECTION_INVALID)
     }
 
     fun setFlipDirectionLikeBook() {
         isLikeBook = true
-        invalidMoveDirectionList.clear()
-        invalidMoveDirectionList.add(MOVE_DIRECTION_INVALID)
-        invalidMoveDirectionList.add(MOVE_DIRECTION_LEFT_DIRECTLY)
-        invalidMoveDirectionList.add(MOVE_DIRECTION_TOP_DIRECTLY)
-        invalidMoveDirectionList.add(MOVE_DIRECTION_BOTTOM_DIRECTLY)
-        invalidMoveDirectionList.add(MOVE_DIRECTION_LEFT_BOTTOM)
-        invalidMoveDirectionList.add(MOVE_DIRECTION_LEFT_TOP)
+        invalidMoveFromDirectionList.clear()
+        invalidMoveFromDirectionList.add(MOVE_DIRECTION_INVALID)
+        invalidMoveFromDirectionList.add(MOVE_DIRECTION_LEFT_DIRECTLY)
+        invalidMoveFromDirectionList.add(MOVE_DIRECTION_TOP_DIRECTLY)
+        invalidMoveFromDirectionList.add(MOVE_DIRECTION_BOTTOM_DIRECTLY)
+        invalidMoveFromDirectionList.add(MOVE_DIRECTION_LEFT_BOTTOM)
+        invalidMoveFromDirectionList.add(MOVE_DIRECTION_LEFT_TOP)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -125,7 +127,7 @@ class BookPageView @JvmOverloads constructor(
 
         calculateBasePoint()
 
-        if (pointC.x < 0 || pointC.x > viewWidth) {
+        if (isLikeBook && (pointC.x < 0 || pointC.x > viewWidth)) {
 
             if (pointC.x < 0) {
                 pointC.x = viewWidth - pointC.x
@@ -211,7 +213,7 @@ class BookPageView @JvmOverloads constructor(
 
     private fun drawPageContent(canvas: Canvas?) {
         canvas?.run {
-            when (moveDirection) {
+            when (moveFromDirection) {
                 MOVE_DIRECTION_LEFT_TOP -> {
                     setContentPathFromLeftTop()
                 }
@@ -237,7 +239,7 @@ class BookPageView @JvmOverloads constructor(
                     setContentPathFromBottom()
                 }
                 else -> {
-                    throw IllegalStateException("DrawPageContent error: moveFrom = $moveDirection is not know!!!")
+                    throw IllegalStateException("DrawPageContent error: moveFrom = $moveFromDirection is not know!!!")
                 }
             }
 
@@ -336,7 +338,7 @@ class BookPageView @JvmOverloads constructor(
 
     private fun drawPageBack(canvas: Canvas?) {
         canvas?.run {
-            when (moveDirection) {
+            when (moveFromDirection) {
                 MOVE_DIRECTION_LEFT_DIRECTLY -> {
                     setBackPathFromLeft()
                 }
@@ -440,7 +442,7 @@ class BookPageView @JvmOverloads constructor(
             }
             fingerA.y = y
         } else {
-            when (moveDirection) {
+            when (moveFromDirection) {
                 MOVE_DIRECTION_LEFT_DIRECTLY, MOVE_DIRECTION_RIGHT_DIRECTLY -> {
                     fingerA.x = x
                     fingerA.y = viewHeight / 2f
@@ -454,7 +456,7 @@ class BookPageView @JvmOverloads constructor(
     }
 
     private fun setScreenCornerF() {
-        when (moveDirection) {
+        when (moveFromDirection) {
             MOVE_DIRECTION_LEFT_TOP -> {
                 screenCornerF.x = 0f
                 screenCornerF.y = 0f
@@ -491,11 +493,11 @@ class BookPageView @JvmOverloads constructor(
     }
 
     private fun isMoveDirectly(): Boolean {
-        return moveDirection == MOVE_DIRECTION_RIGHT_DIRECTLY || moveDirection == MOVE_DIRECTION_BOTTOM_DIRECTLY || moveDirection == MOVE_DIRECTION_LEFT_DIRECTLY || moveDirection == MOVE_DIRECTION_TOP_DIRECTLY
+        return moveFromDirection == MOVE_DIRECTION_RIGHT_DIRECTLY || moveFromDirection == MOVE_DIRECTION_BOTTOM_DIRECTLY || moveFromDirection == MOVE_DIRECTION_LEFT_DIRECTLY || moveFromDirection == MOVE_DIRECTION_TOP_DIRECTLY
     }
 
     private fun isMoveDirectionInvalid(moveDirection: Int): Boolean {
-        return invalidMoveDirectionList.contains(moveDirection)
+        return invalidMoveFromDirectionList.contains(moveDirection)
     }
 
     private fun actionMoving(x: Float, y: Float) {
@@ -504,9 +506,13 @@ class BookPageView @JvmOverloads constructor(
             if (isMoveDirectionInvalid(direction)) {
                 return
             }
-            cancelActionUpAnim()
+            if (isMoveToNext) {
+                endActionUpAnim()
+            } else {
+                cancelActionUpAnim()
+            }
 
-            moveDirection = direction
+            moveFromDirection = direction
             isFlippingOver = true
 
             setScreenCornerF()
@@ -521,38 +527,65 @@ class BookPageView @JvmOverloads constructor(
         invalidate()
     }
 
+    private fun showNext() {
+        val temp = currentPageColorIndex
+        currentPageColorIndex = nextPageColorIndex
+        nextPageColorIndex = temp
+    }
+
     private fun actionUp() {
         if (!isFlippingOver) {
             clickListener?.onClick(this)
             return
         }
 
+        isMoveToNext = isMoveToNext()
         if (!isMoveDirectly()) {
             startActionUpAnimFromFourCorners()
             return
         }
 
-        when (moveDirection) {
+        when (moveFromDirection) {
             MOVE_DIRECTION_LEFT_DIRECTLY -> {
-                startActionUpAnimFromDirectly(fingerA.x, 0f, ValueAnimator.AnimatorUpdateListener {
+                val endX = if (isMoveToNext) {
+                    viewWidth * 2
+                } else {
+                    0f
+                }
+                startActionUpAnimFromDirectly(fingerA.x, endX, ValueAnimator.AnimatorUpdateListener {
                     fingerA.x = it.animatedValue as Float
                     invalidate()
                 })
             }
             MOVE_DIRECTION_TOP_DIRECTLY -> {
-                startActionUpAnimFromDirectly(fingerA.y, 0f, ValueAnimator.AnimatorUpdateListener {
+                val endY = if (isMoveToNext) {
+                    viewHeight * 2
+                } else {
+                    0f
+                }
+                startActionUpAnimFromDirectly(fingerA.y, endY, ValueAnimator.AnimatorUpdateListener {
                     fingerA.y = it.animatedValue as Float
                     invalidate()
                 })
             }
             MOVE_DIRECTION_RIGHT_DIRECTLY -> {
-                startActionUpAnimFromDirectly(fingerA.x, viewWidth, ValueAnimator.AnimatorUpdateListener {
+                val endX = if (isMoveToNext) {
+                    -viewWidth
+                } else {
+                    viewWidth
+                }
+                startActionUpAnimFromDirectly(fingerA.x, endX, ValueAnimator.AnimatorUpdateListener {
                     fingerA.x = it.animatedValue as Float
                     invalidate()
                 })
             }
             MOVE_DIRECTION_BOTTOM_DIRECTLY -> {
-                startActionUpAnimFromDirectly(fingerA.y, viewHeight, ValueAnimator.AnimatorUpdateListener {
+                val endY = if (isMoveToNext) {
+                    -viewHeight
+                } else {
+                    viewHeight
+                }
+                startActionUpAnimFromDirectly(fingerA.y, endY, ValueAnimator.AnimatorUpdateListener {
                     fingerA.y = it.animatedValue as Float
                     invalidate()
                 })
@@ -560,31 +593,78 @@ class BookPageView @JvmOverloads constructor(
         }
     }
 
+    private fun isMoveToNext(): Boolean {
+        val couldFlipOverDistance = viewWidth / 3f
+        return abs(fingerA.x - screenCornerF.x) > couldFlipOverDistance || abs(fingerA.y - screenCornerF.y) > couldFlipOverDistance
+    }
+
     private var k = 1f
     private var b = 0f
     private var actionUpAnimator: ValueAnimator? = null
 
     private fun startActionUpAnimFromFourCorners() {
-        k = (fingerA.y - screenCornerF.y) / (fingerA.x - screenCornerF.x)
+
+        var endX = screenCornerF.x
+        var endY = screenCornerF.y
+
+        if (isMoveToNext) {
+            when (moveFromDirection) {
+                MOVE_DIRECTION_LEFT_TOP -> {
+                    if (fingerA.x > fingerA.y) {
+                        endX = viewWidth * 2
+                        endY = 0f
+                    } else {
+                        endX = 0f
+                        endY = viewHeight * 2
+                    }
+                }
+                MOVE_DIRECTION_LEFT_BOTTOM -> {
+                    if (fingerA.x > (viewHeight - fingerA.y)) {
+                        endX = viewWidth * 2
+                        endY = viewHeight
+                    } else {
+                        endX = 0f
+                        endY = -viewHeight
+                    }
+                }
+                MOVE_DIRECTION_RIGHT_BOTTOM -> {
+                    if ((viewWidth - fingerA.x) > (viewHeight - fingerA.y)) {
+                        endX = -viewWidth
+                        endY = viewHeight
+                    } else {
+                        endX = viewWidth
+                        endY = -viewHeight
+                    }
+                }
+                MOVE_DIRECTION_RIGHT_TOP -> {
+                    if ((viewWidth - fingerA.x) > fingerA.y) {
+                        endX = -viewWidth
+                        endY = 0f
+                    } else {
+                        endX = viewWidth
+                        endY = viewHeight * 2
+                    }
+                }
+            }
+        }
+
+        k = (fingerA.y - endY) / (fingerA.x - endX)
         b = fingerA.y - k * fingerA.x
 
         cancelActionUpAnim()
-        actionUpAnimator = ValueAnimator.ofFloat(fingerA.x, screenCornerF.x)
+        actionUpAnimator = ValueAnimator.ofFloat(fingerA.x, endX)
         actionUpAnimator?.run {
 
             addUpdateListener {
                 val x = it.animatedValue as Float
-                fingerA.x = if (x <= 0) {
-                    1f
-                } else {
-                    x
-                }
+                fingerA.x = x
                 fingerA.y = k * x + b
                 calculatePoint()
                 invalidate()
             }
 
-            duration = getReturnBackDuration()
+            val distance = sqrt(((fingerA.x - endX) * (fingerA.x - endX) + (fingerA.y - endY) * (fingerA.y - endY)))
+            duration = getReturnBackDuration(distance)
 
             interpolator = LinearInterpolator()
 
@@ -595,6 +675,9 @@ class BookPageView @JvmOverloads constructor(
                         return
                     }
                     isFlippingOver = false
+                    if (isMoveToNext) {
+                        showNext()
+                    }
                     invalidate()
                 }
 
@@ -606,8 +689,7 @@ class BookPageView @JvmOverloads constructor(
         }
     }
 
-    private fun getReturnBackDuration(): Long {
-        val distance = sqrt(((fingerA.x - screenCornerF.x) * (fingerA.x - screenCornerF.x) + (fingerA.y - screenCornerF.y) * (fingerA.y - screenCornerF.y)).toDouble())
+    private fun getReturnBackDuration(distance: Float): Long {
         return (distance / ScreenUtils.getScreenWidthPx() * MAX_DURATION_RETURN_BACK).toLong()
     }
 
@@ -616,7 +698,7 @@ class BookPageView @JvmOverloads constructor(
         actionUpAnimator = ValueAnimator.ofFloat(start, end)
         actionUpAnimator?.run {
             addUpdateListener(updateListener)
-            duration = getReturnBackDuration()
+            duration = getReturnBackDuration(abs(start - end))
             interpolator = LinearInterpolator()
             addListener(object : AnimatorListenerAdapter() {
                 private var isCanceled = false
@@ -629,6 +711,9 @@ class BookPageView @JvmOverloads constructor(
                         return
                     }
                     isFlippingOver = false
+                    if (isMoveToNext) {
+                        showNext()
+                    }
                     invalidate()
                 }
             })
@@ -638,6 +723,15 @@ class BookPageView @JvmOverloads constructor(
 
     private fun cancelActionUpAnim() {
         actionUpAnimator?.cancel()
+        actionUpAnimator = null
+    }
+
+    private fun endActionUpAnim() {
+        actionUpAnimator?.run {
+            if (isRunning) {
+                end()
+            }
+        }
         actionUpAnimator = null
     }
 

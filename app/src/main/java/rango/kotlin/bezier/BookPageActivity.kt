@@ -26,7 +26,7 @@ class BookPageActivity : BaseActivity() {
         }
 
         resetBtn.setOnClickListener {
-            bookPageView.resetMoveDirection()
+            bookPageView.resetMoveFromDirection()
             settingGroup.visibility = View.GONE
         }
     }
