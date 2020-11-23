@@ -102,19 +102,48 @@ class BookPageView @JvmOverloads constructor(
         viewHeight = h.toFloat()
     }
 
-    private fun calculatePoint() {
-
+    private fun calculateSpecialPoint(){
         assistG.x = (fingerA.x + screenCornerF.x) / 2f
         assistG.y = (fingerA.y + screenCornerF.y) / 2f
 
         controlE.x = assistG.x - (screenCornerF.y - assistG.y) * (screenCornerF.y - assistG.y) / (screenCornerF.x - assistG.x)
         controlE.y = screenCornerF.y
 
-        pointC.x = controlE.x - (screenCornerF.x - controlE.x) / 2f
-        pointC.y = screenCornerF.y
-
         controlH.x = screenCornerF.x
-        controlH.y = assistG.y - (screenCornerF.x - assistG.x) * (screenCornerF.x - assistG.x) / (screenCornerF.y - assistG.y)
+        val tempA = screenCornerF.y - assistG.y
+        if (tempA == 0f) {
+            // 0.1f 根据效果而调整
+            controlH.y = assistG.y - (screenCornerF.x - assistG.x) * (screenCornerF.x - assistG.x) / 0.1f
+        } else {
+            controlH.y = assistG.y - (screenCornerF.x - assistG.x) * (screenCornerF.x - assistG.x) / (screenCornerF.y - assistG.y)
+        }
+
+        pointC.x = controlE.x - (screenCornerF.x - controlE.x) / 2f
+    }
+
+    private fun calculatePoint() {
+
+        calculateSpecialPoint()
+
+        if (fingerA.x > 0 && fingerA.x < viewWidth) {
+            if (pointC.x < 0 || pointC.x > viewWidth) {
+
+                if (pointC.x < 0) {
+                    pointC.x = viewWidth - pointC.x
+                }
+
+                val tempB = abs(screenCornerF.x - fingerA.x)
+                val tempC = viewWidth * tempB / pointC.x
+                fingerA.x = abs(screenCornerF.x - tempC)
+
+                val tempD = abs(screenCornerF.x - fingerA.x) * abs(screenCornerF.y - fingerA.y) / tempB
+                fingerA.y = abs(screenCornerF.y - tempD)
+
+                calculateSpecialPoint()
+            }
+        }
+
+        pointC.y = screenCornerF.y
 
         pointJ.x = screenCornerF.x
         pointJ.y = controlH.y - (screenCornerF.y - controlH.y) / 2f
