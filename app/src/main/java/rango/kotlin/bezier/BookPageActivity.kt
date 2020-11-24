@@ -19,15 +19,5 @@ class BookPageActivity : BaseActivity() {
         maskView.setOnClickListener {
             settingGroup.visibility = View.GONE
         }
-
-        onlyRightBtn.setOnClickListener {
-            bookPageView.setFlipDirectionLikeBook()
-            settingGroup.visibility = View.GONE
-        }
-
-        resetBtn.setOnClickListener {
-            bookPageView.resetMoveFromDirection()
-            settingGroup.visibility = View.GONE
-        }
     }
 }

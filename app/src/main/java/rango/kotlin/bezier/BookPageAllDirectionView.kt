@@ -70,6 +70,7 @@ class BookPageAllDirectionView @JvmOverloads constructor(
 
     private var invalidMoveFromDirectionList: MutableList<Int> = ArrayList()
 
+    // true is dangerous
     private var isLikeBook = false
 
     private var isMoveToNext = false
@@ -610,40 +611,23 @@ class BookPageAllDirectionView @JvmOverloads constructor(
         if (isMoveToNext) {
             when (moveFromDirection) {
                 MOVE_DIRECTION_LEFT_TOP -> {
-                    if (fingerA.x > fingerA.y) {
-                        endX = viewWidth * 2
-                        endY = 0f
-                    } else {
-                        endX = 0f
-                        endY = viewHeight * 2
-                    }
+                    endX = viewWidth * 2
+                    endY = 0f
                 }
                 MOVE_DIRECTION_LEFT_BOTTOM -> {
-                    if (fingerA.x > (viewHeight - fingerA.y)) {
-                        endX = viewWidth * 2
-                        endY = viewHeight
-                    } else {
-                        endX = 0f
-                        endY = -viewHeight
-                    }
+                    endX = viewWidth * 2
+                    endY = viewHeight
+
                 }
                 MOVE_DIRECTION_RIGHT_BOTTOM -> {
-                    if ((viewWidth - fingerA.x) > (viewHeight - fingerA.y)) {
-                        endX = -viewWidth
-                        endY = viewHeight
-                    } else {
-                        endX = viewWidth
-                        endY = -viewHeight
-                    }
+                    endX = -viewWidth
+                    endY = viewHeight
+
                 }
                 MOVE_DIRECTION_RIGHT_TOP -> {
-                    if ((viewWidth - fingerA.x) > fingerA.y) {
-                        endX = -viewWidth
-                        endY = 0f
-                    } else {
-                        endX = viewWidth
-                        endY = viewHeight * 2
-                    }
+                    endX = -viewWidth
+                    endY = 0f
+
                 }
             }
         }

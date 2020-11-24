@@ -56,4 +56,11 @@
         <attr name="blur_end_color" format="color" />
         <attr name="blur_line_count" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="BookPageView">
+        <attr name="book_direction" format="integer">
+            <enum name="left" value="1" />
+            <enum name="right" value="2" />
+        </attr>
+    </declare-styleable>
 </resources>
