@@ -39,4 +39,11 @@
         app:layout_constraintLeft_toRightOf="@id/onlyRightBtn"
         app:layout_constraintRight_toRightOf="parent" />
 
+<!--    <TextView-->
+<!--        android:id="@+id/bookTextView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="18sp" />-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

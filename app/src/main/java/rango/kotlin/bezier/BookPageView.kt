@@ -6,6 +6,10 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
+import android.os.Build
+import android.text.Layout
+import android.text.StaticLayout
+import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -73,6 +77,9 @@ class BookPageView @JvmOverloads constructor(
 
     private var isMoveToNext = false
     private val bookDirection: Int
+    private var staticLayout: StaticLayout? = null
+
+    private val textPaint = TextPaint()
 
     init {
         val attrs = context.obtainStyledAttributes(attributeSet, R.styleable.BookPageView)
@@ -84,6 +91,23 @@ class BookPageView @JvmOverloads constructor(
         paint.isAntiAlias = true
         paint.style = Paint.Style.STROKE
         touchSlop = ViewConfiguration.get(context).scaledTouchSlop
+
+        textPaint.isAntiAlias = true
+        textPaint.textSize = ScreenUtils.dp2px(18f).toFloat()
+        textPaint.color = Color.WHITE
+        post(Runnable {
+            initBookContent(BookLoaderManager.getTestData())
+        })
+    }
+
+    private fun initBookContent(text: String) {
+        staticLayout = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            StaticLayout.Builder.obtain(text, 0, text.length, textPaint, (viewWidth - ScreenUtils.dp2px(48f)).toInt())
+                    .setAlignment(Layout.Alignment.ALIGN_CENTER)
+                    .build()
+        } else {
+            StaticLayout(text, textPaint, (viewWidth - ScreenUtils.dp2px(48f)).toInt(), Layout.Alignment.ALIGN_CENTER, 1f, 0f, true)
+        }
     }
 
     private fun initInvalidMoveFromDirectionList() {
@@ -190,6 +214,7 @@ class BookPageView @JvmOverloads constructor(
     private fun drawCurrentContent(canvas: Canvas?) {
         canvas?.run {
             drawColor(colorArray[currentPageColorIndex])
+            staticLayout?.draw(this)
         }
     }
 
@@ -222,6 +247,11 @@ class BookPageView @JvmOverloads constructor(
             paint.style = Paint.Style.FILL
             paint.color = colorArray[currentPageColorIndex]
             drawPath(path, paint)
+
+            canvas.save()
+            canvas.clipPath(path)
+            staticLayout?.draw(canvas)
+            canvas.restore()
         }
     }
 

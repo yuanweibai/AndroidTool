@@ -19,5 +19,17 @@ class BookPageActivity : BaseActivity() {
         maskView.setOnClickListener {
             settingGroup.visibility = View.GONE
         }
+
+//        bookTextView.text = getTestData()
+    }
+
+    private fun getTestData(): String {
+        val list = BookLoaderManager.getBookContent()
+        val buffer = StringBuffer()
+        list.forEach {
+            buffer.append(it)
+            buffer.append("\n")
+        }
+        return buffer.toString()
     }
 }
