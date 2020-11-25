@@ -2,12 +2,17 @@ package rango.kotlin
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.TextView
 import kotlinx.coroutines.*
+import rango.kotlin.utils.Devices
+import rango.kotlin.utils.FileUtils
+import rango.kotlin.utils.Permissions
 import rango.tool.androidtool.R
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
@@ -41,19 +46,36 @@ class KotlinTestActivity : AppCompatActivity() {
         }
     }
 
+    private var mills = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kotlin_test)
 
 
+        mills = System.currentTimeMillis()
 
+        val jpgBitmap = BitmapFactory.decodeResource(resources, R.drawable.wallpaper_2)
+        Log.e("rango-bitmap", "big_time = ${System.currentTimeMillis() - mills}")
+
+        val options = BitmapFactory.Options()
+        options.inPreferredConfig = Bitmap.Config.RGB_565
+        mills = System.currentTimeMillis()
+        val webpBitmap = BitmapFactory.decodeResource(resources, R.drawable.wallpaper_2_test, options)
+        Log.e("rango-bitmap", "small_time = ${System.currentTimeMillis() - mills}")
+
+        Log.e("rango-bitmap", "jpgBitmap.allocationByteCount = ${jpgBitmap.allocationByteCount}，jpgBitmap.byteCount = ${jpgBitmap.byteCount}, width = ${jpgBitmap.width}, height = ${jpgBitmap.height},config = ${jpgBitmap.config.name}")
+        Log.e("rango-bitmap", "webpBitmap.allocationByteCount = ${webpBitmap.allocationByteCount}，webpBitmap.byteCount = ${webpBitmap.byteCount}, width = ${webpBitmap.width},height = ${webpBitmap.height},config = ${webpBitmap.config.name}")
+
+//        Permissions.requestStoragePermission(this)
+////        FileUtils.saveBitmap(jpgBitmap, "ddd.jpg", Bitmap.CompressFormat.JPEG)
+////        FileUtils.saveBitmap(webpBitmap, "ccc.webp", Bitmap.CompressFormat.WEBP)
 
         msgText = findViewById(R.id.msg_text)
         Log.e("rango-onCreate", "threadName = " + Thread.currentThread().name)
 
         findViewById<View>(R.id.start_btn).setOnClickListener {
-            startAction()
+            Devices.logMemoryInfo()
         }
 
         findViewById<View>(R.id.stop_btn).setOnClickListener(View.OnClickListener() {
