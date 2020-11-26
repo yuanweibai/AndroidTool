@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import kotlinx.coroutines.*
+import rango.kotlin.utils.Bitmaps
 import rango.kotlin.utils.Devices
 import rango.kotlin.utils.FileUtils
 import rango.kotlin.utils.Permissions
@@ -55,18 +56,20 @@ class KotlinTestActivity : AppCompatActivity() {
 
         mills = System.currentTimeMillis()
 
-        val jpgBitmap = BitmapFactory.decodeResource(resources, R.drawable.wallpaper_2)
-        Log.e("rango-bitmap", "big_time = ${System.currentTimeMillis() - mills}")
+//        val jpgBitmap = BitmapFactory.decodeResource(resources, R.drawable.wallpaper_2)
+//        Log.e("rango-bitmap", "big_time = ${System.currentTimeMillis() - mills}")
+//
+//        val options = BitmapFactory.Options()
+//        options.inPreferredConfig = Bitmap.Config.RGB_565
+//        mills = System.currentTimeMillis()
+//        val webpBitmap = BitmapFactory.decodeResource(resources, R.drawable.wallpaper_2_test, options)
+//        Log.e("rango-bitmap", "small_time = ${System.currentTimeMillis() - mills}")
+//
+//        Log.e("rango-bitmap", "jpgBitmap.allocationByteCount = ${jpgBitmap.allocationByteCount}，jpgBitmap.byteCount = ${jpgBitmap.byteCount}, width = ${jpgBitmap.width}, height = ${jpgBitmap.height},config = ${jpgBitmap.config.name}")
+//        Log.e("rango-bitmap", "webpBitmap.allocationByteCount = ${webpBitmap.allocationByteCount}，webpBitmap.byteCount = ${webpBitmap.byteCount}, width = ${webpBitmap.width},height = ${webpBitmap.height},config = ${webpBitmap.config.name}")
 
-        val options = BitmapFactory.Options()
-        options.inPreferredConfig = Bitmap.Config.RGB_565
-        mills = System.currentTimeMillis()
-        val webpBitmap = BitmapFactory.decodeResource(resources, R.drawable.wallpaper_2_test, options)
-        Log.e("rango-bitmap", "small_time = ${System.currentTimeMillis() - mills}")
 
-        Log.e("rango-bitmap", "jpgBitmap.allocationByteCount = ${jpgBitmap.allocationByteCount}，jpgBitmap.byteCount = ${jpgBitmap.byteCount}, width = ${jpgBitmap.width}, height = ${jpgBitmap.height},config = ${jpgBitmap.config.name}")
-        Log.e("rango-bitmap", "webpBitmap.allocationByteCount = ${webpBitmap.allocationByteCount}，webpBitmap.byteCount = ${webpBitmap.byteCount}, width = ${webpBitmap.width},height = ${webpBitmap.height},config = ${webpBitmap.config.name}")
-
+        Bitmaps.getScaledBitmap(R.drawable.wallpaper_2)
 //        Permissions.requestStoragePermission(this)
 ////        FileUtils.saveBitmap(jpgBitmap, "ddd.jpg", Bitmap.CompressFormat.JPEG)
 ////        FileUtils.saveBitmap(webpBitmap, "ccc.webp", Bitmap.CompressFormat.WEBP)
