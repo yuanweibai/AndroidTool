@@ -31,4 +31,9 @@
         app:blur_end_color="#00201D1D"
         app:blur_line_count="3"
         app:blur_start_color="#201D1D" />
+
+    <ImageView
+        android:id="@+id/testImageView"
+        android:layout_width="300dp"
+        android:layout_height="300dp" />
 </LinearLayout>

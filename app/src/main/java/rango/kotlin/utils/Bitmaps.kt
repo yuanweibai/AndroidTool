@@ -3,7 +3,7 @@ package rango.kotlin.utils
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import android.util.Log
+import android.util.Base64
 import rango.tool.androidtool.ToolApplication
 
 object Bitmaps {
@@ -23,5 +23,10 @@ object Bitmaps {
         options.inSampleSize = 4
         options.inPreferredConfig = Bitmap.Config.RGB_565
         return BitmapFactory.decodeResource(ToolApplication.getContext().resources, resId, options)
+    }
+
+    fun createBitmapFromBase64(base64: String): Bitmap {
+        val imageAsBytes: ByteArray = Base64.decode(base64, Base64.DEFAULT)
+        return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.size)
     }
 }
