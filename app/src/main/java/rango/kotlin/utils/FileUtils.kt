@@ -2,9 +2,10 @@ package rango.kotlin.utils
 
 import android.graphics.Bitmap
 import android.os.Environment
-import java.io.BufferedOutputStream
-import java.io.File
-import java.io.FileOutputStream
+import android.util.Log
+import rango.tool.androidtool.ToolApplication
+import java.io.*
+import java.lang.Exception
 
 object FileUtils {
 
@@ -24,5 +25,19 @@ object FileUtils {
         bitmap.compress(Bitmap.CompressFormat.WEBP, 100, bos)
         bos.flush()
         bos.close()
+    }
+
+    /**
+     * base64 应该去掉头部的【data:image/png;base64,】
+     */
+    fun readImageBase64FromAssets(): String {
+        try {
+            val inputStream = ToolApplication.getContext().getAssets().open("imageBase64.txt");
+            val reader = InputStreamReader(inputStream)
+            val bufferedReader = BufferedReader(reader)
+            return bufferedReader.readLine()
+        } catch (e: Exception) {
+        }
+        return ""
     }
 }

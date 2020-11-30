@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import rango.kotlin.AllTestActivity;
+import rango.kotlin.KotlinTestActivity;
 import rango.kotlin.bezier.BezierActivity;
 import rango.kotlin.bezier.BookPageActivity;
 import rango.kotlin.calendar.CalendarActivity;
@@ -40,7 +41,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(MotionActivity.class);
+            startActivity(KotlinTestActivity.class);
 //            TransparentActivity.start();
         }
 
