@@ -23,6 +23,8 @@ class KotlinTestActivity : AppCompatActivity() {
 
     private val arr: IntArray = intArrayOf(2, 3, 4)
 
+    private val list = mutableListOf<String>()
+
     private var name: String by Delegates.observable("dd") { property, oldValue, newValue ->
         run {
             Log.e("rango", "dd_$oldValue")
@@ -52,6 +54,7 @@ class KotlinTestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_kotlin_test)
 
 
+        list.add("ddd")
         mills = System.currentTimeMillis()
 
 //        val jpgBitmap = BitmapFactory.decodeResource(resources, R.drawable.wallpaper_2)
@@ -75,8 +78,13 @@ class KotlinTestActivity : AppCompatActivity() {
         msgText = findViewById(R.id.msg_text)
         Log.e("rango-onCreate", "threadName = " + Thread.currentThread().name)
 
+        start_btn.setOnClickListener {
+
+        }
         findViewById<View>(R.id.start_btn).setOnClickListener {
-            Devices.logMemoryInfo()
+            val drawable = testImageView.drawable
+            val rect = drawable.bounds
+            Log.e("rango", "rect = $rect")
         }
 
         findViewById<View>(R.id.stop_btn).setOnClickListener(View.OnClickListener() {

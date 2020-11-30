@@ -12,6 +12,7 @@ import rango.kotlin.bezier.BookPageActivity;
 import rango.kotlin.calendar.CalendarActivity;
 import rango.kotlin.constraint.ConstraintActivity;
 import rango.kotlin.currentactivity.WatchingActivityService;
+import rango.kotlin.motion.MotionActivity;
 import rango.kotlin.mytest.MyTestActivity;
 import rango.kotlin.mytest.TransparentActivity;
 import rango.kotlin.views.custom.TestViewActivity;
@@ -39,7 +40,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(BookPageActivity.class);
+            startActivity(MotionActivity.class);
 //            TransparentActivity.start();
         }
 

@@ -211,6 +211,7 @@
         <activity android:name="rango.kotlin.constraint.ConstraintActivity" />
         <activity android:name="rango.kotlin.bezier.BezierActivity" />
         <activity android:name="rango.kotlin.bezier.BookPageActivity" />
+        <activity android:name="rango.kotlin.motion.MotionActivity" />
 
         <receiver android:name=".alarm.AlarmReceiver" />
 

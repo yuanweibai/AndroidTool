@@ -4,6 +4,7 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_all_test.*
 import rango.kotlin.bezier.BezierActivity
 import rango.kotlin.coroutines.CoroutinesActivity
+import rango.kotlin.motion.MotionActivity
 import rango.tool.androidtool.R
 import rango.tool.androidtool.base.BaseActivity
 
@@ -23,6 +24,10 @@ class AllTestActivity : BaseActivity() {
 
         bezierBtn.setOnClickListener {
             startActivity(BezierActivity::class.java)
+        }
+
+        motionBtn.setOnClickListener {
+            startActivity(MotionActivity::class.java)
         }
     }
 

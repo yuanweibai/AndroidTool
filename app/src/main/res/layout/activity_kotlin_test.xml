@@ -34,6 +34,8 @@
 
     <ImageView
         android:id="@+id/testImageView"
-        android:layout_width="300dp"
-        android:layout_height="300dp" />
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/wallpaper_2_test" />
 </LinearLayout>
