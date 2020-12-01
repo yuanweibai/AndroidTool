@@ -19,6 +19,7 @@ import rango.kotlin.mytest.TransparentActivity;
 import rango.kotlin.views.custom.TestViewActivity;
 import rango.kotlin.wanandroid.LaunchActivity;
 import rango.kotlin.wanandroid.WALoginActivity;
+import rango.kotlin.wanandroid.home.WAMainActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
 import rango.tool.androidtool.experiments.TestActivity;
@@ -42,7 +43,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(ProgressBarActivity.class);
+            startActivity(LaunchActivity.class);
 //            TransparentActivity.start();
         }
 
