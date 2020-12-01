@@ -18,28 +18,32 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layoutDirection="inherit"
         android:max="100"
         android:progressDrawable="@drawable/circle_progress_bar_drawable"
-        tools:progress="80" />
+        android:progress="80" />
 
     <ProgressBar
         android:id="@+id/system_progress_bar"
         style="@style/CircleLoadingStyle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layoutDirection="locale" />
 
     <ProgressBar
         style="@style/CircleLoadingStyle2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl" />
 
     <ProgressBar
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Inverse"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layoutDirection="ltr" />
 
     <ProgressBar
-        style="@android:style/Widget.ProgressBar.Horizontal"
+        style="@android:style/Widget.ProgressBar.Large"
         android:layout_width="300dp"
         android:layout_height="9dp"
         android:max="100"

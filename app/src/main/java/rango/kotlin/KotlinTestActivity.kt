@@ -45,6 +45,9 @@ class KotlinTestActivity : AppCompatActivity() {
 
     private var mills = 0L
 
+    private val first: Double = 0.63
+    private val second: Double = 0.62
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kotlin_test)
@@ -78,10 +81,11 @@ class KotlinTestActivity : AppCompatActivity() {
 
         }
         findViewById<View>(R.id.start_btn).setOnClickListener {
-            val drawable = testImageView.drawable
-            val rect = drawable.bounds
-            Log.e("rango", "rect = $rect")
+            val result = first - second
+            Log.e("rango", "result = $result，first = $first,second = $second")
         }
+
+
 
         findViewById<View>(R.id.stop_btn).setOnClickListener {
             val bitmap = Bitmaps.createBitmapFromBase64(FileUtils.readImageBase64FromAssets())
@@ -100,7 +104,6 @@ class KotlinTestActivity : AppCompatActivity() {
         }
 
     }
-
 
 
     fun stopAction() {

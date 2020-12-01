@@ -2,24 +2,21 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
         <shape
-            android:innerRadiusRatio="2.5"
             android:shape="ring"
-            android:thickness="2dp"
+            android:thickness="10dp"
             android:useLevel="false">
-            <solid android:color="#454285f4" />
+            <solid android:color="#F3F5F8" />
         </shape>
     </item>
 
     <item android:id="@android:id/progress">
         <rotate
             android:fromDegrees="270"
-            android:toDegrees="270">
+            android:toDegrees="-90">
             <shape
-                android:innerRadiusRatio="2.5"
                 android:shape="ring"
-                android:thickness="2dp"
-                android:useLevel="true">
-
+                android:thickness="10dp"
+                >
                 <gradient
                     android:angle="0"
                     android:endColor="#4285f4"

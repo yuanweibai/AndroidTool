@@ -23,6 +23,7 @@ import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
 import rango.tool.androidtool.experiments.TestActivity;
 import rango.tool.androidtool.experiments.activity.NotificationActivity;
+import rango.tool.androidtool.experiments.activity.ProgressBarActivity;
 import rango.tool.androidtool.game.GameMainActivity;
 import rango.tool.androidtool.list.activity.ListActivity;
 import rango.tool.androidtool.list.activity.RecyclerActivity;
@@ -41,7 +42,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(KotlinTestActivity.class);
+            startActivity(ProgressBarActivity.class);
 //            TransparentActivity.start();
         }
 
