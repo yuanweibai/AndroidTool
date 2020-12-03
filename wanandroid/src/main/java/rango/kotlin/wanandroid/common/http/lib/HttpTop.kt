@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import rango.kotlin.wanandroid.common.http.api.IHttpRequest
-import rango.kotlin.wanandroid.common.http.api.bean.SearchAddressBean
 
 const val CODE_CONNECT_ERROR = -1000
 const val CODE_OK = 0

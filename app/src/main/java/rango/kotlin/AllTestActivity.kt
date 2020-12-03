@@ -5,10 +5,14 @@ import kotlinx.android.synthetic.main.activity_all_test.*
 import rango.kotlin.bezier.BezierActivity
 import rango.kotlin.coroutines.CoroutinesActivity
 import rango.kotlin.motion.MotionActivity
+import rango.kotlin.mytest.share.Person
 import rango.tool.androidtool.R
 import rango.tool.androidtool.base.BaseActivity
 
 class AllTestActivity : BaseActivity() {
+
+    private var name = ""
+    private var person: Person? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

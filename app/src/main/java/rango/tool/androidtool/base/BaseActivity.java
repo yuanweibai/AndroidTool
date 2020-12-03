@@ -21,6 +21,7 @@ public class BaseActivity extends AppCompatActivity {
         ft.replace(id, fragment);
 //        ft.addToBackStack(null);
         ft.commitAllowingStateLoss();
+
     }
 
     public void startActivity(Class cl) {

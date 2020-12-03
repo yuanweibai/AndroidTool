@@ -92,6 +92,9 @@ class KotlinTestActivity : AppCompatActivity() {
             testImageView.setImageBitmap(bitmap)
         }
 
+
+
+
     }
 
     fun startAction() {

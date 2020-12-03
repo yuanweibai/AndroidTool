@@ -7,24 +7,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import rango.kotlin.AllTestActivity;
-import rango.kotlin.KotlinTestActivity;
-import rango.kotlin.bezier.BezierActivity;
-import rango.kotlin.bezier.BookPageActivity;
-import rango.kotlin.calendar.CalendarActivity;
-import rango.kotlin.constraint.ConstraintActivity;
+import rango.kotlin.mytest.share.NullActivity;
 import rango.kotlin.currentactivity.WatchingActivityService;
-import rango.kotlin.motion.MotionActivity;
-import rango.kotlin.mytest.MyTestActivity;
-import rango.kotlin.mytest.TransparentActivity;
-import rango.kotlin.views.custom.TestViewActivity;
-import rango.kotlin.wanandroid.LaunchActivity;
-import rango.kotlin.wanandroid.WALoginActivity;
-import rango.kotlin.wanandroid.home.WAMainActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
 import rango.tool.androidtool.experiments.TestActivity;
-import rango.tool.androidtool.experiments.activity.NotificationActivity;
-import rango.tool.androidtool.experiments.activity.ProgressBarActivity;
 import rango.tool.androidtool.game.GameMainActivity;
 import rango.tool.androidtool.list.activity.ListActivity;
 import rango.tool.androidtool.list.activity.RecyclerActivity;
@@ -43,7 +30,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(LaunchActivity.class);
+            startActivity(NullActivity.class);
 //            TransparentActivity.start();
         }
 
