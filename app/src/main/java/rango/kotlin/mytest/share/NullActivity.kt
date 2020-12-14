@@ -112,5 +112,7 @@ class NullActivity : Activity() {
 //        }
 //        Log.e("test", "age = $age")
 
+
+         val devicesId = getDeviceId()
     }
 }

@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import rango.kotlin.AllTestActivity;
 import rango.kotlin.mytest.share.NullActivity;
 import rango.kotlin.currentactivity.WatchingActivityService;
+import rango.kotlin.wanandroid.LaunchActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
 import rango.tool.androidtool.experiments.TestActivity;
@@ -30,7 +31,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(NullActivity.class);
+            startActivity(LaunchActivity.class);
 //            TransparentActivity.start();
         }
 

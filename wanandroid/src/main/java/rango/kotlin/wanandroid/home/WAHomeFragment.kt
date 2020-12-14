@@ -19,6 +19,12 @@ import rango.kotlin.wanandroid.common.utils.Threads
 
 class WAHomeFragment : Fragment() {
 
+    companion object {
+        fun createInstance(): WAHomeFragment {
+            return WAHomeFragment()
+        }
+    }
+
     private val homeRecyclerAdapter = HomeRecyclerAdapter()
 
     private var isLoadMore = false
