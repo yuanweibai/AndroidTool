@@ -38,4 +38,15 @@
         android:layout_height="100dp"
         android:scaleType="centerInside"
         android:src="@drawable/wallpaper_2_test" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="36sp"
+        android:textColor="#FFC107"
+        android:text="Hello World"
+        android:shadowColor="#000"
+        android:shadowDx="0"
+        android:shadowDy="2"
+        />
 </LinearLayout>
