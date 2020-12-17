@@ -7,13 +7,17 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import android.view.View;
+import android.widget.RemoteViews;
 
+import rango.tool.androidtool.BuildConfig;
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.experiments.TestActivity;
@@ -59,6 +63,20 @@ public class NotificationActivity extends BaseActivity {
                 showNotification();
             }
         });
+
+        findViewById(R.id.float_notification_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFloatNotification();
+            }
+        });
+
+        findViewById(R.id.float_big_notification_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFloatBigNotification();
+            }
+        });
     }
 
     private void showNotification() {
@@ -67,8 +85,7 @@ public class NotificationActivity extends BaseActivity {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("HHHHHHHHHH")
                 .setContentText("fasdfadfadfa")
-                .setDefaults(NotificationCompat.PRIORITY_DEFAULT)
-                ;
+                .setDefaults(NotificationCompat.PRIORITY_DEFAULT);
 
         Intent intent = new Intent(this, TestActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -88,5 +105,53 @@ public class NotificationActivity extends BaseActivity {
         } else {
             return null;
         }
+    }
+
+    private void showFloatNotification() {
+        // 默认高度 64dp
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com/"));
+        PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Notification.Builder builder = new Notification.Builder(this);
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_custom_view);
+        builder.setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pi)
+                .setAutoCancel(true)    //点击后关闭通知
+                .setWhen(System.currentTimeMillis())
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setPriority(Notification.PRIORITY_MAX)
+                .setFullScreenIntent(pi, true);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            builder.setContent(remoteViews);
+        } else {
+            builder.setCustomContentView(remoteViews);
+        }
+        notificationManager.notify(3, builder.build());
+    }
+
+    private void showFloatBigNotification() {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com/"));
+        PendingIntent pi = PendingIntent.getActivity(this, 0, intent, 0);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Notification.Builder builder = new Notification.Builder(this);
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.notification_big_custom_view);
+        builder.setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pi)
+                .setAutoCancel(true)    //点击后关闭通知
+                .setWhen(System.currentTimeMillis())
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setPriority(Notification.PRIORITY_MAX)
+                .setFullScreenIntent(pi, true);
+
+        Notification notification;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            notification = builder.build();
+            notification.bigContentView = remoteViews;
+        } else {
+            builder.setCustomBigContentView(remoteViews);
+            notification = builder.build();
+        }
+        notificationManager.notify(3, notification);
     }
 }

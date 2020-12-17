@@ -6,6 +6,7 @@ import rango.kotlin.bezier.BezierActivity
 import rango.kotlin.coroutines.CoroutinesActivity
 import rango.kotlin.motion.MotionActivity
 import rango.kotlin.mytest.share.Person
+import rango.kotlin.views.custom.TestViewActivity
 import rango.tool.androidtool.R
 import rango.tool.androidtool.base.BaseActivity
 
@@ -32,6 +33,10 @@ class AllTestActivity : BaseActivity() {
 
         motionBtn.setOnClickListener {
             startActivity(MotionActivity::class.java)
+        }
+
+        customViewBtn.setOnClickListener {
+            startActivity(TestViewActivity::class.java)
         }
     }
 

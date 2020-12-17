@@ -37,6 +37,13 @@
             android:text="Coroutines"
             android:textAllCaps="false" />
 
+        <Button
+            android:id="@+id/customViewBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="自定义View"
+            android:textAllCaps="false" />
+
     </LinearLayout>
 
 

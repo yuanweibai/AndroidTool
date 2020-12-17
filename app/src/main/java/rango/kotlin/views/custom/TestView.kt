@@ -277,7 +277,6 @@ class TestView(context: Context, attributeSet: AttributeSet?, defStyle: Int) : V
     override fun onDrawForeground(canvas: Canvas?) {
         super.onDrawForeground(canvas)
 
-        foreground
     }
 
     override fun draw(canvas: Canvas?) {
