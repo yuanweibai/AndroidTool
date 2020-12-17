@@ -54,6 +54,8 @@ class KotlinTestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kotlin_test)
+        StatusBars.setTranslucentStatusBar(this)
+        StatusBars.setStatusBarTextColor(this, true)
 
 
         list.add("ddd")
@@ -87,7 +89,6 @@ class KotlinTestActivity : AppCompatActivity() {
 //            val result = first - second
 //            Log.e("rango", "result = $result，first = $first,second = $second")
 //        }
-
 
 
         findViewById<View>(R.id.stop_btn).setOnClickListener {
