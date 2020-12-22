@@ -74,7 +74,7 @@ import rango.tool.androidtool.wallpaper.WallpaperActivity;
 import rango.tool.androidtool.workmanager.WorkManagerActivity;
 import rango.tool.common.utils.Worker;
 
-public class TestActivity extends BaseActivity {
+public class TestActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "TestActivity";
 
@@ -89,6 +89,11 @@ public class TestActivity extends BaseActivity {
             }
         }
     };
+
+    @Override
+    public void onClick(View v) {
+
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

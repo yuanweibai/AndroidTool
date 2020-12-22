@@ -28,6 +28,8 @@ class MyTestActivity : AppCompatActivity() {
         map = ObservableArrayMap()
         map["key"] = "2323"
         binding.map = map
+
+        val deviceId = getDeviceId()
     }
 
     inner class ClickListener {

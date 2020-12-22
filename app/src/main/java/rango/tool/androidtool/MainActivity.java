@@ -10,6 +10,7 @@ import rango.kotlin.AllTestActivity;
 import rango.kotlin.mytest.share.NullActivity;
 import rango.kotlin.currentactivity.WatchingActivityService;
 import rango.kotlin.views.custom.TestViewActivity;
+import rango.kotlin.walk.WalkActivity;
 import rango.kotlin.wanandroid.LaunchActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
@@ -32,7 +33,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (IS_TEST) {
-            startActivity(TestViewActivity.class);
+            startActivity(WalkActivity.class);
 //            TransparentActivity.start();
         }
 

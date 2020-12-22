@@ -1,16 +1,18 @@
 package rango.kotlin
 
 import android.os.Bundle
+import android.view.View
 import kotlinx.android.synthetic.main.activity_all_test.*
 import rango.kotlin.bezier.BezierActivity
 import rango.kotlin.coroutines.CoroutinesActivity
 import rango.kotlin.motion.MotionActivity
 import rango.kotlin.mytest.share.Person
 import rango.kotlin.views.custom.TestViewActivity
+import rango.kotlin.walk.WalkActivity
 import rango.tool.androidtool.R
 import rango.tool.androidtool.base.BaseActivity
 
-class AllTestActivity : BaseActivity() {
+class AllTestActivity : BaseActivity(),View.OnClickListener {
 
     private var name = ""
     private var person: Person? = null
@@ -38,6 +40,14 @@ class AllTestActivity : BaseActivity() {
         customViewBtn.setOnClickListener {
             startActivity(TestViewActivity::class.java)
         }
+
+        walkBtn.setOnClickListener {
+            WalkActivity.start(this)
+        }
+    }
+
+    override fun onClick(v: View?) {
+
     }
 
 }

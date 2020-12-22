@@ -2,6 +2,8 @@ package rango.kotlin.mytest.share
 
 class HttpData {
 
+
+
     fun getValue():Int{
         return 0
     }

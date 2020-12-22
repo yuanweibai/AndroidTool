@@ -2,12 +2,21 @@ package rango.kotlin.mytest.share
 
 import android.util.Log
 
-class Person @JvmOverloads constructor(name: String,age:Int=9) {
+open class Person(name: String) {
 
-
-    fun sdd(age: Int,heighj:Int = 9){
+    constructor(name: String, age: Int) : this(name) {
 
     }
 
+    init {
 
+    }
+
+    open fun run(speed: Int) {
+
+    }
+
+    fun eat(food:String){
+
+    }
 }

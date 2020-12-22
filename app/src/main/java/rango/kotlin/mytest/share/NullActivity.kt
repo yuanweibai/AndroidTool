@@ -17,7 +17,6 @@ class NullActivity : Activity() {
 //        name = ""
 //    }
 
-
     // 很危险，在使用的时候，根本不知道此变量是定义为 lateinit，如果为空，必然发生崩溃。
 //    private lateinit var name:String
 
@@ -113,6 +112,9 @@ class NullActivity : Activity() {
 //        Log.e("test", "age = $age")
 
 
-         val devicesId = getDeviceId()
+//         val devicesId = getDeviceId()
+
+//        val list = listOf(4, 5, 6, 7, 9, 1, 0, 90)
+//        list.print()
     }
 }
