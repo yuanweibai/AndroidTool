@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_kotlin_test.*
 import kotlinx.coroutines.*
-import rango.kotlin.mytest.share.print
 import rango.kotlin.utils.*
 import rango.tool.androidtool.R
 import java.util.concurrent.TimeUnit
@@ -83,7 +82,6 @@ class KotlinTestActivity : AppCompatActivity() {
         Log.e("rango-onCreate", "threadName = " + Thread.currentThread().name)
 
         start_btn.setOnClickListener {
-            intList.print()
         }
 //        findViewById<View>(R.id.start_btn).setOnClickListener {
 //            val result = first - second

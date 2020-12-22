@@ -2,30 +2,16 @@ package rango.kotlin.mytest.share
 
 class HttpData {
 
+    var value = 0
 
+    var isRegister = false
 
-    fun getValue():Int{
-        return 0
-    }
+    var name = ""
 
-    fun isRegister():Boolean{
-        return false
-    }
+    var age = 0
 
-    fun getName():String{
-        return ""
-    }
+    var height = 0
 
-    fun getAge():Int{
-        return 0
-    }
-
-    fun getHeight():Int{
-        return 0
-    }
-
-    fun isMarried():Boolean{
-        return false
-    }
+    var isMarried = false
 
 }

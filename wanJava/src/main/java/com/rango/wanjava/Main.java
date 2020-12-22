@@ -20,9 +20,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        String str = "12345u889896";
-        String value = str.substring(0, 5);
-        System.out.println("value = " + value);
+        new Bob();
+
     }
 
     private static void changeData(Data data) {

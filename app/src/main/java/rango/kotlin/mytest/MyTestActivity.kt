@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.*
 import rango.kotlin.mytest.People
 import rango.kotlin.mytest.share.BASE_URL
-import rango.kotlin.mytest.share.getDeviceId
 import rango.tool.androidtool.R
 import rango.tool.androidtool.databinding.MyTestBinding
 
@@ -29,7 +28,6 @@ class MyTestActivity : AppCompatActivity() {
         map["key"] = "2323"
         binding.map = map
 
-        val deviceId = getDeviceId()
     }
 
     inner class ClickListener {
