@@ -1,12 +1,15 @@
 package rango.kotlin
 
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_kotlin_test.*
 import kotlinx.coroutines.*
+import rango.kotlin.mytest.JokeBean
 import rango.kotlin.utils.*
 import rango.tool.androidtool.R
 import java.util.concurrent.TimeUnit
@@ -82,6 +85,23 @@ class KotlinTestActivity : AppCompatActivity() {
         Log.e("rango-onCreate", "threadName = " + Thread.currentThread().name)
 
         start_btn.setOnClickListener {
+            var data = Files.readJsonStr()
+
+            val gson = Gson()
+            val bean = gson.fromJson<JokeBean>(data, JokeBean::class.java)
+
+            val filterList = Files.readFilters()
+
+            val list: MutableList<JokeBean.JokeDataBean> = ArrayList()
+            bean.joke_data.forEach {
+                if (!isIllegal(it.content, filterList)) {
+                    list.add(it)
+                }
+            }
+
+            bean.joke_data = list
+            val result = gson.toJson(bean)
+            Log.e("rango", "result = $result")
         }
 //        findViewById<View>(R.id.start_btn).setOnClickListener {
 //            val result = first - second
@@ -90,11 +110,20 @@ class KotlinTestActivity : AppCompatActivity() {
 
 
         findViewById<View>(R.id.stop_btn).setOnClickListener {
-            val bitmap = Bitmaps.createBitmapFromBase64(FileUtils.readImageBase64FromAssets())
+            val bitmap = Bitmaps.createBitmapFromBase64(Files.readImageBase64FromAssets())
             testImageView.setImageBitmap(bitmap)
         }
 
 
+    }
+
+    fun isIllegal(content: String, filters: List<String>): Boolean {
+        filters.forEach {
+            if (!TextUtils.isEmpty(it) && content.contains(it)) {
+                return true
+            }
+        }
+        return false
     }
 
     fun startAction() {

@@ -3,7 +3,6 @@ package com.rango.wanjava;
 public class Bob extends Person {
 
     public Bob() {
-        super("Bob");
         System.out.println("4");
     }
 

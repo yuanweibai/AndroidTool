@@ -7,15 +7,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import rango.kotlin.AllTestActivity;
-import rango.kotlin.mytest.share.NullActivity;
 import rango.kotlin.currentactivity.WatchingActivityService;
-import rango.kotlin.views.custom.TestViewActivity;
 import rango.kotlin.walk.WalkActivity;
-import rango.kotlin.wanandroid.LaunchActivity;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.coordinator.CoordinatorActivity;
 import rango.tool.androidtool.experiments.TestActivity;
-import rango.tool.androidtool.game.GameMainActivity;
+import rango.tool.androidtool.game.AppMainActivity;
 import rango.tool.androidtool.list.activity.ListActivity;
 import rango.tool.androidtool.list.activity.RecyclerActivity;
 import rango.tool.androidtool.touch.TouchActivity;
@@ -60,7 +57,7 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.add_view_btn).setOnClickListener(v -> addTestView());
         findViewById(R.id.offset_btn).setOnClickListener(v -> startActivity(OffsetActivity.class));
         findViewById(R.id.touch_btn).setOnClickListener(v -> startActivity(TouchActivity.class));
-        findViewById(R.id.game_btn).setOnClickListener(v -> startActivity(GameMainActivity.class));
+        findViewById(R.id.app_btn).setOnClickListener(v -> startActivity(AppMainActivity.class));
         findViewById(R.id.kotlin_btn).setOnClickListener(v -> startActivity(AllTestActivity.class));
 
         String string = "spyIFKsRDDywx96YXDjAyiuo0imMzoGBOIhavrlmvma5A0gXJTzklg/jrGbVUd11VqigDk7zJCQt\n" +

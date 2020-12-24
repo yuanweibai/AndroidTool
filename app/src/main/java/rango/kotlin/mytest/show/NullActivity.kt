@@ -13,12 +13,12 @@ class NullActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_null_layout)
-
-        httpData?.getValue()
-        httpData?.getAge()
-        httpData?.getHeight()
-        httpData?.isMarried()
-        httpData?.isRegister()
+//
+//        httpData?.getValue()
+//        httpData?.getAge()
+//        httpData?.getHeight()
+//        httpData?.isMarried()
+//        httpData?.isRegister()
 
 
 //       val isRegister:Boolean? =  httpData?.let {
@@ -44,15 +44,15 @@ class NullActivity : Activity() {
 //            it.getName()
 //        }
 
-       val data:HttpData? =  httpData?.apply {
-            getHeight()
-            isMarried()
-            getName()
-        }
-
-        with(httpData){
-            this?.getHeight()
-        }
+//       val data:HttpData? =  httpData?.apply {
+//            getHeight()
+//            isMarried()
+//            getName()
+//        }
+//
+//        with(httpData){
+//            this?.getHeight()
+//        }
 
     }
 }

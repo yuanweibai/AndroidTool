@@ -6,8 +6,9 @@ import android.util.Log
 import rango.tool.androidtool.ToolApplication
 import java.io.*
 import java.lang.Exception
+import java.lang.StringBuilder
 
-object FileUtils {
+object Files {
 
     private val FILE_DIR = Environment.getExternalStorageDirectory().absolutePath + "/AndroidTool/"
     fun saveBitmap(bitmap: Bitmap, fileName: String, format: Bitmap.CompressFormat) {
@@ -39,5 +40,31 @@ object FileUtils {
         } catch (e: Exception) {
         }
         return ""
+    }
+
+    fun readJsonStr(): String {
+        return readAssetsFile("joke_data.json")
+    }
+
+    fun readFilters(): List<String> {
+        val data = readAssetsFile("filters.txt")
+        return data.split("、")
+    }
+
+    private fun readAssetsFile(fileName: String): String {
+        return try {
+            val inputStream = ToolApplication.getContext().assets.open(fileName)
+            val reader = InputStreamReader(inputStream)
+            val bufferedReader = BufferedReader(reader)
+            var line = bufferedReader.readLine()
+            val builder = StringBuilder()
+            while (line != null) {
+                builder.append(line)
+                line = bufferedReader.readLine()
+            }
+            builder.toString()
+        } catch (e: Exception) {
+            ""
+        }
     }
 }

@@ -7,12 +7,18 @@
     android:paddingTop="20dp">
 
     <Button
+        android:id="@+id/step_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="计步"
+        android:textAllCaps="false" />
+
+    <Button
         android:id="@+id/hero_game_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="英雄难过棍子关"
         android:textAllCaps="false" />
-
 
     <Button
         android:id="@+id/wanAndroidBtn"

@@ -6,12 +6,13 @@ import androidx.annotation.Nullable;
 
 import android.view.View;
 
+import rango.kotlin.walk.WalkActivity;
 import rango.kotlin.wanandroid.LaunchActivity;
 import rango.tool.androidtool.R;
 import rango.tool.androidtool.base.BaseActivity;
 import rango.tool.androidtool.game.hero.GameHeroActivity;
 
-public class GameMainActivity extends BaseActivity {
+public class AppMainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +30,13 @@ public class GameMainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 startActivity(LaunchActivity.class);
+            }
+        });
+
+        findViewById(R.id.wanAndroidBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(WalkActivity.class);
             }
         });
     }

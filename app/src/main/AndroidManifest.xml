@@ -143,7 +143,7 @@
         <activity android:name=".experiments.activity.GifImageActivity" />
         <activity android:name=".experiments.activity.ThreadActivity" />
         <activity android:name=".experiments.activity.NotificationActivity" />
-        <activity android:name=".game.GameMainActivity" />
+        <activity android:name=".game.AppMainActivity" />
         <activity android:name=".game.hero.GameHeroActivity" />
         <activity android:name=".thread.ThreadMemoryActivity" />
         <activity android:name=".alive.AliveActivity" />

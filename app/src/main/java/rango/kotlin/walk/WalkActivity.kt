@@ -9,6 +9,7 @@ import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_walk_layout.*
+import rango.kotlin.utils.Times
 import rango.tool.androidtool.R
 import rango.tool.androidtool.base.BaseActivity
 
@@ -33,10 +34,14 @@ class WalkActivity : BaseActivity(), SensorEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_walk_layout)
 
+        timeValueText.text = Times.millsToHMS(0)
+        todayStepCountValueText.text = "0"
+        allStepCountValueText.text = "0"
+        updateMsgText.text = "没有更新!!!"
+
         startRecordStepBtn.setOnClickListener {
             sensorManager.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_NORMAL)
         }
-
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
@@ -45,7 +50,7 @@ class WalkActivity : BaseActivity(), SensorEventListener {
                 return
             }
 
-            stepCountText.text = values[0].toString()
+//            stepCountText.text = values[0].toString()
 
             Log.e("rango", "step count = ${values[0]}")
         }
