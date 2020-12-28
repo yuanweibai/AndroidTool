@@ -22,6 +22,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.tool.permission.TEST_BROADCAST_RECEIVER" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
 
     <permission
@@ -212,7 +213,6 @@
         <activity android:name="rango.kotlin.bezier.BezierActivity" />
         <activity android:name="rango.kotlin.bezier.BookPageActivity" />
         <activity android:name="rango.kotlin.motion.MotionActivity" />
-        <activity android:name="rango.kotlin.mytest.share.NullActivity" />
         <activity android:name="rango.kotlin.walk.WalkActivity" />
 
         <receiver android:name=".alarm.AlarmReceiver" />

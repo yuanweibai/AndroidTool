@@ -1,13 +1,8 @@
 package rango.kotlin.mytest
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.*
-import rango.kotlin.mytest.People
-import rango.kotlin.mytest.share.BASE_URL
 import rango.tool.androidtool.R
 import rango.tool.androidtool.databinding.MyTestBinding
 

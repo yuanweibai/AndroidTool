@@ -3,7 +3,6 @@ package rango.kotlin
 import rango.kotlin.mytest.BaseImpl
 import rango.kotlin.mytest.Diver
 import rango.kotlin.mytest.MyTest
-import rango.kotlin.mytest.show.Bob
 import rango.tool.androidtool.java.HaHa
 
 
@@ -14,7 +13,6 @@ fun process(test: MyTest) {
 fun main(args: Array<String>) {
     println("main")
 
-    Bob(false, 3)
 //    var x = 8
 //    process(object : MyTest() {
 //        override fun run() {
