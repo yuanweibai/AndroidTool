@@ -38,13 +38,19 @@ class StepService : Service(), SensorEventListener {
         }
     }
 
+    private var originalStepCount = 0
+
     private val binder = object : IStepCounter.Stub() {
         override fun getTodayStep(): Int {
-            return 109
+            return StepManager.getTodayStep()
         }
 
         override fun getTotalStep(): Int {
-            return 10009
+            return StepManager.getTotalStep()
+        }
+
+        override fun getOriginalStep(): Int {
+            return originalStepCount
         }
     }
 
@@ -77,8 +83,15 @@ class StepService : Service(), SensorEventListener {
                 return
             }
 
-            Log.e("rango", "step count = ${values[0]}")
+            originalStepCount = values[0].toInt()
+            calculateStep(originalStepCount)
         }
+    }
+
+    private fun calculateStep(stepCount: Int) {
+        StepManager.recordTotalStep(stepCount)
+
+        StepManager.recordTodayStep(stepCount)
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -96,7 +109,7 @@ class StepService : Service(), SensorEventListener {
         val builder = NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("正在记录步数")
-                .setContentText("步数：--")
+                .setContentText("步数：0")
                 .setPriority(NotificationCompat.PRIORITY_MAX)
         val intent = Intent(this, WalkActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)

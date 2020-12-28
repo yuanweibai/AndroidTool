@@ -3,7 +3,6 @@ package rango.kotlin.utils
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.min
 
 object Times {
 
@@ -24,6 +23,18 @@ object Times {
         val date = Date()
         date.time = mills
         return dateFormat.format(date)
+    }
+
+    fun isSameDay(time1: Long, time2: Long): Boolean {
+        val cal = Calendar.getInstance()
+        cal.timeInMillis = time1
+        val v1Y = cal[Calendar.YEAR]
+        val v1D = cal[Calendar.DAY_OF_YEAR]
+        cal.timeInMillis = time2
+        val v2Y = cal[Calendar.YEAR]
+        val v2D = cal[Calendar.DAY_OF_YEAR]
+        return v1Y == v2Y &&
+                v1D == v2D
     }
 
 }

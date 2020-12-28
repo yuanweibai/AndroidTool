@@ -7,4 +7,6 @@ interface IStepCounter {
      int getTotalStep();
 
      int getTodayStep();
+
+     int getOriginalStep();
 }

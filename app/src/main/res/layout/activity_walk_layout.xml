@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="right"
-        app:constraint_referenced_ids="allStepCountTitleText,todayStepCountTitleText,timeTitleText"
+        app:constraint_referenced_ids="allStepCountTitleText,todayStepCountTitleText,timeTitleText,originalStepCountTitleText"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -92,16 +92,42 @@
         tools:ignore="HardcodedText" />
 
     <TextView
-        android:id="@+id/updateTitleText"
+        android:id="@+id/originalStepCountTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="36dp"
+        android:text="原始步数："
+        android:textColor="#0C0C0C"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/allStepCountTitleText"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/originalStepCountValueText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="45"
+        android:textColor="#E91E63"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/originalStepCountTitleText"
+        app:layout_constraintLeft_toRightOf="@id/titleBarrier"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/updateTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:text="更新记录："
         android:textColor="#0C0C0C"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/allStepCountTitleText"
+        app:layout_constraintTop_toBottomOf="@id/originalStepCountTitleText"
         tools:ignore="HardcodedText" />
 
     <Button

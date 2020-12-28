@@ -45,12 +45,14 @@ class WalkActivity : BaseActivity() {
 
     private var totalStep = 0
     private var todayStep = 0
+    private var originalStep = 0
 
     private val updateStepAction = object : Runnable {
         override fun run() {
             iStepCounter?.let {
                 totalStep = it.totalStep
                 todayStep = it.todayStep
+                originalStep = it.originalStep
                 updateMsgBuilder.insert(0, "\n")
                 updateMsgBuilder.insert(0, "已更新：${Times.timeMillsToHMS(System.currentTimeMillis())}")
                 refreshUi()
@@ -74,6 +76,7 @@ class WalkActivity : BaseActivity() {
         todayStepCountValueText.text = todayStep.toString()
         allStepCountValueText.text = totalStep.toString()
         updateMsgText.text = updateMsgBuilder.toString()
+        originalStepCountValueText.text = originalStep.toString()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,12 +84,19 @@ class WalkActivity : BaseActivity() {
         setContentView(R.layout.activity_walk_layout)
 
         updateMsgText.movementMethod = ScrollingMovementMethod.getInstance()
-        Threads.postMain(timeUpdateAction)
+        timeValueText.text = Times.millsToHMS(0)
         refreshUi()
 
         startRecordStepBtn.setOnClickListener {
             StepService.start(this, serviceConnection)
-            Threads.postMain(updateStepAction)
+            Threads.postMain(updateStepAction, UPDATE_INTERVAL_MILLS)
+            Threads.postMain(timeUpdateAction, 1000)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Threads.removeOnMainThread(updateStepAction)
+        Threads.removeOnMainThread(timeUpdateAction)
     }
 }

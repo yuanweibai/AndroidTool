@@ -1,16 +1,6 @@
 package com.rango.wanjava;
 
-public class Bob extends Person {
+public class Bob {
 
-    public Bob() {
-        System.out.println("4");
-    }
 
-    {
-        System.out.println("5");
-    }
-
-    static {
-        System.out.println("6");
-    }
 }
