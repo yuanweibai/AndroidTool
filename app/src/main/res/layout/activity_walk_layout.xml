@@ -124,6 +124,8 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="12dp"
+        android:padding="24dp"
+        android:scrollbars="vertical"
         android:background="#E1E1E1"
         app:layout_constraintBottom_toTopOf="@id/startRecordStepBtn"
         app:layout_constraintLeft_toLeftOf="parent"
