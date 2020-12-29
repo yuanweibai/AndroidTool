@@ -3,6 +3,16 @@ package rango.kotlin.walk
 import rango.kotlin.utils.Times
 import rango.tool.common.utils.Preferences
 
+/**
+ * 当 targetSdkVersion == 29 时，需要动态申请权限：android.permission.ACTIVITY_RECOGNITION
+ * 此权限时危险权限，且申请以后才能开始注册传感器，监听计步数。否则得重新注册。
+ *
+ * 计步是通过传感器 (Sensor.TYPE_STEP_COUNTER) 实现的，此传感器是原理如下：
+ *
+ * 1. 此传感器是硬件计步的，因此数据不会丢失，记录的是从上次激活传感器到现在的步数;
+ * 2. 当手机关机或者重启后，都会从0开始计算步数
+ * 3. 此传感器是需要激活的，猜测是第一次使用此传感器的时候就激活了
+ */
 object StepManager {
     private const val PREF_STEP_OFFSET = "pref_step_offset"
     private const val PREF_TOTAL_STEP = "pref_total_step"

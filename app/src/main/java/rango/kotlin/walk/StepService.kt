@@ -20,10 +20,6 @@ import rango.tool.androidtool.IStepCounter
 import rango.tool.androidtool.R
 import rango.tool.androidtool.ToolApplication
 
-/**
- * 当 targetSdkVersion == 29 时，需要动态申请权限：android.permission.ACTIVITY_RECOGNITION
- * 此权限时危险权限，且申请以后才能开始注册传感器，监听计步数。否则得重新注册。
- */
 class StepService : Service(), SensorEventListener {
 
     companion object {
