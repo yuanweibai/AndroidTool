@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
+import android.view.View
 import kotlinx.android.synthetic.main.activity_walk_layout.*
 import rango.kotlin.utils.Times
 import rango.kotlin.wanandroid.common.utils.Threads
@@ -23,7 +24,7 @@ import rango.tool.androidtool.base.BaseActivity
 class WalkActivity : BaseActivity() {
 
     companion object {
-        private const val UPDATE_INTERVAL_MILLS: Long = 3000
+        private const val UPDATE_INTERVAL_MILLS: Long = 2000
 
         @JvmStatic
         fun start(context: Context) {
@@ -87,15 +88,21 @@ class WalkActivity : BaseActivity() {
         timeValueText.text = Times.millsToHMS(0)
         refreshUi()
 
-        startRecordStepBtn.setOnClickListener {
-            StepService.start(this, serviceConnection)
-            Threads.postMain(updateStepAction, UPDATE_INTERVAL_MILLS)
-            Threads.postMain(timeUpdateAction, 1000)
-        }
+//        startRecordStepBtn.setOnClickListener {
+//            StepService.start(this, serviceConnection)
+//            Threads.postMain(updateStepAction, UPDATE_INTERVAL_MILLS)
+//            Threads.postMain(timeUpdateAction, 1000)
+//        }
+        startRecordStepBtn.visibility = View.GONE
+
+        StepService.start(this, serviceConnection)
+        Threads.postMain(updateStepAction, UPDATE_INTERVAL_MILLS)
+        Threads.postMain(timeUpdateAction, 1000)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        unbindService(serviceConnection)
         Threads.removeOnMainThread(updateStepAction)
         Threads.removeOnMainThread(timeUpdateAction)
     }

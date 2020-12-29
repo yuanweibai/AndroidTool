@@ -54,10 +54,10 @@ class StepService : Service(), SensorEventListener {
         }
     }
 
-
     private val sensorManager: SensorManager by lazy {
         getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
+
     private val stepSensor: Sensor by lazy {
         sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
     }
@@ -66,7 +66,7 @@ class StepService : Service(), SensorEventListener {
         super.onCreate()
         showNotification()
 
-        sensorManager.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_NORMAL)
+        sensorManager.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_FASTEST)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -85,6 +85,7 @@ class StepService : Service(), SensorEventListener {
 
             originalStepCount = values[0].toInt()
             calculateStep(originalStepCount)
+            updateNotification()
         }
     }
 
@@ -98,23 +99,48 @@ class StepService : Service(), SensorEventListener {
         return binder
     }
 
+    private val notificationBuilder: NotificationCompat.Builder by lazy {
+        val channelId = "com.rango.step_id"
+        val builder: NotificationCompat.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(channelId, "com.rango.step_name", NotificationManager.IMPORTANCE_HIGH)
+            channel.enableLights(false)
+            channel.enableVibration(false)
+            channel.setSound(null, null)
+            notificationManager.createNotificationChannel(channel)
+            NotificationCompat.Builder(this, channelId)
+        } else {
+            NotificationCompat.Builder(this, "")
+                    .setSound(null)
+                    .setVibrate(longArrayOf(0))
+        }
+        builder
+    }
+    private val notificationManager: NotificationManager by lazy {
+        ToolApplication.getContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    }
+
     private fun showNotification() {
-        val notificationManager = ToolApplication.getContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val channelId = "9002"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(channelId, "step_counter", NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(channel)
         }
 
-        val builder = NotificationCompat.Builder(this, channelId)
+        notificationBuilder
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("正在记录步数")
                 .setContentText("步数：0")
-                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .priority = NotificationCompat.PRIORITY_MAX
+
         val intent = Intent(this, WalkActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        builder.setContentIntent(pendingIntent)
+        notificationBuilder.setContentIntent(pendingIntent)
 
-        startForeground(NOTIFICATION_ID, builder.build())
+        startForeground(NOTIFICATION_ID, notificationBuilder.build())
+    }
+
+    private fun updateNotification() {
+        notificationBuilder.setContentText("今日步数：${StepManager.getTodayStep()}")
+        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
     }
 }
