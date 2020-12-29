@@ -67,4 +67,24 @@ object Files {
             ""
         }
     }
+
+    fun appendMsg(fileName: String, msg: String) {
+        try {
+            val dir = File(FILE_DIR)
+            if (!dir.exists()) {
+                dir.mkdirs()
+            }
+            val txtFile = File(FILE_DIR + fileName)
+            if (!txtFile.exists()) {
+                txtFile.createNewFile()
+            }
+
+            val fileWriter = FileWriter(txtFile, true)
+            fileWriter.write(msg)
+            fileWriter.write("\n")
+            fileWriter.flush()
+            fileWriter.close()
+        } catch (e: Exception) {
+        }
+    }
 }

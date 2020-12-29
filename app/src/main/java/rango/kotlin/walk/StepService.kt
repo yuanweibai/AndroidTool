@@ -11,11 +11,11 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
+import rango.kotlin.utils.Files
+import rango.kotlin.utils.Times
 import rango.tool.androidtool.IStepCounter
 import rango.tool.androidtool.R
 import rango.tool.androidtool.ToolApplication
@@ -24,6 +24,7 @@ class StepService : Service(), SensorEventListener {
 
     companion object {
         private const val NOTIFICATION_ID = 9001
+        private const val STEP_LOG_MSG_FILE_NAME = "step_log_msg.txt"
 
         @JvmStatic
         fun start(context: Context, serviceConnection: ServiceConnection) {
@@ -86,7 +87,13 @@ class StepService : Service(), SensorEventListener {
             originalStepCount = values[0].toInt()
             calculateStep(originalStepCount)
             updateNotification()
+            addLogMsg()
         }
+    }
+
+    private fun addLogMsg() {
+        val msg = "${Times.timeMillsToYMD_HMS(System.currentTimeMillis())}    todayStepCounter=${StepManager.getTodayStep()}     totalStepCounter=${StepManager.getTotalStep()}    originalStepCounter=${originalStepCount}"
+        Files.appendMsg(STEP_LOG_MSG_FILE_NAME, msg)
     }
 
     private fun calculateStep(stepCount: Int) {

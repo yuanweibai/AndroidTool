@@ -7,6 +7,7 @@ import java.util.*
 object Times {
 
     private const val DATE_HOUR_FORMAT = "HH:mm:ss"
+    private const val DATE_YEAR_HOUR_FORMAT = "yyyy-MM-dd HH:mm:ss"
 
     @SuppressLint("SimpleDateFormat")
     fun millsToHMS(mills: Long): String {
@@ -20,6 +21,14 @@ object Times {
     @SuppressLint("SimpleDateFormat")
     fun timeMillsToHMS(mills: Long): String {
         val dateFormat = SimpleDateFormat(DATE_HOUR_FORMAT)
+        val date = Date()
+        date.time = mills
+        return dateFormat.format(date)
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun timeMillsToYMD_HMS(mills: Long): String {
+        val dateFormat = SimpleDateFormat(DATE_YEAR_HOUR_FORMAT)
         val date = Date()
         date.time = mills
         return dateFormat.format(date)
