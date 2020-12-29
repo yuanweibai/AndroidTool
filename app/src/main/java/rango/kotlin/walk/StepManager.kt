@@ -1,5 +1,6 @@
 package rango.kotlin.walk
 
+import android.os.SystemClock
 import rango.kotlin.utils.Times
 import rango.tool.common.utils.Preferences
 
@@ -12,51 +13,74 @@ import rango.tool.common.utils.Preferences
  * 1. 此传感器是硬件计步的，因此数据不会丢失，记录的是从上次激活传感器到现在的步数;
  * 2. 当手机关机或者重启后，都会从0开始计算步数
  * 3. 此传感器是需要激活的，猜测是第一次使用此传感器的时候就激活了
+ *
+ * 是否开关机，可以通过 SystemClock.elapsedRealtime() 来判断，此值代表从手机开机到现在的毫秒数。
  */
 object StepManager {
-    private const val PREF_STEP_OFFSET = "pref_step_offset"
+    private const val PREF_TOTAL_STEP_OFFSET = "pref_total_step_offset"
     private const val PREF_TOTAL_STEP = "pref_total_step"
     private const val PREF_TODAY_STEP = "pref_today_step"
     private const val PREF_LAST_UPDATE_TIME = "pref_last_update_time"
     private const val PREF_TODAY_STEP_OFFSET = "pref_today_step_offset"
+    private const val PREF_MACHINE_ELAPSED_REAL_TIME = "pref_machine_elapsed_real_time"
 
 
-    private fun isRecordedStepOffset(): Boolean {
-        return getStepOffset() != -1
+    private fun isRecordedTotalStepOffset(): Boolean {
+        return getTotalStepOffset() != -1
     }
 
-    private fun recordStepOffset(offset: Int) {
-        Preferences.getDefault().putInt(PREF_STEP_OFFSET, offset)
+    private fun recordTotalStepOffset(offset: Int) {
+        Preferences.getDefault().putInt(PREF_TOTAL_STEP_OFFSET, offset)
     }
 
-    private fun getStepOffset(): Int {
-        return Preferences.getDefault().getInt(PREF_STEP_OFFSET, -1)
+    private fun getTotalStepOffset(): Int {
+        return Preferences.getDefault().getInt(PREF_TOTAL_STEP_OFFSET, -1)
     }
 
-    fun recordTotalStep(stepCount: Int) {
-        if (!isRecordedStepOffset()) {
-            recordStepOffset(stepCount)
+    fun calculateStep(originalStepCount: Int) {
+        recordTotalStep(originalStepCount)
+        recordTodayStep(originalStepCount)
+        recordElapsedRealTime()
+    }
+
+    private fun recordTotalStep(originalStepCount: Int) {
+        if (isUsefulMachineReboot(originalStepCount)) {
+            recordTotalStepOffset(-getTotalStep())
         }
 
-        val totalStep = stepCount - getStepOffset()
+        if (!isRecordedTotalStepOffset()) {
+            recordTotalStepOffset(originalStepCount)
+        }
+
+        val totalStep = originalStepCount - getTotalStepOffset()
         Preferences.getDefault().putInt(PREF_TOTAL_STEP, totalStep)
     }
 
-    fun getTotalStep():Int{
-        return Preferences.getDefault().getInt(PREF_TOTAL_STEP,0)
+    fun getTotalStep(): Int {
+        return Preferences.getDefault().getInt(PREF_TOTAL_STEP, 0)
     }
 
-    fun recordTodayStep(stepCount: Int) {
-        val todayStep: Int
-        if (Times.isSameDay(getLastUpdateTodayTime(), now())) {
-            todayStep = stepCount - Preferences.getDefault().getInt(PREF_TODAY_STEP_OFFSET, 0)
-            Preferences.getDefault().putInt(PREF_TODAY_STEP, todayStep)
+    private fun recordTodayStep(originalStepCount: Int) {
+        val todayStep = if (Times.isSameDay(getLastUpdateTodayTime(), now())) {
+            if (isUsefulMachineReboot(originalStepCount)) {
+                recordTodayStepOffset(-getTodayStep())
+            }
+
+            originalStepCount - getTodayStepOffset()
         } else {
-            Preferences.getDefault().putInt(PREF_TODAY_STEP_OFFSET, stepCount)
-            todayStep = 0
-            Preferences.getDefault().putInt(PREF_TODAY_STEP, todayStep)
+            recordTodayStepOffset(originalStepCount)
+            0
         }
+        Preferences.getDefault().putInt(PREF_TODAY_STEP, todayStep)
         recordLastUpdateTodayTime()
+    }
+
+    private fun recordTodayStepOffset(offset: Int) {
+        Preferences.getDefault().putInt(PREF_TODAY_STEP_OFFSET, offset)
+    }
+
+    private fun getTodayStepOffset(): Int {
+        return Preferences.getDefault().getInt(PREF_TODAY_STEP_OFFSET, 0)
     }
 
     fun getTodayStep(): Int {
@@ -72,6 +96,29 @@ object StepManager {
 
     private fun getLastUpdateTodayTime(): Long {
         return Preferences.getDefault().getLong(PREF_LAST_UPDATE_TIME, 0)
+    }
+
+    private fun isUsefulMachineReboot(currentOriginalStepCount: Int): Boolean {
+        if (!isRecordedTotalStepOffset()) {
+            return false
+        }
+        if (SystemClock.elapsedRealtime() <= getLastElapsedRealTime()) {
+            return true
+        }
+
+        if (currentOriginalStepCount < getTotalStepOffset()) {
+            return true
+        }
+
+        return false
+    }
+
+    private fun recordElapsedRealTime() {
+        Preferences.getDefault().putLong(PREF_MACHINE_ELAPSED_REAL_TIME, SystemClock.elapsedRealtime())
+    }
+
+    private fun getLastElapsedRealTime(): Long {
+        return Preferences.getDefault().getLong(PREF_MACHINE_ELAPSED_REAL_TIME, 0)
     }
 
     private fun now(): Long {

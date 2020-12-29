@@ -85,7 +85,7 @@ class StepService : Service(), SensorEventListener {
             }
 
             originalStepCount = values[0].toInt()
-            calculateStep(originalStepCount)
+            StepManager.calculateStep(originalStepCount)
             updateNotification()
             addLogMsg()
         }
@@ -94,12 +94,6 @@ class StepService : Service(), SensorEventListener {
     private fun addLogMsg() {
         val msg = "${Times.timeMillsToYMD_HMS(System.currentTimeMillis())}    todayStepCounter=${StepManager.getTodayStep()}     totalStepCounter=${StepManager.getTotalStep()}    originalStepCounter=${originalStepCount}"
         Files.appendMsg(STEP_LOG_MSG_FILE_NAME, msg)
-    }
-
-    private fun calculateStep(stepCount: Int) {
-        StepManager.recordTotalStep(stepCount)
-
-        StepManager.recordTodayStep(stepCount)
     }
 
     override fun onBind(intent: Intent?): IBinder? {
