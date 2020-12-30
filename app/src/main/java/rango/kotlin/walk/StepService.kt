@@ -24,6 +24,8 @@ class StepService : Service(), SensorEventListener {
 
     companion object {
         private const val NOTIFICATION_ID = 9001
+        private val NOTIFICATION_CHANNEL_ID = ToolApplication.getContext().packageName+".step_channel_id"
+        private val NOTIFICATION_CHANNEL_NAME = ToolApplication.getContext().packageName+".step_channel_name"
         private const val STEP_LOG_MSG_FILE_NAME = "step_log_msg.txt"
 
         @JvmStatic
@@ -101,18 +103,15 @@ class StepService : Service(), SensorEventListener {
     }
 
     private val notificationBuilder: NotificationCompat.Builder by lazy {
-        val channelId = "com.rango.step_id"
         val builder: NotificationCompat.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId, "com.rango.step_name", NotificationManager.IMPORTANCE_HIGH)
-            channel.enableLights(false)
-            channel.enableVibration(false)
-            channel.setSound(null, null)
+            val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_MIN)
             notificationManager.createNotificationChannel(channel)
-            NotificationCompat.Builder(this, channelId)
+            NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
         } else {
-            NotificationCompat.Builder(this, "")
+            NotificationCompat.Builder(this)
                     .setSound(null)
                     .setVibrate(longArrayOf(0))
+                    .setPriority(NotificationCompat.PRIORITY_MIN)
         }
         builder
     }
@@ -121,17 +120,10 @@ class StepService : Service(), SensorEventListener {
     }
 
     private fun showNotification() {
-        val channelId = "9002"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId, "step_counter", NotificationManager.IMPORTANCE_HIGH)
-            notificationManager.createNotificationChannel(channel)
-        }
-
         notificationBuilder
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("正在记录步数")
                 .setContentText("步数：0")
-                .priority = NotificationCompat.PRIORITY_MAX
 
         val intent = Intent(this, WalkActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
