@@ -327,6 +327,11 @@
             </intent-filter>
         </service>
 
+        <provider
+            android:name="rango.kotlin.walk.StepProvider"
+            android:authorities="${applicationId}.StepProvider.authorities"
+            android:process=":step" />
+
         <receiver android:name="rango.kotlin.widget.MyAppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

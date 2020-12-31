@@ -45,11 +45,11 @@ class StepService : Service(), SensorEventListener {
 
     private val binder = object : IStepCounter.Stub() {
         override fun getTodayStep(): Int {
-            return StepManager.getTodayStep()
+            return StepManager.getTodayStepInner()
         }
 
         override fun getTotalStep(): Int {
-            return StepManager.getTotalStep()
+            return StepManager.getTotalStepInner()
         }
 
         override fun getOriginalStep(): Int {
@@ -94,7 +94,7 @@ class StepService : Service(), SensorEventListener {
     }
 
     private fun addLogMsg() {
-        val msg = "${Times.timeMillsToYMD_HMS(System.currentTimeMillis())}    todayStepCounter=${StepManager.getTodayStep()}     totalStepCounter=${StepManager.getTotalStep()}    originalStepCounter=${originalStepCount}"
+        val msg = "${Times.timeMillsToYMD_HMS(System.currentTimeMillis())}    todayStepCounter=${StepManager.getTodayStepInner()}     totalStepCounter=${StepManager.getTotalStepInner()}    originalStepCounter=${originalStepCount}"
         Files.appendMsg(STEP_LOG_MSG_FILE_NAME, msg)
     }
 
@@ -133,7 +133,7 @@ class StepService : Service(), SensorEventListener {
     }
 
     private fun updateNotification() {
-        notificationBuilder.setContentText("今日步数：${StepManager.getTodayStep()}")
+        notificationBuilder.setContentText("今日步数：${StepManager.getTodayStepInner()}")
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
     }
 }

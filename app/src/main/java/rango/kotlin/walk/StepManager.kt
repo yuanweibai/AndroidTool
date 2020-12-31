@@ -2,6 +2,7 @@ package rango.kotlin.walk
 
 import android.os.SystemClock
 import rango.kotlin.utils.Times
+import rango.tool.androidtool.ToolApplication
 import rango.tool.common.utils.Preferences
 
 /**
@@ -25,6 +26,16 @@ object StepManager {
     private const val PREF_MACHINE_ELAPSED_REAL_TIME = "pref_machine_elapsed_real_time"
 
 
+    fun getTodayStepOuter(): Int {
+        val bundle = ToolApplication.getContext().contentResolver.call(StepProvider.createContentUri(), StepProvider.METHOD_GET_TODAY_STEP_COUNT, null, null)
+        return bundle?.getInt(StepProvider.VALUE_KEY_TODAY_STEP_COUNT, 0) ?: 0
+    }
+
+    fun getTotalStepOuter(): Int {
+        val bundle = ToolApplication.getContext().contentResolver.call(StepProvider.createContentUri(), StepProvider.METHOD_GET_TOTAL_STEP_COUNT, null, null)
+        return bundle?.getInt(StepProvider.VALUE_KEY_TOTAL_STEP_COUNT, 0) ?: 0
+    }
+
     private fun isRecordedTotalStepOffset(): Boolean {
         return getTotalStepOffset() != -1
     }
@@ -45,7 +56,7 @@ object StepManager {
 
     private fun recordTotalStep(originalStepCount: Int) {
         if (isUsefulMachineReboot(originalStepCount)) {
-            recordTotalStepOffset(-getTotalStep())
+            recordTotalStepOffset(-getTotalStepInner())
         }
 
         if (!isRecordedTotalStepOffset()) {
@@ -56,14 +67,14 @@ object StepManager {
         Preferences.getDefault().putInt(PREF_TOTAL_STEP, totalStep)
     }
 
-    fun getTotalStep(): Int {
+    fun getTotalStepInner(): Int {
         return Preferences.getDefault().getInt(PREF_TOTAL_STEP, 0)
     }
 
     private fun recordTodayStep(originalStepCount: Int) {
         val todayStep = if (Times.isSameDay(getLastUpdateTodayTime(), now())) {
             if (isUsefulMachineReboot(originalStepCount)) {
-                recordTodayStepOffset(-getTodayStep())
+                recordTodayStepOffset(-getTodayStepInner())
             }
 
             originalStepCount - getTodayStepOffset()
@@ -83,7 +94,7 @@ object StepManager {
         return Preferences.getDefault().getInt(PREF_TODAY_STEP_OFFSET, 0)
     }
 
-    fun getTodayStep(): Int {
+    fun getTodayStepInner(): Int {
         if (Times.isSameDay(getLastUpdateTodayTime(), now())) {
             return Preferences.getDefault().getInt(PREF_TODAY_STEP, 0)
         }

@@ -50,12 +50,16 @@ class WalkActivity : BaseActivity() {
 
     private val updateStepAction = object : Runnable {
         override fun run() {
+            val todayStepCount = StepManager.getTodayStepOuter()
+            val totalStepCount = StepManager.getTotalStepOuter()
+
+            Log.e("rango", "todayStepCount = $todayStepCount, totalStepCount = $totalStepCount")
             iStepCounter?.let {
                 totalStep = it.totalStep
                 todayStep = it.todayStep
                 originalStep = it.originalStep
                 updateMsgBuilder.insert(0, "\n")
-                updateMsgBuilder.insert(0, "已更新：${Times.timeMillsToHMS(System.currentTimeMillis())}")
+                updateMsgBuilder.insert(0, "已更新：${Times.timeMillsToHMS(System.currentTimeMillis())}, \n--------todayStepCount = $todayStepCount, totalStepCount = $totalStepCount")
                 refreshUi()
             }
             Threads.postMain(this, UPDATE_INTERVAL_MILLS)
