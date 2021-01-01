@@ -4,6 +4,8 @@ import android.os.SystemClock
 import rango.kotlin.utils.Times
 import rango.tool.androidtool.ToolApplication
 import rango.tool.common.utils.Preferences
+import java.sql.Time
+import java.time.Instant
 
 /**
  * 当 targetSdkVersion == 29 时，需要动态申请权限：android.permission.ACTIVITY_RECOGNITION
@@ -49,12 +51,12 @@ object StepManager {
     }
 
     fun calculateStep(originalStepCount: Int) {
-        recordTotalStep(originalStepCount)
-        recordTodayStep(originalStepCount)
+        val differStep = recordTotalStep(originalStepCount)
+        recordTodayStep(originalStepCount, differStep)
         recordElapsedRealTime()
     }
 
-    private fun recordTotalStep(originalStepCount: Int) {
+    private fun recordTotalStep(originalStepCount: Int): Int {
         if (isUsefulMachineReboot(originalStepCount)) {
             recordTotalStepOffset(-getTotalStepInner())
         }
@@ -64,23 +66,44 @@ object StepManager {
         }
 
         val totalStep = originalStepCount - getTotalStepOffset()
+        val oldTotalStep = Preferences.getDefault().getInt(PREF_TOTAL_STEP, 0)
         Preferences.getDefault().putInt(PREF_TOTAL_STEP, totalStep)
+        return totalStep - oldTotalStep
     }
 
     fun getTotalStepInner(): Int {
         return Preferences.getDefault().getInt(PREF_TOTAL_STEP, 0)
     }
 
-    private fun recordTodayStep(originalStepCount: Int) {
+    private fun recordTodayStep(originalStepCount: Int, differStep: Int) {
         val todayStep = if (Times.isSameDay(getLastUpdateTodayTime(), now())) {
             if (isUsefulMachineReboot(originalStepCount)) {
                 recordTodayStepOffset(-getTodayStepInner())
             }
-
             originalStepCount - getTodayStepOffset()
         } else {
-            recordTodayStepOffset(originalStepCount)
-            0
+            val yesterdayMills = Times.getTimeDifferMills(getLastUpdateTodayTime(), "21:00:00")
+            val todayMills = Times.getTimeDifferMills(now(), "06:00:00")
+
+            val differYesterday = if (yesterdayMills > 0) {
+                yesterdayMills
+            } else {
+                0
+            }
+
+            val differToday = if (todayMills < 0) {
+                -todayMills
+            } else {
+                0
+            }
+            val differ: Float = (differYesterday + differToday).toFloat()
+            val todayStep = if (differ <= 0) {
+                0
+            } else {
+                (differStep * (differToday / differ)).toInt()
+            }
+            recordTodayStepOffset(originalStepCount - todayStep)
+            todayStep
         }
         Preferences.getDefault().putInt(PREF_TODAY_STEP, todayStep)
         recordLastUpdateTodayTime()

@@ -1,23 +1,17 @@
 package rango.kotlin
 
-import android.app.Service
 import android.content.Context
 import android.os.Bundle
-import android.os.VibrationEffect
 import android.os.Vibrator
-import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_kotlin_test.*
 import kotlinx.coroutines.*
-import rango.kotlin.mytest.JokeBean
-import rango.kotlin.mytest.TransparentActivity.Companion.activity
 import rango.kotlin.utils.Bitmaps
-import rango.kotlin.utils.Files
 import rango.kotlin.utils.StatusBars
+import rango.kotlin.utils.Times
 import rango.tool.androidtool.R
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
@@ -92,16 +86,14 @@ class KotlinTestActivity : AppCompatActivity() {
         Log.e("rango-onCreate", "threadName = " + Thread.currentThread().name)
 
         start_btn.setOnClickListener {
-
+            val mills = Times.getTimeDifferMills(System.currentTimeMillis(), "00:00:00")
+            Log.e("rango", "diffMills = $mills")
         }
 
         findViewById<View>(R.id.stop_btn).setOnClickListener {
             (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator).vibrate(500)
         }
-
-
     }
-
 
 
     fun startAction() {
