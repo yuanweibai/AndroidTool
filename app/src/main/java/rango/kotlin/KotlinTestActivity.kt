@@ -86,8 +86,7 @@ class KotlinTestActivity : AppCompatActivity() {
         Log.e("rango-onCreate", "threadName = " + Thread.currentThread().name)
 
         start_btn.setOnClickListener {
-            val mills = Times.getTimeDifferMills(System.currentTimeMillis(), "00:00:00")
-            Log.e("rango", "diffMills = $mills")
+            startAction()
         }
 
         findViewById<View>(R.id.stop_btn).setOnClickListener {

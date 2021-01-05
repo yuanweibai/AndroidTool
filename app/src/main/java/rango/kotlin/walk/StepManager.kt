@@ -96,11 +96,11 @@ object StepManager {
             } else {
                 0
             }
-            val differ: Float = (differYesterday + differToday).toFloat()
+            val differ = differYesterday + differToday
             val todayStep = if (differ <= 0) {
                 0
             } else {
-                (differStep * (differToday / differ)).toInt()
+                (differStep * (differToday / differ.toFloat())).toInt()
             }
             recordTodayStepOffset(originalStepCount - todayStep)
             todayStep
