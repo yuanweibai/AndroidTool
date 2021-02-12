@@ -13,6 +13,7 @@ import rango.kotlin.utils.Bitmaps
 import rango.kotlin.utils.StatusBars
 import rango.kotlin.utils.Times
 import rango.tool.androidtool.R
+import rango.tool.androidtool.http.api.HttpManager
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
 import kotlin.properties.Delegates
@@ -101,9 +102,8 @@ class KotlinTestActivity : AppCompatActivity() {
             val name = async { getName() }
             val age = async { getAge() }
             Log.e("rango-launch-2", "threadName = " + Thread.currentThread().name)
-            msgText.text = (name.await() + age.await())
+//            msgText.text = (name.await())
         }
-
     }
 
 

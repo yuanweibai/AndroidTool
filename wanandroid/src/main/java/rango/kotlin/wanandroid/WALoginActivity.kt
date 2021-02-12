@@ -56,7 +56,7 @@ class WALoginActivity : AppCompatActivity() {
         }
 
         searchBtn.setOnClickListener {
-            loginViewModel.search("Beijing")
+            loginViewModel.requestAddress("Beijing")
         }
     }
 

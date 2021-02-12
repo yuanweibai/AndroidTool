@@ -1,13 +1,16 @@
 package rango.kotlin.wanandroid
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import rango.kotlin.wanandroid.common.http.lib.FailureData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import rango.kotlin.wanandroid.common.http.api.bean.LoginBean
 import rango.kotlin.wanandroid.common.http.api.bean.SearchAddressBean
-import rango.kotlin.wanandroid.common.http.lib.httpRequest
-import rango.kotlin.wanandroid.common.http.lib.httpRequestIndependent
-import rango.kotlin.wanandroid.common.http.lib.httpService
+import rango.kotlin.wanandroid.common.http.lib.*
 
 class LoginViewModel : ViewModel() {
 
@@ -38,9 +41,20 @@ class LoginViewModel : ViewModel() {
         }, loginSuccessLiveData, loginErrorLiveData)
     }
 
-    fun search(address: String) {
-        httpRequestIndependent({
-            httpService.searchAddress(address)
-        }, searchSuccessLiveData, searchFailureLiveData)
+    fun requestAddress(address: String) {
+        viewModelScope.launch {
+            val data = async { search(address) }
+            Log.e("rango", "data = ${data.await()?.totalResultsCount}, thread = ${Thread.currentThread().name}")
+        }
+    }
+
+    suspend fun search(address: String): SearchAddressBean? {
+        return withContext(Dispatchers.IO) {
+            val data = httpService.searchAddress(address).execute()
+            Log.e("rango", "code = ${data.code()}, message = ${data.message()}")
+            data.body()
+        }
+
+
     }
 }

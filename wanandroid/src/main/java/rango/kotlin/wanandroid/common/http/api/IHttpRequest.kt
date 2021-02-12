@@ -4,6 +4,7 @@ import rango.kotlin.wanandroid.common.http.api.bean.ArticleListBean
 import rango.kotlin.wanandroid.common.http.api.bean.LoginBean
 import rango.kotlin.wanandroid.common.http.api.bean.SearchAddressBean
 import rango.kotlin.wanandroid.common.http.lib.Response
+import retrofit2.Call
 import retrofit2.http.*
 
 interface IHttpRequest {
@@ -25,6 +26,6 @@ interface IHttpRequest {
                               @Field("maxRows") count: Int = 5,
                               @Field("featureClass") featureClass: String = "P",
                               @Field("style") style: String = "full",
-                              @Field("username") userName: String = "sunsun"): SearchAddressBean
+                              @Field("username") userName: String = "sunsun"): Call<SearchAddressBean>
 
 }
