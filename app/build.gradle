@@ -20,10 +20,26 @@ android {
         enabled = true
     }
 
+    signingConfigs {
+        AndroidTool {
+            storeFile file('keystore/AndroidTool.jks')
+            storePassword 'AndroidTool'
+            keyPassword 'AndroidTool'
+            keyAlias = 'AndroidTool'
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.AndroidTool
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.AndroidTool
         }
     }
 
