@@ -1,5 +1,7 @@
 package com.rango.wanjava;
 
+import java.security.MessageDigest;
+
 public class Main {
 
     public static class Data {
@@ -20,10 +22,54 @@ public class Main {
     }
 
     public static void main(String[] args) {
-
+        int[] array = new int[]{10, 9, 3, 90, 87, 3232, 0, 3, 10, 4, 87, 13, 34};
+//        quicklySort(array, 0, array.length - 1);
+        bubbleSort(array);
+        for (int i = 0; i < array.length; i++) {
+            System.out.println(array[i]);
+        }
     }
 
-    private static void changeData(Data data) {
-        data = null;
+    private static void quicklySort(int[] array, int start, int end) {
+        if (start >= end) {
+            return;
+        }
+
+        int index = start;
+        int standard = array[index];
+        int left = index;
+        int right = end;
+        while (left < right) {
+
+            while (array[right] >= standard && left < right) {
+                right--;
+            }
+            array[index] = array[right];
+            index = right;
+
+            while (array[left] <= standard && left < right) {
+                left++;
+            }
+            if (left < right) {
+                array[index] = array[left];
+                index = left;
+            }
+        }
+
+        array[index] = standard;
+        quicklySort(array, start, index - 1);
+        quicklySort(array, index + 1, end);
+    }
+
+    private static void bubbleSort(int[] array) {
+        for (int i = array.length - 1; i >= 0; i--) {
+            for (int k = array.length - 1; k > 0; k--) {
+                if (array[k] > array[k - 1]) {
+                    int temp = array[k];
+                    array[k] = array[k - 1];
+                    array[k - 1] = temp;
+                }
+            }
+        }
     }
 }
