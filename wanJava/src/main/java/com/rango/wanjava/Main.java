@@ -24,11 +24,47 @@ public class Main {
     public static void main(String[] args) {
         int[] array = new int[]{10, 9, 3, 90, 87, 3232, 0, 3, 10, 4, 87, 13, 34};
 //        quicklySort(array, 0, array.length - 1);
-        bubbleSort(array);
+        insertBinarySort(array);
         for (int i = 0; i < array.length; i++) {
             System.out.println(array[i]);
         }
     }
+
+    private static void insertSort(int[] array) {
+        for (int i = 1; i < array.length; i++) {
+            int standard = array[i];
+            int k = i - 1;
+            while (k >= 0 && standard < array[k]) {
+                array[k + 1] = array[k];
+                k--;
+            }
+            array[k + 1] = standard;
+        }
+    }
+
+    private static void insertBinarySort(int[] array) {
+        for (int i = 1; i < array.length; i++) {
+            int standard = array[i];
+            int low = 0;
+            int high = i - 1;
+            int middle;
+            while (low <= high) {
+                middle = (low + high) / 2;
+                if (standard < array[middle]) {
+                    high = middle - 1;
+                } else {
+                    low = middle + 1;
+                }
+            }
+            int k = i;
+            while (k > low) {
+                array[k] = array[k - 1];
+                k--;
+            }
+            array[k] = standard;
+        }
+    }
+
 
     private static void quicklySort(int[] array, int start, int end) {
         if (start >= end) {
