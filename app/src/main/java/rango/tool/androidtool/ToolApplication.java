@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.evernote.android.job.JobManager;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.github.moduth.blockcanary.BlockCanary;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
@@ -20,6 +21,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.List;
 
+import rango.kotlin.performance.SmoothMonitor;
+import rango.kotlin.performance.ToolBlockCanaryContext;
 import rango.kotlin.sound.SoundManager;
 import rango.tool.androidtool.base.BaseApplication;
 import rango.tool.androidtool.job.MainJobCreator;
@@ -47,6 +50,9 @@ public class ToolApplication extends BaseApplication {
         CrashReport.initCrashReport(this, "586293be04", true);
 
         SoundManager.INSTANCE.init(this);
+
+//        SmoothMonitor.INSTANCE.install();
+        BlockCanary.install(this,new ToolBlockCanaryContext()).start();
 
         JobManager.create(this).addJobCreator(new MainJobCreator());
         if (BuildConfig.DEBUG && Build.VERSION.SDK_INT < 24) {

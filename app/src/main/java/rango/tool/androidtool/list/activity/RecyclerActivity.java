@@ -20,6 +20,11 @@ public class RecyclerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
+        try {
+            Thread.sleep(1000);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         recyclerFragment = new RecyclerFragment2();
         initFragment(R.id.fragment, recyclerFragment);
     }
